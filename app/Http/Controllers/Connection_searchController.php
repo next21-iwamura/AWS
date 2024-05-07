@@ -257,6 +257,8 @@ class Connection_searchController extends Controller
 
                                                 $ii = 0;
                                                 foreach ($line as $line2[$ii]) {
+                                                    
+                                                    mb_convert_variables('sjis-win', 'UTF-8', $line2[$ii]);
 
                                                    // if($ii == 6 && $i <> 0){
                                                     //if($ii == 7 && $i <> 0){
