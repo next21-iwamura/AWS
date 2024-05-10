@@ -251,18 +251,12 @@ class Analysis2_test_searchController extends Controller
 
                         // FORM情報より指定されたDB情報の取得
                             $restock_comment = "";
-                            // [売上]サマリ用 
+                            // [在庫]サマリ用 
                                 if (PostRequest::has('search')){
                                     return $this->db_info_get($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
-                            // [売上]ジャック区分用 
+                            // [在庫]ブランド用 
                                 } else if (PostRequest::has('search2')){
-                                    return $this->db_info_get2($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
-                            // [売上]扱い部門用 
-                                } else if (PostRequest::has('search3')){
-                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
-                            // ブランド用 
-                                } else if (PostRequest::has('search5')){
-                                        // 選択したブランドの情報を取得（JS表示用）
+                                    // 選択したブランドの情報を取得（JS表示用）
                                         if (PostRequest::has('brandselect')) {
                                             $brandselect = PostRequest::input('brandselect');
                                         } else {
@@ -278,13 +272,17 @@ class Analysis2_test_searchController extends Controller
                                         } else {
                                             $brandselect_jw = "";
                                         }
-                            // 「売上」or「点数」表示切り替え用フラグ
+                                    // 「売上」or「点数」表示切り替え用フラグ
                                         if (PostRequest::has('order_select')) {
                                             $order_select = PostRequest::input('order_select');
                                         } else {
                                             $order_select = "";
                                         }
-                                    return $this->db_info_get5($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,$brandselect,$brandselect_b,$brandselect_jw,$order_select,$next_year,$first_day,$last_day);
+                                    return $this->db_info_get2($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,$brandselect,$brandselect_b,$brandselect_jw,$order_select,$next_year,$first_day,$last_day);
+                            
+                            // [在庫]商品ID別用 
+                                } else if (PostRequest::has('search3')){
+                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
                             // 検索前の表示用 
                                 } else {
                                     // フォームのデフォルト値を付与
@@ -525,10 +523,17 @@ class Analysis2_test_searchController extends Controller
                                 $between_end = date("Y-m-d", strtotime($end_year. "-" . $end_month. "-" . $end_day));
                                 $between_start_view = $start_year . "-" . $start_month . "-" . $start_day;
                                 $between_end_view = $end_year . "-" . $end_month . "-" . $end_day;
+                                
+                                // 20240510 二桁表示ではないので、ただの文字列からdateへ。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
+                                $between_start_view = $between_start;
+                                $between_start_view = substr($between_start_view, 0, -2);
+                                $between_end_view = substr($between_end_view, 0, -3);
 
-
-                                $diff_start1 = new DateTime($between_start_view);
-                                $diff_end1 = new DateTime($between_end_view);
+                                // 20240510 上記変更後だと日が無いためエラーになるので代入する変数を変更
+                                //$diff_start1 = new DateTime($between_start_view); 
+                                //$diff_end1 = new DateTime($between_end_view);
+                                $diff_start1 = new DateTime($between_start);
+                                $diff_end1 = new DateTime($between_end);
 
                                 $interval1 = $diff_end1 -> diff($diff_start1);
 
@@ -2194,8 +2199,11 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_js_jewelry_uriage  .= "0, ";
                                                             } else {
                                                                 // 表示用
-                                                                    if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
-                                                                    $past_temp1_jewelry_manthly_html .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    // 20240510 表示用処理のnumber_formatによってJSグラフ用のカンマ前が削られてしまうので変更
+                                                                    //if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
+                                                                    //$past_temp1_jewelry_manthly_html .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    if($val <> 0 && $val <> ""){$val2 = number_format((int)$val);} else {$val2 = "";}
+                                                                    $past_temp1_jewelry_manthly_html .= "<div class='title3 ta_r'>" . $val2 . "</div>";
                                                                 // JSグラフ用
                                                                     $past_js_jewelry_uriage  .= $val . ", ";
                                                             }
@@ -2212,8 +2220,11 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_js_jewelry_number  .= "0, ";
                                                             } else {
                                                                 // 表示用
-                                                                    if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
-                                                                    $past_temp1_jewelry_manthly_html2 .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    // 20240510 表示用処理のnumber_formatによってJSグラフ用のカンマ前が削られてしまうので変更
+                                                                    //if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
+                                                                    //$past_temp1_jewelry_manthly_html2 .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    if($val <> 0 && $val <> ""){$val2 = number_format((int)$val);} else {$val2 = "";}
+                                                                    $past_temp1_jewelry_manthly_html2 .= "<div class='title3 ta_r'>" . $val2 . "</div>";
                                                                 // JSグラフ用
                                                                     $past_js_jewelry_number  .= $val . ", ";
                                                             }
@@ -4595,6 +4606,1817 @@ class Analysis2_test_searchController extends Controller
                             return view($bladename,['view_select' => $view_select,'brand_bumon_select' => $brand_bumon_select,'first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'temp1_all_sorce' => $temp1_all_sorce,'temp1_all_sorce2' => $temp1_all_sorce2,'js_jack_uriage' => $js_jack_uriage,'js_betty_uriage' => $js_betty_uriage,'js_jewelry_uriage' => $js_jewelry_uriage,'js_month' => $js_month,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp1_all_sorce' => $past_temp1_all_sorce,'past_temp1_all_sorce2' => $past_temp1_all_sorce2,'past_js_jack_uriage' => $past_js_jack_uriage,'past_js_betty_uriage' => $past_js_betty_uriage,'past_js_jewelry_uriage' => $past_js_jewelry_uriage,'past_js_jack_number' => $past_js_jack_number,'past_js_betty_number' => $past_js_betty_number,'past_js_jewelry_number' => $past_js_jewelry_number,'js_jack_number' => $js_jack_number,'js_betty_number' => $js_betty_number,'js_jewelry_number' => $js_jewelry_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'search' => $search,'line_width' => $line_width,'line_width2' => $line_width2,'temp1_all_sorce4' => $temp1_all_sorce4,'temp1_all_sorce5' => $temp1_all_sorce5,'temp1_all_sorce6' => $temp1_all_sorce6,'temp1_all_sorce7' => $temp1_all_sorce7,'temp1_all_sorce8' => $temp1_all_sorce8,'past_temp1_all_sorce4' => $past_temp1_all_sorce4,'past_temp1_all_sorce5' => $past_temp1_all_sorce5,'past_temp1_all_sorce6' => $past_temp1_all_sorce6,'jack_total_js2' => $jack_total_js2,'betty_total_js2' => $betty_total_js2,'jewelry_total_js2' => $jewelry_total_js2,'past_jack_total_js2' => $past_jack_total_js2,'past_betty_total_js2' => $past_betty_total_js2,'past_jewelry_total_js2' => $past_jewelry_total_js2,'jack_total_js3' => $jack_total_js3,'betty_total_js3' => $betty_total_js3,'jewelry_total_js3' => $jewelry_total_js3,'past_jack_total_js3' => $past_jack_total_js3,'past_betty_total_js3' => $past_betty_total_js3,'past_jewelry_total_js3' => $past_jewelry_total_js3,'uriage_progress_html' => $uriage_progress_html,'number_progress_html' => $number_progress_html]);
         
                 }
+
+
+/************************************************************************************************************************************************************************************************************* */
+    // DB情報取得（ブランド用）
+/************************************************************************************************************************************************************************************************************* */
+
+
+    public function db_info_get2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z){
+
+        $start_year = $a;
+        $start_month = $b;
+        $start_day = $c;
+        $end_year = $d;
+        $end_month = $e;
+        $end_day = $f;
+        $this_year = $g;
+        $last_year = $h;
+        $two_years_ago = $j;
+        $output = $k;
+        $out1 = $l;
+        $out2 = $m;
+        $out3 = $n;
+        $out4 = $o;
+        $out5 = $p;
+        $search = $q;
+        $three_years_ago = $r;
+        $brandselect = $s;
+        $brandselect_b = $t;
+        $brandselect_jw = $u;
+        $out5_view = $v;
+        $next_year = $w;
+        $first_day = $x;
+        $last_day = $y;
+        $out5 = $p;
+        $out6 = $z;
+        
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // DB登録ロジックを実施
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 定数管理用（メソッドの呼び出し）start
+                    /************************************************************************************************************************************************************************************************************* */
+                            $define = $this->define();
+                            $def_i = 0;
+                            // 各変数にパスやファイル名を代入
+                                foreach($define as $def){
+                                    if($def_i == 0){ $bladename = $def; }
+                                    if($def_i == 1){ $file_pass = $def; }
+                                    if($def_i == 2){ $file_pass2 = $def; }
+                                    if($def_i == 3){ $file_name = $def; }
+                                    if($def_i == 4){ $table_name = $def; }
+
+                                    $def_i++;
+                                }
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 定数管理用（メソッドの呼び出し）end
+                    /************************************************************************************************************************************************************************************************************* */
+                
+                    /************************************************************************************************************************************************************************************************************* */
+                        // フォームボタン押下時情報の受け取り start
+                    /************************************************************************************************************************************************************************************************************* */
+
+                            // 検索期間を変数に代入
+                                $between_start = $start_year . "/" . $start_month . "/" . $start_day ." 00-00:00";
+                                $between_end = $end_year . "/" . $end_month . "/" . $end_day ." 23-59:59";
+                                $between_start_view = $start_year . "/" . $start_month . "/" . $start_day;
+                                $between_end_view = $end_year . "/" . $end_month . "/" . $end_day;
+
+
+                                $diff_start1 = new DateTime($between_start_view);
+                                $diff_end1 = new DateTime($between_end_view);
+
+                                $interval1 = $diff_end1 -> diff($diff_start1);
+
+                                $diff_year1= $interval1 -> y;
+                                $diff_month1 = $interval1 -> m;
+                                $diff_month1 = $diff_year1 * 12 + $diff_month1;
+
+                            // 「フォーム表示ボタン」フラグ
+                                if (PostRequest::has('form_view')) {
+                                    $form_view = PostRequest::input('form_view');
+                                } else {$form_view = "OFF";}
+                            
+
+                            // 「売却区分」フラグ
+                                /*$out1_a = "OFF";
+                                $out1_b = "OFF";
+                                $out1_c = "OFF";
+                                $out1_d = "OFF";
+                                if($out1 <> "" && in_array('2',$out1)){ $out1_a = "ON";}
+                                if($out1 <> "" && in_array('3',$out1)){ $out1_b = "ON";}
+                                if($out1 <> "" && in_array('4',$out1)){ $out1_c = "ON";}
+                                if($out1 <> "" && in_array('5',$out1)){ $out1_d = "ON";}*/
+                                
+                            // 「扱い部門」フラグ
+                                $out1_a = "ON";
+                                $out1_b = "ON";
+                                $out1_c = "ON";
+
+                            // 新中アンフラグ
+                                $out2_a = "OFF";
+                                $out2_b = "OFF";
+                                $out2_c = "OFF";
+                                //$out2_d = "OFF";
+                                //$out2_e = "OFF";
+                                if($out2 <> "" && in_array('1',$out2)){ $out2_a = "ON";}
+                                if($out2 <> "" && in_array('2',$out2)){ $out2_b = "ON";}
+                                if($out2 <> "" && in_array('3',$out2)){ $out2_c = "ON";}
+                                //if($out2 <> "" && in_array('4',$out2)){ $out2_d = "ON";}
+                                //if($out2 <> "" && in_array('5',$out2)){ $out2_e = "ON";}
+
+                            // 通販サイトフラグ
+                                /*$out3_a = "OFF";
+                                $out3_b = "OFF";
+                                $out3_c = "OFF";
+                                $out3_d = "OFF";
+                                $out3_e = "OFF";
+                                $out3_f = "OFF";
+                                if($out3 <> "" && in_array('1',$out3)){ $out3_a = "ON";}
+                                if($out3 <> "" && in_array('2',$out3)){ $out3_b = "ON";}
+                                if($out3 <> "" && in_array('3',$out3)){ $out3_c = "ON";}
+                                if($out3 <> "" && in_array('4',$out3)){ $out3_d = "ON";}
+                                if($out3 <> "" && in_array('5',$out3)){ $out3_e = "ON";}
+                                if($out3 <> "" && in_array('6',$out3)){ $out3_f = "ON";}*/
+
+                            // 免税フラグ
+                                /*$out4_a = "OFF";
+                                $out4_b = "OFF";
+                                if($out4 <> "" && in_array('1',$out4)){ $out4_a = "ON";}
+                                if($out4 <> "" && in_array('2',$out4)){ $out4_b = "ON";}*/
+
+                            // ブランドフラグ
+                                $out5_a = "OFF";
+                                $out5_b = "OFF";
+                                $out5_c = "OFF";
+                                if($out5 <> "" && in_array('2',$out5)){ $out5_a = "ON";}
+                                if($out5 <> "" && in_array('3',$out5)){ $out5_b = "ON";}
+                                if($out5 <> "" && in_array('4',$out5)){ $out5_c = "ON";}
+                            
+
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // フォームボタン押下時情報の受け取り end
+                    /************************************************************************************************************************************************************************************************************* */
+
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 検索期間の月数だけ遡った過去の期間を取得 start
+                    /************************************************************************************************************************************************************************************************************* */
+
+
+                            // 開始と終了期間の差分（～カ月）を取得                        
+                                $start = $start_year . "-" . $start_month . "-" . $start_day;
+                                $end = $end_year . "-" . $end_month . "-" . $end_day;
+                                $diff_start = new DateTime($start);
+                                $diff_end = new DateTime($end);
+
+
+                                $interval = $diff_end -> diff($diff_start);
+
+                                $diff_year = $interval -> y;
+                                $diff_month = $interval -> m;
+
+                                $diff_month = $diff_year * 12 + $diff_month;
+
+                            // 差分の月だけ遡った過去の期間を取得
+                                // 検索開始日                
+                                    $start_now = date($start_year. "-" . $start_month. "-" . $start_day);
+                                // 過去開始日
+                                    //$start_past = date("Y-m-d", strtotime($start_now . " -" . $diff_month . " month"));
+                                    $past_between_start = date("Y-m-d", strtotime($start_now . " -" . ($diff_month + 1) . " month"));
+                                    $past_between_start_view = date("Y-m", strtotime($start_now . " -" . ($diff_month +1) . " month"));
+                                // 検索終了日
+                                    $end_now = date($end_year. "-" . $end_month. "-" . $end_day);
+                                // 過去終了日
+                                    //$end_past = date("Y-m-d", strtotime($end_now . " -" . $diff_month . " month"));
+                                    $past_between_end = date("Y-m-d", strtotime($start_now . " -1 day"));
+                                    $past_between_end_view = date("Y-m", strtotime($start_now . " -1 month"));
+
+
+                                // 過去期間の月初日を配列へ代入（該当月のデータ登録が無い場合、JS代入値が空になってグラフがズレてしまう事を回避するため0代入ロジックに使う）
+                                    // 配列版
+                                        $manth_now_array = array();
+                                        $manth_past_array = array();
+                                    // カンマ区切りの文字列版
+                                        $temp5_web_manthly_data = "";
+                                        $temp5_web_manthly_data2 = "";
+                                        $temp5_web_manthly_data3 = "";
+
+                                        $now_temp5_jack_manthly_data_uriage = "";
+                                        $now_temp5_jack_manthly_data_honsuu = "";
+                                        $now_temp5_betty_manthly_data_uriage = "";
+                                        $now_temp5_betty_manthly_data_honsuu = "";
+                                        $now_temp5_jewelry_manthly_data_uriage = "";
+                                        $now_temp5_jewelry_manthly_data_honsuu = "";
+                                        $past_temp5_jack_manthly_data_uriage = "";
+                                        $past_temp5_jack_manthly_data_honsuu = "";
+                                        $past_temp5_betty_manthly_data_uriage = "";
+                                        $past_temp5_betty_manthly_data_honsuu = "";
+                                        $past_temp5_jewelry_manthly_data_uriage = "";
+                                        $past_temp5_jewelry_manthly_data_honsuu = "";
+
+                                // 開始日が2日以降の場合は過去の取得月期間を現在より一か月多くする（開始日を2日以降にすると過去の最後月の変数が足りないエラー　→　例：同年5月2日～7月17日の二か月半の場合、現在は5月6月7月で変数は三つだが、過去は2月3月4月5月の四つ必要なためずれる事が原因　→　チャートも過去のみ最後の月に値が入るので、開始は1日の方が分かりやすい）
+                                    if($start_day <> 1){$over_month = $diff_month + 1;}else {$over_month = $diff_month;}
+                                    //for($past_ii = 0;  $past_ii <= $diff_month; $past_ii++){
+                                    for($past_ii = 0;  $past_ii <= $over_month; $past_ii++){
+
+                                        if($past_ii == 0){
+                                            // 現在用
+                                                $manth_now = date("Y-m", strtotime($start_now));
+                                            // 過去用
+                                                $past_manth = $past_between_start;
+                                                $past_manth2 = mb_substr($past_between_start,0,-3);
+
+                                        } else {
+                                            // 現在用
+                                                $manth_now = date("Y-m", strtotime($manth_now . " 1 month"));
+                                            // 過去用
+                                                $past_manth = date("Y-m-d", strtotime($past_manth . " 1 month"));
+                                                $past_manth2 = date("Y-m", strtotime($past_manth2 . " 1 month"));
+
+                                        }
+                                        // 現在用
+                                            array_push($manth_now_array,$manth_now);
+                                            $now_temp5_jack_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp5_jack_manthly_data_honsuu .= $manth_now . ",";
+                                            $now_temp5_betty_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp5_betty_manthly_data_honsuu .= $manth_now . ",";
+                                            $now_temp5_jewelry_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp5_jewelry_manthly_data_honsuu .= $manth_now . ",";
+                                            // 過去用
+                                            array_push($manth_past_array,$past_manth2);
+                                            $past_temp5_jack_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp5_jack_manthly_data_honsuu .= $past_manth2 . ",";
+                                            $past_temp5_betty_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp5_betty_manthly_data_honsuu .= $past_manth2 . ",";
+                                            $past_temp5_jewelry_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp5_jewelry_manthly_data_honsuu .= $past_manth2 . ",";
+                                                
+                                            $temp5_web_manthly_data .= $manth_now . ",";
+                                            $temp5_web_manthly_data2 .= $manth_now . ",";
+                                            $temp5_web_manthly_data3 .= $manth_now . ",";
+
+
+                                    }
+                                    $now_temp5_jack_manthly_data_uriage = trim($now_temp5_jack_manthly_data_uriage ,",");
+                                    $now_temp5_jack_manthly_data_honsuu = trim($now_temp5_jack_manthly_data_honsuu ,",");
+                                    $now_temp5_betty_manthly_data_uriage = trim($now_temp5_betty_manthly_data_uriage ,",");
+                                    $now_temp5_betty_manthly_data_honsuu = trim($now_temp5_betty_manthly_data_honsuu ,",");
+                                    $now_temp5_jewelry_manthly_data_uriage = trim($now_temp5_jewelry_manthly_data_uriage ,",");
+                                    $now_temp5_jewelry_manthly_data_honsuu = trim($now_temp5_jewelry_manthly_data_honsuu ,",");
+                                    $past_temp5_jack_manthly_data_uriage = trim($past_temp5_jack_manthly_data_uriage ,",");
+                                    $past_temp5_jack_manthly_data_honsuu = trim($past_temp5_jack_manthly_data_honsuu ,",");
+                                    $past_temp5_betty_manthly_data_uriage = trim($past_temp5_betty_manthly_data_uriage ,",");
+                                    $past_temp5_betty_manthly_data_honsuu = trim($past_temp5_betty_manthly_data_honsuu ,",");
+                                    $past_temp5_jewelry_manthly_data_uriage = trim($past_temp5_jewelry_manthly_data_uriage ,",");
+                                    $past_temp5_jewelry_manthly_data_honsuu = trim($past_temp5_jewelry_manthly_data_honsuu ,",");
+
+
+                                    $temp5_web_manthly_data = trim($temp5_web_manthly_data ,",");
+                                    $temp5_web_manthly_data2 = trim($temp5_web_manthly_data2 ,",");
+                                    $temp5_web_manthly_data3 = trim($temp5_web_manthly_data3 ,",");
+
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 検索期間の月数だけ遡った過去の期間を取得 end
+                    /************************************************************************************************************************************************************************************************************* */
+
+
+/************************************************************************************************************************************************************************************************************* */
+    // Betty用
+/************************************************************************************************************************************************************************************************************* */
+                                    if(isset($out5)){
+
+
+/********************************************************************************************* */
+//過去用 START
+/********************************************************************************************* */
+
+
+                                    /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとのブランドのみ取得し配列化
+                                    /************************************************************************************************************************************************************************************************************* */
+                                            
+                                            // 現在全期間全ブランド一覧
+                                                $all_past_brand_array = array();
+
+                                            // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $past_temp5_buys = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.uriage',
+                                                        $table_name . '.brandname',
+                                                        $table_name . '.brand',
+                                                        $table_name . '.baikyakukubun',
+                                                        $table_name . '.shouhinkubunbunruimei',
+                                                        $table_name . '.tsuuhankubun',
+                                                        $table_name . '.menzei',
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
+
+                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+
+                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
+                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
+															if($out1_d == "ON"){
+	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            }
+															} else {
+		                                                        // 条件（売上部門が店舗）
+		                                                            if($out1_a == "ON"){
+		                                                                $query->orWhere('baikyakukubun',1);
+		                                                            }
+		                                                        // 条件（売上部門が通販）
+		                                                            if($out1_b == "ON"){
+		                                                                $query->orWhere('baikyakukubun',2);
+		                                                            }
+		                                                        // 条件（売上部門が卸）
+		                                                            if($out1_c == "ON"){
+		                                                                $query->orWhere('baikyakukubun',3);
+		                                                            }
+															}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																}
+															// 条件（商品区分分類名がその他）
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+																}
+															// 条件（商品区分分類名が修理）
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+
+                                                            $query->orWhere('tsuuhankubun','');
+
+															// 条件（通販区分が自社）
+																if($out3_a == "ON"){
+																	$query->orWhere('tsuuhankubun',1);
+																}
+															// 条件（通販区分が楽天）
+																if($out3_b == "ON"){
+																	$query->orWhere('tsuuhankubun',2);
+																}
+															// 条件（通販区分がヤフー）
+																if($out3_c == "ON"){
+																	$query->orWhere('tsuuhankubun',3);
+																}
+															// 条件（通販区分が電話・雑誌）
+																if($out3_d == "ON"){
+																	$query->orWhere('tsuuhankubun',5);
+																}
+															// 条件（通販区分がYオークション）
+																if($out3_e == "ON"){
+																	$query->orWhere('tsuuhankubun',4);
+																}
+															// 条件（通販区分が修理品返送）
+																if($out3_f == "ON"){
+																	$query->orWhere('tsuuhankubun',9);
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out4_a,$out4_b) {
+															// 条件（免税区分が0:対象外）
+																if($out4_a == "ON"){
+																	$query->orwhere("menzei","like","%対象外%");
+																}
+															// 条件（免税区分が1:免税）
+																if($out4_b == "ON"){
+																	$query->orwhere("menzei","like","%免税%");
+																}
+                                                    })
+
+
+
+
+                                                // ソート順指定
+                                                    ->orderBy('uriage', 'asc')
+                                                    ->get();
+                                            // 月毎の全ブランド名を格納するための変数を作成
+                                                foreach($manth_past_array as $month){
+
+                                                    // 月毎の全ブランド名格納用
+                                                        ${"past_brand_array_" . $month} = array();
+                                                        ${"past_brand2_array_" . $month} = array();
+                                                }
+
+                                            // クエリビルダスタート
+                                                $i = 0;
+                                                foreach ($past_temp5_buys as $past_temp5_buy) {
+
+                                                    // 各月名
+                                                        $month = $past_temp5_buy->uriage;
+                                                        $month = mb_substr($month,0,-3);
+                                                    // 個別ブランド番号
+                                                        $temp5_brand_no[$i]= $past_temp5_buy->brand;
+                                                    // 個別ブランド名
+                                                        $temp5_brand[$i]= $past_temp5_buy->brandname;
+
+                                                       
+                                                            // 過去全期間全ブランド一覧用配列にブランドをセット
+                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",$all_past_brand_array, true)){
+                                                                } else {
+                                                                    if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
+                                                                        array_push($all_past_brand_array,$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                    }
+                                                                }
+                                                            
+                                                            // 各月の全ブランド配列に含まれていない場合のみ個別ブランド名を配列にセット
+                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",${"past_brand_array_" . $month}, true)){
+                                                                } else {
+                                                                    // 月毎の全ブランドを配列へ代入
+                                                                        if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
+                                                                            array_push(${"past_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                            array_push(${"past_brand2_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                        }
+                                                                    // 月毎のブランド毎の売上を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"past_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jack_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        
+                                                                    // 月毎のブランド毎の売上用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"past_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_jack_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_betty_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                
+                                                                    // 月毎のブランド毎の売上点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"past_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jack_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        
+                                                                    // 月毎のブランド毎の売上点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"past_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jack_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_betty_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                
+                                                                }
+                                                    
+
+                                                    $i++;
+                                                }
+
+                                    /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとにブランドや部門別のデータを作成
+                                    /************************************************************************************************************************************************************************************************************* */
+
+                                        // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $past_temp5_buys2 = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.bumonmei',
+                                                        $table_name . '.brand',
+                                                        $table_name . '.brandname',
+                                                        $table_name . '.uriagekingaku',
+                                                        $table_name . '.uriage',
+                                                        $table_name . '.uriagesuu',
+                                                        $table_name . '.baikyakukubun',
+                                                        $table_name . '.shouhinkubunbunruimei',
+                                                        $table_name . '.tsuuhankubun',
+                                                        $table_name . '.menzei',
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
+
+                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+
+                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
+                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
+															if($out1_d == "ON"){
+	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            }
+															} else {
+		                                                        // 条件（売上部門が店舗）
+		                                                            if($out1_a == "ON"){
+		                                                                $query->orWhere('baikyakukubun',1);
+		                                                            }
+		                                                        // 条件（売上部門が通販）
+		                                                            if($out1_b == "ON"){
+		                                                                $query->orWhere('baikyakukubun',2);
+		                                                            }
+		                                                        // 条件（売上部門が卸）
+		                                                            if($out1_c == "ON"){
+		                                                                $query->orWhere('baikyakukubun',3);
+		                                                            }
+															}
+                                                    
+                                                    })
+
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																}
+															// 条件（商品区分分類名がその他）
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+																}
+															// 条件（商品区分分類名が修理）
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                            $query->orWhere('tsuuhankubun','');
+
+															// 条件（通販区分が自社）
+																if($out3_a == "ON"){
+																	$query->orWhere('tsuuhankubun',1);
+																}
+															// 条件（通販区分が楽天）
+																if($out3_b == "ON"){
+																	$query->orWhere('tsuuhankubun',2);
+																}
+															// 条件（通販区分がヤフー）
+																if($out3_c == "ON"){
+																	$query->orWhere('tsuuhankubun',3);
+																}
+															// 条件（通販区分が電話・雑誌）
+																if($out3_d == "ON"){
+																	$query->orWhere('tsuuhankubun',5);
+																}
+															// 条件（通販区分がYオークション）
+																if($out3_e == "ON"){
+																	$query->orWhere('tsuuhankubun',4);
+																}
+															// 条件（通販区分が修理品返送）
+																if($out3_f == "ON"){
+																	$query->orWhere('tsuuhankubun',9);
+																}
+
+                                                    })
+                                                    ->where(function ($query) use ($out4_a,$out4_b) {
+															// 条件（免税区分が0:対象外）
+																if($out4_a == "ON"){
+																	$query->orwhere("menzei","like","%対象外%");
+																}
+															// 条件（免税区分が1:免税）
+																if($out4_b == "ON"){
+																	$query->orwhere("menzei","like","%免税%");
+																}
+                                                    })
+
+
+                                                // ソート順指定
+                                                    ->orderBy('uriage', 'asc')
+                                                    ->get();
+
+                                            // クエリビルダスタート2
+                                                $i = 0;
+                                                foreach ($past_temp5_buys2 as $past_temp5_buy2) {
+                                                    // 各月名
+                                                        $past_month = $past_temp5_buy2->uriage;
+                                                        $past_month = mb_substr($past_month,0,-3);
+                                                        $past_brand[$i]= $past_temp5_buy2->brand;
+                                                        $past_brandname[$i]= $past_temp5_buy2->brandname;
+                                                        $past_bumon[$i]= $past_temp5_buy2->bumonmei;
+                                                        $past_uriage[$i]= $past_temp5_buy2->uriagekingaku;
+                                                        $past_uriage2[$i]= $past_temp5_buy2->uriagesuu;
+
+                                                            // 現在の月毎ブランド一覧配列を展開
+                                                                foreach(${"past_brand_array_" . $past_month} as $past_brand2){
+                                                                    $past_brand2 = mb_substr( $past_brand2 , 0 , mb_strpos($past_brand2, "[") );
+
+                                                                    // 月毎のブランド一覧と個別のブランド名が一致した場合
+                                                                        if($past_brand2 == $past_brandname[$i]){
+                                                                            // 各部門毎の売上変数に売上金額を加算していく
+                                                                                if($past_bumon[$i] == "Jackroad"){
+                                                                                    ${"past_brand_jack_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand_jack_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage[$i];
+                                                                                    ${"past_brand2_jack_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand2_jack_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage2[$i];
+                                                                                } else if($past_bumon[$i] == "BettyRoad"){
+                                                                                    ${"past_brand_betty_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand_betty_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage[$i];
+                                                                                    ${"past_brand2_betty_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand2_betty_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage2[$i];
+                                                                                } else if($past_bumon[$i] == "Jewelry"){
+                                                                                    ${"past_brand_jewelry_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand_jewelry_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage[$i];
+                                                                                    ${"past_brand2_jewelry_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand2_jewelry_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage2[$i];
+                                                                                }
+        
+                                                                        }
+                                                                }
+    
+
+                                                    $i++;
+ 
+                                         }
+//echo $yoy;
+//print_r(${"now_brand_array_" . $month});
+//print_r($all_now_brand_array);
+                                        // 表示HTMLの作成（過去用）
+                                            $i = 0;
+                                            $all_past_brand_jack_sorce = "";
+                                            $all_past_brand2_jack_sorce = "";
+                                            $all_past_brand_betty_sorce = "";
+                                            $all_past_brand2_betty_sorce = "";
+                                            $all_past_brand_jewelry_sorce = "";
+                                            $all_past_brand2_jewelry_sorce = "";
+                                            $past_temp5_title = "";
+                                            $past_brand_sort = array();
+                                            $past_brand2_sort = array();
+                                            $past_brand_sort_b = array();
+                                            $past_brand2_sort_b = array();
+                                            $past_brand_sort_jw = array();
+                                            $past_brand2_sort_jw = array();
+                                            $past_array_end = end($manth_past_array);
+                                        // 各月のタイトル表示用HTMLを作成
+                                            $past_js_month = "";
+                                            foreach($manth_past_array as $past_month){
+                                                // JSグラフ用
+                                                    $past_js_month .= "'" . $past_month . "(" . date("Y-m", strtotime($past_month. " -" . ($diff_month + 1) . " month")) . ")'" . ",";
+                                                // 現在タイトル表示用
+                                                    $past_temp5_title .= "<div class='title2 ta_c'>" . $past_month . "</div>";
+                                                // 現在月毎ブランド一覧配列を展開
+                                                    foreach(${"past_brand_array_" . $past_month} as $past_brand){
+                                                        $past_brand_name = mb_substr( $past_brand , 0 , mb_strpos($past_brand, "[") );
+                                                        $past_brand_code = mb_strstr($past_brand, '[');
+                                                        $past_brand_code = str_replace("[",'',$past_brand_code);
+                                                        $past_brand_code = str_replace("]",'',$past_brand_code);
+
+                                                        // 全体ブランドには含まれるが現在ブランドに含まれないブランドの項目を作成
+                                                            
+                                                            // 売上用
+                                                                ${"past_brand_jack_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand_jack_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand_jack_sum_" . $past_brand_code} = (int)${"past_brand_jack_sum_" . $past_brand_code} + (int)${"past_brand_jack_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand_jack_js_" . $past_brand_code} .= ${"past_brand_jack_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                                ${"past_brand_betty_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand_betty_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand_betty_sum_" . $past_brand_code} = (int)${"past_brand_betty_sum_" . $past_brand_code} + (int)${"past_brand_betty_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand_betty_js_" . $past_brand_code} .= ${"past_brand_betty_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                                ${"past_brand_jewelry_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand_jewelry_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand_jewelry_sum_" . $past_brand_code} = (int)${"past_brand_jewelry_sum_" . $past_brand_code} + (int)${"past_brand_jewelry_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand_jewelry_js_" . $past_brand_code} .= ${"past_brand_jewelry_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                            
+                                                            // 点数用
+                                                                ${"past_brand2_jack_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand2_jack_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand2_jack_sum_" . $past_brand_code} = (int)${"past_brand2_jack_sum_" . $past_brand_code} + (int)${"past_brand2_jack_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand2_jack_js_" . $past_brand_code} .= ${"past_brand2_jack_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                                ${"past_brand2_betty_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand2_betty_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand2_betty_sum_" . $past_brand_code} = (int)${"past_brand2_betty_sum_" . $past_brand_code} + (int)${"past_brand2_betty_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand2_betty_js_" . $past_brand_code} .= ${"past_brand2_betty_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                                ${"past_brand2_jewelry_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code}) . "</div>";
+                                                                ${"past_brand2_jewelry_sum_" . $past_brand_code} = (int)${"past_brand2_jewelry_sum_" . $past_brand_code} + (int)${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code};
+                                                                ${"past_brand2_jewelry_js_" . $past_brand_code} .= ${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code} . ", ";
+                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の売上合計値を代入するため）   
+                                                            if ( $past_month === $past_array_end ) {
+                                                                //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                    // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
+                                                                        $past_brand_code2 = "";
+                                                                        $past_brand_code2 = $past_brand_code . "_p";
+                                                                        $past_brand2_sort[$past_brand_code2] = ${"past_brand2_jack_sum_" . $past_brand_code};
+                                                                        $past_brand_sort[$past_brand_code2] = ${"past_brand_jack_sum_" . $past_brand_code};
+                                                                        $past_brand2_sort_b[$past_brand_code2] = ${"past_brand2_betty_sum_" . $past_brand_code};
+                                                                        $past_brand_sort_b[$past_brand_code2] = ${"past_brand_betty_sum_" . $past_brand_code};
+                                                                        $past_brand2_sort_jw[$past_brand_code2] = ${"past_brand2_jewelry_sum_" . $past_brand_code};
+                                                                        $past_brand_sort_jw[$past_brand_code2] = ${"past_brand_jewelry_sum_" . $past_brand_code};
+                                                                }
+                                                    }
+
+
+
+                                                // 全体ブランド一覧に存在しないブランドの場合は値が0のソースを追記
+                                                    foreach($all_past_brand_array as $past_all_brand){
+                                                        $past_brand_code = mb_strstr($past_all_brand, '[');
+                                                        $past_brand_code = str_replace("[",'',$past_brand_code);
+                                                        $past_brand_code = str_replace("]",'',$past_brand_code);
+
+                                                        if(in_array($past_all_brand,${"past_brand_array_" . $past_month}, true)){
+                                                        } else {
+                                                            ${"past_brand_jack_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand_jack_js_" . $past_brand_code} .= "0, ";
+                                                            ${"past_brand2_jack_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand2_jack_js_" . $past_brand_code} .= "0, ";
+                                                            ${"past_brand_betty_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand_betty_js_" . $past_brand_code} .= "0, ";
+                                                            ${"past_brand2_betty_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand2_betty_js_" . $past_brand_code} .= "0, ";
+                                                            ${"past_brand_jewelry_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand_jewelry_js_" . $past_brand_code} .= "0, ";
+                                                            ${"past_brand2_jewelry_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"past_brand2_jewelry_js_" . $past_brand_code} .= "0, ";
+                                                            // 月毎配列が最後の場合のみの処理        
+                                                                if ( $past_month === $past_array_end ) {
+                                                                    //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                        // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
+                                                                            $past_brand_code2 = "";
+                                                                            $past_brand_code2 = $past_brand_code . "_p";
+                                                                            $past_brand2_sort[$past_brand_code2] = ${"past_brand2_jack_sum_" . $past_brand_code};
+                                                                            $past_brand_sort[$past_brand_code2] = ${"past_brand_jack_sum_" . $past_brand_code};
+                                                                            $past_brand2_sort_b[$past_brand_code2] = ${"past_brand2_betty_sum_" . $past_brand_code};
+                                                                            $past_brand_sort_b[$past_brand_code2] = ${"past_brand_betty_sum_" . $past_brand_code};
+                                                                            $past_brand2_sort_jw[$past_brand_code2] = ${"past_brand2_jewelry_sum_" . $past_brand_code};
+                                                                            $past_brand_sort_jw[$past_brand_code2] = ${"past_brand_jewelry_sum_" . $past_brand_code};
+                                                                                        
+                                                                }
+
+
+                                                        }
+
+                                                    }
+
+                                            $i++;
+                                            }
+
+
+                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                arsort( $past_brand_sort );
+                                                foreach($past_brand_sort as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ジャック・売上表示の各ブランド毎の行を作成
+                                                            ${"past_brand_jack_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_jack_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_jack_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand_jack_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand_jack_sorce .= ${"past_brand_jack_sorce_" . $past_brand_code};
+                                                            }
+
+                                                }
+
+
+                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $past_brand2_sort );
+                                                foreach($past_brand2_sort as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ジャック・点数表示の各ブランド毎の行を作成
+                                                            ${"past_brand2_jack_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand2_jack_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand2_jack_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand2_jack_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand2_jack_sorce .= ${"past_brand2_jack_sorce_" . $past_brand_code};
+                                                            }
+                                                }
+
+                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                arsort( $past_brand_sort_b );
+                                                foreach($past_brand_sort_b as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ベティー・売上表示の各ブランド毎の行を作成
+                                                            ${"past_brand_betty_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_betty_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_betty_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand_betty_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand_betty_sorce .= ${"past_brand_betty_sorce_" . $past_brand_code};
+                                                            }
+
+                                                }
+
+
+                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $past_brand2_sort_b );
+                                                foreach($past_brand2_sort_b as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ベティー・点数表示の各ブランド毎の行を作成
+                                                            ${"past_brand2_betty_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand2_betty_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand2_betty_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand2_betty_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand2_betty_sorce .= ${"past_brand2_betty_sorce_" . $past_brand_code};
+                                                            }
+                                                }
+
+
+                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                arsort( $past_brand_sort_jw );
+                                                foreach($past_brand_sort_jw as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ジュエリー・売上表示の各ブランド毎の行を作成
+                                                            ${"past_brand_jewelry_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_jewelry_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_jewelry_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand_jewelry_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand_jewelry_sorce .= ${"past_brand_jewelry_sorce_" . $past_brand_code};
+                                                            }
+
+                                                }
+
+
+                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $past_brand2_sort_jw );
+                                                foreach($past_brand2_sort_jw as $past_brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $past_brand_code = str_replace('_p', '', $past_brand_code);
+
+                                                        $past_brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_past_brand_array as $all_brand){
+                                                            $all_past_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $past_brand_code){$past_brand_name = $all_past_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
+                                                        // 過去ジュエリー・点数表示の各ブランド毎の行を作成
+                                                            ${"past_brand2_jewelry_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand2_jewelry_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand2_jewelry_sum_" . $past_brand_code}) . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"past_brand2_jewelry_sum_" . $past_brand_code} <> 0){
+                                                                $all_past_brand2_jewelry_sorce .= ${"past_brand2_jewelry_sorce_" . $past_brand_code};
+                                                            }
+                                                }
+
+
+
+                                            $past_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $past_between_start_view . "～<br>" . $past_between_end_view . "</div>" . $past_temp5_title . "<div class='title6 ta_c'>累計</div></div>";
+
+                                            $all_past_brand_jack_sorce = "<p class='title_b'>過去・Jackブランド別売上</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand_jack_sorce . "</div></div>";
+                                            $all_past_brand2_jack_sorce = "<p class='title_b'>過去・Jackブランド別点数</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand2_jack_sorce . "</div></div>";
+                                            $all_past_brand_betty_sorce = "<p class='title_b'>過去・Bettyブランド別売上</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand_betty_sorce . "</div></div>";
+                                            $all_past_brand2_betty_sorce = "<p class='title_b'>過去・Bettyブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand2_betty_sorce . "</div></div>";
+                                            $all_past_brand_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別売上</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand_jewelry_sorce . "</div></div>";
+                                            $all_past_brand2_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand2_jewelry_sorce . "</div></div>";
+                                        }
+
+                        // 列の横幅を列数によって可変させる
+                        //$line_width = 100 / ($diff_month + 3);
+                        $line_width = 100 / ($diff_month + 2);
+                        if($brandselect <> ""){
+                            $i = 0;
+                            foreach($brandselect as $view_brand){
+                                
+                                $view_brand_code[$i] = mb_substr( $view_brand , 0 , mb_strpos($view_brand, "[") );
+                                $view_brand_name[$i] = mb_strstr($view_brand, '[');
+                                $view_brand_name[$i] = str_replace("[",'',$view_brand_name[$i]);
+                                $view_brand_name[$i] = str_replace("]",'',$view_brand_name[$i]);
+
+                                // 過去用・ブランド名は現在と同じ変数を使用
+                                $past_view_brand_name[$i] = mb_strstr($view_brand, '[');
+                                $past_view_brand_name[$i] = str_replace("[",'',$past_view_brand_name[$i]);
+                                $past_view_brand_name[$i] = str_replace("]",'',$past_view_brand_name[$i]);
+
+
+                            $i++;
+                            }
+                        }
+                        if($brandselect_b <> ""){
+                            $i = 0;
+                            foreach($brandselect_b as $view_brand){
+                                
+                                $view_brand_code_b[$i] = mb_substr( $view_brand , 0 , mb_strpos($view_brand, "[") );
+                                $view_brand_name_b[$i] = mb_strstr($view_brand, '[');
+                                $view_brand_name_b[$i] = str_replace("[",'',$view_brand_name_b[$i]);
+                                $view_brand_name_b[$i] = str_replace("]",'',$view_brand_name_b[$i]);
+
+                                // 過去用・ブランド名は現在と同じ変数を使用
+                                $past_view_brand_name_b[$i] = mb_strstr($view_brand, '[');
+                                $past_view_brand_name_b[$i] = str_replace("[",'',$past_view_brand_name_b[$i]);
+                                $past_view_brand_name_b[$i] = str_replace("]",'',$past_view_brand_name_b[$i]);
+
+
+                            $i++;
+                            }
+                        }
+                        if($brandselect_jw <> ""){
+                            $i = 0;
+                            foreach($brandselect_jw as $view_brand){
+                                
+                                $view_brand_code_jw[$i] = mb_substr( $view_brand , 0 , mb_strpos($view_brand, "[") );
+                                $view_brand_name_jw[$i] = mb_strstr($view_brand, '[');
+                                $view_brand_name_jw[$i] = str_replace("[",'',$view_brand_name_jw[$i]);
+                                $view_brand_name_jw[$i] = str_replace("]",'',$view_brand_name_jw[$i]);
+
+                                // 過去用・ブランド名は現在と同じ変数を使用
+                                $past_view_brand_name_jw[$i] = mb_strstr($view_brand, '[');
+                                $past_view_brand_name_jw[$i] = str_replace("[",'',$past_view_brand_name_jw[$i]);
+                                $past_view_brand_name_jw[$i] = str_replace("]",'',$past_view_brand_name_jw[$i]);
+
+
+                            $i++;
+                            }
+                        }
+
+
+/********************************************************************************************* */
+//過去用 END
+/********************************************************************************************* */
+
+
+
+
+
+
+/********************************************************************************************* */
+//現在用 START
+/********************************************************************************************* */
+
+
+                                   /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとのブランドのみ取得し配列化
+                                    /************************************************************************************************************************************************************************************************************* */
+                                            
+                                            // 現在全期間全ブランド一覧
+                                                $all_now_brand_array = array();
+
+                                            // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $temp5_buys = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.uriage',
+                                                        $table_name . '.brandname',
+                                                        $table_name . '.brand',
+                                                        $table_name . '.baikyakukubun',
+                                                        $table_name . '.shouhinkubunbunruimei',
+                                                        $table_name . '.tsuuhankubun',
+                                                        $table_name . '.menzei',
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
+
+                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+
+
+                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
+                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
+															if($out1_d == "ON"){
+	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            }
+															} else {
+		                                                        // 条件（売上部門が店舗）
+		                                                            if($out1_a == "ON"){
+		                                                                $query->orWhere('baikyakukubun',1);
+		                                                            }
+		                                                        // 条件（売上部門が通販）
+		                                                            if($out1_b == "ON"){
+		                                                                $query->orWhere('baikyakukubun',2);
+		                                                            }
+		                                                        // 条件（売上部門が卸）
+		                                                            if($out1_c == "ON"){
+		                                                                $query->orWhere('baikyakukubun',3);
+		                                                            }
+															}
+                                                    
+                                                    })
+
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																}
+															// 条件（商品区分分類名がその他）
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+																}
+															// 条件（商品区分分類名が修理）
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                            $query->orWhere('tsuuhankubun','');
+
+															// 条件（通販区分が自社）
+																if($out3_a == "ON"){
+																	$query->orWhere('tsuuhankubun',1);
+																}
+															// 条件（通販区分が楽天）
+																if($out3_b == "ON"){
+																	$query->orWhere('tsuuhankubun',2);
+																}
+															// 条件（通販区分がヤフー）
+																if($out3_c == "ON"){
+																	$query->orWhere('tsuuhankubun',3);
+																}
+															// 条件（通販区分が電話・雑誌）
+																if($out3_d == "ON"){
+																	$query->orWhere('tsuuhankubun',5);
+																}
+															// 条件（通販区分がYオークション）
+																if($out3_e == "ON"){
+																	$query->orWhere('tsuuhankubun',4);
+																}
+															// 条件（通販区分が修理品返送）
+																if($out3_f == "ON"){
+																	$query->orWhere('tsuuhankubun',9);
+																}
+                                                    })
+
+                                                    ->where(function ($query) use ($out4_a,$out4_b) {
+															// 条件（免税区分が0:対象外）
+																if($out4_a == "ON"){
+																	$query->orwhere("menzei","like","%対象外%");
+																}
+															// 条件（免税区分が1:免税）
+																if($out4_b == "ON"){
+																	$query->orwhere("menzei","like","%免税%");
+																}
+                                                    })
+
+
+                                                // ソート順指定
+                                                    ->orderBy('uriage', 'asc')
+                                                    ->get();
+                                            // 月毎の全ブランド名を格納するための変数を作成
+                                                foreach($manth_now_array as $month){
+                                                    // 月毎の全ブランド名格納用
+                                                        ${"now_brand_array_" . $month} = array();
+                                                       // ${"now_brand2_array_" . $month} = array();
+                                                }
+
+                                            // クエリビルダスタート
+                                                $i = 0;
+                                                foreach ($temp5_buys as $temp5_buy) {
+
+                                                    // 各月名
+                                                        $month = $temp5_buy->uriage;
+                                                        $month = mb_substr($month,0,-3);
+                                                    // 個別ブランド番号
+                                                        $temp5_brand_no[$i]= $temp5_buy->brand;
+                                                    // 個別ブランド名
+                                                        $temp5_brand[$i]= $temp5_buy->brandname;
+                                                        
+
+                                                            // 現在全期間全ブランド一覧用配列にブランドをセット
+                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",$all_now_brand_array, true)){
+                                                                } else {
+                                                                    if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
+                                                                        array_push($all_now_brand_array,$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                    }
+                                                                }
+                                                            
+                                                            // 各月の全ブランド配列に含まれていない場合のみ個別ブランド名を配列にセット
+                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",${"now_brand_array_" . $month}, true)){
+                                                                } else {
+                                                                    // 月毎の全ブランドを配列へ代入
+                                                                        if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
+                                                                            array_push(${"now_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                        }
+                                                                    // 月毎のブランド毎の売上を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"now_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jack_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                    // 月毎のブランド毎の売上用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"now_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_jack_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_betty_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        
+                                                                    // 月毎のブランド毎の売上点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"now_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jack_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                    // 月毎のブランド毎の売上点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                        ${"now_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jack_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_betty_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        
+                                                                }
+                                                                
+
+
+                                                    $i++;
+                                                }
+
+
+                                    /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとにブランドや部門別のデータを作成
+                                    /************************************************************************************************************************************************************************************************************* */
+                                                
+
+                                        // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $temp5_buys2 = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.bumonmei',
+                                                        $table_name . '.brand',
+                                                        $table_name . '.brandname',
+                                                        $table_name . '.uriagekingaku',
+                                                        $table_name . '.uriage',
+                                                        $table_name . '.uriagesuu',
+                                                        $table_name . '.baikyakukubun',
+                                                        $table_name . '.shouhinkubunbunruimei',
+                                                        $table_name . '.tsuuhankubun',
+                                                        $table_name . '.menzei',
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
+                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+
+
+                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
+                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
+															if($out1_d == "ON"){
+	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 1);
+	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
+	                                                                $query->Where('baikyakukubun', '<>', 2);
+	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
+	                                                                $query->Where('baikyakukubun', '<>', 3);
+	                                                            }
+															} else {
+		                                                        // 条件（売上部門が店舗）
+		                                                            if($out1_a == "ON"){
+		                                                                $query->orWhere('baikyakukubun',1);
+		                                                            }
+		                                                        // 条件（売上部門が通販）
+		                                                            if($out1_b == "ON"){
+		                                                                $query->orWhere('baikyakukubun',2);
+		                                                            }
+		                                                        // 条件（売上部門が卸）
+		                                                            if($out1_c == "ON"){
+		                                                                $query->orWhere('baikyakukubun',3);
+		                                                            }
+															}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																}
+															// 条件（商品区分分類名がその他）
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+																}
+															// 条件（商品区分分類名が修理）
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                            $query->orWhere('tsuuhankubun','');
+
+															// 条件（通販区分が自社）
+																if($out3_a == "ON"){
+																	$query->orWhere('tsuuhankubun',1);
+																}
+															// 条件（通販区分が楽天）
+																if($out3_b == "ON"){
+																	$query->orWhere('tsuuhankubun',2);
+																}
+															// 条件（通販区分がヤフー）
+																if($out3_c == "ON"){
+																	$query->orWhere('tsuuhankubun',3);
+																}
+															// 条件（通販区分が電話・雑誌）
+																if($out3_d == "ON"){
+																	$query->orWhere('tsuuhankubun',5);
+																}
+															// 条件（通販区分がYオークション）
+																if($out3_e == "ON"){
+																	$query->orWhere('tsuuhankubun',4);
+																}
+															// 条件（通販区分が修理品返送）
+																if($out3_f == "ON"){
+																	$query->orWhere('tsuuhankubun',9);
+																}
+                                                    
+                                                    })
+
+                                                    ->where(function ($query) use ($out4_a,$out4_b) {
+															// 条件（免税区分が0:対象外）
+																if($out4_a == "ON"){
+																	$query->orwhere("menzei","like","%対象外%");
+																}
+															// 条件（免税区分が1:免税）
+																if($out4_b == "ON"){
+																	$query->orwhere("menzei","like","%免税%");
+																}
+                                                    })
+                                                    
+
+                                                // ソート順指定
+                                                    ->orderBy('uriage', 'asc')
+                                                    ->get();
+
+                                            // クエリビルダスタート
+                                                $i = 0;
+                                                foreach ($temp5_buys2 as $temp5_buy2) {
+                                                    // 各月名
+                                                        $month = $temp5_buy2->uriage;
+                                                        $month = mb_substr($month,0,-3);
+                                                        $brand[$i]= $temp5_buy2->brand;
+                                                        $brandname[$i]= $temp5_buy2->brandname;
+                                                        $bumon[$i]= $temp5_buy2->bumonmei;
+                                                        $uriage[$i]= $temp5_buy2->uriagekingaku;
+                                                        $uriage2[$i]= $temp5_buy2->uriagesuu;
+                                                        //echo $uriage[$i] . "(" . $uriage2[$i] . ")(" . $brandname[$i] . ")<br>";
+
+                                                            // 現在の月毎ブランド一覧配列を展開
+                                                                foreach(${"now_brand_array_" . $month} as $brand2){
+                                                                    $brand2 = mb_substr( $brand2 , 0 , mb_strpos($brand2, "[") );
+                                                                    // 月毎のブランド一覧と個別のブランド名が一致した場合
+                                                                        if($brand2 == $brandname[$i]){
+                                                                            // 各部門毎の売上変数に売上金額を加算していく
+                                                                                if($bumon[$i] == "Jackroad"){
+                                                                                    ${"now_brand_jack_" . $month . "-" . $brand[$i]} = (int)${"now_brand_jack_" . $month . "-" . $brand[$i]} + (int)$uriage[$i];
+                                                                                    ${"now_brand2_jack_" . $month . "-" . $brand[$i]} = (int)${"now_brand2_jack_" . $month . "-" . $brand[$i]} + (int)$uriage2[$i];
+                                                                                } else if($bumon[$i] == "BettyRoad"){
+                                                                                    ${"now_brand_betty_" . $month . "-" . $brand[$i]} = (int)${"now_brand_betty_" . $month . "-" . $brand[$i]} + (int)$uriage[$i];
+                                                                                    ${"now_brand2_betty_" . $month . "-" . $brand[$i]} = (int)${"now_brand2_betty_" . $month . "-" . $brand[$i]} + (int)$uriage2[$i];
+                                                                                } else if($bumon[$i] == "Jewelry"){
+                                                                                    ${"now_brand_jewelry_" . $month . "-" . $brand[$i]} = (int)${"now_brand_jewelry_" . $month . "-" . $brand[$i]} + (int)$uriage[$i];
+                                                                                    ${"now_brand2_jewelry_" . $month . "-" . $brand[$i]} = (int)${"now_brand2_jewelry_" . $month . "-" . $brand[$i]} + (int)$uriage2[$i];
+                                                                                }
+            
+                                                                        }
+
+                                                                }
+
+
+                                                    $i++;
+ 
+                                         }
+
+
+                                        // 表示HTMLの作成（現在用）
+                                            $i = 0;
+                                            $all_now_brand_jack_sorce = "";
+                                            $all_now_brand2_jack_sorce = "";
+                                            $all_now_brand_betty_sorce = "";
+                                            $all_now_brand2_betty_sorce = "";
+                                            $all_now_brand_jewelry_sorce = "";
+                                            $all_now_brand2_jewelry_sorce = "";
+                                            $now_temp5_title = "";
+                                            $brand_sort = array();
+                                            $brand2_sort = array();
+                                            $brand_sort_b = array();
+                                            $brand2_sort_b = array();
+                                            $brand_sort_jw = array();
+                                            $brand2_sort_jw = array();
+                                            $array_end = end($manth_now_array);
+
+                                        // 各月のタイトル表示用HTMLを作成
+                                            $js_month = "";
+                                            foreach($manth_now_array as $month){
+                                                // JSグラフ用
+                                                    $js_month .= "'" . $month . "(" . date("Y-m", strtotime($month. " -" . ($diff_month + 1) . " month")) . ")'" . ",";
+                                                
+                                                // 現在タイトル表示用
+                                                    $now_temp5_title .= "<div class='title2 ta_c'>" . $month . "</div>";
+                                                // 現在月毎ブランド一覧配列を展開
+                                                    foreach(${"now_brand_array_" . $month} as $brand){
+
+                                                        $brand_name = mb_substr( $brand , 0 , mb_strpos($brand, "[") );
+                                                        $brand_code = mb_strstr($brand, '[');
+                                                        $brand_code = str_replace("[",'',$brand_code);
+                                                        $brand_code = str_replace("]",'',$brand_code);
+
+                                                        // 全体ブランドには含まれるが現在ブランドに含まれないブランドの項目を作成
+                                                            // 売上用
+                                                                ${"now_brand_jack_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand_jack_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand_jack_sum_" . $brand_code} = (int)${"now_brand_jack_sum_" . $brand_code} + (int)${"now_brand_jack_" . $month . "-" . $brand_code};
+                                                                ${"now_brand_jack_js_" . $brand_code} .= ${"now_brand_jack_" . $month . "-" . $brand_code} . ", ";
+                                                                ${"now_brand_betty_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand_betty_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand_betty_sum_" . $brand_code} = (int)${"now_brand_betty_sum_" . $brand_code} + (int)${"now_brand_betty_" . $month . "-" . $brand_code};
+                                                                ${"now_brand_betty_js_" . $brand_code} .= ${"now_brand_betty_" . $month . "-" . $brand_code} . ", ";
+                                                                ${"now_brand_jewelry_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand_jewelry_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand_jewelry_sum_" . $brand_code} = (int)${"now_brand_jewelry_sum_" . $brand_code} + (int)${"now_brand_jewelry_" . $month . "-" . $brand_code};
+                                                                ${"now_brand_jewelry_js_" . $brand_code} .= ${"now_brand_jewelry_" . $month . "-" . $brand_code} . ", ";
+                                                            // 点数用
+                                                                ${"now_brand2_jack_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand2_jack_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand2_jack_sum_" . $brand_code} = (int)${"now_brand2_jack_sum_" . $brand_code} + (int)${"now_brand2_jack_" . $month . "-" . $brand_code};
+                                                                ${"now_brand2_jack_js_" . $brand_code} .= ${"now_brand2_jack_" . $month . "-" . $brand_code} . ", ";
+                                                                ${"now_brand2_betty_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand2_betty_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand2_betty_sum_" . $brand_code} = (int)${"now_brand2_betty_sum_" . $brand_code} + (int)${"now_brand2_betty_" . $month . "-" . $brand_code};
+                                                                ${"now_brand2_betty_js_" . $brand_code} .= ${"now_brand2_betty_" . $month . "-" . $brand_code} . ", ";
+                                                                ${"now_brand2_jewelry_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand2_jewelry_" . $month . "-" . $brand_code}) . "</div>";
+                                                                ${"now_brand2_jewelry_sum_" . $brand_code} = (int)${"now_brand2_jewelry_sum_" . $brand_code} + (int)${"now_brand2_jewelry_" . $month . "-" . $brand_code};
+                                                                ${"now_brand2_jewelry_js_" . $brand_code} .= ${"now_brand2_jewelry_" . $month . "-" . $brand_code} . ", ";
+
+
+                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の売上合計値を代入するため）       
+                                                            if ( $month === $array_end ) {
+                                                                //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                    // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
+                                                                        $brand_code2 = "";
+                                                                        $brand_code2 = $brand_code . "_p";
+                                                                        $brand2_sort[$brand_code2] = ${"now_brand2_jack_sum_" . $brand_code};
+                                                                        $brand_sort[$brand_code2] = ${"now_brand_jack_sum_" . $brand_code};
+                                                                        $brand2_sort_b[$brand_code2] = ${"now_brand2_betty_sum_" . $brand_code};
+                                                                        $brand_sort_b[$brand_code2] = ${"now_brand_betty_sum_" . $brand_code};
+                                                                        $brand2_sort_jw[$brand_code2] = ${"now_brand2_jewelry_sum_" . $brand_code};
+                                                                        $brand_sort_jw[$brand_code2] = ${"now_brand_jewelry_sum_" . $brand_code};
+                                                                        
+                                                            }
+                                                    
+                                                    }
+
+                                                // 全体ブランド一覧に存在しないブランドの場合は値が0のソースを追記
+                                                    foreach($all_now_brand_array as $all_brand){
+                                                        $brand_code = mb_strstr($all_brand, '[');
+                                                        $brand_code = str_replace("[",'',$brand_code);
+                                                        $brand_code = str_replace("]",'',$brand_code);
+
+                                                        if(in_array($all_brand,${"now_brand_array_" . $month}, true)){
+                                                        } else {
+                                                            ${"now_brand_jack_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand_jack_js_" . $brand_code} .= "0, ";
+                                                            ${"now_brand2_jack_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand2_jack_js_" . $brand_code} .= "0, ";
+                                                            ${"now_brand_betty_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand_betty_js_" . $brand_code} .= "0, ";
+                                                            ${"now_brand2_betty_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand2_betty_js_" . $brand_code} .= "0, ";
+                                                            ${"now_brand_jewelry_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand_jewelry_js_" . $brand_code} .= "0, ";
+                                                            ${"now_brand2_jewelry_sorce_" . $brand_code} .= "<div class='title3 ta_r'>0</div>";
+                                                            ${"now_brand2_jewelry_js_" . $brand_code} .= "0, ";
+                                                            
+
+                                                            // 月毎配列が最後の場合のみの処理        
+                                                                if ( $month === $array_end ) {
+                                                                    //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                        // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
+                                                                            $brand_code2 = "";
+                                                                            $brand_code2 = $brand_code . "_p";
+                                                                            $brand2_sort[$brand_code2] = ${"now_brand2_jack_sum_" . $brand_code};
+                                                                            $brand_sort[$brand_code2] = ${"now_brand_jack_sum_" . $brand_code};
+                                                                            $brand2_sort_b[$brand_code2] = ${"now_brand2_betty_sum_" . $brand_code};
+                                                                            $brand_sort_b[$brand_code2] = ${"now_brand_betty_sum_" . $brand_code};
+                                                                            $brand2_sort_jw[$brand_code2] = ${"now_brand2_jewelry_sum_" . $brand_code};
+                                                                            $brand_sort_jw[$brand_code2] = ${"now_brand_jewelry_sum_" . $brand_code};
+
+                                                                }
+
+
+                                                        }
+
+                                                    }
+
+                                            $i++;
+                                            }
+
+
+                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                //if(is_array($brand_sort)){arsort( $brand_sort );}
+                                                arsort( $brand_sort );
+                                                foreach($brand_sort as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
+
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
+                                                        // 現在ジャック・売上表示の各ブランド毎の行を作成
+                                                            ${"now_brand_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand_jack_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand_jack_sorce .= ${"now_brand_jack_sorce_" . $brand_code};
+                                                            }
+                                                }
+                                                
+
+                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $brand2_sort );
+                                                foreach($brand2_sort as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jack_sum_" . $brand_code}) && ${"past_brand2_jack_sum_" . $brand_code} <> 0 && ${"past_brand2_jack_sum_" . $brand_code} <> "" && ${"now_brand2_jack_sum_" . $brand_code} <> 0 && ${"now_brand2_jack_sum_" . $brand_code} <> ""){ $yoy2 = floor(${"now_brand2_jack_sum_" . $brand_code} / ${"past_brand2_jack_sum_" . $brand_code} * 100); if($yoy2 >= 100){$yoy2 = "<span class='fc_red'>" . $yoy2 . "%</span>";} else {$yoy2 = "<span class='fc_blue'>" . $yoy2 . "%</span>";}}else {$yoy2 = "";}
+                                                        // 現在ジャック・点数表示の各ブランド毎の行を作成
+                                                            ${"now_brand2_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy2 . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand2_jack_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand2_jack_sorce .= ${"now_brand2_jack_sorce_" . $brand_code};
+                                                            }
+                                                }
+
+
+
+                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                arsort( $brand_sort_b );
+                                                foreach($brand_sort_b as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
+                                                        
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
+                                                        // 現在ベティー・売上表示の各ブランド毎の行を作成
+                                                            ${"now_brand_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand_betty_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand_betty_sorce .= ${"now_brand_betty_sorce_" . $brand_code};
+                                                            }
+                                                }
+
+                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $brand2_sort_b );
+                                                foreach($brand2_sort_b as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
+                                                        
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_betty_sum_" . $brand_code}) && ${"past_brand2_betty_sum_" . $brand_code} <> 0 && ${"past_brand2_betty_sum_" . $brand_code} <> "" && ${"now_brand2_betty_sum_" . $brand_code} <> 0 && ${"now_brand2_betty_sum_" . $brand_code} <> ""){ $yoy_b2 = floor(${"now_brand2_betty_sum_" . $brand_code} / ${"past_brand2_betty_sum_" . $brand_code} * 100); if($yoy_b2 >= 100){$yoy_b2 = "<span class='fc_red'>" . $yoy_b2 . "%</span>";} else {$yoy_b2 = "<span class='fc_blue'>" . $yoy_b2 . "%</span>";}}else {$yoy_b2 = "";}
+                                                        // 現在ベティー・点数表示の各ブランド毎の行を作成
+                                                            ${"now_brand2_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b2 . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand2_betty_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand2_betty_sorce .= ${"now_brand2_betty_sorce_" . $brand_code};
+                                                            }
+                                                }
+
+
+
+                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                                arsort( $brand_sort_jw );
+                                                foreach($brand_sort_jw as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
+                                                        
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
+                                                        // 現在ジュエリー・売上表示の各ブランド毎の行を作成
+                                                            ${"now_brand_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand_jewelry_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand_jewelry_sorce .= ${"now_brand_jewelry_sorce_" . $brand_code};
+                                                            }
+                                                }
+
+                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                                arsort( $brand2_sort_jw );
+                                                foreach($brand2_sort_jw as $brand_code => $total_value){
+                                                    // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
+                                                        $brand_code = str_replace('_p', '', $brand_code);
+                                                        
+                                                        $brand_name = "";
+                                                        $check_brand_value = "";
+                                                        foreach($all_now_brand_array as $all_brand){
+                                                            $all_brand_name = mb_substr( $all_brand , 0 , mb_strpos($all_brand, "[") );
+                                                            $all_brand_no = mb_strstr($all_brand, '[');
+                                                            $all_brand_no = str_replace("[",'',$all_brand_no);
+                                                            $all_brand_no = str_replace("]",'',$all_brand_no);
+                                                            if($all_brand_no == $brand_code){$brand_name = $all_brand_name ;}
+
+                                                        }
+                                                        $check_brand_value = $brand_code . "[" . $brand_name  . "]";
+                                                        if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
+                                                        
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jewelry_sum_" . $brand_code}) && ${"past_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand2_jewelry_sum_" . $brand_code} <> "" && ${"now_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand2_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw2 = floor(${"now_brand2_jewelry_sum_" . $brand_code} / ${"past_brand2_jewelry_sum_" . $brand_code} * 100); if($yoy_jw2 >= 100){$yoy_jw2 = "<span class='fc_red'>" . $yoy_jw2 . "%</span>";} else {$yoy_jw2 = "<span class='fc_blue'>" . $yoy_jw2 . "%</span>";}}else {$yoy_jw2 = "";}
+                                                        // 現在ジュエリー・点数表示の各ブランド毎の行を作成
+                                                            ${"now_brand2_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw2 . "</div></div>";
+                                                        
+                                                        // 合計値が0でないブランドのみソースを追記
+                                                            if(${"now_brand2_jewelry_sum_" . $brand_code} <> 0){
+                                                                $all_now_brand2_jewelry_sorce .= ${"now_brand2_jewelry_sorce_" . $brand_code};
+                                                            }
+                                                }
+
+
+                                            $now_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp5_title . "<div class='title6 ta_c'>累計</div><div class='title6 ta_c'>過去比</div></div>";
+
+
+                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別売上</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
+                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
+
+                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別売上</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
+                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
+                                            
+                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別売上</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
+                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
+
+
+
+
+/********************************************************************************************* */
+//現在用 END
+/********************************************************************************************* */
+
+
+
+// 選択したブランドの情報を変数化
+    if(isset($view_brand_name[0])){$js_brandname_now_j_uriage1 = $view_brand_name[0];} else {$js_brandname_now_j_uriage1 = "";}
+    if(isset($view_brand_code[0]) && isset(${"now_brand_jack_js_" . $view_brand_code[0]}) && isset(${"now_brand2_jack_js_" . $view_brand_code[0]})){$js_brandcode_now_j_uriage1 = ${"now_brand_jack_js_" . $view_brand_code[0]};$js_brandcode_now_j_honsuu1 = ${"now_brand2_jack_js_" . $view_brand_code[0]};} else {$js_brandcode_now_j_uriage1 = "";$js_brandcode_now_j_honsuu1 = "";}
+    if(isset($view_brand_name[1])){$js_brandname_now_j_uriage2 = $view_brand_name[1];} else {$js_brandname_now_j_uriage2 = "";}
+    if(isset($view_brand_code[1]) && isset(${"now_brand_jack_js_" . $view_brand_code[1]}) && isset(${"now_brand2_jack_js_" . $view_brand_code[1]})){$js_brandcode_now_j_uriage2 = ${"now_brand_jack_js_" . $view_brand_code[1]};$js_brandcode_now_j_honsuu2 = ${"now_brand2_jack_js_" . $view_brand_code[1]};} else {$js_brandcode_now_j_uriage2 = "";$js_brandcode_now_j_honsuu2 = "";}
+    if(isset($view_brand_name[2])){$js_brandname_now_j_uriage3 = $view_brand_name[2];} else {$js_brandname_now_j_uriage3 = "";}
+    if(isset($view_brand_code[2]) && isset(${"now_brand_jack_js_" . $view_brand_code[2]}) && isset(${"now_brand2_jack_js_" . $view_brand_code[2]})){$js_brandcode_now_j_uriage3 = ${"now_brand_jack_js_" . $view_brand_code[2]};$js_brandcode_now_j_honsuu3 = ${"now_brand2_jack_js_" . $view_brand_code[2]};} else {$js_brandcode_now_j_uriage3 = "";$js_brandcode_now_j_honsuu3 = "";}
+    if(isset($view_brand_name[3])){$js_brandname_now_j_uriage4 = $view_brand_name[3];} else {$js_brandname_now_j_uriage4 = "";}
+    if(isset($view_brand_code[3]) && isset(${"now_brand_jack_js_" . $view_brand_code[3]}) && isset(${"now_brand2_jack_js_" . $view_brand_code[3]})){$js_brandcode_now_j_uriage4 = ${"now_brand_jack_js_" . $view_brand_code[3]};$js_brandcode_now_j_honsuu4 = ${"now_brand2_jack_js_" . $view_brand_code[3]};} else {$js_brandcode_now_j_uriage4 = "";$js_brandcode_now_j_honsuu4 = "";}
+    if(isset($view_brand_name[4])){$js_brandname_now_j_uriage5 = $view_brand_name[4];} else {$js_brandname_now_j_uriage5 = "";}
+    if(isset($view_brand_code[4]) && isset(${"now_brand_jack_js_" . $view_brand_code[4]}) && isset(${"now_brand2_jack_js_" . $view_brand_code[4]})){$js_brandcode_now_j_uriage5 = ${"now_brand_jack_js_" . $view_brand_code[4]};$js_brandcode_now_j_honsuu5 = ${"now_brand2_jack_js_" . $view_brand_code[4]};} else {$js_brandcode_now_j_uriage5 = "";$js_brandcode_now_j_honsuu5 = "";}
+
+
+    if(isset($view_brand_code[0]) && isset(${"past_brand_jack_js_" . $view_brand_code[0]}) && isset(${"past_brand2_jack_js_" . $view_brand_code[0]})){$js_brandcode_past_j_uriage1 = ${"past_brand_jack_js_" . $view_brand_code[0]};$js_brandcode_past_j_honsuu1 = ${"past_brand2_jack_js_" . $view_brand_code[0]};} else {$js_brandcode_past_j_uriage1 = "";$js_brandcode_past_j_honsuu1 = "";}
+    if(isset($view_brand_code[1]) && isset(${"past_brand_jack_js_" . $view_brand_code[1]}) && isset(${"past_brand2_jack_js_" . $view_brand_code[1]})){$js_brandcode_past_j_uriage2 = ${"past_brand_jack_js_" . $view_brand_code[1]};$js_brandcode_past_j_honsuu2 = ${"past_brand2_jack_js_" . $view_brand_code[1]};} else {$js_brandcode_past_j_uriage2 = "";$js_brandcode_past_j_honsuu2 = "";}
+    if(isset($view_brand_code[2]) && isset(${"past_brand_jack_js_" . $view_brand_code[2]}) && isset(${"past_brand2_jack_js_" . $view_brand_code[2]})){$js_brandcode_past_j_uriage3 = ${"past_brand_jack_js_" . $view_brand_code[2]};$js_brandcode_past_j_honsuu3 = ${"past_brand2_jack_js_" . $view_brand_code[2]};} else {$js_brandcode_past_j_uriage3 = "";$js_brandcode_past_j_honsuu3 = "";}
+    if(isset($view_brand_code[3]) && isset(${"past_brand_jack_js_" . $view_brand_code[3]}) && isset(${"past_brand2_jack_js_" . $view_brand_code[3]})){$js_brandcode_past_j_uriage4 = ${"past_brand_jack_js_" . $view_brand_code[3]};$js_brandcode_past_j_honsuu4 = ${"past_brand2_jack_js_" . $view_brand_code[3]};} else {$js_brandcode_past_j_uriage4 = "";$js_brandcode_past_j_honsuu4 = "";}
+    if(isset($view_brand_code[4]) && isset(${"past_brand_jack_js_" . $view_brand_code[4]}) && isset(${"past_brand2_jack_js_" . $view_brand_code[4]})){$js_brandcode_past_j_uriage5 = ${"past_brand_jack_js_" . $view_brand_code[4]};$js_brandcode_past_j_honsuu5 = ${"past_brand2_jack_js_" . $view_brand_code[4]};} else {$js_brandcode_past_j_uriage5 = "";$js_brandcode_past_j_honsuu5 = "";}
+
+    if(isset($view_brand_name_b[0])){$js_brandname_now_b_uriage1 = $view_brand_name_b[0];} else {$js_brandname_now_b_uriage1 = "";}
+    if(isset($view_brand_code_b[0]) && isset(${"now_brand_betty_js_" . $view_brand_code_b[0]}) && isset(${"now_brand2_betty_js_" . $view_brand_code_b[0]})){$js_brandcode_now_b_uriage1 = ${"now_brand_betty_js_" . $view_brand_code_b[0]};$js_brandcode_now_b_honsuu1 = ${"now_brand2_betty_js_" . $view_brand_code_b[0]};} else {$js_brandcode_now_b_uriage1 = "";$js_brandcode_now_b_honsuu1 = "";}
+    if(isset($view_brand_name_b[1])){$js_brandname_now_b_uriage2 = $view_brand_name_b[1];} else {$js_brandname_now_b_uriage2 = "";}
+    if(isset($view_brand_code_b[1]) && isset(${"now_brand_betty_js_" . $view_brand_code_b[1]}) && isset(${"now_brand2_betty_js_" . $view_brand_code_b[1]})){$js_brandcode_now_b_uriage2 = ${"now_brand_betty_js_" . $view_brand_code_b[1]};$js_brandcode_now_b_honsuu2 = ${"now_brand2_betty_js_" . $view_brand_code_b[1]};} else {$js_brandcode_now_b_uriage2 = "";$js_brandcode_now_b_honsuu2 = "";}
+    if(isset($view_brand_name_b[2])){$js_brandname_now_b_uriage3 = $view_brand_name_b[2];} else {$js_brandname_now_b_uriage3 = "";}
+    if(isset($view_brand_code_b[2]) && isset(${"now_brand_betty_js_" . $view_brand_code_b[2]}) && isset(${"now_brand2_betty_js_" . $view_brand_code_b[2]})){$js_brandcode_now_b_uriage3 = ${"now_brand_betty_js_" . $view_brand_code_b[2]};$js_brandcode_now_b_honsuu3 = ${"now_brand2_betty_js_" . $view_brand_code_b[2]};} else {$js_brandcode_now_b_uriage3 = "";$js_brandcode_now_b_honsuu3 = "";}
+    if(isset($view_brand_name_b[3])){$js_brandname_now_b_uriage4 = $view_brand_name_b[3];} else {$js_brandname_now_b_uriage4 = "";}
+    if(isset($view_brand_code_b[3]) && isset(${"now_brand_betty_js_" . $view_brand_code_b[3]}) && isset(${"now_brand2_betty_js_" . $view_brand_code_b[3]})){$js_brandcode_now_b_uriage4 = ${"now_brand_betty_js_" . $view_brand_code_b[3]};$js_brandcode_now_b_honsuu4 = ${"now_brand2_betty_js_" . $view_brand_code_b[3]};} else {$js_brandcode_now_b_uriage4 = "";$js_brandcode_now_b_honsuu4 = "";}
+    if(isset($view_brand_name_b[4])){$js_brandname_now_b_uriage5 = $view_brand_name_b[4];} else {$js_brandname_now_b_uriage5 = "";}
+    if(isset($view_brand_code_b[4]) && isset(${"now_brand_betty_js_" . $view_brand_code_b[4]}) && isset(${"now_brand2_betty_js_" . $view_brand_code_b[4]})){$js_brandcode_now_b_uriage5 = ${"now_brand_betty_js_" . $view_brand_code_b[4]};$js_brandcode_now_b_honsuu5 = ${"now_brand2_betty_js_" . $view_brand_code_b[4]};} else {$js_brandcode_now_b_uriage5 = "";$js_brandcode_now_b_honsuu5 = "";}
+
+
+    if(isset($view_brand_code_b[0]) && isset(${"past_brand_betty_js_" . $view_brand_code_b[0]}) && isset(${"past_brand2_betty_js_" . $view_brand_code_b[0]})){$js_brandcode_past_b_uriage1 = ${"past_brand_betty_js_" . $view_brand_code_b[0]};$js_brandcode_past_b_honsuu1 = ${"past_brand2_betty_js_" . $view_brand_code_b[0]};} else {$js_brandcode_past_b_uriage1 = "";$js_brandcode_past_b_honsuu1 = "";}
+    if(isset($view_brand_code_b[1]) && isset(${"past_brand_betty_js_" . $view_brand_code_b[1]}) && isset(${"past_brand2_betty_js_" . $view_brand_code_b[1]})){$js_brandcode_past_b_uriage2 = ${"past_brand_betty_js_" . $view_brand_code_b[1]};$js_brandcode_past_b_honsuu2 = ${"past_brand2_betty_js_" . $view_brand_code_b[1]};} else {$js_brandcode_past_b_uriage2 = "";$js_brandcode_past_b_honsuu2 = "";}
+    if(isset($view_brand_code_b[2]) && isset(${"past_brand_betty_js_" . $view_brand_code_b[2]}) && isset(${"past_brand2_betty_js_" . $view_brand_code_b[2]})){$js_brandcode_past_b_uriage3 = ${"past_brand_betty_js_" . $view_brand_code_b[2]};$js_brandcode_past_b_honsuu3 = ${"past_brand2_betty_js_" . $view_brand_code_b[2]};} else {$js_brandcode_past_b_uriage3 = "";$js_brandcode_past_b_honsuu3 = "";}
+    if(isset($view_brand_code_b[3]) && isset(${"past_brand_betty_js_" . $view_brand_code_b[3]}) && isset(${"past_brand2_betty_js_" . $view_brand_code_b[3]})){$js_brandcode_past_b_uriage4 = ${"past_brand_betty_js_" . $view_brand_code_b[3]};$js_brandcode_past_b_honsuu4 = ${"past_brand2_betty_js_" . $view_brand_code_b[3]};} else {$js_brandcode_past_b_uriage4 = "";$js_brandcode_past_b_honsuu4 = "";}
+    if(isset($view_brand_code_b[4]) && isset(${"past_brand_betty_js_" . $view_brand_code_b[4]}) && isset(${"past_brand2_betty_js_" . $view_brand_code_b[4]})){$js_brandcode_past_b_uriage5 = ${"past_brand_betty_js_" . $view_brand_code_b[4]};$js_brandcode_past_b_honsuu5 = ${"past_brand2_betty_js_" . $view_brand_code_b[4]};} else {$js_brandcode_past_b_uriage5 = "";$js_brandcode_past_b_honsuu5 = "";}
+
+
+    if(isset($view_brand_name_jw[0])){$js_brandname_now_jw_uriage1 = $view_brand_name_jw[0];} else {$js_brandname_now_jw_uriage1 = "";}
+    if(isset($view_brand_code_jw[0]) && isset(${"now_brand_jewelry_js_" . $view_brand_code_jw[0]}) && isset(${"now_brand2_jewelry_js_" . $view_brand_code_jw[0]})){$js_brandcode_now_jw_uriage1 = ${"now_brand_jewelry_js_" . $view_brand_code_jw[0]};$js_brandcode_now_jw_honsuu1 = ${"now_brand2_jewelry_js_" . $view_brand_code_jw[0]};} else {$js_brandcode_now_jw_uriage1 = "";$js_brandcode_now_jw_honsuu1 = "";}
+    if(isset($view_brand_name_jw[1])){$js_brandname_now_jw_uriage2 = $view_brand_name_jw[1];} else {$js_brandname_now_jw_uriage2 = "";}
+    if(isset($view_brand_code_jw[1]) && isset(${"now_brand_jewelry_js_" . $view_brand_code_jw[1]}) && isset(${"now_brand2_jewelry_js_" . $view_brand_code_jw[1]})){$js_brandcode_now_jw_uriage2 = ${"now_brand_jewelry_js_" . $view_brand_code_jw[1]};$js_brandcode_now_jw_honsuu2 = ${"now_brand2_jewelry_js_" . $view_brand_code_jw[1]};} else {$js_brandcode_now_jw_uriage2 = "";$js_brandcode_now_jw_honsuu2 = "";}
+    if(isset($view_brand_name_jw[2])){$js_brandname_now_jw_uriage3 = $view_brand_name_jw[2];} else {$js_brandname_now_jw_uriage3 = "";}
+    if(isset($view_brand_code_jw[2]) && isset(${"now_brand_jewelry_js_" . $view_brand_code_jw[2]}) && isset(${"now_brand2_jewelry_js_" . $view_brand_code_jw[2]})){$js_brandcode_now_jw_uriage3 = ${"now_brand_jewelry_js_" . $view_brand_code_jw[2]};$js_brandcode_now_jw_honsuu3 = ${"now_brand2_jewelry_js_" . $view_brand_code_jw[2]};} else {$js_brandcode_now_jw_uriage3 = "";$js_brandcode_now_jw_honsuu3 = "";}
+    if(isset($view_brand_name_jw[3])){$js_brandname_now_jw_uriage4 = $view_brand_name_jw[3];} else {$js_brandname_now_jw_uriage4 = "";}
+    if(isset($view_brand_code_jw[3]) && isset(${"now_brand_jewelry_js_" . $view_brand_code_jw[3]}) && isset(${"now_brand2_jewelry_js_" . $view_brand_code_jw[3]})){$js_brandcode_now_jw_uriage4 = ${"now_brand_jewelry_js_" . $view_brand_code_jw[3]};$js_brandcode_now_jw_honsuu4 = ${"now_brand2_jewelry_js_" . $view_brand_code_jw[3]};} else {$js_brandcode_now_jw_uriage4 = "";$js_brandcode_now_jw_honsuu4 = "";}
+    if(isset($view_brand_name_jw[4])){$js_brandname_now_jw_uriage5 = $view_brand_name_jw[4];} else {$js_brandname_now_jw_uriage5 = "";}
+    if(isset($view_brand_code_jw[4]) && isset(${"now_brand_jewelry_js_" . $view_brand_code_jw[4]}) && isset(${"now_brand2_jewelry_js_" . $view_brand_code_jw[4]})){$js_brandcode_now_jw_uriage5 = ${"now_brand_jewelry_js_" . $view_brand_code_jw[4]};$js_brandcode_now_jw_honsuu5 = ${"now_brand2_jewelry_js_" . $view_brand_code_jw[4]};} else {$js_brandcode_now_jw_uriage5 = "";$js_brandcode_now_jw_honsuu5 = "";}
+
+
+    if(isset($view_brand_code_jw[0]) && isset(${"past_brand_jewelry_js_" . $view_brand_code_jw[0]})){$js_brandcode_past_jw_uriage1 = ${"past_brand_jewelry_js_" . $view_brand_code_jw[0]};$js_brandcode_past_jw_honsuu1 = ${"past_brand2_jewelry_js_" . $view_brand_code_jw[0]};} else {$js_brandcode_past_jw_uriage1 = "";$js_brandcode_past_jw_honsuu1 = "";}
+    if(isset($view_brand_code_jw[1]) && isset(${"past_brand_jewelry_js_" . $view_brand_code_jw[1]})){$js_brandcode_past_jw_uriage2 = ${"past_brand_jewelry_js_" . $view_brand_code_jw[1]};$js_brandcode_past_jw_honsuu2 = ${"past_brand2_jewelry_js_" . $view_brand_code_jw[1]};} else {$js_brandcode_past_jw_uriage2 = "";$js_brandcode_past_jw_honsuu2 = "";}
+    if(isset($view_brand_code_jw[2]) && isset(${"past_brand_jewelry_js_" . $view_brand_code_jw[2]})){$js_brandcode_past_jw_uriage3 = ${"past_brand_jewelry_js_" . $view_brand_code_jw[2]};$js_brandcode_past_jw_honsuu3 = ${"past_brand2_jewelry_js_" . $view_brand_code_jw[2]};} else {$js_brandcode_past_jw_uriage3 = "";$js_brandcode_past_jw_honsuu3 = "";}
+    if(isset($view_brand_code_jw[3]) && isset(${"past_brand_jewelry_js_" . $view_brand_code_jw[3]})){$js_brandcode_past_jw_uriage4 = ${"past_brand_jewelry_js_" . $view_brand_code_jw[3]};$js_brandcode_past_jw_honsuu4 = ${"past_brand2_jewelry_js_" . $view_brand_code_jw[3]};} else {$js_brandcode_past_jw_uriage4 = "";$js_brandcode_past_jw_honsuu4 = "";}
+    if(isset($view_brand_code_jw[4]) && isset(${"past_brand_jewelry_js_" . $view_brand_code_jw[4]})){$js_brandcode_past_jw_uriage5 = ${"past_brand_jewelry_js_" . $view_brand_code_jw[4]};$js_brandcode_past_jw_honsuu5 = ${"past_brand2_jewelry_js_" . $view_brand_code_jw[4]};} else {$js_brandcode_past_jw_uriage5 = "";$js_brandcode_past_jw_honsuu5 = "";}
+
+
+
+
+    if (PostRequest::has('brand_bumon_select')){ $brand_bumon_select = PostRequest::input('brand_bumon_select');} else {$brand_bumon_select = "";}
+    if (PostRequest::has('view_select')){ $view_select = PostRequest::input('view_select');} else {$view_select = "";}
+
+
+
+
+    return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out1_d' => $out1_d,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out2_d' => $out2_d,'out2_e' => $out2_e,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'out3_d' => $out3_d,'out3_e' => $out3_e,'out3_f' => $out3_f,'out4_a' => $out4_a,'out4_b' => $out4_b,'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_past_brand_jack_sorce' => $all_past_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'all_past_brand2_jack_sorce' => $all_past_brand2_jack_sorce/*,'temp5_all_sorce' => $temp5_all_sorce,'temp5_all_sorce2' => $temp5_all_sorce2,'js_web_uriage' => $js_web_uriage,'js_shop_uriage' => $js_shop_uriage,'js_oroshi_uriage' => $js_oroshi_uriage,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp5_all_sorce' => $past_temp5_all_sorce,'past_temp5_all_sorce2' => $past_temp5_all_sorce2,'past_js_web_uriage' => $past_js_web_uriage,'past_js_shop_uriage' => $past_js_shop_uriage,'past_js_oroshi_uriage' => $past_js_oroshi_uriage,'past_js_web_number' => $past_js_web_number,'past_js_shop_number' => $past_js_shop_number,'past_js_oroshi_number' => $past_js_oroshi_number,'js_web_number' => $js_web_number,'js_shop_number' => $js_shop_number,'js_oroshi_number' => $js_oroshi_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'js_web_arari' => $js_web_arari,'js_shop_arari' => $js_shop_arari,'js_oroshi_arari' => $js_oroshi_arari,'js_all_month_arari' => $js_all_month_arari,'past_js_web_arari' => $past_js_web_arari,'past_js_shop_arari' => $past_js_shop_arari,'past_js_oroshi_arari' => $past_js_oroshi_arari,'js_past_all_month_arari' => $js_past_all_month_arari,'temp5_all_sorce3' => $temp5_all_sorce3,'past_temp5_all_sorce3' => $past_temp5_all_sorce3,'search' => $search*/,'js_month' => $js_month,'line_width' => $line_width,'search' => $search,'out5' => $out5,'out5_a' => $out5_a,'out5_b' => $out5_b,'out5_c' => $out5_c,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandcode_now_j_uriage1' => $js_brandcode_now_j_uriage1,'js_brandcode_now_j_uriage2' => $js_brandcode_now_j_uriage2,'js_brandcode_now_j_uriage3' => $js_brandcode_now_j_uriage3,'js_brandcode_now_j_uriage4' => $js_brandcode_now_j_uriage4,'js_brandcode_now_j_uriage5' => $js_brandcode_now_j_uriage5,'js_brandcode_past_j_uriage1' => $js_brandcode_past_j_uriage1,'js_brandcode_past_j_uriage2' => $js_brandcode_past_j_uriage2,'js_brandcode_past_j_uriage3' => $js_brandcode_past_j_uriage3,'js_brandcode_past_j_uriage4' => $js_brandcode_past_j_uriage4,'js_brandcode_past_j_uriage5' => $js_brandcode_past_j_uriage5,'js_brandcode_now_j_honsuu1' => $js_brandcode_now_j_honsuu1,'js_brandcode_now_j_honsuu2' => $js_brandcode_now_j_honsuu2,'js_brandcode_now_j_honsuu3' => $js_brandcode_now_j_honsuu3,'js_brandcode_now_j_honsuu4' => $js_brandcode_now_j_honsuu4,'js_brandcode_now_j_honsuu5' => $js_brandcode_now_j_honsuu5,'js_brandcode_past_j_honsuu1' => $js_brandcode_past_j_honsuu1,'js_brandcode_past_j_honsuu2' => $js_brandcode_past_j_honsuu2,'js_brandcode_past_j_honsuu3' => $js_brandcode_past_j_honsuu3,'js_brandcode_past_j_honsuu4' => $js_brandcode_past_j_honsuu4,'js_brandcode_past_j_honsuu5' => $js_brandcode_past_j_honsuu5,'out5_view' => $out5_view,'js_brandcode_now_b_honsuu1' => $js_brandcode_now_b_honsuu1,'js_brandcode_now_b_honsuu2' => $js_brandcode_now_b_honsuu2,'js_brandcode_now_b_honsuu3' => $js_brandcode_now_b_honsuu3,'js_brandcode_now_b_honsuu4' => $js_brandcode_now_b_honsuu4,'js_brandcode_now_b_honsuu5' => $js_brandcode_now_b_honsuu5,'js_brandcode_past_b_honsuu1' => $js_brandcode_past_b_honsuu1,'js_brandcode_past_b_honsuu2' => $js_brandcode_past_b_honsuu2,'js_brandcode_past_b_honsuu3' => $js_brandcode_past_b_honsuu3,'js_brandcode_past_b_honsuu4' => $js_brandcode_past_b_honsuu4,'js_brandcode_past_b_honsuu5' => $js_brandcode_past_b_honsuu5,'js_brandcode_now_b_uriage1' => $js_brandcode_now_b_uriage1,'js_brandcode_now_b_uriage2' => $js_brandcode_now_b_uriage2,'js_brandcode_now_b_uriage3' => $js_brandcode_now_b_uriage3,'js_brandcode_now_b_uriage4' => $js_brandcode_now_b_uriage4,'js_brandcode_now_b_uriage5' => $js_brandcode_now_b_uriage5,'js_brandcode_past_b_uriage1' => $js_brandcode_past_b_uriage1,'js_brandcode_past_b_uriage2' => $js_brandcode_past_b_uriage2,'js_brandcode_past_b_uriage3' => $js_brandcode_past_b_uriage3,'js_brandcode_past_b_uriage4' => $js_brandcode_past_b_uriage4,'js_brandcode_past_b_uriage5' => $js_brandcode_past_b_uriage5,'js_brandcode_now_jw_honsuu1' => $js_brandcode_now_jw_honsuu1,'js_brandcode_now_jw_honsuu2' => $js_brandcode_now_jw_honsuu2,'js_brandcode_now_jw_honsuu3' => $js_brandcode_now_jw_honsuu3,'js_brandcode_now_jw_honsuu4' => $js_brandcode_now_jw_honsuu4,'js_brandcode_now_jw_honsuu5' => $js_brandcode_now_jw_honsuu5,'js_brandcode_past_jw_honsuu1' => $js_brandcode_past_jw_honsuu1,'js_brandcode_past_jw_honsuu2' => $js_brandcode_past_jw_honsuu2,'js_brandcode_past_jw_honsuu3' => $js_brandcode_past_jw_honsuu3,'js_brandcode_past_jw_honsuu4' => $js_brandcode_past_jw_honsuu4,'js_brandcode_past_jw_honsuu5' => $js_brandcode_past_jw_honsuu5,'js_brandcode_now_jw_uriage1' => $js_brandcode_now_jw_uriage1,'js_brandcode_now_jw_uriage2' => $js_brandcode_now_jw_uriage2,'js_brandcode_now_jw_uriage3' => $js_brandcode_now_jw_uriage3,'js_brandcode_now_jw_uriage4' => $js_brandcode_now_jw_uriage4,'js_brandcode_now_jw_uriage5' => $js_brandcode_now_jw_uriage5,'js_brandcode_past_jw_uriage1' => $js_brandcode_past_jw_uriage1,'js_brandcode_past_jw_uriage2' => $js_brandcode_past_jw_uriage2,'js_brandcode_past_jw_uriage3' => $js_brandcode_past_jw_uriage3,'js_brandcode_past_jw_uriage4' => $js_brandcode_past_jw_uriage4,'js_brandcode_past_jw_uriage5' => $js_brandcode_past_jw_uriage5,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_past_brand_betty_sorce' => $all_past_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_past_brand2_betty_sorce' => $all_past_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_past_brand_jewelry_sorce' => $all_past_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'all_past_brand2_jewelry_sorce' => $all_past_brand2_jewelry_sorce,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'brandselect' => $brandselect,'brandselect_b' => $brandselect_b,'brandselect_jw' => $brandselect_jw,'brand_bumon_select' => $brand_bumon_select,'view_select' => $view_select,'out6' => $out6]);
+        
+                }
+
+
+
+
+
+
 
 
 
