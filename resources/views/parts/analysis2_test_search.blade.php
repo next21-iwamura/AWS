@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>売上分析ツール</title>
+    <title>在庫・回転率分析ツール</title>
 
     <!--// POSTのときはCSRFトークンを付与。自作のbladeを作るときには忘れないように-->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,6 +15,7 @@
 <script>
                     $(document).ready(function(){
                         @if(isset($view_select))
+
                             @if($view_select == "view1")
                                 $(".chart1").fadeIn();
                                 $(".op2a").fadeIn();
@@ -22,9 +23,9 @@
                                 $(".chart3").hide();
                                 $(".op1a").fadeIn();
                                 $(".op2a").addClass("opena");
-                                $(".brand_btn1").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn1").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($view_select == "view2")
                                 $(".chart1").hide();
                                 $(".chart2").fadeIn();
@@ -32,18 +33,18 @@
                                 $(".chart3").hide();
                                 $(".op1b").fadeIn();
                                 $(".op2b").addClass("openb");
-                                $(".brand_btn2").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($view_select == "view3")
                                 $(".chart1").hide();
                                 $(".chart2").hide();
                                 $(".chart3").fadeIn();
                                 $(".op1c").fadeIn();
                                 $(".op2c").addClass("openc");
-                                $(".brand_btn3").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn3").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
 
                             @endif
                         @endif
@@ -76,9 +77,9 @@
                         $(".chart3").hide();
                     /* ジャック表示ボタン押下時 */
                         $(".brand_btn1").on("click", function (e) {
-                            $(".brand_btn1").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn1").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1b").hide();
                             $(".op1c").hide();
                         $(".op1a", ".op2a").slideToggle(200);
@@ -100,9 +101,9 @@
                         });
                     /* ベティー表示ボタン押下時 */
                         $(".brand_btn2").on("click", function (e) {
-                            $(".brand_btn2").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn2").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1a").hide();
                             $(".op1c").hide();
                         $(".op1b", ".op2b").slideToggle(200);
@@ -124,9 +125,9 @@
                         });
                     /* ジュエリー表示ボタン押下時 */
                         $(".brand_btn3").on("click", function (e) {
-                            $(".brand_btn3").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1a").hide();
                             $(".op1b").hide();
                         $(".op1c", ".op2c").slideToggle(200);
@@ -159,9 +160,9 @@
                                 $(".chart3").hide();
                                 $(".op1a").fadeIn();
                                 $(".op2a").addClass("opena");
-                                $(".brand_btn1").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn1").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($brand_bumon_select == "betty")
                                 $(".chart1").hide();
                                 $(".chart2").fadeIn();
@@ -169,18 +170,18 @@
                                 $(".chart3").hide();
                                 $(".op1b").fadeIn();
                                 $(".op2b").addClass("openb");
-                                $(".brand_btn2").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($brand_bumon_select == "jewelry")
                                 $(".chart1").hide();
                                 $(".chart2").hide();
                                 $(".chart3").fadeIn();
                                 $(".op1c").fadeIn();
                                 $(".op2c").addClass("openc");
-                                $(".brand_btn3").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn3").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#191970'});
 
                             @endif
                         @endif
@@ -209,9 +210,9 @@
                         $(".chart3").hide();
                     /* ジャック表示ボタン押下時 */
                         $(".brand_btn1b").on("click", function (e) {
-                            $(".brand_btn1b").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn1b").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1b").hide();
                             $(".op1c").hide();
                         $(".op1a", ".op2a").slideToggle(200);
@@ -233,9 +234,9 @@
                         });
                     /* ベティー表示ボタン押下時 */
                         $(".brand_btn2b").on("click", function (e) {
-                            $(".brand_btn2b").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn2b").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1a").hide();
                             $(".op1c").hide();
                         $(".op1b", ".op2b").slideToggle(200);
@@ -257,9 +258,9 @@
                         });
                     /* ジュエリー表示ボタン押下時 */
                         $(".brand_btn3b").on("click", function (e) {
-                            $(".brand_btn3b").css({'background':'#000000','color' :'#ffffff'});
-                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
-                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3b").css({'background':'#191970','color' :'#ffffff'});
+                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#191970'});
+                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#191970'});
                             $(".op1a").hide();
                             $(".op1b").hide();
                         $(".op1c", ".op2c").slideToggle(200);
@@ -292,9 +293,9 @@
                                 $(".chart3").hide();
                                 $(".op1a").fadeIn();
                                 $(".op2a").addClass("opena");
-                                $(".brand_btn1b").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn1b").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($brand_bumon_select == "betty")
                                 $(".chart1").hide();
                                 $(".chart2").fadeIn();
@@ -302,18 +303,18 @@
                                 $(".chart3").hide();
                                 $(".op1b").fadeIn();
                                 $(".op2b").addClass("openb");
-                                $(".brand_btn2b").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2b").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#191970'});
                             @elseif($brand_bumon_select == "jewelry")
                                 $(".chart1").hide();
                                 $(".chart2").hide();
                                 $(".chart3").fadeIn();
                                 $(".op1c").fadeIn();
                                 $(".op2c").addClass("openc");
-                                $(".brand_btn3b").css({'background':'#000000','color' :'#ffffff'});
-                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
-                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn3b").css({'background':'#191970','color' :'#ffffff'});
+                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#191970'});
+                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#191970'});
 
                             @endif
                         @endif
@@ -442,7 +443,7 @@ jQuery(document).ready(function(){
 .header{height:auto; top:0;width:100%; margin:0 auto; background:#f5f5f5;z-index:100;padding-bottom:2em;}
 
 /* ヘッダータイトル */
-            .title{background:#000000;background-image: -webkit-linear-gradient(transparent 0%,rgba(255,255,255,.3) 50%,transparent 50%,rgba(0,0,0,.1) 100%);margin-bottom:2em;position:relative;top:0px; width:100%; color:#ffffff; font-size:15px; line-height:2em; text-align:center;}
+            .title{background:#191970;background-image: -webkit-linear-gradient(transparent 0%,rgba(255,255,255,.3) 50%,transparent 50%,rgba(0,0,0,.1) 100%);margin-bottom:2em;position:relative;top:0px; width:100%; color:#ffffff; font-size:15px; line-height:2em; text-align:center;}
 
 /* ヘッダーボタン */
 .btn_cont{height:auto;margin:0 auto; width:100%;display:flex;justify-content:space-between;}
@@ -450,11 +451,11 @@ jQuery(document).ready(function(){
 .btn_cont .btn_box2{width:100%;/*border:1px solid #ccc;*/background:#ffffff;height:auto;}
 .btn_cont .btn_box{width:100%;/*border:1px solid #ccc;*/background:#ffffff;height:auto;}
 .btn_cont .btn_box .period_box{text-align:center;padding:.5em 0;font-size:10px !important;}
-.btn_cont .btn_box .sub_title{width:90%;text-align:left;margin:2em auto 1em auto;padding:0 0 0 1em;border-bottom:1px #ccc dotted;border-left:5px solid #000000;}
+.btn_cont .btn_box .sub_title{width:90%;text-align:left;margin:2em auto 1em auto;padding:0 0 0 1em;border-bottom:1px #ccc dotted;border-left:5px solid #191970;}
 /* 使用方法 */
 .method{position:relative; top:0; width:100%;}
 .btn_bulldown_{}
-.method_btn{border-radius: 10px;background:#000000; color:#ffffff; width:8em !important;text-align:center;padding:.2em .8em !important;font-weight:bold;font-size:14px;}
+.method_btn{border-radius: 10px;background:#191970; color:#ffffff; width:8em !important;text-align:center;padding:.2em .8em !important;font-weight:bold;font-size:14px;}
 .down{}
 
 
@@ -500,7 +501,7 @@ button.btn {
   letter-spacing: 0.1em;
   color: #ffffff;
   border-radius: 0.5rem;
-  background:#000000;
+  background:#191970;
 
 }
 .btn:hover{opacity:.7;}
@@ -524,20 +525,20 @@ button.btn {
     width:12.5%;
     word-break: break-all;word-wrap:break-word;
     padding:.3em .5em;
-    border-right:1px solid #000000;
-    border-bottom:1px solid #000000;
+    border-right:1px solid #191970;
+    border-bottom:1px solid #191970;
     -webkit-box-sizing: border-box;
 box-sizing: border-box;
 text-align:right;
 
 }
 .pt2{padding-top:2em;}
-.sinchoku:first-child,.sinchoku_t:first-child{border-left:1px solid #000000;}
-.sinchoku_t{background:#696969; color:#ffffff;text-align:center;border-top:1px solid #000000;}
+.sinchoku:first-child,.sinchoku_t:first-child{border-left:1px solid #191970;}
+.sinchoku_t{background:#696969; color:#ffffff;text-align:center;border-top:1px solid #191970;}
 .ul_p div{font-size:.5vw;}
-.bg_grey{background:#c0c0c0 !important; color:#000000;}
-.bg_green div{background-color: rgba(226, 239, 218) !important; color:#000000 !important;}
-.bg_yellow div{background-color: rgba(255, 242, 204) !important; color:#000000 !important;}}
+.bg_grey{background:#c0c0c0 !important; color:#191970;}
+.bg_green div{background-color: rgba(226, 239, 218) !important; color:#191970 !important;}
+.bg_yellow div{background-color: rgba(255, 242, 204) !important; color:#191970 !important;}}
 
 .wid100{width:100%;}
 .ul{display: flex; justify-content: space-between;flex-wrap: wrap;}
@@ -546,7 +547,7 @@ text-align:right;
 .ul2{display: flex; justify-content: space-between;/*flex-wrap: wrap;*/}
 .ul2 div{background:#696969; color:#ffffff;} 
 .ul3{display: flex; justify-content: space-between;/*flex-wrap: wrap;*/}
-.ul3 div{background:#c0c0c0; color:#000000;/*font-weight:bold;*/} 
+.ul3 div{background:#c0c0c0; color:#191970;/*font-weight:bold;*/} 
 .btn_ul{display: flex; width:100%;margin-bottom:2em;justify-content: center;}
 .brand_btn1,.brand_btn2,.brand_btn3,.brand_btn4,.brand_btn5,.brand_btn6,.brand_btn,.brand_btn1b,.brand_btn2b,.brand_btn3b,.brand_btn4b,.brand_btn5b,.brand_btn6b{border-radius:15px;text-align:center; font-weight:bold;font-size:17px;width:30%;padding:15px 0; margin:20px 1% 0 1%;}
 .title_a{font-size:20px; font-weight:bold; padding:1em 0 0 0;}
@@ -563,8 +564,8 @@ text-align:right;
     word-break: break-all;word-wrap:break-word;
     /*width:50px;*/
     padding:.3em .5em;
-    border-right:1px solid #000000;
-    border-bottom:1px solid #000000;
+    border-right:1px solid #191970;
+    border-bottom:1px solid #191970;
     -webkit-box-sizing: border-box;
 box-sizing: border-box;
 }
@@ -574,15 +575,15 @@ box-sizing: border-box;
     word-break: break-all;word-wrap:break-word;
     /*width:50px;*/
     padding:.3em .5em;
-    border-right:1px solid #000000;
-    border-bottom:1px solid #000000;
+    border-right:1px solid #191970;
+    border-bottom:1px solid #191970;
     -webkit-box-sizing: border-box;
 box-sizing: border-box;
 
 }
 .fc_red{color:red !important;}
 .fc_blue{color:blue !important;}
-.box1{width:100%; margin:0 auto;border-top:1px solid #000000;border-right:1px solid #000000;border-left:1px solid #000000;}
+.box1{width:100%; margin:0 auto;border-top:1px solid #191970;border-right:1px solid #191970;border-left:1px solid #191970;}
 
 
 .title1:last-child,.title2:last-child,.title3:last-child,.title4:last-child,.title5:last-child,.title6:last-child,.title7:last-child,.sinchoku_t:last-child{
@@ -612,26 +613,24 @@ box-sizing: border-box;
         <div id="container">
         @if(isset($all_count_line)) {{ $all_count_line }} @endif  
         <!-- FORM start -->
-            <!-- <form action="/laravel/analysis2_test_search" method="POST" enctype="multipart/form-data"> -->
             <form action="/analysis2_test_search" method="POST" enctype="multipart/form-data">
-                <!--{{ csrf_field() }}-->
                 @csrf
                 <!-- 固定ヘッダー START -->
                 <div class="header">
-                    <!--<div class="title"style="">売上分析</div>-->
 
                         <!-- 全ボタンの大枠 START -->
                         <div class="btn_cont">
                             <div class="btn_wrap">
                                 <!-- 期間指定検索ボタン START -->
                                 <div class="btn_box">  
-                                    <div class="title">条件の検索</div>
+                                    <div class="title">在庫・条件の検索</div>
                                         <div>
                                         <div class="ta_c">
                                             <p class="sub_title"><span>出力パターン選択</span></p>
                                             <select name="output" class="output_select">
                                                 <option value="0">出力パターンを選択</option>
                                                 <option value="1" @if(isset($output) && $output == 1) selected @elseif (empty($output) && $output == 1) selected @endif>[在庫]月別</option>
+                                                <option value="2" @if(isset($output) && $output == 2) selected @elseif (empty($output) && $output == 2) selected @endif>[在庫]ブランド別</option>
                                             </select>
                                         </div>
                                         <p class="ta_c"><button type="submit" id="form_view" name="form_view" value="フォームの表示"><span>フォームの表示</span></button></p>
@@ -717,6 +716,44 @@ box-sizing: border-box;
                                                 <p class="ta_c"><button type="submit" id="search" name="search" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
                                             </div>
                                     @endif
+                                    
+                                <!-- ブランド用 -->
+                                    @if(isset($output) && $output == 2)
+                                            <div class="ta_c">
+                                                <p class="sub_title">売却区分</p>
+                                                <input type="checkbox" name="out1[]" value="2" @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>店舗
+                                                <input type="checkbox" name="out1[]" value="3" @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>通販
+                                                <input type="checkbox" name="out1[]" value="4" @if(isset($out1_c) && $out1_c <> "OFF") checked @endif>卸
+                                                <input type="checkbox" name="out1[]" value="5" @if(isset($out1_d) && $out1_d <> "OFF") checked @endif>その他
+                                                <p class="sub_title">商品区分</p>
+                                                <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
+                                                <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
+                                                <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @elseif (empty($out2_c)) checked @endif>アンティーク<br>
+                                                <input type="checkbox" name="out2[]" value="4" @if(isset($out2_d) && $out2_d <> "OFF") checked @endif>その他
+                                                <input type="checkbox" name="out2[]" value="5" @if(isset($out2_e) && $out2_e <> "OFF") checked @endif>修理
+                                                <p class="sub_title">通販区分</p>
+                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>自社
+                                                <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @elseif (empty($out3_b)) checked @endif>楽天
+                                                <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @elseif (empty($out3_c)) checked @endif>ヤフー<br>
+                                                <input type="checkbox" name="out3[]" value="4" @if(isset($out3_d) && $out3_d <> "OFF") checked @elseif (empty($out3_d)) checked @endif>電話・雑誌
+                                                <input type="checkbox" name="out3[]" value="5" @if(isset($out3_e) && $out3_e <> "OFF") checked @elseif (empty($out3_e)) checked @endif>Yオークション<br>
+                                                <input type="checkbox" name="out3[]" value="6" @if(isset($out3_f) && $out3_f <> "OFF") checked @elseif (empty($out3_f)) checked @endif>修理品返送
+                                                <p class="sub_title">免税区分</p>
+                                                <input type="checkbox" name="out4[]" value="1" @if(isset($out4_a) && $out4_a <> "OFF") checked @elseif (empty($out4_a)) checked @endif>対象外
+                                                <input type="checkbox" name="out4[]" value="2" @if(isset($out4_b) && $out4_b <> "OFF") checked @elseif (empty($out4_b)) checked @endif>免税
+                                                <p class="sub_title">ブランド</p>
+                                                <input type="checkbox" name="out5[]" value="2" @if(isset($out5_a) && $out5_a <> "OFF") checked @elseif (empty($out5_a)) checked @endif>Jack
+                                                <input type="checkbox" name="out5[]" value="3" @if(isset($out5_b) && $out5_b <> "OFF") checked @elseif (empty($out5_b)) checked @endif>Betty
+                                                <input type="checkbox" name="out5[]" value="4" @if(isset($out5_c) && $out5_c <> "OFF") checked @elseif (empty($out5_c)) checked @endif>Jewelry
+                                                <p>
+                                                <input type="radio" name="out5_view" value="1" @if(isset($out5_view) && $out5_view == "1" || empty($out5_view)) checked @endif>売上金額順
+                                                <input type="radio" name="out5_view" value="2" @if(isset($out5_view) && $out5_view == "2") checked @endif>売上点数順  
+                                                </p>
+                                    
+                                                <p class="ta_c"><button type="submit" id="search2" name="search2" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
+                                            </div>
+                                    @endif
+                                    
 
                                 </div>
 
@@ -751,53 +788,139 @@ box-sizing: border-box;
                                                     <li>現在データの累計のカッコ内 → 過去比(上昇は赤、下落は青)</li>
                                                     <li>現在の「金額」「点数」「粗利」の平均について：データ格納最終日がその月の最終日でなければ平均計算に含めない（月のデータが最終日まで揃っていないので、先月までの合計の平均値を表示）</li>
                                                     <li>データを登録する際はデータ内の期間を参照し、過去の余計なデータを残さないためDB上のその期間を削除した上で内容を登録しているので、手動で中身を編集しないよう注意</li>
-                                                    <li>登録データは「CSV」形式の文字コードが「UTF-8」のものを使用（<a href="https://lomo-jackroad.ssl-lolipop.jp/laravel/analysis" target="_blank">データを登録する</a>）</li>
+                                                    <li>登録データは「CSV」形式の文字コードが「UTF-8」のものを使用（<a href="analysis" target="_blank">データを登録する</a>）</li>
 
                                                     </ol>
                                                     <p style="font-weight:bold;border-bottom:1px dotted #666666;border-left:5px solid #666666;padding-left:.5em;margin: top 2px;em;">備考</p>
                                                     <ol>
-                                                    <li>[売上]サマリの「通販」の値と、[売上]通販区分の「各通販区分の合計」の値に差異がある事について</li>
-                                                    <p>→稀にある「店舗」にて「通販区分」の売上がたつ事により差が生まれる。[売上]サマリは「店舗」と「通販」で分かれている為、「店舗」の「通販区分」は「通販」には含まれない。よって、全ての「通販区分」を含む[売上]通販区分の「各通販区分の合計」と差が出る。</p>
+                                                    <li>[売上]サマリの「ベティー」の値と、[売上]ベティー区分の「各ベティー区分の合計」の値に差異がある事について</li>
+                                                    <p>→稀にある「ジャック」にて「ベティー区分」の売上がたつ事により差が生まれる。[売上]サマリは「ジャック」と「ベティー」で分かれている為、「ジャック」の「ベティー区分」は「ベティー」には含まれない。よって、全ての「ベティー区分」を含む[売上]ベティー区分の「各ベティー区分の合計」と差が出る。</p>
                                                     </ol>
                                                 </div>
                                         </div>
                                     </div>
-                                <!-- グラフ表示切り替えボタン用 -->           
+                                <!-- グラフ表示切り替えボタン用 -->                            
+                                    <script type="text/javascript">
+                                            $(function(){
+                                                $(".btn1").click(function() {
+                                                    $(".chart1").fadeIn();
+                                                    $(".chart2").fadeOut();
+                                                    $(".chart3").fadeOut();
+                                                    $(".chart4").fadeOut();
+                                                    $(".chart5").fadeOut();
+                                                    $(".chart6").fadeOut();
+                                                    $(".btn1").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn2").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn3").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn4").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn5").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn6").css({'background':'#ffffff','color' :'#191970'});
+                                                });
+                                                $(".btn2").click(function() {
+                                                    $(".chart2").fadeIn();
+                                                    $(".chart1").fadeOut();
+                                                    $(".chart3").fadeOut();
+                                                    $(".chart4").fadeOut();
+                                                    $(".chart5").fadeOut();
+                                                    $(".chart6").fadeOut();
+                                                    $(".btn2").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn1").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn3").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn4").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn5").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn6").css({'background':'#ffffff','color' :'#191970'});
+                                                    });
+                                                $(".btn3").click(function() {
+                                                    $(".chart3").fadeIn();
+                                                    $(".chart1").fadeOut();
+                                                    $(".chart2").fadeOut();
+                                                    $(".chart4").fadeOut();
+                                                    $(".chart5").fadeOut();
+                                                    $(".chart6").fadeOut();
+                                                    $(".btn3").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn1").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn2").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn4").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn5").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn6").css({'background':'#ffffff','color' :'#191970'});
+                                                });
+                                                $(".btn4").click(function() {
+                                                    $(".chart3").fadeOut();
+                                                    $(".chart1").fadeOut();
+                                                    $(".chart2").fadeOut();
+                                                    $(".chart4").fadeIn();
+                                                    $(".chart5").fadeOut();
+                                                    $(".chart6").fadeOut();
+                                                    $(".btn4").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn1").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn2").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn3").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn5").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn6").css({'background':'#ffffff','color' :'#191970'});
+                                                });
+                                                $(".btn5").click(function() {
+                                                    $(".chart3").fadeOut();
+                                                    $(".chart1").fadeOut();
+                                                    $(".chart2").fadeOut();
+                                                    $(".chart5").fadeIn();
+                                                    $(".chart4").fadeOut();
+                                                    $(".chart6").fadeOut();
+                                                    $(".btn5").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn1").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn2").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn3").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn4").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn6").css({'background':'#ffffff','color' :'#191970'});
+                                                });
+                                                $(".btn6").click(function() {
+                                                    $(".chart3").fadeOut();
+                                                    $(".chart1").fadeOut();
+                                                    $(".chart2").fadeOut();
+                                                    $(".chart6").fadeIn();
+                                                    $(".chart4").fadeOut();
+                                                    $(".chart5").fadeOut();
+                                                    $(".btn6").css({'background':'#191970','color' :'#ffffff'});
+                                                    $(".btn1").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn2").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn3").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn4").css({'background':'#ffffff','color' :'#191970'});
+                                                    $(".btn5").css({'background':'#ffffff','color' :'#191970'});
+                                                });
+                                            });
+                                    </script>
                                 
                                 
 <!-- [在庫]月別用 -->
 @if(isset($output) && $output == 1 && isset($search) && $search == "ON")  
-<div class="" style="width:100%;">
-                                            <div class="ul" style="width:100%;margin-bottom:2em;">
-                                                <input type="button" class= "brand_btn1 btn1" value="金額・推移表示" style= "background:#000000; color:#ffffff; width:30%;">
-                                                <input type="button" class= "brand_btn2 btn2" value="点数・推移表示" style= "width:30%;">
-                                                <input type="button" class= "brand_btn3 btn3" value="粗利・推移表示" style= "width:30%;">
-                                                <input type="button" class= "brand_btn4 btn4" value="金額構成比・推移表示" style= "width:30%;">
-                                                <input type="button" class= "brand_btn5 btn5" value="点数構成比・推移表示" style= "width:30%;">
-                                                <input type="button" class= "brand_btn6 btn6" value="粗利率・推移表示" style= "width:30%;">
+                            <div class="" style="width:100%;">
+                                            <div class="ul" style="width:95%;margin: 0 auto 2em auto;">
+                                                <input type="button" class= "brand_btn1 btn1" value="金額・推移表示" style= "background:#191970; color:#ffffff; width:48%;">
+                                                <input type="button" class= "brand_btn2 btn2" value="点数・推移表示" style= "width:48%;">
+                                                <input type="button" class= "brand_btn3 btn3" value="金額構成比・推移表示" style= "width:48%;">
+                                                <input type="button" class= "brand_btn4 btn4" value="点数構成比・推移表示" style= "width:48%;">
 
-                        <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
-                            <input type="text" class="view_select" style="display:none;" name="view_select" value="">
-                                <script type="text/javascript">
-                                    $(".brand_btn1").on("click", function (e) {
-                                        $('.view_select').val('view1');
-                                    });
-                                    $(".brand_btn2").on("click", function (e) {
-                                        $('.view_select').val('view2');
-                                    });
-                                    $(".brand_btn3").on("click", function (e) {
-                                        $('.view_select').val('view3');
-                                    });
-                                    $(".brand_btn4").on("click", function (e) {
-                                        $('.view_select').val('view4');
-                                    });
-                                    $(".brand_btn5").on("click", function (e) {
-                                        $('.view_select').val('view5');
-                                    });
-                                    $(".brand_btn6").on("click", function (e) {
-                                        $('.view_select').val('view6');
-                                    });
-                                </script>
+                                                <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
+                                                    <input type="text" class="view_select" style="display:none;" name="view_select" value="">
+                                                        <script type="text/javascript">
+                                                            $(".brand_btn1").on("click", function (e) {
+                                                                $('.view_select').val('view1');
+                                                            });
+                                                            $(".brand_btn2").on("click", function (e) {
+                                                                $('.view_select').val('view2');
+                                                            });
+                                                            $(".brand_btn3").on("click", function (e) {
+                                                                $('.view_select').val('view3');
+                                                            });
+                                                            $(".brand_btn4").on("click", function (e) {
+                                                                $('.view_select').val('view4');
+                                                            });
+                                                            $(".brand_btn5").on("click", function (e) {
+                                                                $('.view_select').val('view5');
+                                                            });
+                                                            $(".brand_btn6").on("click", function (e) {
+                                                                $('.view_select').val('view6');
+                                                            });
+                                                        </script>
                                                 
                                             </div>
 
@@ -813,26 +936,7 @@ box-sizing: border-box;
                                             <div style="width:100%;display:none;" class="chart4 section">
                                                 <canvas id="mychart4"></canvas>
                                             </div>
-                                            <div style="width:100%;display:none;" class="chart5 section">
-                                                <canvas id="mychart5"></canvas>
-                                            </div>
-                                            <div style="width:100%;display:none;" class="chart6 section">
-                                                <canvas id="mychart6"></canvas>
-                                            </div>
 
-
-                                           <!-- <div class="chart1 section">
-                                                <canvas id="mychart"></canvas>
-                                            </div>
-                                            <div class="chart2 section">
-                                                <canvas id="mychart2"></canvas>
-                                            </div>
-                                            <div class="chart3 section">
-                                                <canvas id="mychart3"></canvas>
-                                            </div>-->
-
-
-                                            
                                             <script>
                                                 var ctx = document.getElementById('mychart');
                                                 var myChart = new Chart(ctx, {
@@ -840,37 +944,37 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
-                                                    data: [@if(isset($js_shop_uriage)){!! $js_shop_uriage !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($js_web_uriage))    
-                                                    }, {
-                                                    label: '通販',
-                                                    data: [{!! $js_web_uriage !!}],
+                                                    label: 'ジャック',
+                                                    data: [@if(isset($js_jack_uriage)){!! $js_jack_uriage !!}@endif],
                                                     borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($js_oroshi_uriage))
+                                                @if(isset($js_betty_uriage))    
                                                     }, {
-                                                    label: '卸',
-                                                    data: [{!! $js_oroshi_uriage !!}],
+                                                    label: 'ベティー',
+                                                    data: [{!! $js_betty_uriage !!}],
+                                                    borderColor: '#c53d43',
+                                                @endif      
+                                                @if(isset($js_jewelry_uriage))
+                                                    }, {
+                                                    label: 'ジュエリー',
+                                                    data: [{!! $js_jewelry_uriage !!}],
                                                     borderColor: '#006e54',
                                                 @endif
-                                                @if(isset($past_js_shop_uriage))
+                                                @if(isset($past_js_jack_uriage))
                                                     }, {
-                                                    label: '店舗(過去)',
-                                                    data: [{!! $past_js_shop_uriage !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_js_web_uriage))
-                                                    }, {
-                                                    label: '通販(過去)',
-                                                    data: [{!! $past_js_web_uriage !!}],
+                                                    label: 'ジャック(過去)',
+                                                    data: [{!! $past_js_jack_uriage !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
-                                                @if(isset($past_js_oroshi_uriage))
+                                                @if(isset($past_js_betty_uriage))
                                                     }, {
-                                                    label: '卸(過去)',
-                                                    data: [{!! $past_js_oroshi_uriage !!}],
+                                                    label: 'ベティー(過去)',
+                                                    data: [{!! $past_js_betty_uriage !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_js_jewelry_uriage))
+                                                    }, {
+                                                    label: 'ジュエリー(過去)',
+                                                    data: [{!! $past_js_jewelry_uriage !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
                                                     }, {
@@ -903,37 +1007,37 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
-                                                    data: [@if(isset($js_shop_number)){!! $js_shop_number !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($js_web_number))    
-                                                    }, {
-                                                    label: '通販',
-                                                    data: [{!! $js_web_number !!}],
+                                                    label: 'ジャック',
+                                                    data: [@if(isset($js_jack_number)){!! $js_jack_number !!}@endif],
                                                     borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($js_oroshi_number))
+                                                @if(isset($js_betty_number))    
                                                     }, {
-                                                    label: '卸',
-                                                    data: [{!! $js_oroshi_number !!}],
+                                                    label: 'ベティー',
+                                                    data: [{!! $js_betty_number !!}],
+                                                    borderColor: '#c53d43',
+                                                @endif      
+                                                @if(isset($js_jewelry_number))
+                                                    }, {
+                                                    label: 'ジュエリー',
+                                                    data: [{!! $js_jewelry_number !!}],
                                                     borderColor: '#006e54',
                                                 @endif
-                                                @if(isset($past_js_shop_number))
+                                                @if(isset($past_js_jack_number))
                                                     }, {
-                                                    label: '店舗(過去)',
-                                                    data: [{!! $past_js_shop_number !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_js_web_number))
-                                                    }, {
-                                                    label: '通販(過去)',
-                                                    data: [{!! $past_js_web_number !!}],
+                                                    label: 'ジャック(過去)',
+                                                    data: [{!! $past_js_jack_number !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
-                                                @if(isset($past_js_oroshi_number))
+                                                @if(isset($past_js_betty_number))
                                                     }, {
-                                                    label: '卸(過去)',
-                                                    data: [{!! $past_js_oroshi_number !!}],
+                                                    label: 'ベティー(過去)',
+                                                    data: [{!! $past_js_betty_number !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_js_jewelry_number))
+                                                    }, {
+                                                    label: 'ジュエリー(過去)',
+                                                    data: [{!! $past_js_jewelry_number !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
                                                     }, {
@@ -959,61 +1063,48 @@ box-sizing: border-box;
                                                     },*/
                                                 },
                                                 });
-
+                                                
+                                                
                                                 var ctx = document.getElementById('mychart3');
                                                 var myChart = new Chart(ctx, {
                                                 type: 'line',
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
-                                                    data: [@if(isset($js_shop_arari)){!! $js_shop_arari !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($js_web_arari))    
-                                                    }, {
-                                                    label: '通販',
-                                                    data: [{!! $js_web_arari !!}],
+                                                    label: 'ジャック・金額構成比',
+                                                    data: [@if(isset($jack_total_js2)){!! $jack_total_js2 !!}@endif],
                                                     borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($js_oroshi_arari))
+                                                @if(isset($betty_total_js2))    
                                                     }, {
-                                                    label: '卸',
-                                                    data: [{!! $js_oroshi_arari !!}],
+                                                    label: 'ベティー・金額構成比',
+                                                    data: [{!! $betty_total_js2 !!}],
+                                                    borderColor: '#c53d43',
+                                                @endif      
+                                                @if(isset($jewelry_total_js2))
+                                                    }, {
+                                                    label: 'ジュエリー・金額構成比',
+                                                    data: [{!! $jewelry_total_js2 !!}],
                                                     borderColor: '#006e54',
                                                 @endif
-                                                @if(isset($past_js_shop_arari))
+                                                @if(isset($past_jack_total_js2))
                                                     }, {
-                                                    label: '店舗(過去)',
-                                                    data: [{!! $past_js_shop_arari !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_js_web_arari))
-                                                    }, {
-                                                    label: '通販(過去)',
-                                                    data: [{!! $past_js_web_arari !!}],
+                                                    label: 'ジャック・金額構成比(過去)',
+                                                    data: [{!! $past_jack_total_js2 !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
-                                                @if(isset($past_js_oroshi_arari))
+                                                @if(isset($past_betty_total_js2))
                                                     }, {
-                                                    label: '卸(過去)',
-                                                    data: [{!! $past_js_oroshi_arari !!}],
+                                                    label: 'ベティー・金額構成比(過去)',
+                                                    data: [{!! $past_betty_total_js2 !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_jewelry_total_js2))
+                                                    }, {
+                                                    label: 'ジュエリー・金額構成比(過去)',
+                                                    data: [{!! $past_jewelry_total_js2 !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
-                                                    }, {
-                                                    type: 'bar',
-                                                    label: '過去合計',
-                                                    data: [@if(isset($js_past_all_month_arari)){!! $js_past_all_month_arari !!}@endif],
-                                                    backgroundColor: "#dcdcdc",
-                                                    borderColor: "rgb(255, 99, 132, 0.5)",
-                                                    yAxisID: "temperatureChart",
-                                                }, {
-                                                    type: 'bar',
-                                                    label: '合計',
-                                                    data: [@if(isset($js_all_month_arari)){!! $js_all_month_arari !!}@endif],
-                                                    backgroundColor: "#a9a9a9",
-                                                    borderColor: "rgb(255, 99, 132, 0.5)",
-                                                    yAxisID: "temperatureChart",
-                                                }],
+                                                    }],
                                                 },
                                                 options: {
                                                     /*y: {
@@ -1022,43 +1113,44 @@ box-sizing: border-box;
                                                     },*/
                                                 },
                                                 });
+                                                
                                                 var ctx = document.getElementById('mychart4');
                                                 var myChart = new Chart(ctx, {
                                                 type: 'line',
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗・金額構成比',
-                                                    data: [@if(isset($shop_total_js2)){!! $shop_total_js2 !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($web_total_js2))    
-                                                    }, {
-                                                    label: '通販・金額構成比',
-                                                    data: [{!! $web_total_js2 !!}],
+                                                    label: 'ジャック・点数構成比',
+                                                    data: [@if(isset($jack_total_js3)){!! $jack_total_js3 !!}@endif],
                                                     borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($oroshi_total_js2))
+                                                @if(isset($betty_total_js3))    
                                                     }, {
-                                                    label: '卸・金額構成比',
-                                                    data: [{!! $oroshi_total_js2 !!}],
+                                                    label: 'ベティー・点数構成比',
+                                                    data: [{!! $betty_total_js3 !!}],
+                                                    borderColor: '#c53d43',
+                                                @endif      
+                                                @if(isset($jewelry_total_js3))
+                                                    }, {
+                                                    label: 'ジュエリー・点数構成比',
+                                                    data: [{!! $jewelry_total_js3 !!}],
                                                     borderColor: '#006e54',
                                                 @endif
-                                                @if(isset($past_shop_total_js2))
+                                                @if(isset($past_jack_total_js3))
                                                     }, {
-                                                    label: '店舗・金額構成比(過去)',
-                                                    data: [{!! $past_shop_total_js2 !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_web_total_js2))
-                                                    }, {
-                                                    label: '通販・金額構成比(過去)',
-                                                    data: [{!! $past_web_total_js2 !!}],
+                                                    label: 'ジャック・点数構成比(過去)',
+                                                    data: [{!! $past_jack_total_js3 !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
-                                                @if(isset($past_oroshi_total_js2))
+                                                @if(isset($past_betty_total_js3))
                                                     }, {
-                                                    label: '卸・金額構成比(過去)',
-                                                    data: [{!! $past_oroshi_total_js2 !!}],
+                                                    label: 'ベティー・点数構成比(過去)',
+                                                    data: [{!! $past_betty_total_js3 !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_jewelry_total_js3))
+                                                    }, {
+                                                    label: 'ジュエリー・点数構成比(過去)',
+                                                    data: [{!! $past_jewelry_total_js3 !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
                                                     }],
@@ -1070,118 +1162,11 @@ box-sizing: border-box;
                                                     },*/
                                                 },
                                                 });
-                                                var ctx = document.getElementById('mychart5');
-                                                var myChart = new Chart(ctx, {
-                                                type: 'line',
-                                                data: {
-                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
-                                                    datasets: [{
-                                                    label: '店舗・点数構成比',
-                                                    data: [@if(isset($shop_total_js3)){!! $shop_total_js3 !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($web_total_js3))    
-                                                    }, {
-                                                    label: '通販・点数構成比',
-                                                    data: [{!! $web_total_js3 !!}],
-                                                    borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($oroshi_total_js3))
-                                                    }, {
-                                                    label: '卸・点数構成比',
-                                                    data: [{!! $oroshi_total_js3 !!}],
-                                                    borderColor: '#006e54',
-                                                @endif
-                                                @if(isset($past_shop_total_js3))
-                                                    }, {
-                                                    label: '店舗・点数構成比(過去)',
-                                                    data: [{!! $past_shop_total_js3 !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_web_total_js3))
-                                                    }, {
-                                                    label: '通販・点数構成比(過去)',
-                                                    data: [{!! $past_web_total_js3 !!}],
-                                                    borderColor: '#bbc8e6',
-                                                @endif
-                                                @if(isset($past_oroshi_total_js3))
-                                                    }, {
-                                                    label: '卸・点数構成比(過去)',
-                                                    data: [{!! $past_oroshi_total_js3 !!}],
-                                                    borderColor: '#a2d7dd',
-                                                @endif
-                                                    }],
-                                                },
-                                                options: {
-                                                    /*y: {
-                                                    min: 3000000,
-                                                    max: 1800000000,
-                                                    },*/
-                                                },
-                                                });
+                                                
+
+      @endif
 
 
-                                                var ctx = document.getElementById('mychart6');
-                                                var myChart = new Chart(ctx, {
-                                                type: 'line',
-                                                data: {
-                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
-                                                    datasets: [{
-                                                    label: '店舗・粗利率',
-                                                    data: [@if(isset($shop_total_js)){!! $shop_total_js !!}@endif],
-                                                    borderColor: '#c53d43',
-                                                @if(isset($web_total_js))    
-                                                    }, {
-                                                    label: '通販・粗利率',
-                                                    data: [{!! $web_total_js !!}],
-                                                    borderColor: '#007bbb',
-                                                @endif      
-                                                @if(isset($oroshi_total_js))
-                                                    }, {
-                                                    label: '卸・粗利率',
-                                                    data: [{!! $oroshi_total_js !!}],
-                                                    borderColor: '#006e54',
-                                                @endif
-                                                @if(isset($past_shop_total_js))
-                                                    }, {
-                                                    label: '店舗・粗利率(過去)',
-                                                    data: [{!! $past_shop_total_js !!}],
-                                                    borderColor: '#e198b4',
-                                                @endif
-                                                @if(isset($past_web_total_js))
-                                                    }, {
-                                                    label: '通販・粗利率(過去)',
-                                                    data: [{!! $past_web_total_js !!}],
-                                                    borderColor: '#bbc8e6',
-                                                @endif
-                                                @if(isset($past_oroshi_total_js))
-                                                    }, {
-                                                    label: '卸・粗利率(過去)',
-                                                    data: [{!! $past_oroshi_total_js !!}],
-                                                    borderColor: '#a2d7dd',
-                                                @endif
-                                                    }, {
-                                                    type: 'bar',
-                                                    label: '粗利率合計(過去)',
-                                                    data: [@if(isset($past_all_arari_total)){!! $past_all_arari_total !!}@endif],
-                                                    backgroundColor: "#dcdcdc",
-                                                    borderColor: "rgb(255, 99, 132, 0.5)",
-                                                    yAxisID: "temperatureChart",
-                                                }, {
-                                                    type: 'bar',
-                                                    label: '粗利率合計',
-                                                    data: [@if(isset($all_arari_total)){!! $all_arari_total !!}@endif],
-                                                    backgroundColor: "#a9a9a9",
-                                                    borderColor: "rgb(255, 99, 132, 0.5)",
-                                                    yAxisID: "temperatureChart",
-                                                }],
-                                                },
-                                                options: {
-                                                    /*y: {
-                                                    min: 3000000,
-                                                    max: 1800000000,
-                                                    },*/
-                                                },
-                                                });
 
 
                                             </script>
@@ -1218,27 +1203,1015 @@ box-sizing: border-box;
 
 
 
-                                    </div>
-                                    
+                            </div>
+                   
+                   
+             
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   
+                   <!-- 全ブランド用 start -->
+    @if(isset($output) && $output == 2 && isset($search) && $search == "ON")  
 
-@endif
+        <div class="" style="width:100%;">
+
+        <!-- ブランド・売上順用 start  -->
+            @if(isset($out5_view) && $out5_view == "1")
+                <!-- 部門切り替えボタン部分  -->
+                    <div class="btn_ul">
+                        @if(isset($out5_a) && $out5_a == "ON")
+                            <input type="text" name="brand_jack" class= "brand_btn1" value="Jack・売上額表示">
+                        @endif
+                        @if(isset($out5_b) && $out5_b == "ON")
+                            <input type="text" name="brand_betty" class= "brand_btn2" value="Betty・売上額表示">
+                        @endif
+                        @if(isset($out5_c) && $out5_c == "ON")
+                            <input type="text" name="brand_jewelry" class= "brand_btn3" value="Jewelry・売上額表示">
+                        @endif
+                        <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
+                            <input type="text" class="brand_bumon_select" style="display:none;" name="brand_bumon_select" value="">
+                                <script type="text/javascript">
+                                    $(".brand_btn1").on("click", function (e) {
+                                        $('.brand_bumon_select').val('jack');
+                                    });
+                                    $(".brand_btn2").on("click", function (e) {
+                                        $('.brand_bumon_select').val('betty');
+                                    });
+                                    $(".brand_btn3").on("click", function (e) {
+                                        $('.brand_bumon_select').val('jewelry');
+                                    });
+                                </script>
+                    </div>
+
+                <!-- チャートの表示部分 -->
+                    @if(isset($out5_a) && $out5_a == "ON" && isset($brandselect) && $brandselect <> "")
+                        <div class="chart1 section">
+                            <!--<p class="title_s2">Jack・ブランド別売上額</p>-->
+                            <canvas id="mychart"></canvas>
+                        </div>
+                    @endif
+                    @if(isset($out5_b) && $out5_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
+                        <div class="chart2 section">
+                            <!--<p class="title_s2">Betty・ブランド別売上額</p>-->
+                            <canvas id="mychart2"></canvas>
+                        </div>
+                    @endif
+                    @if(isset($out5_c) && $out5_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
+                        <div class="chart3 section">
+                            <!--<p class="title_s2">Jewelry・ブランド別売上額</p>-->
+                            <canvas id="mychart3"></canvas>
+                        </div>
+                    @endif
+
+
+
+<!-- ブランド・ジャック売上用ロジック（チャート部分） start -->
+                <script>
+                    var ctx = document.getElementById('mychart');
+                    var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                        datasets: [{
+                        label: '@if(isset($js_brandname_now_j_uriage1)){!! $js_brandname_now_j_uriage1 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_j_uriage1) && $js_brandname_now_j_uriage1 <> ""){!! $js_brandcode_now_j_uriage1 !!}@endif],
+                        borderColor: '#c53d43',
+                    @if(isset($js_brandname_now_j_uriage2) && $js_brandname_now_j_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage2)){!! $js_brandname_now_j_uriage2 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_j_uriage2)){!! $js_brandcode_now_j_uriage2 !!}@endif],
+                        borderColor: '#007bbb',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage3) && $js_brandname_now_j_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage3)){!! $js_brandname_now_j_uriage3 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_j_uriage3)){!! $js_brandcode_now_j_uriage3 !!}@endif],
+                        borderColor: '#006e54',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage4) && $js_brandname_now_j_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage4)){!! $js_brandname_now_j_uriage4 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_j_uriage4)){!! $js_brandcode_now_j_uriage4 !!}@endif],
+                        borderColor: '#0d0015',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage5) && $js_brandname_now_j_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage5)){!! $js_brandname_now_j_uriage5 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_j_uriage5)){!! $js_brandcode_now_j_uriage5 !!}@endif],
+                        borderColor: '#8d6449',
+                    @endif      
+
+                    @if(isset($js_brandname_now_j_uriage1) && $js_brandname_now_j_uriage1 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage1)){!! $js_brandname_now_j_uriage1 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_j_uriage1)){!! $js_brandcode_past_j_uriage1 !!}@endif],
+                        borderColor: '#e198b4',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage2) && $js_brandname_now_j_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage2)){!! $js_brandname_now_j_uriage2 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_j_uriage2)){!! $js_brandcode_past_j_uriage2 !!}@endif],
+                        borderColor: '#bbc8e6',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage3) && $js_brandname_now_j_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage3)){!! $js_brandname_now_j_uriage3 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_j_uriage3)){!! $js_brandcode_past_j_uriage3 !!}@endif],
+                        borderColor: '#a2d7dd',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage4) && $js_brandname_now_j_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage4)){!! $js_brandname_now_j_uriage4 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_j_uriage4)){!! $js_brandcode_past_j_uriage4 !!}@endif],
+                        borderColor: '#afafb0',
+                    @endif      
+                    @if(isset($js_brandname_now_j_uriage5) && $js_brandname_now_j_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_j_uriage5)){!! $js_brandname_now_j_uriage5 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_j_uriage5)){!! $js_brandcode_past_j_uriage5 !!}@endif],
+                        borderColor: '#ddbb99',
+                    @endif      
+                    }],
+                    },
+                    options: {
+                        /*y: {
+                        min: 3000000,
+                        max: 1800000000,
+                        },*/
+                    },
+                    });
+                </script>
+<!-- ブランド・ジャック売上用ロジック（チャート部分） end -->
+
+<!-- ブランド・ベティー売上用ロジック（チャート部分） start -->
+                <script type="text/javascript">
+                    var ctx = document.getElementById('mychart2');
+                    var myChart2 = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                        datasets: [{
+                        label: '@if(isset($js_brandname_now_b_uriage1)){!! $js_brandname_now_b_uriage1 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_b_uriage1) && $js_brandname_now_b_uriage1 <> ""){!! $js_brandcode_now_b_uriage1 !!}@endif],
+                        borderColor: '#c53d43',
+                    @if(isset($js_brandname_now_b_uriage2) && $js_brandname_now_b_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage2)){!! $js_brandname_now_b_uriage2 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_b_uriage2)){!! $js_brandcode_now_b_uriage2 !!}@endif],
+                        borderColor: '#007bbb',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage3) && $js_brandname_now_b_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage3)){!! $js_brandname_now_b_uriage3 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_b_uriage3)){!! $js_brandcode_now_b_uriage3 !!}@endif],
+                        borderColor: '#006e54',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage4) && $js_brandname_now_b_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage4)){!! $js_brandname_now_b_uriage4 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_b_uriage4)){!! $js_brandcode_now_b_uriage4 !!}@endif],
+                        borderColor: '#0d0015',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage5) && $js_brandname_now_b_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage5)){!! $js_brandname_now_b_uriage5 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_b_uriage5)){!! $js_brandcode_now_b_uriage5 !!}@endif],
+                        borderColor: '#8d6449',
+                    @endif      
+
+                    @if(isset($js_brandname_now_b_uriage1) && $js_brandname_now_b_uriage1 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage1)){!! $js_brandname_now_b_uriage1 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_b_uriage1)){!! $js_brandcode_past_b_uriage1 !!}@endif],
+                        borderColor: '#e198b4',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage2) && $js_brandname_now_b_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage2)){!! $js_brandname_now_b_uriage2 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_b_uriage2)){!! $js_brandcode_past_b_uriage2 !!}@endif],
+                        borderColor: '#bbc8e6',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage3) && $js_brandname_now_b_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage3)){!! $js_brandname_now_b_uriage3 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_b_uriage3)){!! $js_brandcode_past_b_uriage3 !!}@endif],
+                        borderColor: '#a2d7dd',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage4) && $js_brandname_now_b_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage4)){!! $js_brandname_now_b_uriage4 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_b_uriage4)){!! $js_brandcode_past_b_uriage4 !!}@endif],
+                        borderColor: '#afafb0',
+                    @endif      
+                    @if(isset($js_brandname_now_b_uriage5) && $js_brandname_now_b_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_b_uriage5)){!! $js_brandname_now_b_uriage5 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_b_uriage5)){!! $js_brandcode_past_b_uriage5 !!}@endif],
+                        borderColor: '#ddbb99',
+                    @endif      
+                    }],
+                    },
+                    options: {
+                        /*y: {
+                        min: 3000000,
+                        max: 1800000000,
+                        },*/
+                    },
+                    });
+
+
+                </script>
+<!-- ブランド・ベティー売上用ロジック（チャート部分） end -->
+
+<!-- ブランド・ジュエリー売上用ロジック（チャート部分） start -->
+                <script type="text/javascript">
+                    var ctx = document.getElementById('mychart3');
+                    var myChart3 = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                        datasets: [{
+                        label: '@if(isset($js_brandname_now_jw_uriage1)){!! $js_brandname_now_jw_uriage1 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_jw_uriage1) && $js_brandname_now_jw_uriage1 <> ""){!! $js_brandcode_now_jw_uriage1 !!}@endif],
+                        borderColor: '#c53d43',
+                    @if(isset($js_brandname_now_jw_uriage2) && $js_brandname_now_jw_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage2)){!! $js_brandname_now_jw_uriage2 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_jw_uriage2)){!! $js_brandcode_now_jw_uriage2 !!}@endif],
+                        borderColor: '#007bbb',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage3) && $js_brandname_now_jw_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage3)){!! $js_brandname_now_jw_uriage3 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_jw_uriage3)){!! $js_brandcode_now_jw_uriage3 !!}@endif],
+                        borderColor: '#006e54',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage4) && $js_brandname_now_jw_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage4)){!! $js_brandname_now_jw_uriage4 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_jw_uriage4)){!! $js_brandcode_now_jw_uriage4 !!}@endif],
+                        borderColor: '#0d0015',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage5) && $js_brandname_now_jw_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage5)){!! $js_brandname_now_jw_uriage5 !!}@endif',
+                        data: [@if(isset($js_brandcode_now_jw_uriage5)){!! $js_brandcode_now_jw_uriage5 !!}@endif],
+                        borderColor: '#8d6449',
+                    @endif      
+
+                    @if(isset($js_brandname_now_jw_uriage1) && $js_brandname_now_jw_uriage1 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage1)){!! $js_brandname_now_jw_uriage1 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_jw_uriage1)){!! $js_brandcode_past_jw_uriage1 !!}@endif],
+                        borderColor: '#e198b4',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage2) && $js_brandname_now_jw_uriage2 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage2)){!! $js_brandname_now_jw_uriage2 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_jw_uriage2)){!! $js_brandcode_past_jw_uriage2 !!}@endif],
+                        borderColor: '#bbc8e6',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage3) && $js_brandname_now_jw_uriage3 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage3)){!! $js_brandname_now_jw_uriage3 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_jw_uriage3)){!! $js_brandcode_past_jw_uriage3 !!}@endif],
+                        borderColor: '#a2d7dd',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage4) && $js_brandname_now_jw_uriage4 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage4)){!! $js_brandname_now_jw_uriage4 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_jw_uriage4)){!! $js_brandcode_past_jw_uriage4 !!}@endif],
+                        borderColor: '#afafb0',
+                    @endif      
+                    @if(isset($js_brandname_now_jw_uriage5) && $js_brandname_now_jw_uriage5 <> "")    
+                        }, {
+                        label: '@if(isset($js_brandname_now_jw_uriage5)){!! $js_brandname_now_jw_uriage5 !!}(過去)@endif',
+                        data: [@if(isset($js_brandcode_past_jw_uriage5)){!! $js_brandcode_past_jw_uriage5 !!}@endif],
+                        borderColor: '#ddbb99',
+                    @endif      
+                    }],
+                    },
+                    options: {
+                        /*y: {
+                        min: 3000000,
+                        max: 1800000000,
+                        },*/
+                    },
+                    });
+                </script>
+<!-- ブランド・ジュエリー売上用ロジック（チャート部分） end -->
+
+            <!-- ブランド・売上順用（月毎の数字表示部分） start -->
+                @if(isset($out5_view) && $out5_view == "1" || empty($out5_view))
+                    @if(isset($out5_a) && $out5_a == "ON")
+                        <div class="op2a">
+                            <dd class="op1a">
+                                    @if(isset($all_now_brand_jack_sorce)){!! $all_now_brand_jack_sorce !!}@endif
+                                    @if(isset($all_past_brand_jack_sorce)){!! $all_past_brand_jack_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+
+                    @endif
+                    @if(isset($out5_b) && $out5_b == "ON")
+                        <div class="op2b">
+                            <dd class="op1b">
+                                @if(isset($all_now_brand_betty_sorce)){!! $all_now_brand_betty_sorce !!}@endif
+                                @if(isset($all_past_brand_betty_sorce)){!! $all_past_brand_betty_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+                    @endif
+                    @if(isset($out5_c) && $out5_c == "ON")
+                        <dl class="op2c">
+                            <dd class="op1c">
+                                @if(isset($all_now_brand_jewelry_sorce)){!! $all_now_brand_jewelry_sorce !!}@endif
+                                @if(isset($all_past_brand_jewelry_sorce)){!! $all_past_brand_jewelry_sorce !!}@endif
+                            </dd>
+                        </dl>                                    
+                    @endif
+                @endif
+            <!-- ブランド・売上順用（月毎の数字表示部分） end -->
+
+            <!-- 選択できるブランド数を制限 -->
+                <script>
+                        var max_checked=5;
+                        $(function(){
+                        $('.brand_list :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list :checkbox').closest('.brand_list').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list :checkbox').closest('.brand_list').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        $(function(){
+                        $('.brand_list_b :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list_b').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list_b').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list_b :checkbox').closest('.brand_list_b').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list_b :checkbox').closest('.brand_list_b').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        $(function(){
+                        $('.brand_list_jw :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list_jw').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list_jw').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list_jw :checkbox').closest('.brand_list_jw').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list_jw :checkbox').closest('.brand_list_jw').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+
+                </script>
+            
+            <!-- 各部門表示ボタン押下時にボタンの部門のみ表示させるためのロジック -->
+                <script>
+                    /* デフォルト時（全非表示） */
+                        $(".op1a").hide();
+                        $(".op1b").hide();
+                        $(".op1c").hide();
+                        $(".chart1").hide();
+                        $(".chart2").hide();
+                        $(".chart3").hide();
+                    /* ジャック表示ボタン押下時 */
+                        $(".brand_btn1").on("click", function (e) {
+                            $(".brand_btn1").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1b").hide();
+                            $(".op1c").hide();
+                        $(".op1a", ".op2a").slideToggle(200);
+                        if ($(".op2a").hasClass("opena")) {
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2a").addClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".op2c").removeClass("openc");
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                            $(".chart1").fadeIn();
+                        }  
+                        });
+                    /* ベティー表示ボタン押下時 */
+                        $(".brand_btn2").on("click", function (e) {
+                            $(".brand_btn2").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1a").hide();
+                            $(".op1c").hide();
+                        $(".op1b", ".op2b").slideToggle(200);
+                        if ($(".op2b").hasClass("openb")) {
+                            $(".op2b").removeClass("openb");
+                            $(".op2a").removeClass("opena");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2b").addClass("openb");
+                            $(".op2a").removeClass("opena");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart3").fadeOut();
+                            $(".chart2").fadeIn();
+                        }  
+                        });
+                    /* ジュエリー表示ボタン押下時 */
+                        $(".brand_btn3").on("click", function (e) {
+                            $(".brand_btn3").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1a").hide();
+                            $(".op1b").hide();
+                        $(".op1c", ".op2c").slideToggle(200);
+                        if ($(".op2c").hasClass("openc")) {
+                            $(".op2c").removeClass("openc");
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2c").addClass("openc");
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeIn();
+                        }  
+                        });
+                </script> 
+
+            <!-- 各部門表示ボタン押下後に検索ボタンを押した時に元の表示を保持するためのロジック -->
+                <script>
+                    $(document).ready(function(){
+                        @if(isset($brand_bumon_select))
+                            @if($brand_bumon_select == "jack")
+                                $(".chart1").fadeIn();
+                                $(".op2a").fadeIn();
+                                $(".chart2").hide();
+                                $(".chart3").hide();
+                                $(".op1a").fadeIn();
+                                $(".op2a").addClass("opena");
+                                $(".brand_btn1").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+                            @elseif($brand_bumon_select == "betty")
+                                $(".chart1").hide();
+                                $(".chart2").fadeIn();
+                                $(".op2b").fadeIn();
+                                $(".chart3").hide();
+                                $(".op1b").fadeIn();
+                                $(".op2b").addClass("openb");
+                                $(".brand_btn2").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn3").css({'background':'#ffffff','color' :'#000000'});
+                            @elseif($brand_bumon_select == "jewelry")
+                                $(".chart1").hide();
+                                $(".chart2").hide();
+                                $(".chart3").fadeIn();
+                                $(".op1c").fadeIn();
+                                $(".op2c").addClass("openc");
+                                $(".brand_btn3").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn1").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2").css({'background':'#ffffff','color' :'#000000'});
+
+                            @endif
+                        @endif
+                    });
+                </script>
 
 
 
 
 
 
+                                                
+            @endif
+        <!-- ブランド・売上順用 end -->
+                                            
+        <!-- ブランド・点数順用 start -->
+            @if(isset($out5_view) && $out5_view == "2")
+                <!-- 部門切り替えボタン部分  -->
+                    <div class="btn_ul">
+                        @if(isset($out5_a) && $out5_a == "ON")
+                            <input type="text" name="brand_jack" class= "brand_btn1b" value="Jack・売上点数表示">
+                        @endif
+                        @if(isset($out5_b) && $out5_b == "ON")
+                            <input type="text" name="brand_betty" class= "brand_btn2b" value="Betty・売上点数表示">
+                        @endif
+                        @if(isset($out5_c) && $out5_c == "ON")
+                            <input type="text" name="brand_jewelry" class= "brand_btn3b" value="Jewelry・売上点数表示">
+                        @endif
+                        <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
+                            <input type="text" class="brand_bumon_select" style="display:none;" name="brand_bumon_select" value="">
+                                <script type="text/javascript">
+                                    $(".brand_btn1b").on("click", function (e) {
+                                        $('.brand_bumon_select').val('jack');
+                                    });
+                                    $(".brand_btn2b").on("click", function (e) {
+                                        $('.brand_bumon_select').val('betty');
+                                    });
+                                    $(".brand_btn3b").on("click", function (e) {
+                                        $('.brand_bumon_select').val('jewelry');
+                                    });
+                                </script>
+                    </div>
+
+                <!-- チャートの表示部分 -->
+                    @if(isset($out5_a) && $out5_a == "ON" && isset($brandselect) && $brandselect <> "")
+                        <div class="chart1 section">
+                            <!--<p class="title_s2">Jack・ブランド別売上額</p>-->
+                            <canvas id="mychart"></canvas>
+                        </div>
+                    @endif
+                    @if(isset($out5_b) && $out5_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
+                        <div class="chart2 section">
+                            <!--<p class="title_s2">Betty・ブランド別売上額</p>-->
+                            <canvas id="mychart2"></canvas>
+                        </div>
+                    @endif
+                    @if(isset($out5_c) && $out5_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
+                        <div class="chart3 section">
+                            <!--<p class="title_s2">Jewelry・ブランド別売上額</p>-->
+                            <canvas id="mychart3"></canvas>
+                        </div>
+                    @endif
 
 
 
+<!-- ブランド・ジャック売上点数用ロジック（チャート部分） start -->
+                <script>
 
 
 
+                                                    var ctx = document.getElementById('mychart');
+                                                    var myChart = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                        datasets: [{
+                                                        label: '@if(isset($js_brandname_now_j_uriage1)){!! $js_brandname_now_j_uriage1 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_j_honsuu1) && $js_brandname_now_j_uriage1 <> ""){!! $js_brandcode_now_j_honsuu1 !!}@endif],
+                                                        borderColor: '#c53d43',
+                                                    @if(isset($js_brandname_now_j_uriage2) && $js_brandname_now_j_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage2)){!! $js_brandname_now_j_uriage2 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_j_honsuu2)){!! $js_brandcode_now_j_honsuu2 !!}@endif],
+                                                        borderColor: '#007bbb',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage3) && $js_brandname_now_j_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage3)){!! $js_brandname_now_j_uriage3 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_j_honsuu3)){!! $js_brandcode_now_j_honsuu3 !!}@endif],
+                                                        borderColor: '#006e54',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage4) && $js_brandname_now_j_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage4)){!! $js_brandname_now_j_uriage4 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_j_honsuu4)){!! $js_brandcode_now_j_honsuu4 !!}@endif],
+                                                        borderColor: '#0d0015',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage5) && $js_brandname_now_j_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage5)){!! $js_brandname_now_j_uriage5 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_j_honsuu5)){!! $js_brandcode_now_j_honsuu5 !!}@endif],
+                                                        borderColor: '#8d6449',
+                                                    @endif      
+
+                                                    @if(isset($js_brandname_now_j_uriage1) && $js_brandname_now_j_uriage1 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage1)){!! $js_brandname_now_j_uriage1 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_j_honsuu1)){!! $js_brandcode_past_j_honsuu1 !!}@endif],
+                                                        borderColor: '#e198b4',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage2) && $js_brandname_now_j_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage2)){!! $js_brandname_now_j_uriage2 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_j_honsuu2)){!! $js_brandcode_past_j_honsuu2 !!}@endif],
+                                                        borderColor: '#bbc8e6',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage3) && $js_brandname_now_j_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage3)){!! $js_brandname_now_j_uriage3 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_j_honsuu3)){!! $js_brandcode_past_j_honsuu3 !!}@endif],
+                                                        borderColor: '#a2d7dd',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage4) && $js_brandname_now_j_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage4)){!! $js_brandname_now_j_uriage4 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_j_honsuu4)){!! $js_brandcode_past_j_honsuu4 !!}@endif],
+                                                        borderColor: '#afafb0',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_j_uriage5) && $js_brandname_now_j_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_j_uriage5)){!! $js_brandname_now_j_uriage5 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_j_honsuu5)){!! $js_brandcode_past_j_honsuu5 !!}@endif],
+                                                        borderColor: '#ddbb99',
+                                                    @endif      
+                                                    }],
+                                                    },
+                                                    options: {
+                                                        /*y: {
+                                                        min: 3000000,
+                                                        max: 1800000000,
+                                                        },*/
+                                                    },
+                                                    });
+</script>
+<!-- ブランド・ジャック売上点数用ロジック（チャート部分） start -->
+
+<!-- ブランド・ベティー売上点数用ロジック（チャート部分） start -->
+                <script type="text/javascript">
 
 
 
+                                                    var ctx = document.getElementById('mychart2');
+                                                    var myChart2 = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                        datasets: [{
+                                                        label: '@if(isset($js_brandname_now_b_uriage1)){!! $js_brandname_now_b_uriage1 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_b_honsuu1) && $js_brandname_now_b_uriage1 <> ""){!! $js_brandcode_now_b_honsuu1 !!}@endif],
+                                                        borderColor: '#c53d43',
+                                                    @if(isset($js_brandname_now_b_uriage2) && $js_brandname_now_b_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage2)){!! $js_brandname_now_b_uriage2 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_b_honsuu2)){!! $js_brandcode_now_b_honsuu2 !!}@endif],
+                                                        borderColor: '#007bbb',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage3) && $js_brandname_now_b_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage3)){!! $js_brandname_now_b_uriage3 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_b_honsuu3)){!! $js_brandcode_now_b_honsuu3 !!}@endif],
+                                                        borderColor: '#006e54',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage4) && $js_brandname_now_b_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage4)){!! $js_brandname_now_b_uriage4 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_b_honsuu4)){!! $js_brandcode_now_b_honsuu4 !!}@endif],
+                                                        borderColor: '#0d0015',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage5) && $js_brandname_now_b_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage5)){!! $js_brandname_now_b_uriage5 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_b_honsuu5)){!! $js_brandcode_now_b_honsuu5 !!}@endif],
+                                                        borderColor: '#8d6449',
+                                                    @endif      
 
+                                                    @if(isset($js_brandname_now_b_uriage1) && $js_brandname_now_b_uriage1 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage1)){!! $js_brandname_now_b_uriage1 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_b_honsuu1)){!! $js_brandcode_past_b_honsuu1 !!}@endif],
+                                                        borderColor: '#e198b4',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage2) && $js_brandname_now_b_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage2)){!! $js_brandname_now_b_uriage2 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_b_honsuu2)){!! $js_brandcode_past_b_honsuu2 !!}@endif],
+                                                        borderColor: '#bbc8e6',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage3) && $js_brandname_now_b_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage3)){!! $js_brandname_now_b_uriage3 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_b_honsuu3)){!! $js_brandcode_past_b_honsuu3 !!}@endif],
+                                                        borderColor: '#a2d7dd',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage4) && $js_brandname_now_b_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage4)){!! $js_brandname_now_b_uriage4 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_b_honsuu4)){!! $js_brandcode_past_b_honsuu4 !!}@endif],
+                                                        borderColor: '#afafb0',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_b_uriage5) && $js_brandname_now_b_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_b_uriage5)){!! $js_brandname_now_b_uriage5 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_b_honsuu5)){!! $js_brandcode_past_b_honsuu5 !!}@endif],
+                                                        borderColor: '#ddbb99',
+                                                    @endif      
+                                                    }],
+                                                    },
+                                                    options: {
+                                                        /*y: {
+                                                        min: 3000000,
+                                                        max: 1800000000,
+                                                        },*/
+                                                    },
+                                                    });
+                                                    
+</script>
+<!-- ブランド・ベティー売上点数用ロジック（チャート部分） end -->
+
+<!-- ブランド・ジュエリー売上点数用ロジック（チャート部分） start -->
+                <script type="text/javascript">
+
+                                                    var ctx = document.getElementById('mychart3');
+                                                    var myChart3 = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                        datasets: [{
+                                                        label: '@if(isset($js_brandname_now_jw_uriage1)){!! $js_brandname_now_jw_uriage1 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_jw_honsuu1) && $js_brandname_now_jw_uriage1 <> ""){!! $js_brandcode_now_jw_honsuu1 !!}@endif],
+                                                        borderColor: '#c53d43',
+                                                    @if(isset($js_brandname_now_jw_uriage2) && $js_brandname_now_jw_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage2)){!! $js_brandname_now_jw_uriage2 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_jw_honsuu2)){!! $js_brandcode_now_jw_honsuu2 !!}@endif],
+                                                        borderColor: '#007bbb',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage3) && $js_brandname_now_jw_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage3)){!! $js_brandname_now_jw_uriage3 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_jw_honsuu3)){!! $js_brandcode_now_jw_honsuu3 !!}@endif],
+                                                        borderColor: '#006e54',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage4) && $js_brandname_now_jw_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage4)){!! $js_brandname_now_jw_uriage4 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_jw_honsuu4)){!! $js_brandcode_now_jw_honsuu4 !!}@endif],
+                                                        borderColor: '#0d0015',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage5) && $js_brandname_now_jw_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage5)){!! $js_brandname_now_jw_uriage5 !!}@endif',
+                                                        data: [@if(isset($js_brandcode_now_jw_honsuu5)){!! $js_brandcode_now_jw_honsuu5 !!}@endif],
+                                                        borderColor: '#8d6449',
+                                                    @endif      
+
+                                                    @if(isset($js_brandname_now_jw_uriage1) && $js_brandname_now_jw_uriage1 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage1)){!! $js_brandname_now_jw_uriage1 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_jw_honsuu1)){!! $js_brandcode_past_jw_honsuu1 !!}@endif],
+                                                        borderColor: '#e198b4',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage2) && $js_brandname_now_jw_uriage2 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage2)){!! $js_brandname_now_jw_uriage2 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_jw_honsuu2)){!! $js_brandcode_past_jw_honsuu2 !!}@endif],
+                                                        borderColor: '#bbc8e6',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage3) && $js_brandname_now_jw_uriage3 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage3)){!! $js_brandname_now_jw_uriage3 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_jw_honsuu3)){!! $js_brandcode_past_jw_honsuu3 !!}@endif],
+                                                        borderColor: '#a2d7dd',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage4) && $js_brandname_now_jw_uriage4 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage4)){!! $js_brandname_now_jw_uriage4 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_jw_honsuu4)){!! $js_brandcode_past_jw_honsuu4 !!}@endif],
+                                                        borderColor: '#afafb0',
+                                                    @endif      
+                                                    @if(isset($js_brandname_now_jw_uriage5) && $js_brandname_now_jw_uriage5 <> "")    
+                                                        }, {
+                                                        label: '@if(isset($js_brandname_now_jw_uriage5)){!! $js_brandname_now_jw_uriage5 !!}(過去)@endif',
+                                                        data: [@if(isset($js_brandcode_past_jw_honsuu5)){!! $js_brandcode_past_jw_honsuu5 !!}@endif],
+                                                        borderColor: '#ddbb99',
+                                                    @endif      
+                                                    }],
+                                                    },
+                                                    options: {
+                                                        /*y: {
+                                                        min: 3000000,
+                                                        max: 1800000000,
+                                                        },*/
+                                                    },
+                                                    });
+                                                    
+</script>
+<!-- ブランド・ジュエリー売上点数用ロジック（チャート部分） end -->
+                                
+            @endif                    
+            <!-- ブランド・点数順用 start
+                @if(isset($out5_view) && $out5_view == "2")
+
+                    <div class="chart1">
+                        @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
+                        @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
+                    </div>
+                    <div class="chart2" style="display:none;">
+                        @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
+                        @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
+                    </div>
+                    <div class="chart3" style="display:none;">
+                        @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
+                        @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
+                    </div>
+                @endif -->
+
+                @if(isset($out5_view) && $out5_view == "2" || empty($out5_view))
+                    @if(isset($out5_a) && $out5_a == "ON")
+                        <div class="op2a">
+                            <dd class="op1a">
+                                    @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
+                                    @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
+                            </dd>
+                        </div>          
+
+                    @endif
+                    @if(isset($out5_b) && $out5_b == "ON")
+                        <div class="op2b">
+                            <dd class="op1b">
+                                @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
+                                @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+                    @endif
+                    @if(isset($out5_c) && $out5_c == "ON")
+                        <dl class="op2c">
+                            <dd class="op1c">
+                                @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
+                                @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
+                            </dd>
+                        </dl>                                    
+                    @endif
+                @endif
+
+                
+            <!-- ブランド・点数順用 end -->
+            <!-- 選択できるブランド数を制限 -->
+            <script>
+                        var max_checked=5;
+                        $(function(){
+                        $('.brand_list :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list :checkbox').closest('.brand_list').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list :checkbox').closest('.brand_list').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        $(function(){
+                        $('.brand_list_b :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list_b').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list_b').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list_b :checkbox').closest('.brand_list_b').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list_b :checkbox').closest('.brand_list_b').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        $(function(){
+                        $('.brand_list_jw :checkbox').on('change',function(){
+                            var flg=$(this).closest('.brand_list_jw').find(':checkbox:checked').length>=max_checked;
+                            $(this).closest('.brand_list_jw').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+                        });
+                        $(document).ready(function(){
+                            var flg=$('.brand_list_jw :checkbox').closest('.brand_list_jw').find(':checkbox:checked').length>=max_checked;
+                            $('.brand_list_jw :checkbox').closest('.brand_list_jw').find(':checkbox:not(:checked)').prop('disabled',flg);
+                        });
+
+                </script>
+            
+            <!-- 各部門表示ボタン押下時にボタンの部門のみ表示させるためのロジック -->
+                <script>
+                    /* デフォルト時（全非表示） */
+                        $(".op1a").hide();
+                        $(".op1b").hide();
+                        $(".op1c").hide();
+                        $(".chart1").hide();
+                        $(".chart2").hide();
+                        $(".chart3").hide();
+                    /* ジャック表示ボタン押下時 */
+                        $(".brand_btn1b").on("click", function (e) {
+                            $(".brand_btn1b").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1b").hide();
+                            $(".op1c").hide();
+                        $(".op1a", ".op2a").slideToggle(200);
+                        if ($(".op2a").hasClass("opena")) {
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2a").addClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".op2c").removeClass("openc");
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                            $(".chart1").fadeIn();
+                        }  
+                        });
+                    /* ベティー表示ボタン押下時 */
+                        $(".brand_btn2b").on("click", function (e) {
+                            $(".brand_btn2b").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1a").hide();
+                            $(".op1c").hide();
+                        $(".op1b", ".op2b").slideToggle(200);
+                        if ($(".op2b").hasClass("openb")) {
+                            $(".op2b").removeClass("openb");
+                            $(".op2a").removeClass("opena");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2b").addClass("openb");
+                            $(".op2a").removeClass("opena");
+                            $(".op2c").removeClass("openc");
+                            $(".chart1").fadeOut();
+                            $(".chart3").fadeOut();
+                            $(".chart2").fadeIn();
+                        }  
+                        });
+                    /* ジュエリー表示ボタン押下時 */
+                        $(".brand_btn3b").on("click", function (e) {
+                            $(".brand_btn3b").css({'background':'#000000','color' :'#ffffff'});
+                            $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
+                            $(".op1a").hide();
+                            $(".op1b").hide();
+                        $(".op1c", ".op2c").slideToggle(200);
+                        if ($(".op2c").hasClass("openc")) {
+                            $(".op2c").removeClass("openc");
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeOut();
+                        } else {
+                            $(".op2c").addClass("openc");
+                            $(".op2a").removeClass("opena");
+                            $(".op2b").removeClass("openb");
+                            $(".chart1").fadeOut();
+                            $(".chart2").fadeOut();
+                            $(".chart3").fadeIn();
+                        }  
+                        });
+                </script> 
+
+            <!-- 各部門表示ボタン押下後に検索ボタンを押した時に元の表示を保持するためのロジック -->
+                <script>
+                    $(document).ready(function(){
+                        @if(isset($brand_bumon_select))
+                            @if($brand_bumon_select == "jack")
+                                $(".chart1").fadeIn();
+                                $(".op2a").fadeIn();
+                                $(".chart2").hide();
+                                $(".chart3").hide();
+                                $(".op1a").fadeIn();
+                                $(".op2a").addClass("opena");
+                                $(".brand_btn1b").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+                            @elseif($brand_bumon_select == "betty")
+                                $(".chart1").hide();
+                                $(".chart2").fadeIn();
+                                $(".op2b").fadeIn();
+                                $(".chart3").hide();
+                                $(".op1b").fadeIn();
+                                $(".op2b").addClass("openb");
+                                $(".brand_btn2b").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn3b").css({'background':'#ffffff','color' :'#000000'});
+                            @elseif($brand_bumon_select == "jewelry")
+                                $(".chart1").hide();
+                                $(".chart2").hide();
+                                $(".chart3").fadeIn();
+                                $(".op1c").fadeIn();
+                                $(".op2c").addClass("openc");
+                                $(".brand_btn3b").css({'background':'#000000','color' :'#ffffff'});
+                                $(".brand_btn1b").css({'background':'#ffffff','color' :'#000000'});
+                                $(".brand_btn2b").css({'background':'#ffffff','color' :'#000000'});
+
+                            @endif
+                        @endif
+                    });
+                </script>
+
+
+
+    @endif
 <!-- 全ブランド用 end -->
+                 
+
+
                                 </div>
                             <!-- 検索結果表示 END -->
 
