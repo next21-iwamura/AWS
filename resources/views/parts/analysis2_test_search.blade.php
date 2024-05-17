@@ -701,10 +701,10 @@ box-sizing: border-box;
                                 <!-- [在庫]月別用 -->
                                     @if(isset($output) && $output == 1)
                                             <div class="ta_c">
-                                            <p class="sub_title">扱い部門</p>
-                                                <input type="checkbox" name="out1[]" value="1" checked="checked" disabled="disabled">Jack
-                                                <input type="checkbox" name="out1[]" value="2" checked="checked" disabled="disabled">Betty
-                                                <input type="checkbox" name="out1[]" value="3" checked="checked" disabled="disabled">Jewelry
+                                                <p class="sub_title">扱い部門</p>
+                                                <input type="checkbox" name="out1[]" @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>Jack
+                                                <input type="checkbox" name="out1[]" @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>Betty
+                                                <input type="checkbox" name="out1[]" @if(isset($out1_c) && $out1_c <> "OFF") checked @elseif (empty($out1_c)) checked @endif>Jewelry
                                                 <p class="sub_title">商品区分</p>
                                                 <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
                                                 <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
@@ -720,36 +720,22 @@ box-sizing: border-box;
                                 <!-- ブランド用 -->
                                     @if(isset($output) && $output == 2)
                                             <div class="ta_c">
-                                                <p class="sub_title">売却区分</p>
-                                                <input type="checkbox" name="out1[]" value="2" @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>店舗
-                                                <input type="checkbox" name="out1[]" value="3" @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>通販
-                                                <input type="checkbox" name="out1[]" value="4" @if(isset($out1_c) && $out1_c <> "OFF") checked @endif>卸
-                                                <input type="checkbox" name="out1[]" value="5" @if(isset($out1_d) && $out1_d <> "OFF") checked @endif>その他
+                                                <p class="sub_title">扱い部門</p>
+                                                <input type="checkbox" name="out1[]" value="1" checked="checked" disabled="disabled">Jack
+                                                <input type="checkbox" name="out1[]" value="2" checked="checked" disabled="disabled">Betty
+                                                <input type="checkbox" name="out1[]" value="3" checked="checked" disabled="disabled">Jewelry
                                                 <p class="sub_title">商品区分</p>
                                                 <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
                                                 <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
                                                 <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @elseif (empty($out2_c)) checked @endif>アンティーク<br>
-                                                <input type="checkbox" name="out2[]" value="4" @if(isset($out2_d) && $out2_d <> "OFF") checked @endif>その他
-                                                <input type="checkbox" name="out2[]" value="5" @if(isset($out2_e) && $out2_e <> "OFF") checked @endif>修理
-                                                <p class="sub_title">通販区分</p>
-                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>自社
-                                                <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @elseif (empty($out3_b)) checked @endif>楽天
-                                                <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @elseif (empty($out3_c)) checked @endif>ヤフー<br>
-                                                <input type="checkbox" name="out3[]" value="4" @if(isset($out3_d) && $out3_d <> "OFF") checked @elseif (empty($out3_d)) checked @endif>電話・雑誌
-                                                <input type="checkbox" name="out3[]" value="5" @if(isset($out3_e) && $out3_e <> "OFF") checked @elseif (empty($out3_e)) checked @endif>Yオークション<br>
-                                                <input type="checkbox" name="out3[]" value="6" @if(isset($out3_f) && $out3_f <> "OFF") checked @elseif (empty($out3_f)) checked @endif>修理品返送
-                                                <p class="sub_title">免税区分</p>
-                                                <input type="checkbox" name="out4[]" value="1" @if(isset($out4_a) && $out4_a <> "OFF") checked @elseif (empty($out4_a)) checked @endif>対象外
-                                                <input type="checkbox" name="out4[]" value="2" @if(isset($out4_b) && $out4_b <> "OFF") checked @elseif (empty($out4_b)) checked @endif>免税
-                                                <p class="sub_title">ブランド</p>
-                                                <input type="checkbox" name="out5[]" value="2" @if(isset($out5_a) && $out5_a <> "OFF") checked @elseif (empty($out5_a)) checked @endif>Jack
-                                                <input type="checkbox" name="out5[]" value="3" @if(isset($out5_b) && $out5_b <> "OFF") checked @elseif (empty($out5_b)) checked @endif>Betty
-                                                <input type="checkbox" name="out5[]" value="4" @if(isset($out5_c) && $out5_c <> "OFF") checked @elseif (empty($out5_c)) checked @endif>Jewelry
                                                 <p>
-                                                <input type="radio" name="out5_view" value="1" @if(isset($out5_view) && $out5_view == "1" || empty($out5_view)) checked @endif>売上金額順
-                                                <input type="radio" name="out5_view" value="2" @if(isset($out5_view) && $out5_view == "2") checked @endif>売上点数順  
+                                                <input type="radio" name="out1_view" value="1" @if(isset($out1_view) && $out1_view == "1" || empty($out1_view)) checked @endif>在庫金額順
+                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2") checked @endif>在庫点数順  
                                                 </p>
-                                    
+                                                <p class="sub_title">条件</p>
+                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>修理在庫を除く<br>
+                                                <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @endif>ブランド名無しを除く<br>
+                                                <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @endif>商品ID無しを除く<br>
                                                 <p class="ta_c"><button type="submit" id="search2" name="search2" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
                                             </div>
                                     @endif
@@ -793,8 +779,8 @@ box-sizing: border-box;
                                                     </ol>
                                                     <p style="font-weight:bold;border-bottom:1px dotted #666666;border-left:5px solid #666666;padding-left:.5em;margin: top 2px;em;">備考</p>
                                                     <ol>
-                                                    <li>[売上]サマリの「ベティー」の値と、[売上]ベティー区分の「各ベティー区分の合計」の値に差異がある事について</li>
-                                                    <p>→稀にある「ジャック」にて「ベティー区分」の売上がたつ事により差が生まれる。[売上]サマリは「ジャック」と「ベティー」で分かれている為、「ジャック」の「ベティー区分」は「ベティー」には含まれない。よって、全ての「ベティー区分」を含む[売上]ベティー区分の「各ベティー区分の合計」と差が出る。</p>
+                                                    <li>[在庫]サマリの「ベティー」の値と、[在庫]ベティー区分の「各ベティー区分の合計」の値に差異がある事について</li>
+                                                    <p>→稀にある「ジャック」にて「ベティー区分」の在庫がたつ事により差が生まれる。[在庫]サマリは「ジャック」と「ベティー」で分かれている為、「ジャック」の「ベティー区分」は「ベティー」には含まれない。よって、全ての「ベティー区分」を含む[在庫]ベティー区分の「各ベティー区分の合計」と差が出る。</p>
                                                     </ol>
                                                 </div>
                                         </div>
@@ -898,7 +884,7 @@ box-sizing: border-box;
                                                 <input type="button" class= "brand_btn2 btn2" value="点数・推移表示" style= "width:48%;">
                                                 <input type="button" class= "brand_btn3 btn3" value="金額構成比・推移表示" style= "width:48%;">
                                                 <input type="button" class= "brand_btn4 btn4" value="点数構成比・推移表示" style= "width:48%;">
-
+                                            </div>
                                                 <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
                                                     <input type="text" class="view_select" style="display:none;" name="view_select" value="">
                                                         <script type="text/javascript">
@@ -1164,7 +1150,6 @@ box-sizing: border-box;
                                                 });
                                                 
 
-      @endif
 
 
 
@@ -1203,11 +1188,11 @@ box-sizing: border-box;
 
 
 
-                            </div>
-                   
+
                    
              
-                   
+          @endif
+               
                    
                    
                    
@@ -1223,18 +1208,18 @@ box-sizing: border-box;
 
         <div class="" style="width:100%;">
 
-        <!-- ブランド・売上順用 start  -->
-            @if(isset($out5_view) && $out5_view == "1")
+        <!-- ブランド・在庫順用 start  -->
+            @if(isset($out1_view) && $out1_view == "1")
                 <!-- 部門切り替えボタン部分  -->
                     <div class="btn_ul">
-                        @if(isset($out5_a) && $out5_a == "ON")
-                            <input type="text" name="brand_jack" class= "brand_btn1" value="Jack・売上額表示">
+                        @if(isset($out1_a) && $out1_a == "ON")
+                            <input type="text" name="brand_jack" class= "brand_btn1" value="Jack・在庫額表示">
                         @endif
-                        @if(isset($out5_b) && $out5_b == "ON")
-                            <input type="text" name="brand_betty" class= "brand_btn2" value="Betty・売上額表示">
+                        @if(isset($out1_b) && $out1_b == "ON")
+                            <input type="text" name="brand_betty" class= "brand_btn2" value="Betty・在庫額表示">
                         @endif
-                        @if(isset($out5_c) && $out5_c == "ON")
-                            <input type="text" name="brand_jewelry" class= "brand_btn3" value="Jewelry・売上額表示">
+                        @if(isset($out1_c) && $out1_c == "ON")
+                            <input type="text" name="brand_jewelry" class= "brand_btn3" value="Jewelry・在庫額表示">
                         @endif
                         <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
                             <input type="text" class="brand_bumon_select" style="display:none;" name="brand_bumon_select" value="">
@@ -1252,28 +1237,28 @@ box-sizing: border-box;
                     </div>
 
                 <!-- チャートの表示部分 -->
-                    @if(isset($out5_a) && $out5_a == "ON" && isset($brandselect) && $brandselect <> "")
+                    @if(isset($out1_a) && $out1_a == "ON" && isset($brandselect) && $brandselect <> "")
                         <div class="chart1 section">
-                            <!--<p class="title_s2">Jack・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Jack・ブランド別在庫</p>-->
                             <canvas id="mychart"></canvas>
                         </div>
                     @endif
-                    @if(isset($out5_b) && $out5_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
+                    @if(isset($out1_b) && $out1_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
                         <div class="chart2 section">
-                            <!--<p class="title_s2">Betty・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Betty・ブランド別在庫</p>-->
                             <canvas id="mychart2"></canvas>
                         </div>
                     @endif
-                    @if(isset($out5_c) && $out5_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
+                    @if(isset($out1_c) && $out1_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
                         <div class="chart3 section">
-                            <!--<p class="title_s2">Jewelry・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Jewelry・ブランド別在庫</p>-->
                             <canvas id="mychart3"></canvas>
                         </div>
                     @endif
 
 
 
-<!-- ブランド・ジャック売上用ロジック（チャート部分） start -->
+<!-- ブランド・ジャック在庫用ロジック（チャート部分） start -->
                 <script>
                     var ctx = document.getElementById('mychart');
                     var myChart = new Chart(ctx, {
@@ -1349,9 +1334,9 @@ box-sizing: border-box;
                     },
                     });
                 </script>
-<!-- ブランド・ジャック売上用ロジック（チャート部分） end -->
+<!-- ブランド・ジャック在庫用ロジック（チャート部分） end -->
 
-<!-- ブランド・ベティー売上用ロジック（チャート部分） start -->
+<!-- ブランド・ベティー在庫用ロジック（チャート部分） start -->
                 <script type="text/javascript">
                     var ctx = document.getElementById('mychart2');
                     var myChart2 = new Chart(ctx, {
@@ -1429,9 +1414,9 @@ box-sizing: border-box;
 
 
                 </script>
-<!-- ブランド・ベティー売上用ロジック（チャート部分） end -->
+<!-- ブランド・ベティー在庫用ロジック（チャート部分） end -->
 
-<!-- ブランド・ジュエリー売上用ロジック（チャート部分） start -->
+<!-- ブランド・ジュエリー在庫用ロジック（チャート部分） start -->
                 <script type="text/javascript">
                     var ctx = document.getElementById('mychart3');
                     var myChart3 = new Chart(ctx, {
@@ -1507,11 +1492,11 @@ box-sizing: border-box;
                     },
                     });
                 </script>
-<!-- ブランド・ジュエリー売上用ロジック（チャート部分） end -->
+<!-- ブランド・ジュエリー在庫用ロジック（チャート部分） end -->
 
-            <!-- ブランド・売上順用（月毎の数字表示部分） start -->
-                @if(isset($out5_view) && $out5_view == "1" || empty($out5_view))
-                    @if(isset($out5_a) && $out5_a == "ON")
+            <!-- ブランド・在庫順用（月毎の数字表示部分） start -->
+                @if(isset($out1_view) && $out1_view == "1" || empty($out1_view))
+                    @if(isset($out1_a) && $out1_a == "ON")
                         <div class="op2a">
                             <dd class="op1a">
                                     @if(isset($all_now_brand_jack_sorce)){!! $all_now_brand_jack_sorce !!}@endif
@@ -1520,7 +1505,7 @@ box-sizing: border-box;
                         </div>                                    
 
                     @endif
-                    @if(isset($out5_b) && $out5_b == "ON")
+                    @if(isset($out1_b) && $out1_b == "ON")
                         <div class="op2b">
                             <dd class="op1b">
                                 @if(isset($all_now_brand_betty_sorce)){!! $all_now_brand_betty_sorce !!}@endif
@@ -1528,7 +1513,7 @@ box-sizing: border-box;
                             </dd>
                         </div>                                    
                     @endif
-                    @if(isset($out5_c) && $out5_c == "ON")
+                    @if(isset($out1_c) && $out1_c == "ON")
                         <dl class="op2c">
                             <dd class="op1c">
                                 @if(isset($all_now_brand_jewelry_sorce)){!! $all_now_brand_jewelry_sorce !!}@endif
@@ -1537,7 +1522,7 @@ box-sizing: border-box;
                         </dl>                                    
                     @endif
                 @endif
-            <!-- ブランド・売上順用（月毎の数字表示部分） end -->
+            <!-- ブランド・在庫順用（月毎の数字表示部分） end -->
 
             <!-- 選択できるブランド数を制限 -->
                 <script>
@@ -1704,20 +1689,20 @@ box-sizing: border-box;
 
                                                 
             @endif
-        <!-- ブランド・売上順用 end -->
+        <!-- ブランド・在庫順用 end -->
                                             
         <!-- ブランド・点数順用 start -->
-            @if(isset($out5_view) && $out5_view == "2")
+            @if(isset($out1_view) && $out1_view == "2")
                 <!-- 部門切り替えボタン部分  -->
                     <div class="btn_ul">
-                        @if(isset($out5_a) && $out5_a == "ON")
-                            <input type="text" name="brand_jack" class= "brand_btn1b" value="Jack・売上点数表示">
+                        @if(isset($out1_a) && $out1_a == "ON")
+                            <input type="text" name="brand_jack" class= "brand_btn1b" value="Jack・在庫点数表示">
                         @endif
-                        @if(isset($out5_b) && $out5_b == "ON")
-                            <input type="text" name="brand_betty" class= "brand_btn2b" value="Betty・売上点数表示">
+                        @if(isset($out1_b) && $out1_b == "ON")
+                            <input type="text" name="brand_betty" class= "brand_btn2b" value="Betty・在庫点数表示">
                         @endif
-                        @if(isset($out5_c) && $out5_c == "ON")
-                            <input type="text" name="brand_jewelry" class= "brand_btn3b" value="Jewelry・売上点数表示">
+                        @if(isset($out1_c) && $out1_c == "ON")
+                            <input type="text" name="brand_jewelry" class= "brand_btn3b" value="Jewelry・在庫点数表示">
                         @endif
                         <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
                             <input type="text" class="brand_bumon_select" style="display:none;" name="brand_bumon_select" value="">
@@ -1735,28 +1720,28 @@ box-sizing: border-box;
                     </div>
 
                 <!-- チャートの表示部分 -->
-                    @if(isset($out5_a) && $out5_a == "ON" && isset($brandselect) && $brandselect <> "")
+                    @if(isset($out1_a) && $out1_a == "ON" && isset($brandselect) && $brandselect <> "")
                         <div class="chart1 section">
-                            <!--<p class="title_s2">Jack・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Jack・ブランド別在庫</p>-->
                             <canvas id="mychart"></canvas>
                         </div>
                     @endif
-                    @if(isset($out5_b) && $out5_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
+                    @if(isset($out1_b) && $out1_b == "ON" && isset($brandselect_b) && $brandselect_b <> "")
                         <div class="chart2 section">
-                            <!--<p class="title_s2">Betty・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Betty・ブランド別在庫</p>-->
                             <canvas id="mychart2"></canvas>
                         </div>
                     @endif
-                    @if(isset($out5_c) && $out5_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
+                    @if(isset($out1_c) && $out1_c == "ON" && isset($brandselect_jw) && $brandselect_jw <> "")
                         <div class="chart3 section">
-                            <!--<p class="title_s2">Jewelry・ブランド別売上額</p>-->
+                            <!--<p class="title_s2">Jewelry・ブランド別在庫</p>-->
                             <canvas id="mychart3"></canvas>
                         </div>
                     @endif
 
 
 
-<!-- ブランド・ジャック売上点数用ロジック（チャート部分） start -->
+<!-- ブランド・ジャック在庫点数用ロジック（チャート部分） start -->
                 <script>
 
 
@@ -1835,9 +1820,9 @@ box-sizing: border-box;
                                                     },
                                                     });
 </script>
-<!-- ブランド・ジャック売上点数用ロジック（チャート部分） start -->
+<!-- ブランド・ジャック在庫点数用ロジック（チャート部分） start -->
 
-<!-- ブランド・ベティー売上点数用ロジック（チャート部分） start -->
+<!-- ブランド・ベティー在庫点数用ロジック（チャート部分） start -->
                 <script type="text/javascript">
 
 
@@ -1917,9 +1902,9 @@ box-sizing: border-box;
                                                     });
                                                     
 </script>
-<!-- ブランド・ベティー売上点数用ロジック（チャート部分） end -->
+<!-- ブランド・ベティー在庫点数用ロジック（チャート部分） end -->
 
-<!-- ブランド・ジュエリー売上点数用ロジック（チャート部分） start -->
+<!-- ブランド・ジュエリー在庫点数用ロジック（チャート部分） start -->
                 <script type="text/javascript">
 
                                                     var ctx = document.getElementById('mychart3');
@@ -1997,11 +1982,11 @@ box-sizing: border-box;
                                                     });
                                                     
 </script>
-<!-- ブランド・ジュエリー売上点数用ロジック（チャート部分） end -->
+<!-- ブランド・ジュエリー在庫点数用ロジック（チャート部分） end -->
                                 
             @endif                    
             <!-- ブランド・点数順用 start
-                @if(isset($out5_view) && $out5_view == "2")
+                @if(isset($out1_view) && $out1_view == "2")
 
                     <div class="chart1">
                         @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
@@ -2017,8 +2002,8 @@ box-sizing: border-box;
                     </div>
                 @endif -->
 
-                @if(isset($out5_view) && $out5_view == "2" || empty($out5_view))
-                    @if(isset($out5_a) && $out5_a == "ON")
+                @if(isset($out1_view) && $out1_view == "2" || empty($out1_view))
+                    @if(isset($out1_a) && $out1_a == "ON")
                         <div class="op2a">
                             <dd class="op1a">
                                     @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
@@ -2027,7 +2012,7 @@ box-sizing: border-box;
                         </div>          
 
                     @endif
-                    @if(isset($out5_b) && $out5_b == "ON")
+                    @if(isset($out1_b) && $out1_b == "ON")
                         <div class="op2b">
                             <dd class="op1b">
                                 @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
@@ -2035,7 +2020,7 @@ box-sizing: border-box;
                             </dd>
                         </div>                                    
                     @endif
-                    @if(isset($out5_c) && $out5_c == "ON")
+                    @if(isset($out1_c) && $out1_c == "ON")
                         <dl class="op2c">
                             <dd class="op1c">
                                 @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif

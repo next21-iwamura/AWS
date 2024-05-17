@@ -74,8 +74,9 @@ class Analysis2_test_searchController extends Controller
                                 if($i == 14){$out1 = $var;}
                                 if($i == 15){$out2 = $var;}
                                 if($i == 16){$out3 = $var;}
-                                if($i == 17){$search = $var;}
-                                if($i == 18){$order_select = $var;}
+                                if($i == 17){$out1_view = $var;}
+                                if($i == 18){$search = $var;}
+                                if($i == 19){$order_select = $var;}
                                 $i++;
                             }
 
@@ -103,9 +104,8 @@ class Analysis2_test_searchController extends Controller
                             }         
 
                         $output = "";
-                        $out1 = "";
                         $out2 = "";
-                        $out3 = "";
+                        $out5 = "";
 
                    
                     /************************************************************************************************************************************************************************************************************* */
@@ -155,7 +155,7 @@ class Analysis2_test_searchController extends Controller
                                                 $last_day = $date;
                                             }
                                         }
-                                        // 20240512 売上分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
+                                        // 20240512 在庫分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
                                             $first_day = substr($first_day, 0, -3);
                                             $last_day = substr($last_day, 0, -3);
 
@@ -165,7 +165,7 @@ class Analysis2_test_searchController extends Controller
                     /************************************************************************************************************************************************************************************************************* */
 
 
-                    return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'three_years_ago' => $three_years_ago,'order_select' => $order_select]);
+                    return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'out1_view' => $out1_view,'three_years_ago' => $three_years_ago,'order_select' => $order_select]);
                 }
 
 
@@ -217,8 +217,9 @@ class Analysis2_test_searchController extends Controller
                                     if($i == 14){$out1 = $var;}
                                     if($i == 15){$out2 = $var;}
                                     if($i == 16){$out3 = $var;}
-                                    if($i == 17){$search = $var;}
-                                    if($i == 18){$order_select = $var;}
+                                    if($i == 17){$out1_view = $var;}
+                                    if($i == 18){$search = $var;}
+                                    if($i == 19){$order_select = $var;}
                                     $i++;
                                 }
     
@@ -256,7 +257,7 @@ class Analysis2_test_searchController extends Controller
                             $restock_comment = "";
                             // [在庫]サマリ用 
                                 if (PostRequest::has('search')){
-                                    return $this->db_info_get($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
+                                    return $this->db_info_get($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
                             // [在庫]ブランド用 
                                 } else if (PostRequest::has('search2')){
                                     // 選択したブランドの情報を取得（JS表示用）
@@ -275,17 +276,17 @@ class Analysis2_test_searchController extends Controller
                                         } else {
                                             $brandselect_jw = "";
                                         }
-                                    // 「売上」or「点数」表示切り替え用フラグ
+                                    // 「在庫」or「点数」表示切り替え用フラグ
                                         if (PostRequest::has('order_select')) {
                                             $order_select = PostRequest::input('order_select');
                                         } else {
                                             $order_select = "";
                                         }
-                                    return $this->db_info_get2($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,$brandselect,$brandselect_b,$brandselect_jw,$order_select,$next_year,$first_day,$last_day);
-                            
+                                    return $this->db_info_get2($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,$brandselect,$brandselect_b,$brandselect_jw,$next_year,$first_day,$last_day,$order_select);
+
                             // [在庫]商品ID別用 
                                 } else if (PostRequest::has('search3')){
-                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
+                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
                             // 検索前の表示用 
                                 } else {
                                     // フォームのデフォルト値を付与
@@ -300,7 +301,7 @@ class Analysis2_test_searchController extends Controller
                                         $out3_c = "OFF";
 
 
-                            return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'three_years_ago' => $three_years_ago,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'order_select' => $order_select]);
+                            return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'out1_view' => $out1_view,'three_years_ago' => $three_years_ago,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'order_select' => $order_select]);
                                 }
                     } else if (PostRequest::get('db_insert')) {
                         // CSVデータをデータベースへ登録用メソッドの実行
@@ -331,6 +332,7 @@ class Analysis2_test_searchController extends Controller
             $out1 = "";
             $out2 = "";
             $out3 = "";
+            $out1_view = "";
             $order_select = "";
 
             $form_info_get = array();
@@ -379,7 +381,7 @@ class Analysis2_test_searchController extends Controller
                                                 $last_day = $date;
                                             }
                                         }
-                                        // 20240512 売上分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
+                                        // 20240512 在庫分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
                                             $first_day = substr($first_day, 0, -3);
                                             $last_day = substr($last_day, 0, -3);
 
@@ -415,10 +417,12 @@ class Analysis2_test_searchController extends Controller
                         }
                         if (PostRequest::has('out2')) {
                             $out2 = PostRequest::input('out2');
-                            //print_r($out2);
                         }
                         if (PostRequest::has('out3')) {
                             $out3 = PostRequest::input('out3');
+                        }
+                        if (PostRequest::has('out1_view')) {
+                            $out1_view = PostRequest::input('out1_view');
                         }
                         if (PostRequest::has('order_select')) {
                             $order_select = PostRequest::input('order_select');
@@ -450,6 +454,7 @@ class Analysis2_test_searchController extends Controller
                             'out1'=> $out1,
                             'out2'=> $out2,
                             'out3'=> $out3,
+                            'out1_view'=> $out1_view,
                             'search'=> $search,
                             'order_select'=> $order_select,
                             ];
@@ -460,11 +465,11 @@ class Analysis2_test_searchController extends Controller
                 
 
 /************************************************************************************************************************************************************************************************************* */
-    // DB情報取得（[売上]サマリ用）
+    // DB情報取得（[在庫]サマリ用）
 /************************************************************************************************************************************************************************************************************* */
 
 
-    public function db_info_get($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s){
+    public function db_info_get($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t){
 
         // 「groupBy」にロジックで作成した名称を指定した際のエラー対応（本番だとDB上のカラムに無い名称を「groupBy」するとエラーとなる。このエラーの場合selectに名称指定すると解決するらしいが、恐らくDBに無い名称だと別のエラーとなる。以下の二行を追記する事で対応）
                 config(['database.connections.mysql.strict' => false]);
@@ -483,12 +488,12 @@ class Analysis2_test_searchController extends Controller
                 $out1 = $l;
                 $out2 = $m;
                 $out3 = $n;
-                $search = $o;
-                $three_years_ago = $p;
-                $next_year = $q;
-                $first_day = $r;
-                $last_day = $s;
-
+                $out1_view = $o;
+                $search = $p;
+                $three_years_ago = $q;
+                $next_year = $r;
+                $first_day = $s;
+                $last_day = $t;
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // DB登録ロジックを実施
@@ -768,7 +773,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                                     ])
-                                                                    // 条件（売上部門がベティー）
+                                                                    // 条件（在庫部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_day_top, $last_day])
@@ -816,7 +821,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress as $betty_buy_progress) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $betty_sum_uriage_progress = $betty_buy_progress -> betty_uriage;
                                                                             $betty_sum_number_progress = $betty_buy_progress -> betty_number;
                                                                             $i2++;
@@ -830,7 +835,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                                 ])
-                                                                    // 条件（売上部門がWEB）
+                                                                    // 条件（在庫部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name
@@ -880,7 +885,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress as $jack_buy_progress) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $jack_sum_uriage_progress = $jack_buy_progress -> jack_uriage;
                                                                             $jack_sum_number_progress = $jack_buy_progress -> jack_number;
                                                                             $i2++;
@@ -902,7 +907,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                                         ])
 
-                                                                        // 条件（売上部門がジュエリー）
+                                                                        // 条件（在庫部門がジュエリー）
                                                                             ->where('bumon','Jewelry')
  
                                                                         // 条件（期間の指定）
@@ -951,7 +956,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress as $jewelry_buy_progress) {
-                                                                                    // 各月ジュエリー売上
+                                                                                    // 各月ジュエリー在庫
                                                                                     $jewelry_sum_uriage_progress = $jewelry_buy_progress -> jewelry_uriage;
                                                                                     $jewelry_sum_number_progress = $jewelry_buy_progress -> jewelry_number;
                                                                                     $i2++;
@@ -976,7 +981,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage2"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number2"),
                                                                     ])
-                                                                    // 条件（売上部門がベティー）
+                                                                    // 条件（在庫部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1024,7 +1029,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress2 as $betty_buy_progress2) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $betty_sum_uriage_progress2 = $betty_buy_progress2 -> betty_uriage2;
                                                                             $betty_sum_number_progress2 = $betty_buy_progress2 -> betty_number2;
                                                                             $i2++;
@@ -1038,7 +1043,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage2"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number2"),
                                                                 ])
-                                                                    // 条件（売上部門がWEB）
+                                                                    // 条件（在庫部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1086,7 +1091,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress2 as $jack_buy_progress2) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $jack_sum_uriage_progress2 = $jack_buy_progress2 -> jack_uriage2;
                                                                             $jack_sum_number_progress2 = $jack_buy_progress2 -> jack_number2;
                                                                             $i2++;
@@ -1107,7 +1112,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(zaikokingaku) AS jewelry_uriage2"),
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number2"),
                                                                         ])
-                                                                    // 条件（売上部門がジュエリー）
+                                                                    // 条件（在庫部門がジュエリー）
                                                                         ->where('bumon','Jewelry')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1155,7 +1160,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress2 = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress2 as $jewelry_buy_progress2) {
-                                                                                    // 各月ジュエリー売上
+                                                                                    // 各月ジュエリー在庫
                                                                                     $jewelry_sum_uriage_progress2 = $jewelry_buy_progress2 -> jewelry_uriage2;
                                                                                     $jewelry_sum_number_progress2 = $jewelry_buy_progress2 -> jewelry_number2;
                                                                                     $i2++;
@@ -1182,7 +1187,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage3"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number3"),
                                                                     ])
-                                                                    // 条件（売上部門がベティー）
+                                                                    // 条件（在庫部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1229,7 +1234,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress3 as $betty_buy_progress3) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $betty_sum_uriage_progress3 = $betty_buy_progress3 -> betty_uriage3;
                                                                             $betty_sum_number_progress3 = $betty_buy_progress3 -> betty_number3;
                                                                             $i2++;
@@ -1243,7 +1248,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage3"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number3"),
                                                                 ])
-                                                                    // 条件（売上部門がWEB）
+                                                                    // 条件（在庫部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1290,7 +1295,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress3 as $jack_buy_progress3) {
-                                                                            // 各月ジュエリー売上
+                                                                            // 各月ジュエリー在庫
                                                                             $jack_sum_uriage_progress3 = $jack_buy_progress3 -> jack_uriage3;
                                                                             $jack_sum_number_progress3 = $jack_buy_progress3 -> jack_number3;
                                                                             $i2++;
@@ -1310,7 +1315,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(zaikokingaku) AS jewelry_uriage3"),
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number3"),
                                                                         ])
-                                                                        // 条件（売上部門がジュエリー）
+                                                                        // 条件（在庫部門がジュエリー）
                                                                             ->where('bumon','Jewelry')
                                                                         // 条件（期間の指定）
                                                                             ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1357,7 +1362,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress3 = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress3 as $jewelry_buy_progress3) {
-                                                                                    // 各月ジュエリー売上
+                                                                                    // 各月ジュエリー在庫
                                                                                     $jewelry_sum_uriage_progress3 = $jewelry_buy_progress3 -> jewelry_uriage3;
                                                                                     $jewelry_sum_number_progress3 = $jewelry_buy_progress3 -> jewelry_number3;
                                                                                     $i2++;
@@ -1377,13 +1382,13 @@ class Analysis2_test_searchController extends Controller
                                         /************************************************************************************************************************************************************************************************************* */
 
                                                 // 予測値
-                                                        // ベティー・月間売上額予測
+                                                        // ベティー・月間在庫額予測
                                                             if($betty_sum_uriage_progress <> "" && $betty_sum_uriage_progress <> 0){
                                                                 $betty_sum_uriage_progress_pre = (float)((int)$betty_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre = "";
                                                             }
-                                                        // ベティー・月間売上点数予測
+                                                        // ベティー・月間在庫点数予測
                                                             if($betty_sum_number_progress <> "" && $betty_sum_number_progress <> 0){
                                                                 $betty_sum_number_progress_pre = (float)((int)$betty_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
@@ -1392,13 +1397,13 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                                        // WEB・月間売上額予測
+                                                        // WEB・月間在庫額予測
                                                             if($jack_sum_uriage_progress <> "" && $jack_sum_uriage_progress <> 0){
                                                                 $jack_sum_uriage_progress_pre = (float)((int)$jack_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre = "";
                                                             }
-                                                        // WEB・月間売上点数予測
+                                                        // WEB・月間在庫点数予測
                                                             if($jack_sum_number_progress <> "" && $jack_sum_number_progress <> 0){
                                                                 $jack_sum_number_progress_pre = (float)((int)$jack_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
@@ -1408,13 +1413,13 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre = "";
                                                         $jewelry_sum_number_progress_pre = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・月間売上額予測
+                                                            // ジュエリー・月間在庫額予測
                                                                 if($jewelry_sum_uriage_progress <> "" && $jewelry_sum_uriage_progress <> 0){
                                                                     $jewelry_sum_uriage_progress_pre = (float)((int)$jewelry_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre = "";
                                                                 }
-                                                            // ジュエリー・月間売上点数予測
+                                                            // ジュエリー・月間在庫点数予測
                                                                 if($jewelry_sum_number_progress <> "" && $jewelry_sum_number_progress <> 0){
                                                                     $jewelry_sum_number_progress_pre = (float)((int)$jewelry_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                                 } else {
@@ -1425,28 +1430,28 @@ class Analysis2_test_searchController extends Controller
 
                                                     
                                                 // 先月比
-                                                        // ベティー・売上額予測・先月比
+                                                        // ベティー・在庫額予測・先月比
                                                             if($betty_sum_uriage_progress_pre <> "" && $betty_sum_uriage_progress_pre <> 0 && $betty_sum_uriage_progress2 <> "" && $betty_sum_uriage_progress2 <> 0){
                                                                 $betty_sum_uriage_progress_pre2 = (floor(((float)$betty_sum_uriage_progress_pre / (float)$betty_sum_uriage_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre2 = "---";
                                                             }
 
-                                                        // ベティー・売上点数予測・先月比
+                                                        // ベティー・在庫点数予測・先月比
                                                             if($betty_sum_number_progress_pre <> "" && $betty_sum_number_progress_pre <> 0 && $betty_sum_number_progress2 <> "" && $betty_sum_number_progress2 <> 0){
                                                                 $betty_sum_number_progress_pre2 = (floor(((float)$betty_sum_number_progress_pre / (float)$betty_sum_number_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_number_progress_pre2 = "---";
                                                             }
 
-                                                        // WEB・売上額予測・先月比
+                                                        // WEB・在庫額予測・先月比
                                                             if($jack_sum_uriage_progress_pre <> "" && $jack_sum_uriage_progress_pre <> 0 && $jack_sum_uriage_progress2 <> "" && $jack_sum_uriage_progress2 <> 0){
                                                                 $jack_sum_uriage_progress_pre2 = (floor(((float)$jack_sum_uriage_progress_pre / (float)$jack_sum_uriage_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre2 = "---";
                                                             }
 
-                                                        // WEB・売上点数予測・先月比
+                                                        // WEB・在庫点数予測・先月比
                                                             if($jack_sum_number_progress_pre <> "" && $jack_sum_number_progress_pre <> 0 && $jack_sum_number_progress2 <> "" && $jack_sum_number_progress2 <> 0){
                                                                 $jack_sum_number_progress_pre2 = (floor(((float)$jack_sum_number_progress_pre / (float)$jack_sum_number_progress2) * 100 * 10)) / 10;
                                                             } else {
@@ -1455,14 +1460,14 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre2 = "";
                                                         $jewelry_sum_number_progress_pre2 = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・売上額予測・先月比
+                                                            // ジュエリー・在庫額予測・先月比
                                                                 if($jewelry_sum_uriage_progress_pre <> "" && $jewelry_sum_uriage_progress_pre <> 0 && $jewelry_sum_uriage_progress2 <> "" && $jewelry_sum_uriage_progress2 <> 0){
                                                                     $jewelry_sum_uriage_progress_pre2 = (floor(((float)$jewelry_sum_uriage_progress_pre / (float)$jewelry_sum_uriage_progress2) * 100 * 10)) / 10;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre2 = "---";
                                                                 }
 
-                                                            // ジュエリー・売上点数予測・先月比
+                                                            // ジュエリー・在庫点数予測・先月比
                                                                 if($jewelry_sum_number_progress_pre <> "" && $jewelry_sum_number_progress_pre <> 0 && $jewelry_sum_number_progress2 <> "" && $jewelry_sum_number_progress2 <> 0){
                                                                     $jewelry_sum_number_progress_pre2 = (floor(((float)$jewelry_sum_number_progress_pre / (float)$jewelry_sum_number_progress2) * 100 * 10)) / 10;
                                                                 } else {
@@ -1471,25 +1476,25 @@ class Analysis2_test_searchController extends Controller
 
                                                         }
                                                 // 過去比
-                                                        // ベティー・売上額予測・過去比
+                                                        // ベティー・在庫額予測・過去比
                                                             if($betty_sum_uriage_progress_pre <> "" && $betty_sum_uriage_progress_pre <> 0 && $betty_sum_uriage_progress3 <> "" && $betty_sum_uriage_progress3 <> 0){
                                                                 $betty_sum_uriage_progress_pre3 = (floor(((float)$betty_sum_uriage_progress_pre / (float)$betty_sum_uriage_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre3 = "---";
                                                             }
-                                                        // ベティー・売上点数予測・過去比
+                                                        // ベティー・在庫点数予測・過去比
                                                             if($betty_sum_number_progress_pre <> "" && $betty_sum_number_progress_pre <> 0 && $betty_sum_number_progress3 <> "" && $betty_sum_number_progress3 <> 0){
                                                                 $betty_sum_number_progress_pre3 = (floor(((float)$betty_sum_number_progress_pre / (float)$betty_sum_number_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_number_progress_pre3 = "---";
                                                             }
-                                                        // WEB・売上額予測・過去比
+                                                        // WEB・在庫額予測・過去比
                                                             if($jack_sum_uriage_progress_pre <> "" && $jack_sum_uriage_progress_pre <> 0 && $jack_sum_uriage_progress3 <> "" && $jack_sum_uriage_progress3 <> 0){
                                                                 $jack_sum_uriage_progress_pre3 = (floor(((float)$jack_sum_uriage_progress_pre / (float)$jack_sum_uriage_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre3 = "---";
                                                             }
-                                                        // WEB・売上点数予測・過去比
+                                                        // WEB・在庫点数予測・過去比
                                                             if($jack_sum_number_progress_pre <> "" && $jack_sum_number_progress_pre <> 0 && $jack_sum_number_progress3 <> "" && $jack_sum_number_progress3 <> 0){
                                                                 $jack_sum_number_progress_pre3 = (floor(((float)$jack_sum_number_progress_pre / (float)$jack_sum_number_progress3) * 100 * 10)) / 10;
                                                             } else {
@@ -1498,13 +1503,13 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre3 = "";
                                                         $jewelry_sum_number_progress_pre3 = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・売上額予測・過去比
+                                                            // ジュエリー・在庫額予測・過去比
                                                                 if($jewelry_sum_uriage_progress_pre <> "" && $jewelry_sum_uriage_progress_pre <> 0 && $jewelry_sum_uriage_progress3 <> "" && $jewelry_sum_uriage_progress3 <> 0){
                                                                     $jewelry_sum_uriage_progress_pre3 = (floor(((float)$jewelry_sum_uriage_progress_pre / (float)$jewelry_sum_uriage_progress3) * 100 * 10)) / 10;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre3 = "---";
                                                                 }
-                                                            // ジュエリー・売上点数予測・過去比
+                                                            // ジュエリー・在庫点数予測・過去比
                                                                 if($jewelry_sum_number_progress_pre <> "" && $jewelry_sum_number_progress_pre <> 0 && $jewelry_sum_number_progress3 <> "" && $jewelry_sum_number_progress3 <> 0){
                                                                     $jewelry_sum_number_progress_pre3 = (floor(((float)$jewelry_sum_number_progress_pre / (float)$jewelry_sum_number_progress3) * 100 * 10)) / 10;
                                                                 } else {
@@ -1513,13 +1518,13 @@ class Analysis2_test_searchController extends Controller
                                                         }
 
                                                 // 合計値
-                                                        // データ格納最終月・売上額進捗合計
+                                                        // データ格納最終月・在庫額進捗合計
                                                             $all_sum_uriage_progress = (int)$betty_sum_uriage_progress + (int)$jack_sum_uriage_progress + (int)$jewelry_sum_uriage_progress;
-                                                        // データ格納最終月・売上点数進捗合計
+                                                        // データ格納最終月・在庫点数進捗合計
                                                             $all_sum_number_progress = (int)$betty_sum_number_progress + (int)$jack_sum_number_progress + (int)$jewelry_sum_number_progress;
-                                                        // データ格納最終月・売上額・着地予測合計
+                                                        // データ格納最終月・在庫額・着地予測合計
                                                             $all_sum_uriage_progress_pre = (int)$betty_sum_uriage_progress_pre + (int)$jack_sum_uriage_progress_pre + (int)$jewelry_sum_uriage_progress_pre;
-                                                        // データ格納最終月・売上点数・着地予測合計
+                                                        // データ格納最終月・在庫点数・着地予測合計
                                                             $all_sum_number_progress_pre = (int)$betty_sum_number_progress_pre + (int)$jack_sum_number_progress_pre + (int)$jewelry_sum_number_progress_pre;
 
                                                         // 進捗合計に対する先月比
@@ -1631,7 +1636,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                     ])
                                                     ->groupBy('jack_month')
-                                                // 条件（売上部門がジャック）
+                                                // 条件（在庫部門がジャック）
                                                     ->where('bumon','Jackroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1680,22 +1685,22 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_jack_buys as $past_jack_buy) {
                                                         // 各月名
                                                             $past_jack_month[$past_i]= $past_jack_buy->jack_month;
-                                                        // 各月ジャック売上
+                                                        // 各月ジャック在庫
                                                             $past_jack_uriage[$past_i]= $past_jack_buy->jack_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jack_manthly_data, $past_jack_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_jack_manthly_data = str_replace($past_jack_month[$past_i], $past_jack_uriage[$past_i], $past_temp1_jack_manthly_data);
                                                                 }
 
-                                                        // 全期間ジャック売上合計
+                                                        // 全期間ジャック在庫合計
                                                             $past_jack_sum_uriage = (int)$past_jack_sum_uriage + (int)$past_jack_uriage[$past_i];
 
                                                         // 各月ジャック点数
                                                             $past_jack_number[$past_i]= $past_jack_buy->jack_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jack_manthly_data2, $past_jack_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_jack_manthly_data2 = str_replace($past_jack_month[$past_i], $past_jack_number[$past_i], $past_temp1_jack_manthly_data2);
                                                                 }
 
@@ -1705,7 +1710,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         $past_i++;
                                                     }
-                                                // 全期間ジャック売上合計とその平均値のHTML作成
+                                                // 全期間ジャック在庫合計とその平均値のHTML作成
                                                     $past_temp1_jack_sum = "";
                                                     if($past_jack_sum_uriage <> 0 && $past_jack_sum_uriage <> ""){
                                                         $past_jack_sum_uriage_c = number_format((int)$past_jack_sum_uriage); 
@@ -1718,7 +1723,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_jack_sum = "<div class='title4 ta_r'>" . number_format((int)$past_jack_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_jack_sum_uriage / $past_i)) . "</div></div>";
                                                     $past_temp1_jack_sum = "<div class='title4 ta_r'>" . $past_jack_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_jack_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジャック売上点数合計とその平均値のHTML作成
+                                                // 全期間ジャック在庫点数合計とその平均値のHTML作成
                                                     $past_temp1_jack_sum2 = "";
                                                     if($past_jack_sum_number <> 0 && $past_jack_sum_number <> ""){
                                                         $past_jack_sum_number_c = number_format((int)$past_jack_sum_number); 
@@ -1747,7 +1752,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                     ])
                                                     ->groupBy('betty_month')
-                                                // 条件（売上部門がベティー）
+                                                // 条件（在庫部門がベティー）
                                                     ->where('bumon','Bettyroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1796,21 +1801,21 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_betty_buys as $past_betty_buy) {
                                                         // 各月名
                                                             $past_betty_month[$past_i]= $past_betty_buy->betty_month;
-                                                        // 各月ベティー売上
+                                                        // 各月ベティー在庫
                                                             $past_betty_uriage[$past_i]= $past_betty_buy->betty_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_betty_manthly_data, $past_betty_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_betty_manthly_data = str_replace($past_betty_month[$past_i], $past_betty_uriage[$past_i], $past_temp1_betty_manthly_data);
                                                                 }
-                                                        // 全期間ベティー売上合計
+                                                        // 全期間ベティー在庫合計
                                                             $past_betty_sum_uriage = (int)$past_betty_sum_uriage + (int)$past_betty_uriage[$past_i];
                                                         
                                                         // 各月ベティー点数
                                                             $past_betty_number[$past_i]= $past_betty_buy->betty_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_betty_manthly_data2, $past_betty_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_betty_manthly_data2 = str_replace($past_betty_month[$past_i], $past_betty_number[$past_i], $past_temp1_betty_manthly_data2);
                                                                 }
                                                         // 全期間ベティー点数合計
@@ -1820,7 +1825,7 @@ class Analysis2_test_searchController extends Controller
                                                             
                                                         $past_i++;
                                                     }
-                                                // 全期間ベティー売上合計とその平均値のHTML作成
+                                                // 全期間ベティー在庫合計とその平均値のHTML作成
                                                     $past_temp1_betty_sum = "";
                                                     if($past_betty_sum_uriage <> 0 && $past_betty_sum_uriage <> ""){
                                                         $past_betty_sum_uriage_c = number_format((int)$past_betty_sum_uriage); 
@@ -1833,7 +1838,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_betty_sum = "<div class='title4 ta_r'>" . number_format((int)$past_betty_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_betty_sum_uriage / $past_i)) . "</div></div>";
                                                     $past_temp1_betty_sum = "<div class='title4 ta_r'>" . $past_betty_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_betty_sum_uriage_ave . "</div></div>";
-                                                // 全期間ベティー売上点数合計とその平均値のHTML作成
+                                                // 全期間ベティー在庫点数合計とその平均値のHTML作成
                                                     $past_temp1_betty_sum2 = "";
                                                     if($past_betty_sum_number <> 0 && $past_betty_sum_number <> ""){
                                                         $past_betty_sum_number_c = number_format((int)$past_betty_sum_number); 
@@ -1862,7 +1867,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                     ])
                                                     ->groupBy('jewelry_month')
-                                                // 条件（売上部門がジュエリー）
+                                                // 条件（在庫部門がジュエリー）
                                                     ->where('bumon','Jewelry')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1914,20 +1919,20 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_jewelry_buys as $past_jewelry_buy) {
                                                         // 各月名
                                                             $past_jewelry_month[$past_i2]= $past_jewelry_buy->jewelry_month;
-                                                        // 各月ジュエリー売上
+                                                        // 各月ジュエリー在庫
                                                             $past_jewelry_uriage[$past_i2]= $past_jewelry_buy->jewelry_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jewelry_manthly_data, $past_jewelry_month[$past_i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_jewelry_manthly_data = str_replace($past_jewelry_month[$past_i2], $past_jewelry_uriage[$past_i2], $past_temp1_jewelry_manthly_data);
                                                                 }
-                                                        // 全期間ジュエリー売上合計
+                                                        // 全期間ジュエリー在庫合計
                                                             $past_jewelry_sum_uriage = (int)$past_jewelry_sum_uriage + (int)$past_jewelry_uriage[$past_i2];
                                                         // 各月ジュエリー点数
                                                             $past_jewelry_number[$past_i2]= $past_jewelry_buy->jewelry_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jewelry_manthly_data2, $past_jewelry_month[$past_i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $past_temp1_jewelry_manthly_data2 = str_replace($past_jewelry_month[$past_i2], $past_jewelry_number[$past_i2], $past_temp1_jewelry_manthly_data2);
                                                                 }
                                                         // 全期間ジュエリー点数合計
@@ -1935,7 +1940,7 @@ class Analysis2_test_searchController extends Controller
                                                            
                                                             $past_i2++;
                                                     }
-                                                // 全期間ジュエリー売上合計とその平均値のHTML作成
+                                                // 全期間ジュエリー在庫合計とその平均値のHTML作成
                                                     $past_temp1_jewelry_sum = "";
                                                     if($past_jewelry_sum_uriage <> 0 && $past_jewelry_sum_uriage <> ""){
                                                         $past_jewelry_sum_uriage_c = number_format((int)$past_jewelry_sum_uriage); 
@@ -1948,7 +1953,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_jewelry_sum .= "<div class='title4 ta_r'>" . number_format((int)$past_jewelry_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_jewelry_sum_uriage / $past_i2)) . "</div></div>";
                                                     $past_temp1_jewelry_sum .= "<div class='title4 ta_r'>" . $past_jewelry_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_jewelry_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジュエリー売上点数合計とその平均値のHTML作成
+                                                // 全期間ジュエリー在庫点数合計とその平均値のHTML作成
                                                     $past_temp1_jewelry_sum2 = "";
                                                     if($past_jewelry_sum_number <> 0 && $past_jewelry_sum_number <> ""){
                                                         $past_jewelry_sum_number_c = number_format((int)$past_jewelry_sum_number); 
@@ -1968,7 +1973,7 @@ class Analysis2_test_searchController extends Controller
                                 // 全件用
                             /************************************************************************************************************************************************************************************************************* */
 
-                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
                                             //$past_all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                         // 各月のタイトル表示用HTMLを作成
@@ -1997,14 +2002,14 @@ class Analysis2_test_searchController extends Controller
                                         
                                      
                                         
-                                        // 全期間の全部門売上合計用変数リセット
+                                        // 全期間の全部門在庫合計用変数リセット
                                             $past_all_sum_uriage_all = 0;
                                             $past_all_sum_number_all = 0;
                                             for($past_all_i = 0; $past_all_i < $past_i; $past_all_i++){
-                                                // 各月の全部門売上合計用変数リセット
+                                                // 各月の全部門在庫合計用変数リセット
                                                     $past_all_month_uriage = 0;
                                                     $past_all_month_number= 0;
-                                                // 各月の全部門売上合計をHTMLへ
+                                                // 各月の全部門在庫合計をHTMLへ
                                                     if($out1_b == "ON"){ 
                                                         if(isset($past_jack_uriage[$past_all_i])){$past_all_month_uriage = $past_all_month_uriage + (int)$past_jack_uriage[$past_all_i];}
                                                         if(isset($past_jack_number[$past_all_i])){$past_all_month_number = $past_all_month_number + (int)$past_jack_number[$past_all_i]; }
@@ -2014,7 +2019,7 @@ class Analysis2_test_searchController extends Controller
                                                         if(isset($past_betty_number[$past_all_i])){$past_all_month_number = $past_all_month_number + (int)$past_betty_number[$past_all_i];} 
                                                     }
 
-                                                // 全期間の全部門売上合計
+                                                // 全期間の全部門在庫合計
                                                     $past_all_sum_uriage_all = (int)$past_all_sum_uriage_all + (int)$past_all_month_uriage;
                                                     $past_all_sum_number_all = (int)$past_all_sum_number_all + (int)$past_all_month_number;
                                                 
@@ -2035,7 +2040,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_jack_manthly_html2 = "";
                                                 $past_temp1_jack_manthly_html3 = "";
                                                 if($out1_b == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_jack_manthly_data, $val ) !== false){
@@ -2045,14 +2050,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_jack_manthly_data2 = str_replace($val, 0, $past_temp1_jack_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $past_temp1_jack_manthly_array = explode(',',$past_temp1_jack_manthly_data);
                                                         $past_temp1_jack_manthly_array2 = explode(',',$past_temp1_jack_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         $past_jack_last_uriage = "";
 
                                                         foreach($past_temp1_jack_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ジャック・売上」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ジャック・在庫」を取得
                                                                 //$past_jack_last_uriage = $val;
                                                             
                                                             if($val == ""){
@@ -2108,7 +2113,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_betty_manthly_html2 = "";
                                                 $past_temp1_betty_manthly_html3 = "";
                                                 if($out1_a == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_betty_manthly_data, $val ) !== false){
@@ -2118,12 +2123,12 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_betty_manthly_data2 = str_replace($val, 0, $past_temp1_betty_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $past_temp1_betty_manthly_array = explode(',',$past_temp1_betty_manthly_data);
                                                         $past_temp1_betty_manthly_array2 = explode(',',$past_temp1_betty_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         foreach($past_temp1_betty_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ベティー・売上」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ベティー・在庫」を取得
                                                                 //$past_betty_last_uriage = $val;
 
                                                             if($val == ""){
@@ -2179,7 +2184,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_jewelry_manthly_html2 = "";
                                                 $past_temp1_jewelry_manthly_html3 = "";
                                                 if($out1_c == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_jewelry_manthly_data, $val ) !== false){
@@ -2189,12 +2194,12 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_jewelry_manthly_data2 = str_replace($val, 0, $past_temp1_jewelry_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $past_temp1_jewelry_manthly_array = explode(',',$past_temp1_jewelry_manthly_data);
                                                         $past_temp1_jewelry_manthly_array2 = explode(',',$past_temp1_jewelry_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         foreach($past_temp1_jewelry_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ジュエリー・売上」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ジュエリー・在庫」を取得
                                                                 //$past_jewelry_last_uriage = $val;
                                                             
                                                             if($val == ""){
@@ -2248,7 +2253,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                 }
 
-                                        // 各月の全部門売上合計のJS表示用
+                                        // 各月の全部門在庫合計のJS表示用
                                                 $js_past_all_month_uriage = "";
                                                 $js_past_all_month_number = "";
                                                 $i = 0;
@@ -2270,11 +2275,11 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
                                             $past_all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
 
-                                        // 各月の全部門売上合計を配列に代入
+                                        // 各月の全部門在庫合計を配列に代入
                                             $past_temp1_all_m_sum_uriage_array = array();
                                             $past_temp1_all_m_sum_number_array = array();
                                             $i = 0;
@@ -2290,7 +2295,7 @@ class Analysis2_test_searchController extends Controller
 
                                                 $i++;
                                             }
-                                        // 各月の全部門売上合計部分のHTML作成
+                                        // 各月の全部門在庫合計部分のHTML作成
                                             foreach($past_temp1_all_m_sum_uriage_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $past_all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -2298,7 +2303,7 @@ class Analysis2_test_searchController extends Controller
                                                     $past_all_sum_uriage .= "<div class='title6 ta_r'>" . (int)$var . "</div>";
                                                 }
                                             }
-                                        // 各月の全部門売上点数合計部分のHTML作成
+                                        // 各月の全部門在庫点数合計部分のHTML作成
                                             foreach($past_temp1_all_m_sum_number_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $past_all_sum_number .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -2307,7 +2312,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
                                             }
                                                   
-                                        // 全期間全部門売上合計とその平均値のHTML作成
+                                        // 全期間全部門在庫合計とその平均値のHTML作成
                                             if($past_all_sum_uriage_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average = floor((int)$past_all_sum_uriage_all / $past_i);
@@ -2327,7 +2332,7 @@ class Analysis2_test_searchController extends Controller
                                             if($out1_c == "ON"){ $view .= $past_temp1_jewelry_manthly_html;}
                                             $past_temp1_all_sorce = "<p class='title_a'>金額（過去）</p><div class='box1'>" . $past_temp1_title . $view . $past_all_sum_uriage . "</div>";
 
-                                        // 全期間全部門売上点数合計とその平均値のHTML作成
+                                        // 全期間全部門在庫点数合計とその平均値のHTML作成
                                             if($past_all_sum_number_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average2 = floor((int)$past_all_sum_number_all / $past_i);
@@ -2375,7 +2380,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                     ])
                                                     ->groupBy('jack_month')
-                                                // 条件（売上部門がジャック）
+                                                // 条件（在庫部門がジャック）
                                                     ->where('bumon','Jackroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2428,14 +2433,14 @@ class Analysis2_test_searchController extends Controller
                                                 foreach ($jack_buys as $jack_buy) {
                                                     // 各月名
                                                         $jack_month[$i]= $jack_buy->jack_month;
-                                                    // 各月ジャック売上
+                                                    // 各月ジャック在庫
                                                         $jack_uriage[$i]= $jack_buy->jack_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jack_manthly_data, $jack_month[$i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $temp1_jack_manthly_data = str_replace($jack_month[$i], $jack_uriage[$i], $temp1_jack_manthly_data);
                                                                 }
-                                                    // 全期間ジャック売上合計
+                                                    // 全期間ジャック在庫合計
                                                         // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                             if($last_nodata_flag == "ON"){
                                                                 $jack_sum_uriage_average = (int)$jack_sum_uriage;
@@ -2448,7 +2453,7 @@ class Analysis2_test_searchController extends Controller
                                                         $jack_number[$i]= $jack_buy->jack_number;
                                                         // 全過去期間に現在の期間が含まれている場合
                                                             if(strpos($temp1_jack_manthly_data2, $jack_month[$i] ) !== false){
-                                                                // 文字列の同期間名を現在月の売上に書き換え
+                                                                // 文字列の同期間名を現在月の在庫に書き換え
                                                                     $temp1_jack_manthly_data2 = str_replace($jack_month[$i], $jack_number[$i], $temp1_jack_manthly_data2);
                                                             }
 
@@ -2465,7 +2470,7 @@ class Analysis2_test_searchController extends Controller
                                                     $i++;
                                                 }
 
-                                                // 全期間ジャック売上合計とその平均値のHTML作成
+                                                // 全期間ジャック在庫合計とその平均値のHTML作成
                                                     $temp1_jack_sum = "";
                                                     if($jack_sum_uriage <> 0 && $jack_sum_uriage <> ""){
                                                         $jack_sum_uriage_c = number_format((int)$jack_sum_uriage);
@@ -2483,7 +2488,7 @@ class Analysis2_test_searchController extends Controller
                                                         $jack_sum_uriage_ave2 = 0;
                                                     }
                                                     $temp1_jack_sum = "<div class='title4 ta_r'>" . $jack_sum_uriage_c . "</div><div class='title4 ta_r'>" . $jack_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジャック売上点数合計とその平均値のHTML作成
+                                                // 全期間ジャック在庫点数合計とその平均値のHTML作成
                                                     $temp1_jack_sum2 = "";
                                                     if($jack_sum_number <> 0 && $jack_sum_number <> ""){
                                                         $jack_sum_number_c = number_format((int)$jack_sum_number);
@@ -2519,7 +2524,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                     ])
                                                     ->groupBy('betty_month')
-                                                // 条件（売上部門がベティー）
+                                                // 条件（在庫部門がベティー）
                                                     ->where('bumon','Bettyroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2570,14 +2575,14 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($betty_buys as $betty_buy) {
                                                         // 各月名
                                                             $betty_month[$i]= $betty_buy->betty_month;
-                                                        // 各月ベティー売上
+                                                        // 各月ベティー在庫
                                                             $betty_uriage[$i]= $betty_buy->betty_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                             if(strpos($temp1_betty_manthly_data, $betty_month[$i] ) !== false){
-                                                                // 文字列の同期間名を現在月の売上に書き換え
+                                                                // 文字列の同期間名を現在月の在庫に書き換え
                                                                     $temp1_betty_manthly_data = str_replace($betty_month[$i], $betty_uriage[$i], $temp1_betty_manthly_data);
                                                             }
-                                                        // 全期間ベティー売上合計
+                                                        // 全期間ベティー在庫合計
                                                             // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                                 if($last_nodata_flag == "ON"){
                                                                     $betty_sum_uriage_average = (int)$betty_sum_uriage;
@@ -2589,7 +2594,7 @@ class Analysis2_test_searchController extends Controller
                                                             $betty_number[$i]= $betty_buy->betty_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_betty_manthly_data2, $betty_month[$i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $temp1_betty_manthly_data2 = str_replace($betty_month[$i], $betty_number[$i], $temp1_betty_manthly_data2);
                                                                 }
                                                         // 全期間ベティー点数合計
@@ -2606,7 +2611,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
 
 
-                                                // 全期間ベティー売上合計とその平均値のHTML作成
+                                                // 全期間ベティー在庫合計とその平均値のHTML作成
                                                     $temp1_betty_sum = "";
                                                     if($betty_sum_uriage <> 0 && $betty_sum_uriage <> ""){
                                                         $betty_sum_uriage_c = number_format((int)$betty_sum_uriage);
@@ -2624,7 +2629,7 @@ class Analysis2_test_searchController extends Controller
                                                         $betty_sum_uriage_ave2 = 0;
                                                     }
                                                     $temp1_betty_sum = "<div class='title4 ta_r'>" . $betty_sum_uriage_c . "</div><div class='title4 ta_r'>" . $betty_sum_uriage_ave . "</div></div>";
-                                                // 全期間ベティー売上点数合計とその平均値のHTML作成
+                                                // 全期間ベティー在庫点数合計とその平均値のHTML作成
                                                     $temp1_betty_sum2 = "";
                                                     if($betty_sum_number <> 0 && $betty_sum_number <> ""){
                                                         $betty_sum_number_c = number_format((int)$betty_sum_number);
@@ -2656,7 +2661,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                     ])
                                                     ->groupBy('jewelry_month')
-                                                // 条件（売上部門がジュエリー）
+                                                // 条件（在庫部門がジュエリー）
                                                     ->where('bumon','Jewelry')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2707,14 +2712,14 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($jewelry_buys as $jewelry_buy) {
                                                         // 各月名
                                                             $jewelry_month[$i2]= $jewelry_buy->jewelry_month;
-                                                        // 各月ジュエリー売上
+                                                        // 各月ジュエリー在庫
                                                             $jewelry_uriage[$i2]= $jewelry_buy->jewelry_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jewelry_manthly_data, $jewelry_month[$i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $temp1_jewelry_manthly_data = str_replace($jewelry_month[$i2], $jewelry_uriage[$i2], $temp1_jewelry_manthly_data);
                                                                 }
-                                                        // 全期間ジュエリー売上合計
+                                                        // 全期間ジュエリー在庫合計
                                                             // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                                 if($last_nodata_flag == "ON"){
                                                                     $jewelry_sum_uriage_average = (int)$jewelry_sum_uriage;
@@ -2726,7 +2731,7 @@ class Analysis2_test_searchController extends Controller
                                                             $jewelry_number[$i2]= $jewelry_buy->jewelry_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jewelry_manthly_data2, $jewelry_month[$i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の売上に書き換え
+                                                                    // 文字列の同期間名を現在月の在庫に書き換え
                                                                         $temp1_jewelry_manthly_data2 = str_replace($jewelry_month[$i2], $jewelry_number[$i2], $temp1_jewelry_manthly_data2);
                                                                 }
                                                         // 全期間ジュエリー点数合計
@@ -2743,7 +2748,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
 
 
-                                                // 全期間ジュエリー売上合計とその平均値のHTML作成
+                                                // 全期間ジュエリー在庫合計とその平均値のHTML作成
                                                     $temp1_jewelry_sum = "";
                                                     if($jewelry_sum_uriage == 0 || $jewelry_sum_uriage == ""){
                                                         $temp1_jewelry_sum = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
@@ -2760,7 +2765,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                         $temp1_jewelry_sum = "<div class='title4 ta_r'>" . number_format((int)$jewelry_sum_uriage) . "</div><div class='title4 ta_r'>" . $jewelry_sum_uriage_ave . "</div></div>";
                                                     }
-                                                // 全期間ジュエリー売上点数合計とその平均値のHTML作成
+                                                // 全期間ジュエリー在庫点数合計とその平均値のHTML作成
                                                     $temp1_jewelry_sum2 = "";
                                                     //$temp1_jewelry_sum2 = "<div class='title4 ta_r'>" . number_format((int)$jewelry_sum_number) . "</div><div class='title4 ta_c'>" . $yoy_number3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$jewelry_sum_number / $i)) . "</div></div>";
                                                     if($jewelry_sum_number == 0 || $jewelry_sum_number == ""){
@@ -2806,14 +2811,14 @@ class Analysis2_test_searchController extends Controller
                                             $temp1_title5 = "<div class='wid100 ul2 bg_yellow'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title5 ."<div class='title7 ta_c'>平均</div></div>";
                                         
                                         
-                                        // 全期間の全部門売上合計用変数リセット
+                                        // 全期間の全部門在庫合計用変数リセット
                                             $all_sum_uriage_all = 0;
                                             $all_sum_number_all = 0;
                                             for($all_i = 0; $all_i < $i; $all_i++){
-                                                // 各月の全部門売上合計用変数リセット
+                                                // 各月の全部門在庫合計用変数リセット
                                                     $all_month_uriage = 0;
                                                     $all_month_number= 0;
-                                                // 各月の全部門売上合計をHTMLへ
+                                                // 各月の全部門在庫合計をHTMLへ
                                                     if($out1_b == "ON"){ 
                                                         if(isset($jack_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$jack_uriage[$all_i]; }
                                                         if(isset($jack_number[$all_i])){$all_month_number = $all_month_number + (int)$jack_number[$all_i]; }
@@ -2823,7 +2828,7 @@ class Analysis2_test_searchController extends Controller
                                                         if(isset($betty_number[$all_i])){$all_month_number = $all_month_number + (int)$betty_number[$all_i]; }
                                                     }
 
-                                                // 全期間の全部門売上合計
+                                                // 全期間の全部門在庫合計
                                                     $all_sum_uriage_all = (int)$all_sum_uriage_all + (int)$all_month_uriage;
                                                     $all_sum_number_all = (int)$all_sum_number_all + (int)$all_month_number;
                                                 
@@ -2917,7 +2922,7 @@ class Analysis2_test_searchController extends Controller
     ($all_term_progress2_n < 100) ? $all_term_progress2_n_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_n . "%</div>" : $all_term_progress2_n_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_n . "%</div>";
     
     
-    // 売上額進捗
+    // 在庫額進捗
                                                                     $uriage_progress_html = 
                                                                     "<div class='btn_bulldown_  pt2'><span class='view'>＋</span> 予測数値について</div>
                                                                     <div class='down'>
@@ -2927,11 +2932,11 @@ class Analysis2_test_searchController extends Controller
                                                                     </div>
                                                                     <div class='ul_p mt1'>
                                                                         <div class='sinchoku_t'>" . $last_year_last . "年" . $last_month_last. "月</div>
-                                                                        <div class='sinchoku_t'>月間売上進捗</div>
+                                                                        <div class='sinchoku_t'>月間在庫進捗</div>
                                                                         <div class='sinchoku_t'>月間着地予測</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対前月）</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対過去・同月）</div>
-                                                                        <div class='sinchoku_t'>全期間売上進捗</div>
+                                                                        <div class='sinchoku_t'>全期間在庫進捗</div>
                                                                         <div class='sinchoku_t'>全期間着地予測</div>
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
@@ -2979,7 +2984,7 @@ class Analysis2_test_searchController extends Controller
                                                                         " . $all_term_progress_view. "
                                                                         " . $all_term_progress2_view. "
                                                                     </div>";
-                                                            // 売上点数進捗
+                                                            // 在庫点数進捗
                                                                     $number_progress_html = 
                                                                     "<div class='btn_bulldown_  pt2'><span class='view2'>＋</span> 予測数値について</div>
                                                                     <div class='down'>
@@ -2989,11 +2994,11 @@ class Analysis2_test_searchController extends Controller
                                                                     </div>
                                                                     <div class='ul_p mt1'>
                                                                         <div class='sinchoku_t'>" . $last_year_last . "年" . $last_month_last. "月</div>
-                                                                        <div class='sinchoku_t'>月間売上進捗</div>
+                                                                        <div class='sinchoku_t'>月間在庫進捗</div>
                                                                         <div class='sinchoku_t'>月間着地予測</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対前月）</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対過去・同月）</div>
-                                                                        <div class='sinchoku_t'>全期間売上進捗</div>
+                                                                        <div class='sinchoku_t'>全期間在庫進捗</div>
                                                                         <div class='sinchoku_t'>全期間着地予測</div>
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
@@ -3061,7 +3066,7 @@ class Analysis2_test_searchController extends Controller
                                                 $progress_uriage_html = "";
                                                 $progress_number_html = "";
                                                 if($out1_a == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_betty_manthly_data, $val ) !== false){
@@ -3071,14 +3076,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_betty_manthly_data2 = str_replace($val, 0, $temp1_betty_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $temp1_betty_manthly_array = explode(',',$temp1_betty_manthly_data);
                                                         $temp1_betty_manthly_array2 = explode(',',$temp1_betty_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         $betty_last_uriage = "";
                                                         $i = 0;
                                                         foreach($temp1_betty_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ベティー・売上」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ベティー・在庫」を取得
                                                                 //$betty_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3135,7 +3140,7 @@ class Analysis2_test_searchController extends Controller
                                                 $temp1_jack_manthly_html2 = "";
                                                 $temp1_jack_manthly_html3 = "";
                                                 if($out1_b == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_jack_manthly_data, $val ) !== false){
@@ -3145,7 +3150,7 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_jack_manthly_data2 = str_replace($val, 0, $temp1_jack_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $temp1_jack_manthly_array = explode(',',$temp1_jack_manthly_data);
                                                         $temp1_jack_manthly_array2 = explode(',',$temp1_jack_manthly_data2);
                                                     // 各月のHTMLを作成
@@ -3153,7 +3158,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         $i = 0;
                                                         foreach($temp1_jack_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ジャック・売上」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ジャック・在庫」を取得
                                                                 //$jack_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3211,7 +3216,7 @@ class Analysis2_test_searchController extends Controller
                                                 $temp1_jewelry_manthly_html2 = "";
                                                 $temp1_jewelry_manthly_html3 = "";
                                                 if($out1_c == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_jewelry_manthly_data, $val ) !== false){
@@ -3221,14 +3226,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_jewelry_manthly_data2 = str_replace($val, 0, $temp1_jewelry_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月売上が記載された文字列を配列へ変換
+                                                    // 各月在庫が記載された文字列を配列へ変換
                                                         $temp1_jewelry_manthly_array = explode(',',$temp1_jewelry_manthly_data);
                                                         $temp1_jewelry_manthly_array2 = explode(',',$temp1_jewelry_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         //$jewelry_last_uriage = "";
                                                         $i = 0;
                                                         foreach($temp1_jewelry_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ジュエリー・売上」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ジュエリー・在庫」を取得
                                                                 //$jewelry_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3276,7 +3281,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                 }
 
-                                        // 各月の全部門売上合計のJS表示用
+                                        // 各月の全部門在庫合計のJS表示用
                                                 $js_all_month_uriage = "";
                                                 $js_all_month_number = "";
                                                 $i = 0;
@@ -3376,7 +3381,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対するパーセンテージを取得
+    // 期間中の在庫合計に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(((float)$jack_total / (float)$total2) * 100 * 10)) / 10 ,1);
@@ -3483,7 +3488,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計点数に対するパーセンテージを取得
+    // 期間中の在庫合計点数に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(((float)$jack_total / (float)$total2) * 100 * 10)) / 10 ,1);
@@ -3543,7 +3548,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対する平均単価を取得
+    // 期間中の在庫合計に対する平均単価を取得
         if($jack_total <> 0 && $jack_total2 <> 0 && $jack_total <> "" && $jack_total2 <> ""){
             $jack_total_ave = (floor(((int)$jack_total / (int)$jack_total2) * 10)) / 10;
         } else {
@@ -3582,7 +3587,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対する平均単価を取得
+    // 期間中の在庫合計に対する平均単価を取得
         if($betty_total <> 0 && $betty_total2 <> 0 && $betty_total <> "" && $betty_total2 <> ""){
             $betty_total_ave = (floor(((int)$betty_total / (int)$betty_total2) * 10)) / 10;
         } else {
@@ -3623,7 +3628,7 @@ class Analysis2_test_searchController extends Controller
 
                 $i++;
             }
-            // 期間中の売上合計に対する平均単価を取得
+            // 期間中の在庫合計に対する平均単価を取得
                 if($jewelry_total == 0 || $jewelry_total2 == 0 || $jewelry_total == "" || $jewelry_total2 == ""){
                     $jewelry_total_ave = "---";
                 } else {
@@ -3678,7 +3683,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上金額に対する比率を取得
+    // 過去の同期間在庫金額に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3731,7 +3736,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上金額に対する比率を取得
+    // 過去の同期間在庫金額に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $betty_total_ratio = number_format((floor(((float)$betty_total / (float)$betty_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3783,7 +3788,7 @@ class Analysis2_test_searchController extends Controller
         
                 $i++;
             }
-            // 過去の同期間売上金額に対する比率を取得
+            // 過去の同期間在庫金額に対する比率を取得
                 if($jewelry_total == 0 || $jewelry_total_past == 0 || $jewelry_total == "" || $jewelry_total_past == ""){
                     $jewelry_total_ratio = "---";
                 } else {
@@ -3860,7 +3865,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上金額に対する比率を取得
+    // 過去の同期間在庫金額に対する比率を取得
         if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
             $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3922,7 +3927,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上点数に対する比率を取得
+    // 過去の同期間在庫点数に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3977,7 +3982,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上点数に対する比率を取得
+    // 過去の同期間在庫点数に対する比率を取得
         if($betty_total <> 0 && $betty_total_past <> 0 && $betty_total <> "" && $betty_total_past <> ""){
             $betty_total_ratio = number_format((floor(((float)$betty_total / (float)$betty_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -4031,7 +4036,7 @@ class Analysis2_test_searchController extends Controller
         
                 $i++;
             }
-            // 過去の同期間売上金額に対する比率を取得
+            // 過去の同期間在庫金額に対する比率を取得
                 if($jewelry_total == 0 || $jewelry_total_past == 0 || $jewelry_total == "" || $jewelry_total_past == ""){
                     $jewelry_total_ratio = "---";
                 } else {
@@ -4107,7 +4112,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間売上金額に対する比率を取得
+    // 過去の同期間在庫金額に対する比率を取得
         if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
             $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -4222,7 +4227,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対するパーセンテージを取得
+    // 期間中の在庫合計に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(($jack_total / $total2) * 100 * 10)) / 10 ,1);
@@ -4339,7 +4344,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計点数に対するパーセンテージを取得
+    // 期間中の在庫合計点数に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
            $jack_total_per = number_format((floor(($jack_total / $total2) * 100 * 10)) / 10 ,1);
@@ -4399,7 +4404,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対する平均単価を取得
+    // 期間中の在庫合計に対する平均単価を取得
         if($jack_total <> 0 && $jack_total2 <> 0 && $jack_total <> "" && $jack_total2 <> ""){
             $jack_total_ave = (floor(($jack_total / $jack_total2) * 10)) / 10;
         } else {
@@ -4442,7 +4447,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の売上合計に対する平均単価を取得
+    // 期間中の在庫合計に対する平均単価を取得
         if($betty_total <> 0 && $betty_total2 <> 0 && $betty_total <> "" && $betty_total2 <> ""){
             $betty_total_ave = (floor(((float)$betty_total / (float)$betty_total2)));
         } else {
@@ -4486,7 +4491,7 @@ class Analysis2_test_searchController extends Controller
 
                 $i++;
             }
-            // 期間中の売上合計に対する平均単価を取得
+            // 期間中の在庫合計に対する平均単価を取得
                 if($jewelry_total == 0 || $jewelry_total2 == 0 || $jewelry_total == "" || $jewelry_total2 == ""){
                     $jewelry_total_ave = "---";
                 } else {
@@ -4508,11 +4513,11 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
                                             $all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
 
-                                        // 各月の全部門売上合計を配列に代入
+                                        // 各月の全部門在庫合計を配列に代入
                                             $temp1_all_m_sum_uriage_array = array();
                                             $temp1_all_m_sum_number_array = array();
                                             $i = 0;
@@ -4529,7 +4534,7 @@ class Analysis2_test_searchController extends Controller
 
                                                 $i++;
                                             }
-                                        // 各月の全部門売上合計部分のHTML作成
+                                        // 各月の全部門在庫合計部分のHTML作成
                                             foreach($temp1_all_m_sum_uriage_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -4538,7 +4543,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
                                             }
                                             
-                                        // 各月の全部門売上点数合計部分のHTML作成
+                                        // 各月の全部門在庫点数合計部分のHTML作成
                                             foreach($temp1_all_m_sum_number_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $all_sum_number .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -4548,7 +4553,7 @@ class Analysis2_test_searchController extends Controller
                                             }
                                             
                           
-                                        // 全期間全部門売上合計とその平均値のHTML作成
+                                        // 全期間全部門在庫合計とその平均値のHTML作成
                                             if($all_sum_uriage_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$all_average = floor((int)$all_sum_uriage_all / $i);
@@ -4569,7 +4574,7 @@ class Analysis2_test_searchController extends Controller
                                             if($out1_c == "ON"){ $view .= $temp1_jewelry_manthly_html;}
                                             $temp1_all_sorce = "<p class='title_a'>金額</p><div class='box1'>" . $temp1_title . $view . $all_sum_uriage . "</div>"/* . $uriage_progress*/;
 
-                                        // 全期間全部門売上点数合計とその平均値のHTML作成
+                                        // 全期間全部門在庫点数合計とその平均値のHTML作成
                                             if($all_sum_number_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$all_average2 = floor((int)$all_sum_number_all / $i);
@@ -4595,7 +4600,7 @@ class Analysis2_test_searchController extends Controller
                         // DB情報の受け取り（検索期間） end
                     /************************************************************************************************************************************************************************************************************* */
 
-                        // JSで表示させるための、期間売上などのデータを作成                    
+                        // JSで表示させるための、期間在庫などのデータを作成                    
                             if($out1_a == "ON"){$js_betty_uriage = substr($js_betty_uriage, 0, -2);} else {$js_betty_uriage = "";}
                             if($out1_b == "ON"){$js_jack_uriage = substr($js_jack_uriage, 0, -2);} else {$js_jack_uriage = "";}
                             if($out1_c == "ON"){$js_jewelry_uriage = substr($js_jewelry_uriage, 0, -2);} else {$js_jewelry_uriage = "";}
@@ -4613,12 +4618,15 @@ class Analysis2_test_searchController extends Controller
                 }
 
 
+
+
+
+
 /************************************************************************************************************************************************************************************************************* */
     // DB情報取得（ブランド用）
 /************************************************************************************************************************************************************************************************************* */
 
-
-    public function db_info_get2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z){
+    public function db_info_get2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x){
 
         $start_year = $a;
         $start_month = $b;
@@ -4633,20 +4641,18 @@ class Analysis2_test_searchController extends Controller
         $out1 = $l;
         $out2 = $m;
         $out3 = $n;
-        $out4 = $o;
-        $out5 = $p;
-        $search = $q;
-        $three_years_ago = $r;
-        $brandselect = $s;
-        $brandselect_b = $t;
-        $brandselect_jw = $u;
-        $out5_view = $v;
-        $next_year = $w;
-        $first_day = $x;
-        $last_day = $y;
-        $out5 = $p;
-        $out6 = $z;
-        
+        $out1_view = $o;
+        $search = $p;
+        $three_years_ago = $q;
+        $brandselect = $r;
+        $brandselect_b = $s;
+        $brandselect_jw = $t;
+        $next_year = $u;
+        $first_day = $v;
+        $last_day = $w;
+        $order_select = $x;
+
+
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // DB登録ロジックを実施
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4697,16 +4703,6 @@ class Analysis2_test_searchController extends Controller
                                 } else {$form_view = "OFF";}
                             
 
-                            // 「売却区分」フラグ
-                                /*$out1_a = "OFF";
-                                $out1_b = "OFF";
-                                $out1_c = "OFF";
-                                $out1_d = "OFF";
-                                if($out1 <> "" && in_array('2',$out1)){ $out1_a = "ON";}
-                                if($out1 <> "" && in_array('3',$out1)){ $out1_b = "ON";}
-                                if($out1 <> "" && in_array('4',$out1)){ $out1_c = "ON";}
-                                if($out1 <> "" && in_array('5',$out1)){ $out1_d = "ON";}*/
-                                
                             // 「扱い部門」フラグ
                                 $out1_a = "ON";
                                 $out1_b = "ON";
@@ -4716,42 +4712,18 @@ class Analysis2_test_searchController extends Controller
                                 $out2_a = "OFF";
                                 $out2_b = "OFF";
                                 $out2_c = "OFF";
-                                //$out2_d = "OFF";
-                                //$out2_e = "OFF";
                                 if($out2 <> "" && in_array('1',$out2)){ $out2_a = "ON";}
                                 if($out2 <> "" && in_array('2',$out2)){ $out2_b = "ON";}
                                 if($out2 <> "" && in_array('3',$out2)){ $out2_c = "ON";}
-                                //if($out2 <> "" && in_array('4',$out2)){ $out2_d = "ON";}
-                                //if($out2 <> "" && in_array('5',$out2)){ $out2_e = "ON";}
 
-                            // 通販サイトフラグ
-                                /*$out3_a = "OFF";
+                            // 条件
+                                $out3_a = "OFF";
                                 $out3_b = "OFF";
                                 $out3_c = "OFF";
-                                $out3_d = "OFF";
-                                $out3_e = "OFF";
-                                $out3_f = "OFF";
+
                                 if($out3 <> "" && in_array('1',$out3)){ $out3_a = "ON";}
                                 if($out3 <> "" && in_array('2',$out3)){ $out3_b = "ON";}
                                 if($out3 <> "" && in_array('3',$out3)){ $out3_c = "ON";}
-                                if($out3 <> "" && in_array('4',$out3)){ $out3_d = "ON";}
-                                if($out3 <> "" && in_array('5',$out3)){ $out3_e = "ON";}
-                                if($out3 <> "" && in_array('6',$out3)){ $out3_f = "ON";}*/
-
-                            // 免税フラグ
-                                /*$out4_a = "OFF";
-                                $out4_b = "OFF";
-                                if($out4 <> "" && in_array('1',$out4)){ $out4_a = "ON";}
-                                if($out4 <> "" && in_array('2',$out4)){ $out4_b = "ON";}*/
-
-                            // ブランドフラグ
-                                $out5_a = "OFF";
-                                $out5_b = "OFF";
-                                $out5_c = "OFF";
-                                if($out5 <> "" && in_array('2',$out5)){ $out5_a = "ON";}
-                                if($out5 <> "" && in_array('3',$out5)){ $out5_b = "ON";}
-                                if($out5 <> "" && in_array('4',$out5)){ $out5_c = "ON";}
-                            
 
 
                     /************************************************************************************************************************************************************************************************************* */
@@ -4885,7 +4857,8 @@ class Analysis2_test_searchController extends Controller
 /************************************************************************************************************************************************************************************************************* */
     // Betty用
 /************************************************************************************************************************************************************************************************************* */
-                                    if(isset($out5)){
+                                    //if(isset($out5)){
+                                    if(isset($out1)){
 
 
 /********************************************************************************************* */
@@ -4904,130 +4877,51 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp5_buys = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
-                                                        $table_name . '.uriage',
-                                                        $table_name . '.brandname',
-                                                        $table_name . '.brand',
-                                                        $table_name . '.baikyakukubun',
-                                                        $table_name . '.shouhinkubunbunruimei',
-                                                        $table_name . '.tsuuhankubun',
-                                                        $table_name . '.menzei',
+                                                        $table_name . '.date',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
                                                     ])
                                                 // 条件（期間の指定）
-                                                    ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
+                                                    ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
 
-                                                    //->Where('shouhinkubunbunruimei', '時計中古')
-
-                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
-                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
-															if($out1_d == "ON"){
-	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            }
-															} else {
-		                                                        // 条件（売上部門が店舗）
-		                                                            if($out1_a == "ON"){
-		                                                                $query->orWhere('baikyakukubun',1);
-		                                                            }
-		                                                        // 条件（売上部門が通販）
-		                                                            if($out1_b == "ON"){
-		                                                                $query->orWhere('baikyakukubun',2);
-		                                                            }
-		                                                        // 条件（売上部門が卸）
-		                                                            if($out1_c == "ON"){
-		                                                                $query->orWhere('baikyakukubun',3);
-		                                                            }
-															}
-                                                    
-                                                    })
-
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
 															// 条件（商品区分分類名が新品）
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
 																}
 															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
 																}
 															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
 																}
-															// 条件（商品区分分類名がその他）
-																if($out2_d == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-																}
-															// 条件（商品区分分類名が修理）
-																if($out2_e == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
-																}
+
+                                                    })
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+                                                            // 条件（修理預かりか否か）
+                                                                if($out3_a == "ON"){
+                                                                    $query->orwhere("souko_name","not like","%修理預%");
+                                                                }
+                                                            // 条件（ブランド名無しか否か）
+                                                                if($out3_b == "ON"){
+                                                                    $query->orwhere("brand_name","<>","");
+                                                                }
+                                                            // 条件（商品ID無しか否か）
+                                                                if($out3_c == "ON"){
+                                                                    $query->orwhere("tag","<>","");
+                                                                }
                                                     
-                                                    })
-
-                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-
-                                                            $query->orWhere('tsuuhankubun','');
-
-															// 条件（通販区分が自社）
-																if($out3_a == "ON"){
-																	$query->orWhere('tsuuhankubun',1);
-																}
-															// 条件（通販区分が楽天）
-																if($out3_b == "ON"){
-																	$query->orWhere('tsuuhankubun',2);
-																}
-															// 条件（通販区分がヤフー）
-																if($out3_c == "ON"){
-																	$query->orWhere('tsuuhankubun',3);
-																}
-															// 条件（通販区分が電話・雑誌）
-																if($out3_d == "ON"){
-																	$query->orWhere('tsuuhankubun',5);
-																}
-															// 条件（通販区分がYオークション）
-																if($out3_e == "ON"){
-																	$query->orWhere('tsuuhankubun',4);
-																}
-															// 条件（通販区分が修理品返送）
-																if($out3_f == "ON"){
-																	$query->orWhere('tsuuhankubun',9);
-																}
+                                                        })
                                                     
-                                                    })
-
-                                                    ->where(function ($query) use ($out4_a,$out4_b) {
-															// 条件（免税区分が0:対象外）
-																if($out4_a == "ON"){
-																	$query->orwhere("menzei","like","%対象外%");
-																}
-															// 条件（免税区分が1:免税）
-																if($out4_b == "ON"){
-																	$query->orwhere("menzei","like","%免税%");
-																}
-                                                    })
-
-
-
 
                                                 // ソート順指定
-                                                    ->orderBy('uriage', 'asc')
+                                                    ->orderBy('date', 'asc')
                                                     ->get();
                                             // 月毎の全ブランド名を格納するための変数を作成
                                                 foreach($manth_past_array as $month){
@@ -5042,12 +4936,12 @@ class Analysis2_test_searchController extends Controller
                                                 foreach ($past_temp5_buys as $past_temp5_buy) {
 
                                                     // 各月名
-                                                        $month = $past_temp5_buy->uriage;
+                                                        $month = $past_temp5_buy->date;
                                                         $month = mb_substr($month,0,-3);
                                                     // 個別ブランド番号
-                                                        $temp5_brand_no[$i]= $past_temp5_buy->brand;
+                                                        $temp5_brand_no[$i]= $past_temp5_buy->brand_id;
                                                     // 個別ブランド名
-                                                        $temp5_brand[$i]= $past_temp5_buy->brandname;
+                                                        $temp5_brand[$i]= $past_temp5_buy->brand_name;
 
                                                        
                                                             // 過去全期間全ブランド一覧用配列にブランドをセット
@@ -5066,7 +4960,7 @@ class Analysis2_test_searchController extends Controller
                                                                             array_push(${"past_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
                                                                             array_push(${"past_brand2_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
                                                                         }
-                                                                    // 月毎のブランド毎の売上を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"past_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
@@ -5074,7 +4968,7 @@ class Analysis2_test_searchController extends Controller
                                                                         ${"past_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         
-                                                                    // 月毎のブランド毎の売上用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"past_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"past_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"past_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
@@ -5082,7 +4976,7 @@ class Analysis2_test_searchController extends Controller
                                                                         ${"past_brand_betty_js_" . $temp5_brand_no[$i]} = "";
                                                                         ${"past_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
                                                                 
-                                                                    // 月毎のブランド毎の売上点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"past_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
@@ -5090,7 +4984,7 @@ class Analysis2_test_searchController extends Controller
                                                                         ${"past_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"past_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         
-                                                                    // 月毎のブランド毎の売上点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"past_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"past_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"past_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
@@ -5112,143 +5006,67 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp5_buys2 = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
-                                                        $table_name . '.bumonmei',
-                                                        $table_name . '.brand',
-                                                        $table_name . '.brandname',
-                                                        $table_name . '.uriagekingaku',
-                                                        $table_name . '.uriage',
-                                                        $table_name . '.uriagesuu',
-                                                        $table_name . '.baikyakukubun',
-                                                        $table_name . '.shouhinkubunbunruimei',
-                                                        $table_name . '.tsuuhankubun',
-                                                        $table_name . '.menzei',
+                                                        $table_name . '.date',
+                                                        $table_name . '.zaikokingaku',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
+
                                                     ])
                                                 // 条件（期間の指定）
-                                                    ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
+                                                    ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
 
-                                                    //->Where('shouhinkubunbunruimei', '時計中古')
-
-                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
-                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
-															if($out1_d == "ON"){
-	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            }
-															} else {
-		                                                        // 条件（売上部門が店舗）
-		                                                            if($out1_a == "ON"){
-		                                                                $query->orWhere('baikyakukubun',1);
-		                                                            }
-		                                                        // 条件（売上部門が通販）
-		                                                            if($out1_b == "ON"){
-		                                                                $query->orWhere('baikyakukubun',2);
-		                                                            }
-		                                                        // 条件（売上部門が卸）
-		                                                            if($out1_c == "ON"){
-		                                                                $query->orWhere('baikyakukubun',3);
-		                                                            }
-															}
-                                                    
-                                                    })
-
-
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
 															// 条件（商品区分分類名が新品）
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
 																}
 															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
 																}
 															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
 																}
-															// 条件（商品区分分類名がその他）
-																if($out2_d == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-																}
-															// 条件（商品区分分類名が修理）
-																if($out2_e == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
-																}
+
+                                                    })
+
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+                                                            // 条件（修理預かりか否か）
+                                                                if($out3_a == "ON"){
+                                                                    $query->orwhere("souko_name","not like","%修理預%");
+                                                                }
+                                                            // 条件（ブランド名無しか否か）
+                                                                if($out3_b == "ON"){
+                                                                    $query->orwhere("brand_name","<>","");
+                                                                }
+                                                            // 条件（商品ID無しか否か）
+                                                                if($out3_c == "ON"){
+                                                                    $query->orwhere("tag","<>","");
+                                                                }
                                                     
-                                                    })
-
-                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-                                                            $query->orWhere('tsuuhankubun','');
-
-															// 条件（通販区分が自社）
-																if($out3_a == "ON"){
-																	$query->orWhere('tsuuhankubun',1);
-																}
-															// 条件（通販区分が楽天）
-																if($out3_b == "ON"){
-																	$query->orWhere('tsuuhankubun',2);
-																}
-															// 条件（通販区分がヤフー）
-																if($out3_c == "ON"){
-																	$query->orWhere('tsuuhankubun',3);
-																}
-															// 条件（通販区分が電話・雑誌）
-																if($out3_d == "ON"){
-																	$query->orWhere('tsuuhankubun',5);
-																}
-															// 条件（通販区分がYオークション）
-																if($out3_e == "ON"){
-																	$query->orWhere('tsuuhankubun',4);
-																}
-															// 条件（通販区分が修理品返送）
-																if($out3_f == "ON"){
-																	$query->orWhere('tsuuhankubun',9);
-																}
-
-                                                    })
-                                                    ->where(function ($query) use ($out4_a,$out4_b) {
-															// 条件（免税区分が0:対象外）
-																if($out4_a == "ON"){
-																	$query->orwhere("menzei","like","%対象外%");
-																}
-															// 条件（免税区分が1:免税）
-																if($out4_b == "ON"){
-																	$query->orwhere("menzei","like","%免税%");
-																}
-                                                    })
+                                                        })
 
 
                                                 // ソート順指定
-                                                    ->orderBy('uriage', 'asc')
+                                                    ->orderBy('date', 'asc')
                                                     ->get();
 
                                             // クエリビルダスタート2
                                                 $i = 0;
                                                 foreach ($past_temp5_buys2 as $past_temp5_buy2) {
                                                     // 各月名
-                                                        $past_month = $past_temp5_buy2->uriage;
+                                                        $past_month = $past_temp5_buy2->date;
                                                         $past_month = mb_substr($past_month,0,-3);
-                                                        $past_brand[$i]= $past_temp5_buy2->brand;
-                                                        $past_brandname[$i]= $past_temp5_buy2->brandname;
-                                                        $past_bumon[$i]= $past_temp5_buy2->bumonmei;
-                                                        $past_uriage[$i]= $past_temp5_buy2->uriagekingaku;
-                                                        $past_uriage2[$i]= $past_temp5_buy2->uriagesuu;
+                                                        $past_brand[$i]= $past_temp5_buy2->brand_id;
+                                                        $past_brandname[$i]= $past_temp5_buy2->brand_name;
+                                                        $past_bumon[$i]= $past_temp5_buy2->bumon;
+                                                        $past_uriage[$i]= $past_temp5_buy2->zaikokingaku;
+                                                        $past_uriage2[$i]= $past_temp5_buy2->tougetsumizaikosuuryou;
 
                                                             // 現在の月毎ブランド一覧配列を展開
                                                                 foreach(${"past_brand_array_" . $past_month} as $past_brand2){
@@ -5256,11 +5074,11 @@ class Analysis2_test_searchController extends Controller
 
                                                                     // 月毎のブランド一覧と個別のブランド名が一致した場合
                                                                         if($past_brand2 == $past_brandname[$i]){
-                                                                            // 各部門毎の売上変数に売上金額を加算していく
+                                                                            // 各部門毎の在庫変数に在庫金額を加算していく
                                                                                 if($past_bumon[$i] == "Jackroad"){
                                                                                     ${"past_brand_jack_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand_jack_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage[$i];
                                                                                     ${"past_brand2_jack_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand2_jack_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage2[$i];
-                                                                                } else if($past_bumon[$i] == "BettyRoad"){
+                                                                                } else if($past_bumon[$i] == "Bettyroad"){
                                                                                     ${"past_brand_betty_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand_betty_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage[$i];
                                                                                     ${"past_brand2_betty_" . $past_month . "-" . $past_brand[$i]} = (int)${"past_brand2_betty_" . $past_month . "-" . $past_brand[$i]} + (int)$past_uriage2[$i];
                                                                                 } else if($past_bumon[$i] == "Jewelry"){
@@ -5275,9 +5093,7 @@ class Analysis2_test_searchController extends Controller
                                                     $i++;
  
                                          }
-//echo $yoy;
-//print_r(${"now_brand_array_" . $month});
-//print_r($all_now_brand_array);
+
                                         // 表示HTMLの作成（過去用）
                                             $i = 0;
                                             $all_past_brand_jack_sorce = "";
@@ -5310,7 +5126,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         // 全体ブランドには含まれるが現在ブランドに含まれないブランドの項目を作成
                                                             
-                                                            // 売上用
+                                                            // 在庫用
                                                                 ${"past_brand_jack_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand_jack_" . $past_month . "-" . $past_brand_code}) . "</div>";
                                                                 ${"past_brand_jack_sum_" . $past_brand_code} = (int)${"past_brand_jack_sum_" . $past_brand_code} + (int)${"past_brand_jack_" . $past_month . "-" . $past_brand_code};
                                                                 ${"past_brand_jack_js_" . $past_brand_code} .= ${"past_brand_jack_" . $past_month . "-" . $past_brand_code} . ", ";
@@ -5331,9 +5147,9 @@ class Analysis2_test_searchController extends Controller
                                                                 ${"past_brand2_jewelry_sorce_" . $past_brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code}) . "</div>";
                                                                 ${"past_brand2_jewelry_sum_" . $past_brand_code} = (int)${"past_brand2_jewelry_sum_" . $past_brand_code} + (int)${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code};
                                                                 ${"past_brand2_jewelry_js_" . $past_brand_code} .= ${"past_brand2_jewelry_" . $past_month . "-" . $past_brand_code} . ", ";
-                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の売上合計値を代入するため）   
+                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の在庫合計値を代入するため）   
                                                             if ( $past_month === $past_array_end ) {
-                                                                //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                //ブランドナンバーと期間中の在庫合計値を配列へ代入
                                                                     // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
                                                                         $past_brand_code2 = "";
                                                                         $past_brand_code2 = $past_brand_code . "_p";
@@ -5370,7 +5186,7 @@ class Analysis2_test_searchController extends Controller
                                                             ${"past_brand2_jewelry_js_" . $past_brand_code} .= "0, ";
                                                             // 月毎配列が最後の場合のみの処理        
                                                                 if ( $past_month === $past_array_end ) {
-                                                                    //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                    //ブランドナンバーと期間中の在庫合計値を配列へ代入
                                                                         // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
                                                                             $past_brand_code2 = "";
                                                                             $past_brand_code2 = $past_brand_code . "_p";
@@ -5392,7 +5208,7 @@ class Analysis2_test_searchController extends Controller
                                             }
 
 
-                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Jack用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 arsort( $past_brand_sort );
                                                 foreach($past_brand_sort as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5409,7 +5225,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         }
                                                         $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
-                                                        // 過去ジャック・売上表示の各ブランド毎の行を作成
+                                                        // 過去ジャック・在庫表示の各ブランド毎の行を作成
                                                             ${"past_brand_jack_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_jack_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_jack_sum_" . $past_brand_code}) . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5420,7 +5236,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
 
 
-                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Jack用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $past_brand2_sort );
                                                 foreach($past_brand2_sort as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5446,7 +5262,7 @@ class Analysis2_test_searchController extends Controller
                                                             }
                                                 }
 
-                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Betty用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 arsort( $past_brand_sort_b );
                                                 foreach($past_brand_sort_b as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5463,7 +5279,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         }
                                                         $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
-                                                        // 過去ベティー・売上表示の各ブランド毎の行を作成
+                                                        // 過去ベティー・在庫表示の各ブランド毎の行を作成
                                                             ${"past_brand_betty_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_betty_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_betty_sum_" . $past_brand_code}) . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5474,7 +5290,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
 
 
-                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Betty用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $past_brand2_sort_b );
                                                 foreach($past_brand2_sort_b as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5501,7 +5317,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
 
 
-                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Jewelry用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 arsort( $past_brand_sort_jw );
                                                 foreach($past_brand_sort_jw as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5518,7 +5334,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         }
                                                         $check_brand_value = $past_brand_code . "[" . $past_brand_name  . "]";
-                                                        // 過去ジュエリー・売上表示の各ブランド毎の行を作成
+                                                        // 過去ジュエリー・在庫表示の各ブランド毎の行を作成
                                                             ${"past_brand_jewelry_sorce_" . $past_brand_code} = "<div class='wid100 ul1b_past'><div class='title1 ta_c'>" . $past_brand_name . "</div>" . ${"past_brand_jewelry_sorce_" . $past_brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"past_brand_jewelry_sum_" . $past_brand_code}) . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5529,7 +5345,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
 
 
-                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Jewelry用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $past_brand2_sort_jw );
                                                 foreach($past_brand2_sort_jw as $past_brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -5559,11 +5375,11 @@ class Analysis2_test_searchController extends Controller
 
                                             $past_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $past_between_start_view . "～<br>" . $past_between_end_view . "</div>" . $past_temp5_title . "<div class='title6 ta_c'>累計</div></div>";
 
-                                            $all_past_brand_jack_sorce = "<p class='title_b'>過去・Jackブランド別売上</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand_jack_sorce . "</div></div>";
-                                            $all_past_brand2_jack_sorce = "<p class='title_b'>過去・Jackブランド別点数</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand2_jack_sorce . "</div></div>";
-                                            $all_past_brand_betty_sorce = "<p class='title_b'>過去・Bettyブランド別売上</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand_betty_sorce . "</div></div>";
+                                            $all_past_brand_jack_sorce = "<p class='title_b'>過去・Jackブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand_jack_sorce . "</div></div>";
+                                            $all_past_brand2_jack_sorce = "<p class='title_b'>過去・Jackブランド在庫別点数</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand2_jack_sorce . "</div></div>";
+                                            $all_past_brand_betty_sorce = "<p class='title_b'>過去・Bettyブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand_betty_sorce . "</div></div>";
                                             $all_past_brand2_betty_sorce = "<p class='title_b'>過去・Bettyブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand2_betty_sorce . "</div></div>";
-                                            $all_past_brand_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別売上</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand_jewelry_sorce . "</div></div>";
+                                            $all_past_brand_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand_jewelry_sorce . "</div></div>";
                                             $all_past_brand2_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand2_jewelry_sorce . "</div></div>";
                                         }
 
@@ -5651,128 +5467,55 @@ class Analysis2_test_searchController extends Controller
                                                 $temp5_buys = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
-                                                        $table_name . '.uriage',
-                                                        $table_name . '.brandname',
-                                                        $table_name . '.brand',
-                                                        $table_name . '.baikyakukubun',
-                                                        $table_name . '.shouhinkubunbunruimei',
-                                                        $table_name . '.tsuuhankubun',
-                                                        $table_name . '.menzei',
+                                                        $table_name . '.date',
+                                                        $table_name . '.zaikokingaku',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
+
                                                     ])
                                                 // 条件（期間の指定）
-                                                    ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
-
-                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+                                                    ->whereBetween($table_name . '.date', [$between_start, $between_end])
 
 
-                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
-                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
-															if($out1_d == "ON"){
-	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            }
-															} else {
-		                                                        // 条件（売上部門が店舗）
-		                                                            if($out1_a == "ON"){
-		                                                                $query->orWhere('baikyakukubun',1);
-		                                                            }
-		                                                        // 条件（売上部門が通販）
-		                                                            if($out1_b == "ON"){
-		                                                                $query->orWhere('baikyakukubun',2);
-		                                                            }
-		                                                        // 条件（売上部門が卸）
-		                                                            if($out1_c == "ON"){
-		                                                                $query->orWhere('baikyakukubun',3);
-		                                                            }
-															}
-                                                    
-                                                    })
 
-
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
 															// 条件（商品区分分類名が新品）
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
 																}
 															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
 																}
 															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-																}
-															// 条件（商品区分分類名がその他）
-																if($out2_d == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-																}
-															// 条件（商品区分分類名が修理）
-																if($out2_e == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
 																}
                                                     
                                                     })
-
-                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-                                                            $query->orWhere('tsuuhankubun','');
-
-															// 条件（通販区分が自社）
-																if($out3_a == "ON"){
-																	$query->orWhere('tsuuhankubun',1);
-																}
-															// 条件（通販区分が楽天）
-																if($out3_b == "ON"){
-																	$query->orWhere('tsuuhankubun',2);
-																}
-															// 条件（通販区分がヤフー）
-																if($out3_c == "ON"){
-																	$query->orWhere('tsuuhankubun',3);
-																}
-															// 条件（通販区分が電話・雑誌）
-																if($out3_d == "ON"){
-																	$query->orWhere('tsuuhankubun',5);
-																}
-															// 条件（通販区分がYオークション）
-																if($out3_e == "ON"){
-																	$query->orWhere('tsuuhankubun',4);
-																}
-															// 条件（通販区分が修理品返送）
-																if($out3_f == "ON"){
-																	$query->orWhere('tsuuhankubun',9);
-																}
-                                                    })
-
-                                                    ->where(function ($query) use ($out4_a,$out4_b) {
-															// 条件（免税区分が0:対象外）
-																if($out4_a == "ON"){
-																	$query->orwhere("menzei","like","%対象外%");
-																}
-															// 条件（免税区分が1:免税）
-																if($out4_b == "ON"){
-																	$query->orwhere("menzei","like","%免税%");
-																}
-                                                    })
-
+                                                    
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+                                                            // 条件（修理預かりか否か）
+                                                                if($out3_a == "ON"){
+                                                                    $query->orwhere("souko_name","not like","%修理預%");
+                                                                }
+                                                            // 条件（ブランド名無しか否か）
+                                                                if($out3_b == "ON"){
+                                                                    $query->orwhere("brand_name","<>","");
+                                                                }
+                                                            // 条件（商品ID無しか否か）
+                                                                if($out3_c == "ON"){
+                                                                    $query->orwhere("tag","<>","");
+                                                                }
+                                                    
+                                                        })
 
                                                 // ソート順指定
-                                                    ->orderBy('uriage', 'asc')
+                                                    ->orderBy('date', 'asc')
                                                     ->get();
                                             // 月毎の全ブランド名を格納するための変数を作成
                                                 foreach($manth_now_array as $month){
@@ -5786,13 +5529,12 @@ class Analysis2_test_searchController extends Controller
                                                 foreach ($temp5_buys as $temp5_buy) {
 
                                                     // 各月名
-                                                        $month = $temp5_buy->uriage;
+                                                        $month = $temp5_buy->date;
                                                         $month = mb_substr($month,0,-3);
                                                     // 個別ブランド番号
-                                                        $temp5_brand_no[$i]= $temp5_buy->brand;
+                                                        $temp5_brand_no[$i]= $temp5_buy->brand_id;
                                                     // 個別ブランド名
-                                                        $temp5_brand[$i]= $temp5_buy->brandname;
-                                                        
+                                                        $temp5_brand[$i]= $temp5_buy->brand_name;
 
                                                             // 現在全期間全ブランド一覧用配列にブランドをセット
                                                                 if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",$all_now_brand_array, true)){
@@ -5809,14 +5551,14 @@ class Analysis2_test_searchController extends Controller
                                                                         if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
                                                                             array_push(${"now_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
                                                                         }
-                                                                    // 月毎のブランド毎の売上を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"now_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand_jack_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                    // 月毎のブランド毎の売上用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"now_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"now_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"now_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
@@ -5824,14 +5566,14 @@ class Analysis2_test_searchController extends Controller
                                                                         ${"now_brand_betty_js_" . $temp5_brand_no[$i]} = "";
                                                                         ${"now_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
                                                                         
-                                                                    // 月毎のブランド毎の売上点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"now_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand2_jack_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
                                                                         ${"now_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                    // 月毎のブランド毎の売上点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
+                                                                    // 月毎のブランド毎の在庫点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
                                                                         ${"now_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"now_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
                                                                         ${"now_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
@@ -5856,155 +5598,78 @@ class Analysis2_test_searchController extends Controller
                                                 $temp5_buys2 = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
-                                                        $table_name . '.bumonmei',
-                                                        $table_name . '.brand',
-                                                        $table_name . '.brandname',
-                                                        $table_name . '.uriagekingaku',
-                                                        $table_name . '.uriage',
-                                                        $table_name . '.uriagesuu',
-                                                        $table_name . '.baikyakukubun',
-                                                        $table_name . '.shouhinkubunbunruimei',
-                                                        $table_name . '.tsuuhankubun',
-                                                        $table_name . '.menzei',
+                                                        $table_name . '.date',
+                                                        $table_name . '.zaikokingaku',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
+                                                        
                                                     ])
                                                 // 条件（期間の指定）
-                                                    ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
-                                                    //->Where('shouhinkubunbunruimei', '時計中古')
+                                                    ->whereBetween($table_name . '.date', [$between_start, $between_end])
 
-
-                                                    ->where(function ($query) use ($out1_a,$out1_b,$out1_c,$out1_d) {
-                                                        // 条件（売上部門が「店舗」「通販」「卸」以外（おそらく入力間違い分））
-															if($out1_d == "ON"){
-	                                                            if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "OFF" && $out1_b == "ON" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 1);
-	                                                            } else if($out1_a == "ON" && $out1_b == "OFF" && $out1_c == "ON"){
-	                                                                $query->Where('baikyakukubun', '<>', 2);
-	                                                            } else if($out1_a == "ON" && $out1_b == "ON" && $out1_c == "OFF"){
-	                                                                $query->Where('baikyakukubun', '<>', 3);
-	                                                            }
-															} else {
-		                                                        // 条件（売上部門が店舗）
-		                                                            if($out1_a == "ON"){
-		                                                                $query->orWhere('baikyakukubun',1);
-		                                                            }
-		                                                        // 条件（売上部門が通販）
-		                                                            if($out1_b == "ON"){
-		                                                                $query->orWhere('baikyakukubun',2);
-		                                                            }
-		                                                        // 条件（売上部門が卸）
-		                                                            if($out1_c == "ON"){
-		                                                                $query->orWhere('baikyakukubun',3);
-		                                                            }
-															}
-                                                    
-                                                    })
-
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
 															// 条件（商品区分分類名が新品）
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
 																}
 															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
 																}
 															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-																}
-															// 条件（商品区分分類名がその他）
-																if($out2_d == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-																}
-															// 条件（商品区分分類名が修理）
-																if($out2_e == "ON"){
-																	$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
 																}
                                                     
                                                     })
 
-                                                    ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-                                                            $query->orWhere('tsuuhankubun','');
-
-															// 条件（通販区分が自社）
-																if($out3_a == "ON"){
-																	$query->orWhere('tsuuhankubun',1);
-																}
-															// 条件（通販区分が楽天）
-																if($out3_b == "ON"){
-																	$query->orWhere('tsuuhankubun',2);
-																}
-															// 条件（通販区分がヤフー）
-																if($out3_c == "ON"){
-																	$query->orWhere('tsuuhankubun',3);
-																}
-															// 条件（通販区分が電話・雑誌）
-																if($out3_d == "ON"){
-																	$query->orWhere('tsuuhankubun',5);
-																}
-															// 条件（通販区分がYオークション）
-																if($out3_e == "ON"){
-																	$query->orWhere('tsuuhankubun',4);
-																}
-															// 条件（通販区分が修理品返送）
-																if($out3_f == "ON"){
-																	$query->orWhere('tsuuhankubun',9);
-																}
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+                                                            // 条件（修理預かりか否か）
+                                                                if($out3_a == "ON"){
+                                                                    $query->orwhere("souko_name","not like","%修理預%");
+                                                                }
+                                                            // 条件（ブランド名無しか否か）
+                                                                if($out3_b == "ON"){
+                                                                    $query->orwhere("brand_name","<>","");
+                                                                }
+                                                            // 条件（商品ID無しか否か）
+                                                                if($out3_c == "ON"){
+                                                                    $query->orwhere("tag","<>","");
+                                                                }
                                                     
-                                                    })
+                                                        })
 
-                                                    ->where(function ($query) use ($out4_a,$out4_b) {
-															// 条件（免税区分が0:対象外）
-																if($out4_a == "ON"){
-																	$query->orwhere("menzei","like","%対象外%");
-																}
-															// 条件（免税区分が1:免税）
-																if($out4_b == "ON"){
-																	$query->orwhere("menzei","like","%免税%");
-																}
-                                                    })
-                                                    
 
                                                 // ソート順指定
-                                                    ->orderBy('uriage', 'asc')
+                                                    ->orderBy('date', 'asc')
                                                     ->get();
 
                                             // クエリビルダスタート
                                                 $i = 0;
                                                 foreach ($temp5_buys2 as $temp5_buy2) {
                                                     // 各月名
-                                                        $month = $temp5_buy2->uriage;
+                                                        $month = $temp5_buy2->date;
                                                         $month = mb_substr($month,0,-3);
-                                                        $brand[$i]= $temp5_buy2->brand;
-                                                        $brandname[$i]= $temp5_buy2->brandname;
-                                                        $bumon[$i]= $temp5_buy2->bumonmei;
-                                                        $uriage[$i]= $temp5_buy2->uriagekingaku;
-                                                        $uriage2[$i]= $temp5_buy2->uriagesuu;
-                                                        //echo $uriage[$i] . "(" . $uriage2[$i] . ")(" . $brandname[$i] . ")<br>";
+                                                        $brand[$i]= $temp5_buy2->brand_id;
+                                                        $brandname[$i]= $temp5_buy2->brand_name;
+                                                        $bumon[$i]= $temp5_buy2->bumon;
+                                                        $uriage[$i]= $temp5_buy2->zaikokingaku;
+                                                        $uriage2[$i]= $temp5_buy2->tougetsumizaikosuuryou;
 
                                                             // 現在の月毎ブランド一覧配列を展開
                                                                 foreach(${"now_brand_array_" . $month} as $brand2){
                                                                     $brand2 = mb_substr( $brand2 , 0 , mb_strpos($brand2, "[") );
                                                                     // 月毎のブランド一覧と個別のブランド名が一致した場合
                                                                         if($brand2 == $brandname[$i]){
-                                                                            // 各部門毎の売上変数に売上金額を加算していく
+                                                                            // 各部門毎の在庫変数に在庫金額を加算していく
                                                                                 if($bumon[$i] == "Jackroad"){
                                                                                     ${"now_brand_jack_" . $month . "-" . $brand[$i]} = (int)${"now_brand_jack_" . $month . "-" . $brand[$i]} + (int)$uriage[$i];
                                                                                     ${"now_brand2_jack_" . $month . "-" . $brand[$i]} = (int)${"now_brand2_jack_" . $month . "-" . $brand[$i]} + (int)$uriage2[$i];
-                                                                                } else if($bumon[$i] == "BettyRoad"){
+                                                                                } else if($bumon[$i] == "Bettyroad"){
                                                                                     ${"now_brand_betty_" . $month . "-" . $brand[$i]} = (int)${"now_brand_betty_" . $month . "-" . $brand[$i]} + (int)$uriage[$i];
                                                                                     ${"now_brand2_betty_" . $month . "-" . $brand[$i]} = (int)${"now_brand2_betty_" . $month . "-" . $brand[$i]} + (int)$uriage2[$i];
                                                                                 } else if($bumon[$i] == "Jewelry"){
@@ -6015,7 +5680,6 @@ class Analysis2_test_searchController extends Controller
                                                                         }
 
                                                                 }
-
 
                                                     $i++;
  
@@ -6056,7 +5720,7 @@ class Analysis2_test_searchController extends Controller
                                                         $brand_code = str_replace("]",'',$brand_code);
 
                                                         // 全体ブランドには含まれるが現在ブランドに含まれないブランドの項目を作成
-                                                            // 売上用
+                                                            // 在庫用
                                                                 ${"now_brand_jack_sorce_" . $brand_code} .= "<div class='title3 ta_r'>" . number_format((int)${"now_brand_jack_" . $month . "-" . $brand_code}) . "</div>";
                                                                 ${"now_brand_jack_sum_" . $brand_code} = (int)${"now_brand_jack_sum_" . $brand_code} + (int)${"now_brand_jack_" . $month . "-" . $brand_code};
                                                                 ${"now_brand_jack_js_" . $brand_code} .= ${"now_brand_jack_" . $month . "-" . $brand_code} . ", ";
@@ -6078,9 +5742,9 @@ class Analysis2_test_searchController extends Controller
                                                                 ${"now_brand2_jewelry_js_" . $brand_code} .= ${"now_brand2_jewelry_" . $month . "-" . $brand_code} . ", ";
 
 
-                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の売上合計値を代入するため）       
+                                                        // 月毎配列が最後の場合のみの処理（配列へブランド毎の在庫合計値を代入するため）       
                                                             if ( $month === $array_end ) {
-                                                                //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                //ブランドナンバーと期間中の在庫合計値を配列へ代入
                                                                     // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
                                                                         $brand_code2 = "";
                                                                         $brand_code2 = $brand_code . "_p";
@@ -6119,7 +5783,7 @@ class Analysis2_test_searchController extends Controller
 
                                                             // 月毎配列が最後の場合のみの処理        
                                                                 if ( $month === $array_end ) {
-                                                                    //ブランドナンバーと期間中の売上合計値を配列へ代入
+                                                                    //ブランドナンバーと期間中の在庫合計値を配列へ代入
                                                                         // ブランドコードを配列に渡したいが、Keyに数字を入れるとインデックスの要素への代入処理になり順番指定として扱われるので、一旦文字列で代入し、取り出す際に仮で追記した文字列を削除して使用する
                                                                             $brand_code2 = "";
                                                                             $brand_code2 = $brand_code . "_p";
@@ -6141,7 +5805,7 @@ class Analysis2_test_searchController extends Controller
                                             }
 
 
-                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Jack用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 //if(is_array($brand_sort)){arsort( $brand_sort );}
                                                 arsort( $brand_sort );
                                                 foreach($brand_sort as $brand_code => $total_value){
@@ -6163,7 +5827,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         // 前期比の作成
                                                             if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
-                                                        // 現在ジャック・売上表示の各ブランド毎の行を作成
+                                                        // 現在ジャック・在庫表示の各ブランド毎の行を作成
                                                             ${"now_brand_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -6173,7 +5837,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
                                                 
 
-                                            // Jack用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Jack用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $brand2_sort );
                                                 foreach($brand2_sort as $brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -6204,7 +5868,7 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Betty用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 arsort( $brand_sort_b );
                                                 foreach($brand_sort_b as $brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -6225,7 +5889,7 @@ class Analysis2_test_searchController extends Controller
                                                         
                                                         // 前期比の作成
                                                             if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
-                                                        // 現在ベティー・売上表示の各ブランド毎の行を作成
+                                                        // 現在ベティー・在庫表示の各ブランド毎の行を作成
                                                             ${"now_brand_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -6234,7 +5898,7 @@ class Analysis2_test_searchController extends Controller
                                                             }
                                                 }
 
-                                            // Betty用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Betty用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $brand2_sort_b );
                                                 foreach($brand2_sort_b as $brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -6266,7 +5930,7 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（売上用）
+                                            // Jewelry用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（在庫用）
                                                 arsort( $brand_sort_jw );
                                                 foreach($brand_sort_jw as $brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -6287,7 +5951,7 @@ class Analysis2_test_searchController extends Controller
                                                         
                                                         // 前期比の作成
                                                             if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
-                                                        // 現在ジュエリー・売上表示の各ブランド毎の行を作成
+                                                        // 現在ジュエリー・在庫表示の各ブランド毎の行を作成
                                                             ${"now_brand_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -6296,7 +5960,7 @@ class Analysis2_test_searchController extends Controller
                                                             }
                                                 }
 
-                                            // Jewelry用ブランドを売上降順（売上を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
+                                            // Jewelry用ブランドを在庫降順（在庫を代入している値基準）でソートし、各ブランドの行HTMLに追記（点数用）
                                                 arsort( $brand2_sort_jw );
                                                 foreach($brand2_sort_jw as $brand_code => $total_value){
                                                     // ブランドコード（数字での順番指定を回避するために適当に追記した文字列を削除して使用）
@@ -6330,15 +5994,14 @@ class Analysis2_test_searchController extends Controller
                                             $now_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp5_title . "<div class='title6 ta_c'>累計</div><div class='title6 ta_c'>過去比</div></div>";
 
 
-                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別売上</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
-                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
+                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
+                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
 
-                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別売上</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
-                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
+                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
+                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
                                             
-                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別売上</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
-                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別売上点数</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
-
+                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
+                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
 
 
 
@@ -6412,10 +6075,9 @@ class Analysis2_test_searchController extends Controller
 
 
 
-
-    return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out1_d' => $out1_d,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out2_d' => $out2_d,'out2_e' => $out2_e,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'out3_d' => $out3_d,'out3_e' => $out3_e,'out3_f' => $out3_f,'out4_a' => $out4_a,'out4_b' => $out4_b,'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_past_brand_jack_sorce' => $all_past_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'all_past_brand2_jack_sorce' => $all_past_brand2_jack_sorce/*,'temp5_all_sorce' => $temp5_all_sorce,'temp5_all_sorce2' => $temp5_all_sorce2,'js_web_uriage' => $js_web_uriage,'js_shop_uriage' => $js_shop_uriage,'js_oroshi_uriage' => $js_oroshi_uriage,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp5_all_sorce' => $past_temp5_all_sorce,'past_temp5_all_sorce2' => $past_temp5_all_sorce2,'past_js_web_uriage' => $past_js_web_uriage,'past_js_shop_uriage' => $past_js_shop_uriage,'past_js_oroshi_uriage' => $past_js_oroshi_uriage,'past_js_web_number' => $past_js_web_number,'past_js_shop_number' => $past_js_shop_number,'past_js_oroshi_number' => $past_js_oroshi_number,'js_web_number' => $js_web_number,'js_shop_number' => $js_shop_number,'js_oroshi_number' => $js_oroshi_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'js_web_arari' => $js_web_arari,'js_shop_arari' => $js_shop_arari,'js_oroshi_arari' => $js_oroshi_arari,'js_all_month_arari' => $js_all_month_arari,'past_js_web_arari' => $past_js_web_arari,'past_js_shop_arari' => $past_js_shop_arari,'past_js_oroshi_arari' => $past_js_oroshi_arari,'js_past_all_month_arari' => $js_past_all_month_arari,'temp5_all_sorce3' => $temp5_all_sorce3,'past_temp5_all_sorce3' => $past_temp5_all_sorce3,'search' => $search*/,'js_month' => $js_month,'line_width' => $line_width,'search' => $search,'out5' => $out5,'out5_a' => $out5_a,'out5_b' => $out5_b,'out5_c' => $out5_c,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandcode_now_j_uriage1' => $js_brandcode_now_j_uriage1,'js_brandcode_now_j_uriage2' => $js_brandcode_now_j_uriage2,'js_brandcode_now_j_uriage3' => $js_brandcode_now_j_uriage3,'js_brandcode_now_j_uriage4' => $js_brandcode_now_j_uriage4,'js_brandcode_now_j_uriage5' => $js_brandcode_now_j_uriage5,'js_brandcode_past_j_uriage1' => $js_brandcode_past_j_uriage1,'js_brandcode_past_j_uriage2' => $js_brandcode_past_j_uriage2,'js_brandcode_past_j_uriage3' => $js_brandcode_past_j_uriage3,'js_brandcode_past_j_uriage4' => $js_brandcode_past_j_uriage4,'js_brandcode_past_j_uriage5' => $js_brandcode_past_j_uriage5,'js_brandcode_now_j_honsuu1' => $js_brandcode_now_j_honsuu1,'js_brandcode_now_j_honsuu2' => $js_brandcode_now_j_honsuu2,'js_brandcode_now_j_honsuu3' => $js_brandcode_now_j_honsuu3,'js_brandcode_now_j_honsuu4' => $js_brandcode_now_j_honsuu4,'js_brandcode_now_j_honsuu5' => $js_brandcode_now_j_honsuu5,'js_brandcode_past_j_honsuu1' => $js_brandcode_past_j_honsuu1,'js_brandcode_past_j_honsuu2' => $js_brandcode_past_j_honsuu2,'js_brandcode_past_j_honsuu3' => $js_brandcode_past_j_honsuu3,'js_brandcode_past_j_honsuu4' => $js_brandcode_past_j_honsuu4,'js_brandcode_past_j_honsuu5' => $js_brandcode_past_j_honsuu5,'out5_view' => $out5_view,'js_brandcode_now_b_honsuu1' => $js_brandcode_now_b_honsuu1,'js_brandcode_now_b_honsuu2' => $js_brandcode_now_b_honsuu2,'js_brandcode_now_b_honsuu3' => $js_brandcode_now_b_honsuu3,'js_brandcode_now_b_honsuu4' => $js_brandcode_now_b_honsuu4,'js_brandcode_now_b_honsuu5' => $js_brandcode_now_b_honsuu5,'js_brandcode_past_b_honsuu1' => $js_brandcode_past_b_honsuu1,'js_brandcode_past_b_honsuu2' => $js_brandcode_past_b_honsuu2,'js_brandcode_past_b_honsuu3' => $js_brandcode_past_b_honsuu3,'js_brandcode_past_b_honsuu4' => $js_brandcode_past_b_honsuu4,'js_brandcode_past_b_honsuu5' => $js_brandcode_past_b_honsuu5,'js_brandcode_now_b_uriage1' => $js_brandcode_now_b_uriage1,'js_brandcode_now_b_uriage2' => $js_brandcode_now_b_uriage2,'js_brandcode_now_b_uriage3' => $js_brandcode_now_b_uriage3,'js_brandcode_now_b_uriage4' => $js_brandcode_now_b_uriage4,'js_brandcode_now_b_uriage5' => $js_brandcode_now_b_uriage5,'js_brandcode_past_b_uriage1' => $js_brandcode_past_b_uriage1,'js_brandcode_past_b_uriage2' => $js_brandcode_past_b_uriage2,'js_brandcode_past_b_uriage3' => $js_brandcode_past_b_uriage3,'js_brandcode_past_b_uriage4' => $js_brandcode_past_b_uriage4,'js_brandcode_past_b_uriage5' => $js_brandcode_past_b_uriage5,'js_brandcode_now_jw_honsuu1' => $js_brandcode_now_jw_honsuu1,'js_brandcode_now_jw_honsuu2' => $js_brandcode_now_jw_honsuu2,'js_brandcode_now_jw_honsuu3' => $js_brandcode_now_jw_honsuu3,'js_brandcode_now_jw_honsuu4' => $js_brandcode_now_jw_honsuu4,'js_brandcode_now_jw_honsuu5' => $js_brandcode_now_jw_honsuu5,'js_brandcode_past_jw_honsuu1' => $js_brandcode_past_jw_honsuu1,'js_brandcode_past_jw_honsuu2' => $js_brandcode_past_jw_honsuu2,'js_brandcode_past_jw_honsuu3' => $js_brandcode_past_jw_honsuu3,'js_brandcode_past_jw_honsuu4' => $js_brandcode_past_jw_honsuu4,'js_brandcode_past_jw_honsuu5' => $js_brandcode_past_jw_honsuu5,'js_brandcode_now_jw_uriage1' => $js_brandcode_now_jw_uriage1,'js_brandcode_now_jw_uriage2' => $js_brandcode_now_jw_uriage2,'js_brandcode_now_jw_uriage3' => $js_brandcode_now_jw_uriage3,'js_brandcode_now_jw_uriage4' => $js_brandcode_now_jw_uriage4,'js_brandcode_now_jw_uriage5' => $js_brandcode_now_jw_uriage5,'js_brandcode_past_jw_uriage1' => $js_brandcode_past_jw_uriage1,'js_brandcode_past_jw_uriage2' => $js_brandcode_past_jw_uriage2,'js_brandcode_past_jw_uriage3' => $js_brandcode_past_jw_uriage3,'js_brandcode_past_jw_uriage4' => $js_brandcode_past_jw_uriage4,'js_brandcode_past_jw_uriage5' => $js_brandcode_past_jw_uriage5,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_past_brand_betty_sorce' => $all_past_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_past_brand2_betty_sorce' => $all_past_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_past_brand_jewelry_sorce' => $all_past_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'all_past_brand2_jewelry_sorce' => $all_past_brand2_jewelry_sorce,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'brandselect' => $brandselect,'brandselect_b' => $brandselect_b,'brandselect_jw' => $brandselect_jw,'brand_bumon_select' => $brand_bumon_select,'view_select' => $view_select,'out6' => $out6]);
+        return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,/*'out3_d' => $out3_d,'out3_e' => $out3_e,'out3_f' => $out3_f,'out4_a' => $out4_a,'out4_b' => $out4_b,*/'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_past_brand_jack_sorce' => $all_past_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'all_past_brand2_jack_sorce' => $all_past_brand2_jack_sorce/*,'temp5_all_sorce' => $temp5_all_sorce,'temp5_all_sorce2' => $temp5_all_sorce2,'js_web_uriage' => $js_web_uriage,'js_shop_uriage' => $js_shop_uriage,'js_oroshi_uriage' => $js_oroshi_uriage,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp5_all_sorce' => $past_temp5_all_sorce,'past_temp5_all_sorce2' => $past_temp5_all_sorce2,'past_js_web_uriage' => $past_js_web_uriage,'past_js_shop_uriage' => $past_js_shop_uriage,'past_js_oroshi_uriage' => $past_js_oroshi_uriage,'past_js_web_number' => $past_js_web_number,'past_js_shop_number' => $past_js_shop_number,'past_js_oroshi_number' => $past_js_oroshi_number,'js_web_number' => $js_web_number,'js_shop_number' => $js_shop_number,'js_oroshi_number' => $js_oroshi_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'js_web_arari' => $js_web_arari,'js_shop_arari' => $js_shop_arari,'js_oroshi_arari' => $js_oroshi_arari,'js_all_month_arari' => $js_all_month_arari,'past_js_web_arari' => $past_js_web_arari,'past_js_shop_arari' => $past_js_shop_arari,'past_js_oroshi_arari' => $past_js_oroshi_arari,'js_past_all_month_arari' => $js_past_all_month_arari,'temp5_all_sorce3' => $temp5_all_sorce3,'past_temp5_all_sorce3' => $past_temp5_all_sorce3,'search' => $search*/,'js_month' => $js_month,'line_width' => $line_width,'search' => $search,/*'out5' => $out5,'out5_a' => $out5_a,'out5_b' => $out5_b,'out5_c' => $out5_c,*/'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandcode_now_j_uriage1' => $js_brandcode_now_j_uriage1,'js_brandcode_now_j_uriage2' => $js_brandcode_now_j_uriage2,'js_brandcode_now_j_uriage3' => $js_brandcode_now_j_uriage3,'js_brandcode_now_j_uriage4' => $js_brandcode_now_j_uriage4,'js_brandcode_now_j_uriage5' => $js_brandcode_now_j_uriage5,'js_brandcode_past_j_uriage1' => $js_brandcode_past_j_uriage1,'js_brandcode_past_j_uriage2' => $js_brandcode_past_j_uriage2,'js_brandcode_past_j_uriage3' => $js_brandcode_past_j_uriage3,'js_brandcode_past_j_uriage4' => $js_brandcode_past_j_uriage4,'js_brandcode_past_j_uriage5' => $js_brandcode_past_j_uriage5,'js_brandcode_now_j_honsuu1' => $js_brandcode_now_j_honsuu1,'js_brandcode_now_j_honsuu2' => $js_brandcode_now_j_honsuu2,'js_brandcode_now_j_honsuu3' => $js_brandcode_now_j_honsuu3,'js_brandcode_now_j_honsuu4' => $js_brandcode_now_j_honsuu4,'js_brandcode_now_j_honsuu5' => $js_brandcode_now_j_honsuu5,'js_brandcode_past_j_honsuu1' => $js_brandcode_past_j_honsuu1,'js_brandcode_past_j_honsuu2' => $js_brandcode_past_j_honsuu2,'js_brandcode_past_j_honsuu3' => $js_brandcode_past_j_honsuu3,'js_brandcode_past_j_honsuu4' => $js_brandcode_past_j_honsuu4,'js_brandcode_past_j_honsuu5' => $js_brandcode_past_j_honsuu5,'out1_view' => $out1_view,'js_brandcode_now_b_honsuu1' => $js_brandcode_now_b_honsuu1,'js_brandcode_now_b_honsuu2' => $js_brandcode_now_b_honsuu2,'js_brandcode_now_b_honsuu3' => $js_brandcode_now_b_honsuu3,'js_brandcode_now_b_honsuu4' => $js_brandcode_now_b_honsuu4,'js_brandcode_now_b_honsuu5' => $js_brandcode_now_b_honsuu5,'js_brandcode_past_b_honsuu1' => $js_brandcode_past_b_honsuu1,'js_brandcode_past_b_honsuu2' => $js_brandcode_past_b_honsuu2,'js_brandcode_past_b_honsuu3' => $js_brandcode_past_b_honsuu3,'js_brandcode_past_b_honsuu4' => $js_brandcode_past_b_honsuu4,'js_brandcode_past_b_honsuu5' => $js_brandcode_past_b_honsuu5,'js_brandcode_now_b_uriage1' => $js_brandcode_now_b_uriage1,'js_brandcode_now_b_uriage2' => $js_brandcode_now_b_uriage2,'js_brandcode_now_b_uriage3' => $js_brandcode_now_b_uriage3,'js_brandcode_now_b_uriage4' => $js_brandcode_now_b_uriage4,'js_brandcode_now_b_uriage5' => $js_brandcode_now_b_uriage5,'js_brandcode_past_b_uriage1' => $js_brandcode_past_b_uriage1,'js_brandcode_past_b_uriage2' => $js_brandcode_past_b_uriage2,'js_brandcode_past_b_uriage3' => $js_brandcode_past_b_uriage3,'js_brandcode_past_b_uriage4' => $js_brandcode_past_b_uriage4,'js_brandcode_past_b_uriage5' => $js_brandcode_past_b_uriage5,'js_brandcode_now_jw_honsuu1' => $js_brandcode_now_jw_honsuu1,'js_brandcode_now_jw_honsuu2' => $js_brandcode_now_jw_honsuu2,'js_brandcode_now_jw_honsuu3' => $js_brandcode_now_jw_honsuu3,'js_brandcode_now_jw_honsuu4' => $js_brandcode_now_jw_honsuu4,'js_brandcode_now_jw_honsuu5' => $js_brandcode_now_jw_honsuu5,'js_brandcode_past_jw_honsuu1' => $js_brandcode_past_jw_honsuu1,'js_brandcode_past_jw_honsuu2' => $js_brandcode_past_jw_honsuu2,'js_brandcode_past_jw_honsuu3' => $js_brandcode_past_jw_honsuu3,'js_brandcode_past_jw_honsuu4' => $js_brandcode_past_jw_honsuu4,'js_brandcode_past_jw_honsuu5' => $js_brandcode_past_jw_honsuu5,'js_brandcode_now_jw_uriage1' => $js_brandcode_now_jw_uriage1,'js_brandcode_now_jw_uriage2' => $js_brandcode_now_jw_uriage2,'js_brandcode_now_jw_uriage3' => $js_brandcode_now_jw_uriage3,'js_brandcode_now_jw_uriage4' => $js_brandcode_now_jw_uriage4,'js_brandcode_now_jw_uriage5' => $js_brandcode_now_jw_uriage5,'js_brandcode_past_jw_uriage1' => $js_brandcode_past_jw_uriage1,'js_brandcode_past_jw_uriage2' => $js_brandcode_past_jw_uriage2,'js_brandcode_past_jw_uriage3' => $js_brandcode_past_jw_uriage3,'js_brandcode_past_jw_uriage4' => $js_brandcode_past_jw_uriage4,'js_brandcode_past_jw_uriage5' => $js_brandcode_past_jw_uriage5,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_past_brand_betty_sorce' => $all_past_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_past_brand2_betty_sorce' => $all_past_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_past_brand_jewelry_sorce' => $all_past_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'all_past_brand2_jewelry_sorce' => $all_past_brand2_jewelry_sorce,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'brandselect' => $brandselect,'brandselect_b' => $brandselect_b,'brandselect_jw' => $brandselect_jw,'brand_bumon_select' => $brand_bumon_select,'view_select' => $view_select]);
         
-                }
+    }
 
 
 
