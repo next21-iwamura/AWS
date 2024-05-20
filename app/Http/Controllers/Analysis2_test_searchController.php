@@ -104,8 +104,9 @@ class Analysis2_test_searchController extends Controller
                             }         
 
                         $output = "";
+                        $out1 = "";
                         $out2 = "";
-                        $out5 = "";
+                        $out3 = "";
 
                    
                     /************************************************************************************************************************************************************************************************************* */
@@ -155,7 +156,7 @@ class Analysis2_test_searchController extends Controller
                                                 $last_day = $date;
                                             }
                                         }
-                                        // 20240512 在庫分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
+                                        // 20240512 売上分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
                                             $first_day = substr($first_day, 0, -3);
                                             $last_day = substr($last_day, 0, -3);
 
@@ -165,7 +166,9 @@ class Analysis2_test_searchController extends Controller
                     /************************************************************************************************************************************************************************************************************* */
 
 
+                    //return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'three_years_ago' => $three_years_ago,'order_select' => $order_select]);
                     return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'out1_view' => $out1_view,'three_years_ago' => $three_years_ago,'order_select' => $order_select]);
+                    
                 }
 
 
@@ -217,6 +220,7 @@ class Analysis2_test_searchController extends Controller
                                     if($i == 14){$out1 = $var;}
                                     if($i == 15){$out2 = $var;}
                                     if($i == 16){$out3 = $var;}
+                                    if($i == 16){$out3 = $var;}
                                     if($i == 17){$out1_view = $var;}
                                     if($i == 18){$search = $var;}
                                     if($i == 19){$order_select = $var;}
@@ -257,6 +261,7 @@ class Analysis2_test_searchController extends Controller
                             $restock_comment = "";
                             // [在庫]サマリ用 
                                 if (PostRequest::has('search')){
+                                    //return $this->db_info_get($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
                                     return $this->db_info_get($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
                             // [在庫]ブランド用 
                                 } else if (PostRequest::has('search2')){
@@ -283,7 +288,7 @@ class Analysis2_test_searchController extends Controller
                                             $order_select = "";
                                         }
                                     return $this->db_info_get2($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,$brandselect,$brandselect_b,$brandselect_jw,$next_year,$first_day,$last_day,$order_select);
-
+                            
                             // [在庫]商品ID別用 
                                 } else if (PostRequest::has('search3')){
                                     return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
@@ -301,7 +306,9 @@ class Analysis2_test_searchController extends Controller
                                         $out3_c = "OFF";
 
 
+                            //return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'three_years_ago' => $three_years_ago,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'order_select' => $order_select]);
                             return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'out1' => $out1,'out2' => $out2,'out3' => $out3,'out1_view' => $out1_view,'three_years_ago' => $three_years_ago,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'order_select' => $order_select]);
+                                    
                                 }
                     } else if (PostRequest::get('db_insert')) {
                         // CSVデータをデータベースへ登録用メソッドの実行
@@ -381,7 +388,7 @@ class Analysis2_test_searchController extends Controller
                                                 $last_day = $date;
                                             }
                                         }
-                                        // 20240512 在庫分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
+                                        // 20240512 売上分析用ロジックの流用だが在庫は日毎ではない。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
                                             $first_day = substr($first_day, 0, -3);
                                             $last_day = substr($last_day, 0, -3);
 
@@ -417,6 +424,7 @@ class Analysis2_test_searchController extends Controller
                         }
                         if (PostRequest::has('out2')) {
                             $out2 = PostRequest::input('out2');
+                            //print_r($out2);
                         }
                         if (PostRequest::has('out3')) {
                             $out3 = PostRequest::input('out3');
@@ -465,10 +473,11 @@ class Analysis2_test_searchController extends Controller
                 
 
 /************************************************************************************************************************************************************************************************************* */
-    // DB情報取得（[在庫]サマリ用）
+    // DB情報取得（[売上]サマリ用）
 /************************************************************************************************************************************************************************************************************* */
 
 
+    //public function db_info_get($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s){
     public function db_info_get($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t){
 
         // 「groupBy」にロジックで作成した名称を指定した際のエラー対応（本番だとDB上のカラムに無い名称を「groupBy」するとエラーとなる。このエラーの場合selectに名称指定すると解決するらしいが、恐らくDBに無い名称だと別のエラーとなる。以下の二行を追記する事で対応）
@@ -494,6 +503,7 @@ class Analysis2_test_searchController extends Controller
                 $next_year = $r;
                 $first_day = $s;
                 $last_day = $t;
+
 
             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // DB登録ロジックを実施
@@ -558,9 +568,12 @@ class Analysis2_test_searchController extends Controller
                             
 
                             // 「扱い部門」フラグ
-                                $out1_a = "ON";
-                                $out1_b = "ON";
-                                $out1_c = "ON";
+                                $out1_a = "OFF";
+                                $out1_b = "OFF";
+                                $out1_c = "OFF";
+                                if($out1 <> "" && in_array('1',$out1)){ $out1_a = "ON";}
+                                if($out1 <> "" && in_array('2',$out1)){ $out1_b = "ON";}
+                                if($out1 <> "" && in_array('3',$out1)){ $out1_c = "ON";}
                                 
                             // 新中アンフラグ
                                 $out2_a = "OFF";
@@ -773,7 +786,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                                     ])
-                                                                    // 条件（在庫部門がベティー）
+                                                                    // 条件（売上部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_day_top, $last_day])
@@ -821,7 +834,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress as $betty_buy_progress) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $betty_sum_uriage_progress = $betty_buy_progress -> betty_uriage;
                                                                             $betty_sum_number_progress = $betty_buy_progress -> betty_number;
                                                                             $i2++;
@@ -835,7 +848,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                                 ])
-                                                                    // 条件（在庫部門がWEB）
+                                                                    // 条件（売上部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name
@@ -885,7 +898,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress as $jack_buy_progress) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $jack_sum_uriage_progress = $jack_buy_progress -> jack_uriage;
                                                                             $jack_sum_number_progress = $jack_buy_progress -> jack_number;
                                                                             $i2++;
@@ -907,7 +920,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                                         ])
 
-                                                                        // 条件（在庫部門がジュエリー）
+                                                                        // 条件（売上部門がジュエリー）
                                                                             ->where('bumon','Jewelry')
  
                                                                         // 条件（期間の指定）
@@ -956,7 +969,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress as $jewelry_buy_progress) {
-                                                                                    // 各月ジュエリー在庫
+                                                                                    // 各月ジュエリー売上
                                                                                     $jewelry_sum_uriage_progress = $jewelry_buy_progress -> jewelry_uriage;
                                                                                     $jewelry_sum_number_progress = $jewelry_buy_progress -> jewelry_number;
                                                                                     $i2++;
@@ -981,7 +994,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage2"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number2"),
                                                                     ])
-                                                                    // 条件（在庫部門がベティー）
+                                                                    // 条件（売上部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1029,7 +1042,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress2 as $betty_buy_progress2) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $betty_sum_uriage_progress2 = $betty_buy_progress2 -> betty_uriage2;
                                                                             $betty_sum_number_progress2 = $betty_buy_progress2 -> betty_number2;
                                                                             $i2++;
@@ -1043,7 +1056,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage2"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number2"),
                                                                 ])
-                                                                    // 条件（在庫部門がWEB）
+                                                                    // 条件（売上部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1091,7 +1104,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress2 as $jack_buy_progress2) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $jack_sum_uriage_progress2 = $jack_buy_progress2 -> jack_uriage2;
                                                                             $jack_sum_number_progress2 = $jack_buy_progress2 -> jack_number2;
                                                                             $i2++;
@@ -1112,7 +1125,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(zaikokingaku) AS jewelry_uriage2"),
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number2"),
                                                                         ])
-                                                                    // 条件（在庫部門がジュエリー）
+                                                                    // 条件（売上部門がジュエリー）
                                                                         ->where('bumon','Jewelry')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$last_month_top, $last_month])
@@ -1160,7 +1173,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress2 = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress2 as $jewelry_buy_progress2) {
-                                                                                    // 各月ジュエリー在庫
+                                                                                    // 各月ジュエリー売上
                                                                                     $jewelry_sum_uriage_progress2 = $jewelry_buy_progress2 -> jewelry_uriage2;
                                                                                     $jewelry_sum_number_progress2 = $jewelry_buy_progress2 -> jewelry_number2;
                                                                                     $i2++;
@@ -1187,7 +1200,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS betty_uriage3"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number3"),
                                                                     ])
-                                                                    // 条件（在庫部門がベティー）
+                                                                    // 条件（売上部門がベティー）
                                                                         ->where('bumon','Bettyroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1234,7 +1247,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $betty_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($betty_progress3 as $betty_buy_progress3) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $betty_sum_uriage_progress3 = $betty_buy_progress3 -> betty_uriage3;
                                                                             $betty_sum_number_progress3 = $betty_buy_progress3 -> betty_number3;
                                                                             $i2++;
@@ -1248,7 +1261,7 @@ class Analysis2_test_searchController extends Controller
                                                                         \DB::raw("SUM(zaikokingaku) AS jack_uriage3"),
                                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number3"),
                                                                 ])
-                                                                    // 条件（在庫部門がWEB）
+                                                                    // 条件（売上部門がWEB）
                                                                         ->where('bumon','Jackroad')
                                                                     // 条件（期間の指定）
                                                                         ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1295,7 +1308,7 @@ class Analysis2_test_searchController extends Controller
                                                                         $jack_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($jack_progress3 as $jack_buy_progress3) {
-                                                                            // 各月ジュエリー在庫
+                                                                            // 各月ジュエリー売上
                                                                             $jack_sum_uriage_progress3 = $jack_buy_progress3 -> jack_uriage3;
                                                                             $jack_sum_number_progress3 = $jack_buy_progress3 -> jack_number3;
                                                                             $i2++;
@@ -1315,7 +1328,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 \DB::raw("SUM(zaikokingaku) AS jewelry_uriage3"),
                                                                                 \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number3"),
                                                                         ])
-                                                                        // 条件（在庫部門がジュエリー）
+                                                                        // 条件（売上部門がジュエリー）
                                                                             ->where('bumon','Jewelry')
                                                                         // 条件（期間の指定）
                                                                             ->whereBetween($table_name . '.date', [$past_between_start_progress, $past_between_end_progress])
@@ -1362,7 +1375,7 @@ class Analysis2_test_searchController extends Controller
                                                                                 $jewelry_sum_uriage_progress3 = "";
                                                                                 $i2 = 0;
                                                                                 foreach ($jewelry_progress3 as $jewelry_buy_progress3) {
-                                                                                    // 各月ジュエリー在庫
+                                                                                    // 各月ジュエリー売上
                                                                                     $jewelry_sum_uriage_progress3 = $jewelry_buy_progress3 -> jewelry_uriage3;
                                                                                     $jewelry_sum_number_progress3 = $jewelry_buy_progress3 -> jewelry_number3;
                                                                                     $i2++;
@@ -1382,13 +1395,13 @@ class Analysis2_test_searchController extends Controller
                                         /************************************************************************************************************************************************************************************************************* */
 
                                                 // 予測値
-                                                        // ベティー・月間在庫額予測
+                                                        // ベティー・月間売上額予測
                                                             if($betty_sum_uriage_progress <> "" && $betty_sum_uriage_progress <> 0){
                                                                 $betty_sum_uriage_progress_pre = (float)((int)$betty_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre = "";
                                                             }
-                                                        // ベティー・月間在庫点数予測
+                                                        // ベティー・月間売上点数予測
                                                             if($betty_sum_number_progress <> "" && $betty_sum_number_progress <> 0){
                                                                 $betty_sum_number_progress_pre = (float)((int)$betty_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
@@ -1397,13 +1410,13 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                                        // WEB・月間在庫額予測
+                                                        // WEB・月間売上額予測
                                                             if($jack_sum_uriage_progress <> "" && $jack_sum_uriage_progress <> 0){
                                                                 $jack_sum_uriage_progress_pre = (float)((int)$jack_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre = "";
                                                             }
-                                                        // WEB・月間在庫点数予測
+                                                        // WEB・月間売上点数予測
                                                             if($jack_sum_number_progress <> "" && $jack_sum_number_progress <> 0){
                                                                 $jack_sum_number_progress_pre = (float)((int)$jack_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                             } else {
@@ -1413,13 +1426,13 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre = "";
                                                         $jewelry_sum_number_progress_pre = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・月間在庫額予測
+                                                            // ジュエリー・月間売上額予測
                                                                 if($jewelry_sum_uriage_progress <> "" && $jewelry_sum_uriage_progress <> 0){
                                                                     $jewelry_sum_uriage_progress_pre = (float)((int)$jewelry_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre = "";
                                                                 }
-                                                            // ジュエリー・月間在庫点数予測
+                                                            // ジュエリー・月間売上点数予測
                                                                 if($jewelry_sum_number_progress <> "" && $jewelry_sum_number_progress <> 0){
                                                                     $jewelry_sum_number_progress_pre = (float)((int)$jewelry_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
                                                                 } else {
@@ -1430,28 +1443,28 @@ class Analysis2_test_searchController extends Controller
 
                                                     
                                                 // 先月比
-                                                        // ベティー・在庫額予測・先月比
+                                                        // ベティー・売上額予測・先月比
                                                             if($betty_sum_uriage_progress_pre <> "" && $betty_sum_uriage_progress_pre <> 0 && $betty_sum_uriage_progress2 <> "" && $betty_sum_uriage_progress2 <> 0){
                                                                 $betty_sum_uriage_progress_pre2 = (floor(((float)$betty_sum_uriage_progress_pre / (float)$betty_sum_uriage_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre2 = "---";
                                                             }
 
-                                                        // ベティー・在庫点数予測・先月比
+                                                        // ベティー・売上点数予測・先月比
                                                             if($betty_sum_number_progress_pre <> "" && $betty_sum_number_progress_pre <> 0 && $betty_sum_number_progress2 <> "" && $betty_sum_number_progress2 <> 0){
                                                                 $betty_sum_number_progress_pre2 = (floor(((float)$betty_sum_number_progress_pre / (float)$betty_sum_number_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_number_progress_pre2 = "---";
                                                             }
 
-                                                        // WEB・在庫額予測・先月比
+                                                        // WEB・売上額予測・先月比
                                                             if($jack_sum_uriage_progress_pre <> "" && $jack_sum_uriage_progress_pre <> 0 && $jack_sum_uriage_progress2 <> "" && $jack_sum_uriage_progress2 <> 0){
                                                                 $jack_sum_uriage_progress_pre2 = (floor(((float)$jack_sum_uriage_progress_pre / (float)$jack_sum_uriage_progress2) * 100 * 10)) / 10;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre2 = "---";
                                                             }
 
-                                                        // WEB・在庫点数予測・先月比
+                                                        // WEB・売上点数予測・先月比
                                                             if($jack_sum_number_progress_pre <> "" && $jack_sum_number_progress_pre <> 0 && $jack_sum_number_progress2 <> "" && $jack_sum_number_progress2 <> 0){
                                                                 $jack_sum_number_progress_pre2 = (floor(((float)$jack_sum_number_progress_pre / (float)$jack_sum_number_progress2) * 100 * 10)) / 10;
                                                             } else {
@@ -1460,14 +1473,14 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre2 = "";
                                                         $jewelry_sum_number_progress_pre2 = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・在庫額予測・先月比
+                                                            // ジュエリー・売上額予測・先月比
                                                                 if($jewelry_sum_uriage_progress_pre <> "" && $jewelry_sum_uriage_progress_pre <> 0 && $jewelry_sum_uriage_progress2 <> "" && $jewelry_sum_uriage_progress2 <> 0){
                                                                     $jewelry_sum_uriage_progress_pre2 = (floor(((float)$jewelry_sum_uriage_progress_pre / (float)$jewelry_sum_uriage_progress2) * 100 * 10)) / 10;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre2 = "---";
                                                                 }
 
-                                                            // ジュエリー・在庫点数予測・先月比
+                                                            // ジュエリー・売上点数予測・先月比
                                                                 if($jewelry_sum_number_progress_pre <> "" && $jewelry_sum_number_progress_pre <> 0 && $jewelry_sum_number_progress2 <> "" && $jewelry_sum_number_progress2 <> 0){
                                                                     $jewelry_sum_number_progress_pre2 = (floor(((float)$jewelry_sum_number_progress_pre / (float)$jewelry_sum_number_progress2) * 100 * 10)) / 10;
                                                                 } else {
@@ -1476,25 +1489,25 @@ class Analysis2_test_searchController extends Controller
 
                                                         }
                                                 // 過去比
-                                                        // ベティー・在庫額予測・過去比
+                                                        // ベティー・売上額予測・過去比
                                                             if($betty_sum_uriage_progress_pre <> "" && $betty_sum_uriage_progress_pre <> 0 && $betty_sum_uriage_progress3 <> "" && $betty_sum_uriage_progress3 <> 0){
                                                                 $betty_sum_uriage_progress_pre3 = (floor(((float)$betty_sum_uriage_progress_pre / (float)$betty_sum_uriage_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_uriage_progress_pre3 = "---";
                                                             }
-                                                        // ベティー・在庫点数予測・過去比
+                                                        // ベティー・売上点数予測・過去比
                                                             if($betty_sum_number_progress_pre <> "" && $betty_sum_number_progress_pre <> 0 && $betty_sum_number_progress3 <> "" && $betty_sum_number_progress3 <> 0){
                                                                 $betty_sum_number_progress_pre3 = (floor(((float)$betty_sum_number_progress_pre / (float)$betty_sum_number_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $betty_sum_number_progress_pre3 = "---";
                                                             }
-                                                        // WEB・在庫額予測・過去比
+                                                        // WEB・売上額予測・過去比
                                                             if($jack_sum_uriage_progress_pre <> "" && $jack_sum_uriage_progress_pre <> 0 && $jack_sum_uriage_progress3 <> "" && $jack_sum_uriage_progress3 <> 0){
                                                                 $jack_sum_uriage_progress_pre3 = (floor(((float)$jack_sum_uriage_progress_pre / (float)$jack_sum_uriage_progress3) * 100 * 10)) / 10;
                                                             } else {
                                                                 $jack_sum_uriage_progress_pre3 = "---";
                                                             }
-                                                        // WEB・在庫点数予測・過去比
+                                                        // WEB・売上点数予測・過去比
                                                             if($jack_sum_number_progress_pre <> "" && $jack_sum_number_progress_pre <> 0 && $jack_sum_number_progress3 <> "" && $jack_sum_number_progress3 <> 0){
                                                                 $jack_sum_number_progress_pre3 = (floor(((float)$jack_sum_number_progress_pre / (float)$jack_sum_number_progress3) * 100 * 10)) / 10;
                                                             } else {
@@ -1503,13 +1516,13 @@ class Analysis2_test_searchController extends Controller
                                                         $jewelry_sum_uriage_progress_pre3 = "";
                                                         $jewelry_sum_number_progress_pre3 = "";
                                                         if($out1_c == "ON"){ 
-                                                            // ジュエリー・在庫額予測・過去比
+                                                            // ジュエリー・売上額予測・過去比
                                                                 if($jewelry_sum_uriage_progress_pre <> "" && $jewelry_sum_uriage_progress_pre <> 0 && $jewelry_sum_uriage_progress3 <> "" && $jewelry_sum_uriage_progress3 <> 0){
                                                                     $jewelry_sum_uriage_progress_pre3 = (floor(((float)$jewelry_sum_uriage_progress_pre / (float)$jewelry_sum_uriage_progress3) * 100 * 10)) / 10;
                                                                 } else {
                                                                     $jewelry_sum_uriage_progress_pre3 = "---";
                                                                 }
-                                                            // ジュエリー・在庫点数予測・過去比
+                                                            // ジュエリー・売上点数予測・過去比
                                                                 if($jewelry_sum_number_progress_pre <> "" && $jewelry_sum_number_progress_pre <> 0 && $jewelry_sum_number_progress3 <> "" && $jewelry_sum_number_progress3 <> 0){
                                                                     $jewelry_sum_number_progress_pre3 = (floor(((float)$jewelry_sum_number_progress_pre / (float)$jewelry_sum_number_progress3) * 100 * 10)) / 10;
                                                                 } else {
@@ -1518,13 +1531,13 @@ class Analysis2_test_searchController extends Controller
                                                         }
 
                                                 // 合計値
-                                                        // データ格納最終月・在庫額進捗合計
+                                                        // データ格納最終月・売上額進捗合計
                                                             $all_sum_uriage_progress = (int)$betty_sum_uriage_progress + (int)$jack_sum_uriage_progress + (int)$jewelry_sum_uriage_progress;
-                                                        // データ格納最終月・在庫点数進捗合計
+                                                        // データ格納最終月・売上点数進捗合計
                                                             $all_sum_number_progress = (int)$betty_sum_number_progress + (int)$jack_sum_number_progress + (int)$jewelry_sum_number_progress;
-                                                        // データ格納最終月・在庫額・着地予測合計
+                                                        // データ格納最終月・売上額・着地予測合計
                                                             $all_sum_uriage_progress_pre = (int)$betty_sum_uriage_progress_pre + (int)$jack_sum_uriage_progress_pre + (int)$jewelry_sum_uriage_progress_pre;
-                                                        // データ格納最終月・在庫点数・着地予測合計
+                                                        // データ格納最終月・売上点数・着地予測合計
                                                             $all_sum_number_progress_pre = (int)$betty_sum_number_progress_pre + (int)$jack_sum_number_progress_pre + (int)$jewelry_sum_number_progress_pre;
 
                                                         // 進捗合計に対する先月比
@@ -1636,7 +1649,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                     ])
                                                     ->groupBy('jack_month')
-                                                // 条件（在庫部門がジャック）
+                                                // 条件（売上部門がジャック）
                                                     ->where('bumon','Jackroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1685,22 +1698,22 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_jack_buys as $past_jack_buy) {
                                                         // 各月名
                                                             $past_jack_month[$past_i]= $past_jack_buy->jack_month;
-                                                        // 各月ジャック在庫
+                                                        // 各月ジャック売上
                                                             $past_jack_uriage[$past_i]= $past_jack_buy->jack_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jack_manthly_data, $past_jack_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_jack_manthly_data = str_replace($past_jack_month[$past_i], $past_jack_uriage[$past_i], $past_temp1_jack_manthly_data);
                                                                 }
 
-                                                        // 全期間ジャック在庫合計
+                                                        // 全期間ジャック売上合計
                                                             $past_jack_sum_uriage = (int)$past_jack_sum_uriage + (int)$past_jack_uriage[$past_i];
 
                                                         // 各月ジャック点数
                                                             $past_jack_number[$past_i]= $past_jack_buy->jack_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jack_manthly_data2, $past_jack_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_jack_manthly_data2 = str_replace($past_jack_month[$past_i], $past_jack_number[$past_i], $past_temp1_jack_manthly_data2);
                                                                 }
 
@@ -1710,7 +1723,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         $past_i++;
                                                     }
-                                                // 全期間ジャック在庫合計とその平均値のHTML作成
+                                                // 全期間ジャック売上合計とその平均値のHTML作成
                                                     $past_temp1_jack_sum = "";
                                                     if($past_jack_sum_uriage <> 0 && $past_jack_sum_uriage <> ""){
                                                         $past_jack_sum_uriage_c = number_format((int)$past_jack_sum_uriage); 
@@ -1723,7 +1736,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_jack_sum = "<div class='title4 ta_r'>" . number_format((int)$past_jack_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_jack_sum_uriage / $past_i)) . "</div></div>";
                                                     $past_temp1_jack_sum = "<div class='title4 ta_r'>" . $past_jack_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_jack_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジャック在庫点数合計とその平均値のHTML作成
+                                                // 全期間ジャック売上点数合計とその平均値のHTML作成
                                                     $past_temp1_jack_sum2 = "";
                                                     if($past_jack_sum_number <> 0 && $past_jack_sum_number <> ""){
                                                         $past_jack_sum_number_c = number_format((int)$past_jack_sum_number); 
@@ -1752,7 +1765,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                     ])
                                                     ->groupBy('betty_month')
-                                                // 条件（在庫部門がベティー）
+                                                // 条件（売上部門がベティー）
                                                     ->where('bumon','Bettyroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1801,21 +1814,21 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_betty_buys as $past_betty_buy) {
                                                         // 各月名
                                                             $past_betty_month[$past_i]= $past_betty_buy->betty_month;
-                                                        // 各月ベティー在庫
+                                                        // 各月ベティー売上
                                                             $past_betty_uriage[$past_i]= $past_betty_buy->betty_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_betty_manthly_data, $past_betty_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_betty_manthly_data = str_replace($past_betty_month[$past_i], $past_betty_uriage[$past_i], $past_temp1_betty_manthly_data);
                                                                 }
-                                                        // 全期間ベティー在庫合計
+                                                        // 全期間ベティー売上合計
                                                             $past_betty_sum_uriage = (int)$past_betty_sum_uriage + (int)$past_betty_uriage[$past_i];
                                                         
                                                         // 各月ベティー点数
                                                             $past_betty_number[$past_i]= $past_betty_buy->betty_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_betty_manthly_data2, $past_betty_month[$past_i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_betty_manthly_data2 = str_replace($past_betty_month[$past_i], $past_betty_number[$past_i], $past_temp1_betty_manthly_data2);
                                                                 }
                                                         // 全期間ベティー点数合計
@@ -1825,7 +1838,7 @@ class Analysis2_test_searchController extends Controller
                                                             
                                                         $past_i++;
                                                     }
-                                                // 全期間ベティー在庫合計とその平均値のHTML作成
+                                                // 全期間ベティー売上合計とその平均値のHTML作成
                                                     $past_temp1_betty_sum = "";
                                                     if($past_betty_sum_uriage <> 0 && $past_betty_sum_uriage <> ""){
                                                         $past_betty_sum_uriage_c = number_format((int)$past_betty_sum_uriage); 
@@ -1838,7 +1851,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_betty_sum = "<div class='title4 ta_r'>" . number_format((int)$past_betty_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_betty_sum_uriage / $past_i)) . "</div></div>";
                                                     $past_temp1_betty_sum = "<div class='title4 ta_r'>" . $past_betty_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_betty_sum_uriage_ave . "</div></div>";
-                                                // 全期間ベティー在庫点数合計とその平均値のHTML作成
+                                                // 全期間ベティー売上点数合計とその平均値のHTML作成
                                                     $past_temp1_betty_sum2 = "";
                                                     if($past_betty_sum_number <> 0 && $past_betty_sum_number <> ""){
                                                         $past_betty_sum_number_c = number_format((int)$past_betty_sum_number); 
@@ -1867,7 +1880,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                     ])
                                                     ->groupBy('jewelry_month')
-                                                // 条件（在庫部門がジュエリー）
+                                                // 条件（売上部門がジュエリー）
                                                     ->where('bumon','Jewelry')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$past_between_start, $past_between_end])
@@ -1919,20 +1932,20 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($past_jewelry_buys as $past_jewelry_buy) {
                                                         // 各月名
                                                             $past_jewelry_month[$past_i2]= $past_jewelry_buy->jewelry_month;
-                                                        // 各月ジュエリー在庫
+                                                        // 各月ジュエリー売上
                                                             $past_jewelry_uriage[$past_i2]= $past_jewelry_buy->jewelry_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jewelry_manthly_data, $past_jewelry_month[$past_i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_jewelry_manthly_data = str_replace($past_jewelry_month[$past_i2], $past_jewelry_uriage[$past_i2], $past_temp1_jewelry_manthly_data);
                                                                 }
-                                                        // 全期間ジュエリー在庫合計
+                                                        // 全期間ジュエリー売上合計
                                                             $past_jewelry_sum_uriage = (int)$past_jewelry_sum_uriage + (int)$past_jewelry_uriage[$past_i2];
                                                         // 各月ジュエリー点数
                                                             $past_jewelry_number[$past_i2]= $past_jewelry_buy->jewelry_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($past_temp1_jewelry_manthly_data2, $past_jewelry_month[$past_i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $past_temp1_jewelry_manthly_data2 = str_replace($past_jewelry_month[$past_i2], $past_jewelry_number[$past_i2], $past_temp1_jewelry_manthly_data2);
                                                                 }
                                                         // 全期間ジュエリー点数合計
@@ -1940,7 +1953,7 @@ class Analysis2_test_searchController extends Controller
                                                            
                                                             $past_i2++;
                                                     }
-                                                // 全期間ジュエリー在庫合計とその平均値のHTML作成
+                                                // 全期間ジュエリー売上合計とその平均値のHTML作成
                                                     $past_temp1_jewelry_sum = "";
                                                     if($past_jewelry_sum_uriage <> 0 && $past_jewelry_sum_uriage <> ""){
                                                         $past_jewelry_sum_uriage_c = number_format((int)$past_jewelry_sum_uriage); 
@@ -1953,7 +1966,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
                                                     //$past_temp1_jewelry_sum .= "<div class='title4 ta_r'>" . number_format((int)$past_jewelry_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_jewelry_sum_uriage / $past_i2)) . "</div></div>";
                                                     $past_temp1_jewelry_sum .= "<div class='title4 ta_r'>" . $past_jewelry_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_jewelry_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジュエリー在庫点数合計とその平均値のHTML作成
+                                                // 全期間ジュエリー売上点数合計とその平均値のHTML作成
                                                     $past_temp1_jewelry_sum2 = "";
                                                     if($past_jewelry_sum_number <> 0 && $past_jewelry_sum_number <> ""){
                                                         $past_jewelry_sum_number_c = number_format((int)$past_jewelry_sum_number); 
@@ -1973,7 +1986,7 @@ class Analysis2_test_searchController extends Controller
                                 // 全件用
                             /************************************************************************************************************************************************************************************************************* */
 
-                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
                                             //$past_all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                         // 各月のタイトル表示用HTMLを作成
@@ -2002,14 +2015,14 @@ class Analysis2_test_searchController extends Controller
                                         
                                      
                                         
-                                        // 全期間の全部門在庫合計用変数リセット
+                                        // 全期間の全部門売上合計用変数リセット
                                             $past_all_sum_uriage_all = 0;
                                             $past_all_sum_number_all = 0;
                                             for($past_all_i = 0; $past_all_i < $past_i; $past_all_i++){
-                                                // 各月の全部門在庫合計用変数リセット
+                                                // 各月の全部門売上合計用変数リセット
                                                     $past_all_month_uriage = 0;
                                                     $past_all_month_number= 0;
-                                                // 各月の全部門在庫合計をHTMLへ
+                                                // 各月の全部門売上合計をHTMLへ
                                                     if($out1_b == "ON"){ 
                                                         if(isset($past_jack_uriage[$past_all_i])){$past_all_month_uriage = $past_all_month_uriage + (int)$past_jack_uriage[$past_all_i];}
                                                         if(isset($past_jack_number[$past_all_i])){$past_all_month_number = $past_all_month_number + (int)$past_jack_number[$past_all_i]; }
@@ -2019,7 +2032,7 @@ class Analysis2_test_searchController extends Controller
                                                         if(isset($past_betty_number[$past_all_i])){$past_all_month_number = $past_all_month_number + (int)$past_betty_number[$past_all_i];} 
                                                     }
 
-                                                // 全期間の全部門在庫合計
+                                                // 全期間の全部門売上合計
                                                     $past_all_sum_uriage_all = (int)$past_all_sum_uriage_all + (int)$past_all_month_uriage;
                                                     $past_all_sum_number_all = (int)$past_all_sum_number_all + (int)$past_all_month_number;
                                                 
@@ -2040,7 +2053,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_jack_manthly_html2 = "";
                                                 $past_temp1_jack_manthly_html3 = "";
                                                 if($out1_b == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_jack_manthly_data, $val ) !== false){
@@ -2050,14 +2063,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_jack_manthly_data2 = str_replace($val, 0, $past_temp1_jack_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $past_temp1_jack_manthly_array = explode(',',$past_temp1_jack_manthly_data);
                                                         $past_temp1_jack_manthly_array2 = explode(',',$past_temp1_jack_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         $past_jack_last_uriage = "";
 
                                                         foreach($past_temp1_jack_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ジャック・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ジャック・売上」を取得
                                                                 //$past_jack_last_uriage = $val;
                                                             
                                                             if($val == ""){
@@ -2113,7 +2126,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_betty_manthly_html2 = "";
                                                 $past_temp1_betty_manthly_html3 = "";
                                                 if($out1_a == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_betty_manthly_data, $val ) !== false){
@@ -2123,12 +2136,12 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_betty_manthly_data2 = str_replace($val, 0, $past_temp1_betty_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $past_temp1_betty_manthly_array = explode(',',$past_temp1_betty_manthly_data);
                                                         $past_temp1_betty_manthly_array2 = explode(',',$past_temp1_betty_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         foreach($past_temp1_betty_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ベティー・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ベティー・売上」を取得
                                                                 //$past_betty_last_uriage = $val;
 
                                                             if($val == ""){
@@ -2184,7 +2197,7 @@ class Analysis2_test_searchController extends Controller
                                                 $past_temp1_jewelry_manthly_html2 = "";
                                                 $past_temp1_jewelry_manthly_html3 = "";
                                                 if($out1_c == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_past_array as $val){
                                                                 $val = mb_substr($val,0,-3);
                                                                 if(strpos($past_temp1_jewelry_manthly_data, $val ) !== false){
@@ -2194,12 +2207,12 @@ class Analysis2_test_searchController extends Controller
                                                                     $past_temp1_jewelry_manthly_data2 = str_replace($val, 0, $past_temp1_jewelry_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $past_temp1_jewelry_manthly_array = explode(',',$past_temp1_jewelry_manthly_data);
                                                         $past_temp1_jewelry_manthly_array2 = explode(',',$past_temp1_jewelry_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         foreach($past_temp1_jewelry_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「過去・ジュエリー・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「過去・ジュエリー・売上」を取得
                                                                 //$past_jewelry_last_uriage = $val;
                                                             
                                                             if($val == ""){
@@ -2253,7 +2266,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                 }
 
-                                        // 各月の全部門在庫合計のJS表示用
+                                        // 各月の全部門売上合計のJS表示用
                                                 $js_past_all_month_uriage = "";
                                                 $js_past_all_month_number = "";
                                                 $i = 0;
@@ -2275,11 +2288,11 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
                                             $past_all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
 
-                                        // 各月の全部門在庫合計を配列に代入
+                                        // 各月の全部門売上合計を配列に代入
                                             $past_temp1_all_m_sum_uriage_array = array();
                                             $past_temp1_all_m_sum_number_array = array();
                                             $i = 0;
@@ -2295,7 +2308,7 @@ class Analysis2_test_searchController extends Controller
 
                                                 $i++;
                                             }
-                                        // 各月の全部門在庫合計部分のHTML作成
+                                        // 各月の全部門売上合計部分のHTML作成
                                             foreach($past_temp1_all_m_sum_uriage_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $past_all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -2303,7 +2316,7 @@ class Analysis2_test_searchController extends Controller
                                                     $past_all_sum_uriage .= "<div class='title6 ta_r'>" . (int)$var . "</div>";
                                                 }
                                             }
-                                        // 各月の全部門在庫点数合計部分のHTML作成
+                                        // 各月の全部門売上点数合計部分のHTML作成
                                             foreach($past_temp1_all_m_sum_number_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $past_all_sum_number .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -2312,7 +2325,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
                                             }
                                                   
-                                        // 全期間全部門在庫合計とその平均値のHTML作成
+                                        // 全期間全部門売上合計とその平均値のHTML作成
                                             if($past_all_sum_uriage_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average = floor((int)$past_all_sum_uriage_all / $past_i);
@@ -2332,7 +2345,7 @@ class Analysis2_test_searchController extends Controller
                                             if($out1_c == "ON"){ $view .= $past_temp1_jewelry_manthly_html;}
                                             $past_temp1_all_sorce = "<p class='title_a'>金額（過去）</p><div class='box1'>" . $past_temp1_title . $view . $past_all_sum_uriage . "</div>";
 
-                                        // 全期間全部門在庫点数合計とその平均値のHTML作成
+                                        // 全期間全部門売上点数合計とその平均値のHTML作成
                                             if($past_all_sum_number_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average2 = floor((int)$past_all_sum_number_all / $past_i);
@@ -2380,7 +2393,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jack_number"),
                                                     ])
                                                     ->groupBy('jack_month')
-                                                // 条件（在庫部門がジャック）
+                                                // 条件（売上部門がジャック）
                                                     ->where('bumon','Jackroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2433,14 +2446,14 @@ class Analysis2_test_searchController extends Controller
                                                 foreach ($jack_buys as $jack_buy) {
                                                     // 各月名
                                                         $jack_month[$i]= $jack_buy->jack_month;
-                                                    // 各月ジャック在庫
+                                                    // 各月ジャック売上
                                                         $jack_uriage[$i]= $jack_buy->jack_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jack_manthly_data, $jack_month[$i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $temp1_jack_manthly_data = str_replace($jack_month[$i], $jack_uriage[$i], $temp1_jack_manthly_data);
                                                                 }
-                                                    // 全期間ジャック在庫合計
+                                                    // 全期間ジャック売上合計
                                                         // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                             if($last_nodata_flag == "ON"){
                                                                 $jack_sum_uriage_average = (int)$jack_sum_uriage;
@@ -2453,7 +2466,7 @@ class Analysis2_test_searchController extends Controller
                                                         $jack_number[$i]= $jack_buy->jack_number;
                                                         // 全過去期間に現在の期間が含まれている場合
                                                             if(strpos($temp1_jack_manthly_data2, $jack_month[$i] ) !== false){
-                                                                // 文字列の同期間名を現在月の在庫に書き換え
+                                                                // 文字列の同期間名を現在月の売上に書き換え
                                                                     $temp1_jack_manthly_data2 = str_replace($jack_month[$i], $jack_number[$i], $temp1_jack_manthly_data2);
                                                             }
 
@@ -2470,7 +2483,7 @@ class Analysis2_test_searchController extends Controller
                                                     $i++;
                                                 }
 
-                                                // 全期間ジャック在庫合計とその平均値のHTML作成
+                                                // 全期間ジャック売上合計とその平均値のHTML作成
                                                     $temp1_jack_sum = "";
                                                     if($jack_sum_uriage <> 0 && $jack_sum_uriage <> ""){
                                                         $jack_sum_uriage_c = number_format((int)$jack_sum_uriage);
@@ -2488,7 +2501,7 @@ class Analysis2_test_searchController extends Controller
                                                         $jack_sum_uriage_ave2 = 0;
                                                     }
                                                     $temp1_jack_sum = "<div class='title4 ta_r'>" . $jack_sum_uriage_c . "</div><div class='title4 ta_r'>" . $jack_sum_uriage_ave . "</div></div>";
-                                                // 全期間ジャック在庫点数合計とその平均値のHTML作成
+                                                // 全期間ジャック売上点数合計とその平均値のHTML作成
                                                     $temp1_jack_sum2 = "";
                                                     if($jack_sum_number <> 0 && $jack_sum_number <> ""){
                                                         $jack_sum_number_c = number_format((int)$jack_sum_number);
@@ -2524,7 +2537,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS betty_number"),
                                                     ])
                                                     ->groupBy('betty_month')
-                                                // 条件（在庫部門がベティー）
+                                                // 条件（売上部門がベティー）
                                                     ->where('bumon','Bettyroad')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2575,14 +2588,14 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($betty_buys as $betty_buy) {
                                                         // 各月名
                                                             $betty_month[$i]= $betty_buy->betty_month;
-                                                        // 各月ベティー在庫
+                                                        // 各月ベティー売上
                                                             $betty_uriage[$i]= $betty_buy->betty_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                             if(strpos($temp1_betty_manthly_data, $betty_month[$i] ) !== false){
-                                                                // 文字列の同期間名を現在月の在庫に書き換え
+                                                                // 文字列の同期間名を現在月の売上に書き換え
                                                                     $temp1_betty_manthly_data = str_replace($betty_month[$i], $betty_uriage[$i], $temp1_betty_manthly_data);
                                                             }
-                                                        // 全期間ベティー在庫合計
+                                                        // 全期間ベティー売上合計
                                                             // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                                 if($last_nodata_flag == "ON"){
                                                                     $betty_sum_uriage_average = (int)$betty_sum_uriage;
@@ -2594,7 +2607,7 @@ class Analysis2_test_searchController extends Controller
                                                             $betty_number[$i]= $betty_buy->betty_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_betty_manthly_data2, $betty_month[$i] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $temp1_betty_manthly_data2 = str_replace($betty_month[$i], $betty_number[$i], $temp1_betty_manthly_data2);
                                                                 }
                                                         // 全期間ベティー点数合計
@@ -2611,7 +2624,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
 
 
-                                                // 全期間ベティー在庫合計とその平均値のHTML作成
+                                                // 全期間ベティー売上合計とその平均値のHTML作成
                                                     $temp1_betty_sum = "";
                                                     if($betty_sum_uriage <> 0 && $betty_sum_uriage <> ""){
                                                         $betty_sum_uriage_c = number_format((int)$betty_sum_uriage);
@@ -2629,7 +2642,7 @@ class Analysis2_test_searchController extends Controller
                                                         $betty_sum_uriage_ave2 = 0;
                                                     }
                                                     $temp1_betty_sum = "<div class='title4 ta_r'>" . $betty_sum_uriage_c . "</div><div class='title4 ta_r'>" . $betty_sum_uriage_ave . "</div></div>";
-                                                // 全期間ベティー在庫点数合計とその平均値のHTML作成
+                                                // 全期間ベティー売上点数合計とその平均値のHTML作成
                                                     $temp1_betty_sum2 = "";
                                                     if($betty_sum_number <> 0 && $betty_sum_number <> ""){
                                                         $betty_sum_number_c = number_format((int)$betty_sum_number);
@@ -2661,7 +2674,7 @@ class Analysis2_test_searchController extends Controller
                                                         \DB::raw("SUM(tougetsumizaikosuuryou) AS jewelry_number"),
                                                     ])
                                                     ->groupBy('jewelry_month')
-                                                // 条件（在庫部門がジュエリー）
+                                                // 条件（売上部門がジュエリー）
                                                     ->where('bumon','Jewelry')
                                                 // 条件（期間の指定）
                                                     ->whereBetween($table_name . '.date', [$between_start, $between_end])
@@ -2712,14 +2725,14 @@ class Analysis2_test_searchController extends Controller
                                                     foreach ($jewelry_buys as $jewelry_buy) {
                                                         // 各月名
                                                             $jewelry_month[$i2]= $jewelry_buy->jewelry_month;
-                                                        // 各月ジュエリー在庫
+                                                        // 各月ジュエリー売上
                                                             $jewelry_uriage[$i2]= $jewelry_buy->jewelry_uriage;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jewelry_manthly_data, $jewelry_month[$i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $temp1_jewelry_manthly_data = str_replace($jewelry_month[$i2], $jewelry_uriage[$i2], $temp1_jewelry_manthly_data);
                                                                 }
-                                                        // 全期間ジュエリー在庫合計
+                                                        // 全期間ジュエリー売上合計
                                                             // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」のみが対象
                                                                 if($last_nodata_flag == "ON"){
                                                                     $jewelry_sum_uriage_average = (int)$jewelry_sum_uriage;
@@ -2731,7 +2744,7 @@ class Analysis2_test_searchController extends Controller
                                                             $jewelry_number[$i2]= $jewelry_buy->jewelry_number;
                                                             // 全過去期間に現在の期間が含まれている場合
                                                                 if(strpos($temp1_jewelry_manthly_data2, $jewelry_month[$i2] ) !== false){
-                                                                    // 文字列の同期間名を現在月の在庫に書き換え
+                                                                    // 文字列の同期間名を現在月の売上に書き換え
                                                                         $temp1_jewelry_manthly_data2 = str_replace($jewelry_month[$i2], $jewelry_number[$i2], $temp1_jewelry_manthly_data2);
                                                                 }
                                                         // 全期間ジュエリー点数合計
@@ -2748,7 +2761,7 @@ class Analysis2_test_searchController extends Controller
                                                     }
 
 
-                                                // 全期間ジュエリー在庫合計とその平均値のHTML作成
+                                                // 全期間ジュエリー売上合計とその平均値のHTML作成
                                                     $temp1_jewelry_sum = "";
                                                     if($jewelry_sum_uriage == 0 || $jewelry_sum_uriage == ""){
                                                         $temp1_jewelry_sum = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
@@ -2765,7 +2778,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                         $temp1_jewelry_sum = "<div class='title4 ta_r'>" . number_format((int)$jewelry_sum_uriage) . "</div><div class='title4 ta_r'>" . $jewelry_sum_uriage_ave . "</div></div>";
                                                     }
-                                                // 全期間ジュエリー在庫点数合計とその平均値のHTML作成
+                                                // 全期間ジュエリー売上点数合計とその平均値のHTML作成
                                                     $temp1_jewelry_sum2 = "";
                                                     //$temp1_jewelry_sum2 = "<div class='title4 ta_r'>" . number_format((int)$jewelry_sum_number) . "</div><div class='title4 ta_c'>" . $yoy_number3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$jewelry_sum_number / $i)) . "</div></div>";
                                                     if($jewelry_sum_number == 0 || $jewelry_sum_number == ""){
@@ -2811,14 +2824,14 @@ class Analysis2_test_searchController extends Controller
                                             $temp1_title5 = "<div class='wid100 ul2 bg_yellow'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title5 ."<div class='title7 ta_c'>平均</div></div>";
                                         
                                         
-                                        // 全期間の全部門在庫合計用変数リセット
+                                        // 全期間の全部門売上合計用変数リセット
                                             $all_sum_uriage_all = 0;
                                             $all_sum_number_all = 0;
                                             for($all_i = 0; $all_i < $i; $all_i++){
-                                                // 各月の全部門在庫合計用変数リセット
+                                                // 各月の全部門売上合計用変数リセット
                                                     $all_month_uriage = 0;
                                                     $all_month_number= 0;
-                                                // 各月の全部門在庫合計をHTMLへ
+                                                // 各月の全部門売上合計をHTMLへ
                                                     if($out1_b == "ON"){ 
                                                         if(isset($jack_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$jack_uriage[$all_i]; }
                                                         if(isset($jack_number[$all_i])){$all_month_number = $all_month_number + (int)$jack_number[$all_i]; }
@@ -2828,7 +2841,7 @@ class Analysis2_test_searchController extends Controller
                                                         if(isset($betty_number[$all_i])){$all_month_number = $all_month_number + (int)$betty_number[$all_i]; }
                                                     }
 
-                                                // 全期間の全部門在庫合計
+                                                // 全期間の全部門売上合計
                                                     $all_sum_uriage_all = (int)$all_sum_uriage_all + (int)$all_month_uriage;
                                                     $all_sum_number_all = (int)$all_sum_number_all + (int)$all_month_number;
                                                 
@@ -2922,7 +2935,7 @@ class Analysis2_test_searchController extends Controller
     ($all_term_progress2_n < 100) ? $all_term_progress2_n_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_n . "%</div>" : $all_term_progress2_n_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_n . "%</div>";
     
     
-    // 在庫額進捗
+    // 売上額進捗
                                                                     $uriage_progress_html = 
                                                                     "<div class='btn_bulldown_  pt2'><span class='view'>＋</span> 予測数値について</div>
                                                                     <div class='down'>
@@ -2932,11 +2945,11 @@ class Analysis2_test_searchController extends Controller
                                                                     </div>
                                                                     <div class='ul_p mt1'>
                                                                         <div class='sinchoku_t'>" . $last_year_last . "年" . $last_month_last. "月</div>
-                                                                        <div class='sinchoku_t'>月間在庫進捗</div>
+                                                                        <div class='sinchoku_t'>月間売上進捗</div>
                                                                         <div class='sinchoku_t'>月間着地予測</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対前月）</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対過去・同月）</div>
-                                                                        <div class='sinchoku_t'>全期間在庫進捗</div>
+                                                                        <div class='sinchoku_t'>全期間売上進捗</div>
                                                                         <div class='sinchoku_t'>全期間着地予測</div>
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
@@ -2984,7 +2997,7 @@ class Analysis2_test_searchController extends Controller
                                                                         " . $all_term_progress_view. "
                                                                         " . $all_term_progress2_view. "
                                                                     </div>";
-                                                            // 在庫点数進捗
+                                                            // 売上点数進捗
                                                                     $number_progress_html = 
                                                                     "<div class='btn_bulldown_  pt2'><span class='view2'>＋</span> 予測数値について</div>
                                                                     <div class='down'>
@@ -2994,11 +3007,11 @@ class Analysis2_test_searchController extends Controller
                                                                     </div>
                                                                     <div class='ul_p mt1'>
                                                                         <div class='sinchoku_t'>" . $last_year_last . "年" . $last_month_last. "月</div>
-                                                                        <div class='sinchoku_t'>月間在庫進捗</div>
+                                                                        <div class='sinchoku_t'>月間売上進捗</div>
                                                                         <div class='sinchoku_t'>月間着地予測</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対前月）</div>
                                                                         <div class='sinchoku_t'>月間着地予測比（対過去・同月）</div>
-                                                                        <div class='sinchoku_t'>全期間在庫進捗</div>
+                                                                        <div class='sinchoku_t'>全期間売上進捗</div>
                                                                         <div class='sinchoku_t'>全期間着地予測</div>
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
@@ -3066,7 +3079,7 @@ class Analysis2_test_searchController extends Controller
                                                 $progress_uriage_html = "";
                                                 $progress_number_html = "";
                                                 if($out1_a == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_betty_manthly_data, $val ) !== false){
@@ -3076,14 +3089,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_betty_manthly_data2 = str_replace($val, 0, $temp1_betty_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $temp1_betty_manthly_array = explode(',',$temp1_betty_manthly_data);
                                                         $temp1_betty_manthly_array2 = explode(',',$temp1_betty_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         $betty_last_uriage = "";
                                                         $i = 0;
                                                         foreach($temp1_betty_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ベティー・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ベティー・売上」を取得
                                                                 //$betty_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3140,7 +3153,7 @@ class Analysis2_test_searchController extends Controller
                                                 $temp1_jack_manthly_html2 = "";
                                                 $temp1_jack_manthly_html3 = "";
                                                 if($out1_b == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_jack_manthly_data, $val ) !== false){
@@ -3150,7 +3163,7 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_jack_manthly_data2 = str_replace($val, 0, $temp1_jack_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $temp1_jack_manthly_array = explode(',',$temp1_jack_manthly_data);
                                                         $temp1_jack_manthly_array2 = explode(',',$temp1_jack_manthly_data2);
                                                     // 各月のHTMLを作成
@@ -3158,7 +3171,7 @@ class Analysis2_test_searchController extends Controller
 
                                                         $i = 0;
                                                         foreach($temp1_jack_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ジャック・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ジャック・売上」を取得
                                                                 //$jack_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3216,7 +3229,7 @@ class Analysis2_test_searchController extends Controller
                                                 $temp1_jewelry_manthly_html2 = "";
                                                 $temp1_jewelry_manthly_html3 = "";
                                                 if($out1_c == "ON"){     
-                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（在庫データが存在するは年月名を在庫の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                    // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
                                                         foreach($manth_now_array as $val){
                                                                 //$val = mb_substr($val,0,-3);
                                                                 if(strpos($temp1_jewelry_manthly_data, $val ) !== false){
@@ -3226,14 +3239,14 @@ class Analysis2_test_searchController extends Controller
                                                                     $temp1_jewelry_manthly_data2 = str_replace($val, 0, $temp1_jewelry_manthly_data2);
                                                                 }
                                                         }
-                                                    // 各月在庫が記載された文字列を配列へ変換
+                                                    // 各月売上が記載された文字列を配列へ変換
                                                         $temp1_jewelry_manthly_array = explode(',',$temp1_jewelry_manthly_data);
                                                         $temp1_jewelry_manthly_array2 = explode(',',$temp1_jewelry_manthly_data2);
                                                     // 各月のHTMLを作成
                                                         //$jewelry_last_uriage = "";
                                                         $i = 0;
                                                         foreach($temp1_jewelry_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・ジュエリー・在庫」を取得
+                                                            // 【進捗率の取得】最終月の「現在・ジュエリー・売上」を取得
                                                                 //$jewelry_last_uriage = $val;
 
                                                             if($val == ""){
@@ -3281,7 +3294,7 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                 }
 
-                                        // 各月の全部門在庫合計のJS表示用
+                                        // 各月の全部門売上合計のJS表示用
                                                 $js_all_month_uriage = "";
                                                 $js_all_month_number = "";
                                                 $i = 0;
@@ -3381,7 +3394,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対するパーセンテージを取得
+    // 期間中の売上合計に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(((float)$jack_total / (float)$total2) * 100 * 10)) / 10 ,1);
@@ -3488,7 +3501,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計点数に対するパーセンテージを取得
+    // 期間中の売上合計点数に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(((float)$jack_total / (float)$total2) * 100 * 10)) / 10 ,1);
@@ -3548,7 +3561,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対する平均単価を取得
+    // 期間中の売上合計に対する平均単価を取得
         if($jack_total <> 0 && $jack_total2 <> 0 && $jack_total <> "" && $jack_total2 <> ""){
             $jack_total_ave = (floor(((int)$jack_total / (int)$jack_total2) * 10)) / 10;
         } else {
@@ -3587,7 +3600,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対する平均単価を取得
+    // 期間中の売上合計に対する平均単価を取得
         if($betty_total <> 0 && $betty_total2 <> 0 && $betty_total <> "" && $betty_total2 <> ""){
             $betty_total_ave = (floor(((int)$betty_total / (int)$betty_total2) * 10)) / 10;
         } else {
@@ -3628,7 +3641,7 @@ class Analysis2_test_searchController extends Controller
 
                 $i++;
             }
-            // 期間中の在庫合計に対する平均単価を取得
+            // 期間中の売上合計に対する平均単価を取得
                 if($jewelry_total == 0 || $jewelry_total2 == 0 || $jewelry_total == "" || $jewelry_total2 == ""){
                     $jewelry_total_ave = "---";
                 } else {
@@ -3683,7 +3696,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫金額に対する比率を取得
+    // 過去の同期間売上金額に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3736,7 +3749,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫金額に対する比率を取得
+    // 過去の同期間売上金額に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $betty_total_ratio = number_format((floor(((float)$betty_total / (float)$betty_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3788,7 +3801,7 @@ class Analysis2_test_searchController extends Controller
         
                 $i++;
             }
-            // 過去の同期間在庫金額に対する比率を取得
+            // 過去の同期間売上金額に対する比率を取得
                 if($jewelry_total == 0 || $jewelry_total_past == 0 || $jewelry_total == "" || $jewelry_total_past == ""){
                     $jewelry_total_ratio = "---";
                 } else {
@@ -3865,7 +3878,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫金額に対する比率を取得
+    // 過去の同期間売上金額に対する比率を取得
         if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
             $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3927,7 +3940,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫点数に対する比率を取得
+    // 過去の同期間売上点数に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -3982,7 +3995,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫点数に対する比率を取得
+    // 過去の同期間売上点数に対する比率を取得
         if($betty_total <> 0 && $betty_total_past <> 0 && $betty_total <> "" && $betty_total_past <> ""){
             $betty_total_ratio = number_format((floor(((float)$betty_total / (float)$betty_total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -4036,7 +4049,7 @@ class Analysis2_test_searchController extends Controller
         
                 $i++;
             }
-            // 過去の同期間在庫金額に対する比率を取得
+            // 過去の同期間売上金額に対する比率を取得
                 if($jewelry_total == 0 || $jewelry_total_past == 0 || $jewelry_total == "" || $jewelry_total_past == ""){
                     $jewelry_total_ratio = "---";
                 } else {
@@ -4112,7 +4125,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 過去の同期間在庫金額に対する比率を取得
+    // 過去の同期間売上金額に対する比率を取得
         if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
             $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
         } else {
@@ -4227,7 +4240,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対するパーセンテージを取得
+    // 期間中の売上合計に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
             $jack_total_per = number_format((floor(($jack_total / $total2) * 100 * 10)) / 10 ,1);
@@ -4344,7 +4357,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計点数に対するパーセンテージを取得
+    // 期間中の売上合計点数に対するパーセンテージを取得
        // $jack_total_per = $jack_total / $i;
         if($jack_total <> 0 && $total2 <> 0 && $jack_total <> "" && $total2 <> ""){
            $jack_total_per = number_format((floor(($jack_total / $total2) * 100 * 10)) / 10 ,1);
@@ -4404,7 +4417,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対する平均単価を取得
+    // 期間中の売上合計に対する平均単価を取得
         if($jack_total <> 0 && $jack_total2 <> 0 && $jack_total <> "" && $jack_total2 <> ""){
             $jack_total_ave = (floor(($jack_total / $jack_total2) * 10)) / 10;
         } else {
@@ -4447,7 +4460,7 @@ class Analysis2_test_searchController extends Controller
 
         $i++;
     }
-    // 期間中の在庫合計に対する平均単価を取得
+    // 期間中の売上合計に対する平均単価を取得
         if($betty_total <> 0 && $betty_total2 <> 0 && $betty_total <> "" && $betty_total2 <> ""){
             $betty_total_ave = (floor(((float)$betty_total / (float)$betty_total2)));
         } else {
@@ -4491,7 +4504,7 @@ class Analysis2_test_searchController extends Controller
 
                 $i++;
             }
-            // 期間中の在庫合計に対する平均単価を取得
+            // 期間中の売上合計に対する平均単価を取得
                 if($jewelry_total == 0 || $jewelry_total2 == 0 || $jewelry_total == "" || $jewelry_total2 == ""){
                     $jewelry_total_ave = "---";
                 } else {
@@ -4513,11 +4526,11 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                        // 各月の全部門在庫合計の先頭（1列目）部分のタイトルHTML
+                                        // 各月の全部門売上合計の先頭（1列目）部分のタイトルHTML
                                             $all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
 
-                                        // 各月の全部門在庫合計を配列に代入
+                                        // 各月の全部門売上合計を配列に代入
                                             $temp1_all_m_sum_uriage_array = array();
                                             $temp1_all_m_sum_number_array = array();
                                             $i = 0;
@@ -4534,7 +4547,7 @@ class Analysis2_test_searchController extends Controller
 
                                                 $i++;
                                             }
-                                        // 各月の全部門在庫合計部分のHTML作成
+                                        // 各月の全部門売上合計部分のHTML作成
                                             foreach($temp1_all_m_sum_uriage_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -4543,7 +4556,7 @@ class Analysis2_test_searchController extends Controller
                                                 }
                                             }
                                             
-                                        // 各月の全部門在庫点数合計部分のHTML作成
+                                        // 各月の全部門売上点数合計部分のHTML作成
                                             foreach($temp1_all_m_sum_number_array as $var){
                                                 if($var <> 0 && $var <> ""){
                                                     $all_sum_number .= "<div class='title6 ta_r'>" . number_format((int)$var) . "</div>";
@@ -4553,7 +4566,7 @@ class Analysis2_test_searchController extends Controller
                                             }
                                             
                           
-                                        // 全期間全部門在庫合計とその平均値のHTML作成
+                                        // 全期間全部門売上合計とその平均値のHTML作成
                                             if($all_sum_uriage_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$all_average = floor((int)$all_sum_uriage_all / $i);
@@ -4574,7 +4587,7 @@ class Analysis2_test_searchController extends Controller
                                             if($out1_c == "ON"){ $view .= $temp1_jewelry_manthly_html;}
                                             $temp1_all_sorce = "<p class='title_a'>金額</p><div class='box1'>" . $temp1_title . $view . $all_sum_uriage . "</div>"/* . $uriage_progress*/;
 
-                                        // 全期間全部門在庫点数合計とその平均値のHTML作成
+                                        // 全期間全部門売上点数合計とその平均値のHTML作成
                                             if($all_sum_number_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$all_average2 = floor((int)$all_sum_number_all / $i);
@@ -4600,7 +4613,7 @@ class Analysis2_test_searchController extends Controller
                         // DB情報の受け取り（検索期間） end
                     /************************************************************************************************************************************************************************************************************* */
 
-                        // JSで表示させるための、期間在庫などのデータを作成                    
+                        // JSで表示させるための、期間売上などのデータを作成                    
                             if($out1_a == "ON"){$js_betty_uriage = substr($js_betty_uriage, 0, -2);} else {$js_betty_uriage = "";}
                             if($out1_b == "ON"){$js_jack_uriage = substr($js_jack_uriage, 0, -2);} else {$js_jack_uriage = "";}
                             if($out1_c == "ON"){$js_jewelry_uriage = substr($js_jewelry_uriage, 0, -2);} else {$js_jewelry_uriage = "";}
@@ -4616,10 +4629,6 @@ class Analysis2_test_searchController extends Controller
                             return view($bladename,['view_select' => $view_select,'brand_bumon_select' => $brand_bumon_select,'first_day' => $first_day,'last_day' => $last_day,'next_year' => $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'temp1_all_sorce' => $temp1_all_sorce,'temp1_all_sorce2' => $temp1_all_sorce2,'js_jack_uriage' => $js_jack_uriage,'js_betty_uriage' => $js_betty_uriage,'js_jewelry_uriage' => $js_jewelry_uriage,'js_month' => $js_month,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp1_all_sorce' => $past_temp1_all_sorce,'past_temp1_all_sorce2' => $past_temp1_all_sorce2,'past_js_jack_uriage' => $past_js_jack_uriage,'past_js_betty_uriage' => $past_js_betty_uriage,'past_js_jewelry_uriage' => $past_js_jewelry_uriage,'past_js_jack_number' => $past_js_jack_number,'past_js_betty_number' => $past_js_betty_number,'past_js_jewelry_number' => $past_js_jewelry_number,'js_jack_number' => $js_jack_number,'js_betty_number' => $js_betty_number,'js_jewelry_number' => $js_jewelry_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'search' => $search,'line_width' => $line_width,'line_width2' => $line_width2,'temp1_all_sorce4' => $temp1_all_sorce4,'temp1_all_sorce5' => $temp1_all_sorce5,'temp1_all_sorce6' => $temp1_all_sorce6,'temp1_all_sorce7' => $temp1_all_sorce7,'temp1_all_sorce8' => $temp1_all_sorce8,'past_temp1_all_sorce4' => $past_temp1_all_sorce4,'past_temp1_all_sorce5' => $past_temp1_all_sorce5,'past_temp1_all_sorce6' => $past_temp1_all_sorce6,'jack_total_js2' => $jack_total_js2,'betty_total_js2' => $betty_total_js2,'jewelry_total_js2' => $jewelry_total_js2,'past_jack_total_js2' => $past_jack_total_js2,'past_betty_total_js2' => $past_betty_total_js2,'past_jewelry_total_js2' => $past_jewelry_total_js2,'jack_total_js3' => $jack_total_js3,'betty_total_js3' => $betty_total_js3,'jewelry_total_js3' => $jewelry_total_js3,'past_jack_total_js3' => $past_jack_total_js3,'past_betty_total_js3' => $past_betty_total_js3,'past_jewelry_total_js3' => $past_jewelry_total_js3,'uriage_progress_html' => $uriage_progress_html,'number_progress_html' => $number_progress_html]);
         
                 }
-
-
-
-
 
 
 /************************************************************************************************************************************************************************************************************* */
@@ -4704,9 +4713,12 @@ class Analysis2_test_searchController extends Controller
                             
 
                             // 「扱い部門」フラグ
-                                $out1_a = "ON";
-                                $out1_b = "ON";
-                                $out1_c = "ON";
+                                $out1_a = "OFF";
+                                $out1_b = "OFF";
+                                $out1_c = "OFF";
+                                if($out1 <> "" && in_array('1',$out1)){ $out1_a = "ON";}
+                                if($out1 <> "" && in_array('2',$out1)){ $out1_b = "ON";}
+                                if($out1 <> "" && in_array('3',$out1)){ $out1_c = "ON";}
 
                             // 新中アンフラグ
                                 $out2_a = "OFF";
