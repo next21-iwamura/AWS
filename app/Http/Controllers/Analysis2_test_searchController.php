@@ -1457,9 +1457,28 @@ class Analysis2_test_searchController extends Controller
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average = floor((int)$past_all_sum_uriage_all / $past_i);
                                                     if($out1_c == "ON"){
-                                                        $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2 + (int)$past_jewelry_sum_uriage_ave2;
+                                                        //20240520 $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2 + (int)$past_jewelry_sum_uriage_ave2;
+                                                        if($out1_b == "ON" && $out1_a == "ON"){
+                                                            $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2 + (int)$past_jewelry_sum_uriage_ave2;
+                                                        } else if($out1_b == "ON" && $out1_a <> "ON"){
+                                                            $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_jewelry_sum_uriage_ave2;
+                                                        } else if($out1_b == "ON" && $out1_a <> "ON"){
+                                                            $past_all_average = (int)$past_betty_sum_uriage_ave2 + (int)$past_jewelry_sum_uriage_ave2;
+                                                        } else {
+                                                            $past_all_average = (int)$past_jewelry_sum_uriage_ave2;
+                                                        }
                                                     } else {
-                                                        $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2;
+                                                         //20240520 $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2;
+                                                        if($out1_b == "ON" && $out1_a == "ON"){
+                                                            $past_all_average = (int)$past_jack_sum_uriage_ave2 + (int)$past_betty_sum_uriage_ave2;
+                                                        } else if($out1_b == "ON" && $out1_a <> "ON"){
+                                                            $past_all_average = (int)$past_jack_sum_uriage_ave2;
+                                                        } else if($out1_b <> "ON" && $out1_a <> "ON"){
+                                                            $past_all_average = (int)$past_betty_sum_uriage_ave2;
+                                                        } else {
+                                                            $past_all_average = 0;
+                                                        }
+
                                                     }
                                             } else {
                                                 $past_all_average = 0;
@@ -1467,8 +1486,8 @@ class Analysis2_test_searchController extends Controller
                                             $past_all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$past_all_sum_uriage_all) . "</div><div class='title6 ta_r'>" . number_format((int)$past_all_average) . "</div></div>";
                                         // 全HTMLを合体（検索対象外は除く）
                                             $view = "";
-                                            if($out1_a == "ON"){ $view .= $past_temp1_betty_manthly_html;}
                                             if($out1_b == "ON"){ $view .= $past_temp1_jack_manthly_html;}
+                                            if($out1_a == "ON"){ $view .= $past_temp1_betty_manthly_html;}
                                             if($out1_c == "ON"){ $view .= $past_temp1_jewelry_manthly_html;}
                                             $past_temp1_all_sorce = "<p class='title_a'>金額（過去）</p><div class='box1'>" . $past_temp1_title . $view . $past_all_sum_uriage . "</div>";
 
@@ -1477,9 +1496,30 @@ class Analysis2_test_searchController extends Controller
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
                                                     //$past_all_average2 = floor((int)$past_all_sum_number_all / $past_i);
                                                     if($out1_c == "ON"){
-                                                        $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2 + (int)$past_jewelry_sum_number_ave2;
+                                                        // 20240520 $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2 + (int)$past_jewelry_sum_number_ave2;
+                                                        if($out1_b == "ON" && $out1_a == "ON"){
+                                                            $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2 + (int)$past_jewelry_sum_number_ave2;
+                                                        } else if($out1_b == "ON" && $out1_a <> "ON"){
+                                                            $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_jewelry_sum_number_ave2;
+                                                        } else if($out1_b <> "ON" && $out1_a <> "ON"){
+                                                            $past_all_average2 = (int)$past_betty_sum_number_ave2 + (int)$past_jewelry_sum_number_ave2;
+                                                        } else {
+                                                            $past_all_average2 = (int)$past_jewelry_sum_number_ave2;
+                                                        }
+                                                        
+                                                        
+                                                        
                                                     } else {
-                                                        $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2;
+                                                        // 20240520 $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2;
+                                                        if($out1_b == "ON" && $out1_a == "ON"){
+                                                            $past_all_average2 = (int)$past_jack_sum_number_ave2 + (int)$past_betty_sum_number_ave2;
+                                                        } else if($out1_b == "ON" && $out1_a <> "ON"){
+                                                            $past_all_average2 = (int)$past_jack_sum_number_ave2;
+                                                        } else if($out1_b <> "ON" && $out1_a <> "ON"){
+                                                            $past_all_average2 = (int)$past_betty_sum_number_ave2;
+                                                        } else {
+                                                            $past_all_average2 = 0;
+                                                        }
                                                     }
                                             } else {
                                                 $past_all_average2 = 0;
@@ -1487,8 +1527,8 @@ class Analysis2_test_searchController extends Controller
                                             $past_all_sum_number .= "<div class='title6 ta_r'>" . number_format((int)$past_all_sum_number_all) . "</div><div class='title6 ta_r'>" . number_format((int)$past_all_average2) . "</div></div>";
                                         // 全HTMLを合体（検索対象外は除く）
                                             $view2 = "";
-                                            if($out1_a == "ON"){ $view2 .= $past_temp1_betty_manthly_html2;}
                                             if($out1_b == "ON"){ $view2 .= $past_temp1_jack_manthly_html2;}
+                                            if($out1_a == "ON"){ $view2 .= $past_temp1_betty_manthly_html2;}
                                             if($out1_c == "ON"){ $view2 .= $past_temp1_jewelry_manthly_html2;}
                                             $past_temp1_all_sorce2 = "<p class='title_a'>点数（過去）</p><div class='box1'>" . $past_temp1_title . $view2 . $past_all_sum_number . "</div>";
 
@@ -2265,7 +2305,17 @@ class Analysis2_test_searchController extends Controller
     $jack_total_js2 = "";
     $betty_total_js2 = "";
     $jewelry_total_js2 = "";
-    foreach($temp1_jack_manthly_array as $var){
+    //20240520
+     if(isset($temp1_jack_manthly_array)){
+         $array_set = $temp1_jack_manthly_array;
+     } else if(isset($temp1_betty_manthly_array)){
+        $array_set = $temp1_betty_manthly_array;
+     } else if(isset($temp1_jewelry_manthly_array)){
+        $array_set = $temp1_jewelry_manthly_array;
+     }
+
+    //foreach($temp1_jack_manthly_array as $var){
+    foreach($array_set as $var){
         if($out1_c == "ON"){
             $total = (int)$var + (int)$temp1_betty_manthly_array[$i] + (int)$temp1_jewelry_manthly_array[$i];
         } else {
@@ -2296,7 +2346,7 @@ class Analysis2_test_searchController extends Controller
                     $jewelry_per = "---";
                 } else {
                     //$jewelry_per = 100 - $jack_per - $betty_per;
-                    $jewelry_per = number_format(bcsub('100', ($jack_per + $betty_per), 1) ,1);
+                    $jewelry_per = number_format(bcsub('100', ((int)$jack_per + (int)$betty_per), 1) ,1);
                 }
             }
         } else {
@@ -2346,8 +2396,8 @@ class Analysis2_test_searchController extends Controller
         if($out1_c == "ON"){ $jewelry_per_html .= "<div class='title7 ta_r'>" . $jewelry_total_per. "%</div>";}
 
 
-    $temp1_all_sorce4 = "<p class='title_a'>金額・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー    </div>" . $betty_per_html . "</div>";
-    $temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $temp1_all_sorce4 = "<p class='title_a'>金額・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
     if($out1_c == "ON"){$temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_per_html . "</div>";}
     $temp1_all_sorce4 .= "</div>";
 
@@ -2371,7 +2421,17 @@ class Analysis2_test_searchController extends Controller
     $jack_total_js3 = "";
     $betty_total_js3 = "";
     $jewelry_total_js3 = "";
-    foreach($temp1_jack_manthly_array2 as $var){
+    //20240520
+     if(isset($temp1_jack_manthly_array2)){
+         $array_set2 = $temp1_jack_manthly_array2;
+     } else if(isset($temp1_betty_manthly_array2)){
+        $array_set2 = $temp1_betty_manthly_array2;
+     } else if(isset($temp1_jewelry_manthly_array2)){
+        $array_set2 = $temp1_jewelry_manthly_array2;
+     }
+    
+    //foreach($temp1_jack_manthly_array2 as $var){
+    foreach($array_set2 as $var){
         //echo $temp1_betty_manthly_array2[$i] . "<br>";
         if($out1_c == "ON"){
             $total = (int)$var + (int)$temp1_betty_manthly_array2[$i] + (int)$temp1_jewelry_manthly_array2[$i];
@@ -2403,7 +2463,7 @@ class Analysis2_test_searchController extends Controller
                     $jewelry_per = "---";
                 } else {
                     //$jewelry_per = 100 - $jack_per - $betty_per;
-                    $jewelry_per = number_format(bcsub('100', ($jack_per + $betty_per), 1) ,1);
+                    $jewelry_per = number_format(bcsub('100', ((int)$jack_per + (int)$betty_per), 1) ,1);
                 }
             }
         } else {
@@ -2454,8 +2514,8 @@ class Analysis2_test_searchController extends Controller
         if($out1_c == "ON"){ $jewelry_per_html .= "<div class='title7 ta_r'>" . $jewelry_total_per . "%</div>";}
 
 
-    $temp1_all_sorce5 = "<p class='title_a'>点数・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
-    $temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $temp1_all_sorce5 = "<p class='title_a'>点数・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
     if($out1_c == "ON"){$temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_per_html . "</div>";}
     $temp1_all_sorce5 .= "</div>";
 
@@ -2469,12 +2529,16 @@ class Analysis2_test_searchController extends Controller
     $jack_total = "";
     $jack_total2 = "";
     $jack_total_ave = "";
-    foreach($temp1_jack_manthly_array as $var){
+    
+    // 20240520 foreach($temp1_jack_manthly_array as $var){
+    foreach($array_set as $var){
 
         if($var == 0){
             $jack_average = 0;
             $jack_total = (int)$jack_total + (int)$var;
-            if($temp1_jack_manthly_array2[$i] == 0){
+            // 20240520 f($temp1_jack_manthly_array2[$i] == 0){
+            if($array_set[$i] == 0){
+
                 $jack_total2 = $jack_total2;
             } else {
                 $jack_total2 = (int)$jack_total2 + (int)$temp1_jack_manthly_array2[$i];
@@ -2508,29 +2572,32 @@ class Analysis2_test_searchController extends Controller
     $betty_total = "";
     $betty_total2 = "";
     $betty_total_ave = "";
-    foreach($temp1_betty_manthly_array as $var){
-
-        if($var == 0){
-            $betty_average = 0;
-            $betty_total = (int)$betty_total + (int)$var;
-            if($temp1_betty_manthly_array2[$i] == 0){
-                $betty_total2 = $betty_total2;
-            } else {
-                $betty_total2 = (int)$betty_total2 + (int)$temp1_betty_manthly_array2[$i];
+    // 20240520
+    if($out1_a = "ON"){    
+            foreach($temp1_betty_manthly_array as $var){
+        
+                if($var == 0){
+                    $betty_average = 0;
+                    $betty_total = (int)$betty_total + (int)$var;
+                    if($temp1_betty_manthly_array2[$i] == 0){
+                        $betty_total2 = $betty_total2;
+                    } else {
+                        $betty_total2 = (int)$betty_total2 + (int)$temp1_betty_manthly_array2[$i];
+                    }
+                } else {
+                    $betty_average = (floor(((int)$var / (int)$temp1_betty_manthly_array2[$i])) * 10) / 10;
+                    $betty_total = (int)$betty_total + (int)$var;
+                    if($temp1_betty_manthly_array2[$i] == 0){
+                        $betty_total2 = $betty_total2;
+                    } else {
+                        $betty_total2 = (int)$betty_total2 + (int)$temp1_betty_manthly_array2[$i];
+                    }
+                }
+                if($betty_average <> 0 && $betty_average <> ""){$betty_average = number_format((int)$betty_average);}
+                $betty_ave_html .= "<div class='title7 ta_r'>" . $betty_average . "</div>";
+        
+                $i++;
             }
-        } else {
-            $betty_average = (floor(((int)$var / (int)$temp1_betty_manthly_array2[$i])) * 10) / 10;
-            $betty_total = (int)$betty_total + (int)$var;
-            if($temp1_betty_manthly_array2[$i] == 0){
-                $betty_total2 = $betty_total2;
-            } else {
-                $betty_total2 = (int)$betty_total2 + (int)$temp1_betty_manthly_array2[$i];
-            }
-        }
-        if($betty_average <> 0 && $betty_average <> ""){$betty_average = number_format((int)$betty_average);}
-        $betty_ave_html .= "<div class='title7 ta_r'>" . $betty_average . "</div>";
-
-        $i++;
     }
     // 期間中の売上合計に対する平均単価を取得
         if($betty_total <> 0 && $betty_total2 <> 0 && $betty_total <> "" && $betty_total2 <> ""){
@@ -2584,8 +2651,8 @@ class Analysis2_test_searchController extends Controller
         }
 
 
-    $temp1_all_sorce6 = "<p class='title_a'>平均単価</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ave_html . "</div>";
-    $temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ave_html . "</div>";
+    $temp1_all_sorce6 = "<p class='title_a'>平均単価</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ave_html . "</div>";
+    $temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ave_html . "</div>";
     if($out1_c == "ON"){$temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_ave_html . "</div>";}
     $temp1_all_sorce6 .= "</div>";
 
@@ -2598,49 +2665,52 @@ class Analysis2_test_searchController extends Controller
     $jack_total = "";
     $jack_total_past = "";
     $jack_total_ratio = "";
-    foreach($temp1_jack_manthly_array as $var){
-        if($var == 0){
-            $jack_ratio = "---";
-            $jack_total = $jack_total;
-            if($past_temp1_jack_manthly_array[$i] == 0){
-                $jack_total_past = $jack_total_past;
-            } else {
-                $jack_total_past = (int)$jack_total_past + (int)$past_temp1_jack_manthly_array[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_jack_manthly_array[$i] == 0 || $var == "" || $past_temp1_jack_manthly_array[$i] == ""){
-                $jack_ratio = "---";
-            } else { 
-                $jack_ratio = number_format((floor(($var / $past_temp1_jack_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $jack_total = (int)$jack_total + (int)$var;
-            if($past_temp1_jack_manthly_array[$i] == 0){
-                $jack_total_past = $jack_total_past;
-            } else {
-                $jack_total_past = (int)$jack_total_past + (int)$past_temp1_jack_manthly_array[$i];
-            }
-        }
-        if($jack_ratio < 100){
-            $jack_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $jack_ratio . "%</div>";
-        } else {
-            $jack_ratio_html .= "<div class='title7 ta_r fc_red'>" . $jack_ratio . "%</div>";
-        }
+    // 20240520
+    if($out1_b == "ON"){    
 
-        $i++;
+                foreach($temp1_jack_manthly_array as $var){
+                    if($var == 0){
+                        $jack_ratio = "---";
+                        $jack_total = $jack_total;
+                        if($past_temp1_jack_manthly_array[$i] == 0){
+                            $jack_total_past = $jack_total_past;
+                        } else {
+                            $jack_total_past = (int)$jack_total_past + (int)$past_temp1_jack_manthly_array[$i];
+                        }
+                    } else {
+                        if($var == 0 || $past_temp1_jack_manthly_array[$i] == 0 || $var == "" || $past_temp1_jack_manthly_array[$i] == ""){
+                            $jack_ratio = "---";
+                        } else { 
+                            $jack_ratio = number_format((floor(($var / $past_temp1_jack_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                        }
+                        $jack_total = (int)$jack_total + (int)$var;
+                        if($past_temp1_jack_manthly_array[$i] == 0){
+                            $jack_total_past = $jack_total_past;
+                        } else {
+                            $jack_total_past = (int)$jack_total_past + (int)$past_temp1_jack_manthly_array[$i];
+                        }
+                    }
+                    if($jack_ratio < 100){
+                        $jack_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $jack_ratio . "%</div>";
+                    } else {
+                        $jack_ratio_html .= "<div class='title7 ta_r fc_red'>" . $jack_ratio . "%</div>";
+                    }
+            
+                    $i++;
+                }
+                // 過去の同期間売上金額に対する比率を取得
+                    if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
+                        $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
+                    } else {
+                        $jack_total_ratio = "---";
+                    }
+            
+                    if($jack_total_ratio < 100){
+                        $jack_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $jack_total_ratio . "%</div>";
+                    } else {
+                        $jack_ratio_html .= "<div class='title7 ta_r fc_red'>" . $jack_total_ratio . "%</div>";
+                    }
     }
-    // 過去の同期間売上金額に対する比率を取得
-        if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
-            $jack_total_ratio = number_format((floor(((float)$jack_total / (float)$jack_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $jack_total_ratio = "---";
-        }
-
-        if($jack_total_ratio < 100){
-            $jack_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $jack_total_ratio . "%</div>";
-        } else {
-            $jack_ratio_html .= "<div class='title7 ta_r fc_red'>" . $jack_total_ratio . "%</div>";
-        }
-
 
 // ベティー・金額・過去比
 
@@ -2650,37 +2720,44 @@ class Analysis2_test_searchController extends Controller
     $betty_total = "";
     $betty_total_past = "";
     $betty_total_ratio = "";
-    foreach($temp1_betty_manthly_array as $var){
-        if($var == 0){
-            $betty_ratio = "---";
-            $betty_total = $betty_total;
-            if($past_temp1_betty_manthly_array[$i] == 0){
-                $betty_total_past = $betty_total_past;
-            } else {
-                $betty_total_past = (int)$betty_total_past + (int)$past_temp1_betty_manthly_array[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_betty_manthly_array[$i] == 0 || $var == "" || $past_temp1_betty_manthly_array[$i] == ""){
-                $betty_ratio = "---";
-            } else {
-                $betty_ratio = number_format((floor(($var / $past_temp1_betty_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $betty_total = (int)$betty_total + (int)$var;
-            if($past_temp1_betty_manthly_array[$i] == 0){
-                $betty_total_past = $betty_total_past;
-            } else {
-                $betty_total_past = (int)$betty_total_past + (int)$past_temp1_betty_manthly_array[$i];
-            }
-        }
-        if($betty_ratio < 100){
-            $betty_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $betty_ratio . "%</div>";
-        } else {
-            $betty_ratio_html .= "<div class='title7 ta_r fc_red'>" . $betty_ratio . "%</div>";
-        }
+    // 20240520
+    if($out1_a == "ON"){    
+            
+            foreach($temp1_betty_manthly_array as $var){
+                if($var == 0){
+                    $betty_ratio = "---";
+                    $betty_total = $betty_total;
+                    if($past_temp1_betty_manthly_array[$i] == 0){
+                        $betty_total_past = $betty_total_past;
+                    } else {
+                        $betty_total_past = (int)$betty_total_past + (int)$past_temp1_betty_manthly_array[$i];
+                    }
+                } else {
+                    if($var == 0 || $past_temp1_betty_manthly_array[$i] == 0 || $var == "" || $past_temp1_betty_manthly_array[$i] == ""){
+                        $betty_ratio = "---";
+                    } else {
+                        $betty_ratio = number_format((floor(($var / $past_temp1_betty_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                    }
+                    $betty_total = (int)$betty_total + (int)$var;
+                    if($past_temp1_betty_manthly_array[$i] == 0){
+                        $betty_total_past = $betty_total_past;
+                    } else {
+                        $betty_total_past = (int)$betty_total_past + (int)$past_temp1_betty_manthly_array[$i];
+                    }
+                }
+                if($betty_ratio < 100){
+                    $betty_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $betty_ratio . "%</div>";
+                } else {
+                    $betty_ratio_html .= "<div class='title7 ta_r fc_red'>" . $betty_ratio . "%</div>";
+                }
+                
         
-
-        $i++;
+                $i++;
+            }
     }
+    
+    
+    
     // 過去の同期間売上金額に対する比率を取得
         if($jack_total <> 0 && $jack_total_past <> 0 && $jack_total <> "" && $jack_total_past <> ""){
             $betty_total_ratio = number_format((floor(((float)$betty_total / (float)$betty_total_past) * 100 * 10)) / 10 ,1);
@@ -2826,8 +2903,8 @@ class Analysis2_test_searchController extends Controller
         }
 
 
-    $temp1_all_sorce7 = "<p class='title_a'>金額・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ratio_html . "</div>";
-    $temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ratio_html . "</div>";
+    $temp1_all_sorce7 = "<p class='title_a'>金額・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ratio_html . "</div>";
+    $temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ratio_html . "</div>";
     if($out1_c == "ON"){$temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_ratio_html . "</div>";}
     $temp1_all_sorce7 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
 
@@ -3071,8 +3148,8 @@ class Analysis2_test_searchController extends Controller
             $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
         }
 
-    $temp1_all_sorce8 = "<p class='title_a'>点数・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ratio_html . "</div>";
-    $temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ratio_html . "</div>";
+    $temp1_all_sorce8 = "<p class='title_a'>点数・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ratio_html . "</div>";
+    $temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ratio_html . "</div>";
     if($out1_c == "ON"){$temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_ratio_html . "</div>";}
     $temp1_all_sorce8 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
     
@@ -3190,8 +3267,8 @@ class Analysis2_test_searchController extends Controller
         $betty_per_html .= "<div class='title7 ta_r'>" . $betty_total_per . "%</div>";
         if($out1_c == "ON"){ $jewelry_per_html .= "<div class='title7 ta_r'>" . $jewelry_total_per . "%</div>";}
 
-    $past_temp1_all_sorce4 = "<p class='title_a'>金額・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
-    $past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $past_temp1_all_sorce4 = "<p class='title_a'>金額・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
     if($out1_c == "ON"){$past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_per_html . "</div>";}
     $past_temp1_all_sorce4 .= "</div>";
 
@@ -3308,8 +3385,8 @@ class Analysis2_test_searchController extends Controller
        if($out1_c == "ON"){ $jewelry_per_html .= "<div class='title7 ta_r'>" . $jewelry_total_per . "%</div>";}
 
 
-    $past_temp1_all_sorce5 = "<p class='title_a'>点数・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
-    $past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $past_temp1_all_sorce5 = "<p class='title_a'>点数・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_per_html . "</div>";
+    $past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_per_html . "</div>";
     if($out1_c == "ON"){$past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_per_html . "</div>";}
     $past_temp1_all_sorce5 .= "</div>";
 
@@ -3450,8 +3527,8 @@ class Analysis2_test_searchController extends Controller
 
 
 
-        $past_temp1_all_sorce6 = "<p class='title_a'>平均単価（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ave_html . "</div>";
-        $past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ave_html . "</div>";
+        $past_temp1_all_sorce6 = "<p class='title_a'>平均単価（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>ジャック</div>" . $jack_ave_html . "</div>";
+        $past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ベティー</div>" . $betty_ave_html . "</div>";
         if($out1_c == "ON"){$past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>ジュエリー</div>" . $jewelry_ave_html . "</div>";}
         $past_temp1_all_sorce6 .= "</div>";
     
@@ -3514,8 +3591,8 @@ class Analysis2_test_searchController extends Controller
                                             $all_sum_uriage .= "<div class='title6 ta_r'>" . number_format((int)$all_sum_uriage_all) . "</div><div class='title6 ta_r'>" . number_format((int)$all_average) . "</div></div>";
                                         // 全HTMLを合体（検索対象外は除く）
                                             $view = "";
-                                            if($out1_a == "ON"){ $view .= $temp1_betty_manthly_html;}
                                             if($out1_b == "ON"){ $view .= $temp1_jack_manthly_html;}
+                                            if($out1_a == "ON"){ $view .= $temp1_betty_manthly_html;}
                                             if($out1_c == "ON"){ $view .= $temp1_jewelry_manthly_html;}
                                             $temp1_all_sorce = "<p class='title_a'>金額</p><div class='box1'>" . $temp1_title . $view . $all_sum_uriage . "</div>";
 
@@ -3536,8 +3613,8 @@ class Analysis2_test_searchController extends Controller
                                         // 全HTMLを合体（検索対象外は除く）
                                         
                                             $view2 = "";
-                                            if($out1_a == "ON"){ $view2 .= $temp1_betty_manthly_html2;}
                                             if($out1_b == "ON"){ $view2 .= $temp1_jack_manthly_html2;}
+                                            if($out1_a == "ON"){ $view2 .= $temp1_betty_manthly_html2;}
                                             if($out1_c == "ON"){ $view2 .= $temp1_jewelry_manthly_html2;}
                                             $temp1_all_sorce2 = "<p class='title_a'>点数</p><div class='box1'>" . $temp1_title . $view2 . $all_sum_number . "</div>";
 

@@ -405,6 +405,7 @@ jQuery(document).ready(function(){
                 $('#loader-bg').delay(900).fadeOut(800);
                 $('#loader').delay(600).fadeOut(300);
               }
+              
 
     </script>
     <style type="text/css">
@@ -608,7 +609,12 @@ box-sizing: border-box;
         </div>
         </div>
 
+<script>
+              function undisabled() {
+    $('input[id="aaa"]').prop('disabled', false);
+}
 
+    </script>
     <!-- 全体の大枠 start -->
         <div id="container">
         @if(isset($all_count_line)) {{ $all_count_line }} @endif  
@@ -694,6 +700,7 @@ box-sizing: border-box;
 
                                 <!-- DB登録期間の表示 -->
                                     <p style="text-align:center;font-size:10px;">
+                                        
                                     @if(isset($first_day))登録データ：{{ $first_day }} ～ @endif 
                                     @if(isset($last_day)){{ $last_day }}@endif 
                                     </p>
@@ -702,9 +709,17 @@ box-sizing: border-box;
                                     @if(isset($output) && $output == 1)
                                             <div class="ta_c">
                                                 <p class="sub_title">扱い部門</p>
+                                                <!--
                                                 <input type="checkbox" name="out1[]" value="2"  @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>Jack
                                                 <input type="checkbox" name="out1[]" value="1"  @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>Betty
                                                 <input type="checkbox" name="out1[]" value="3"  @if(isset($out1_c) && $out1_c <> "OFF") checked @elseif (empty($out1_c)) checked @endif>Jewelry
+                                                <input type="checkbox" name="out1[]" value="2" checked="checked" disabled="disabled">Jack
+                                                <input type="checkbox" name="out1[]" value="1" checked="checked" disabled="disabled">Betty
+                                                <input type="checkbox" name="out1[]" value="3" checked="checked" disabled="disabled">Jewelry
+                                                -->
+                                                <input type="checkbox" id="aaa" name="out1[]" value="2" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Jack</span>
+                                                <input type="checkbox" id="aaa" name="out1[]" value="1" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Betty</span>
+                                                <input type="checkbox" id="aaa" name="out1[]" value="3" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Jewelry</span>
                                                 <p class="sub_title">商品区分</p>
                                                 <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
                                                 <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
@@ -721,12 +736,10 @@ box-sizing: border-box;
                                     @if(isset($output) && $output == 2)
                                             <div class="ta_c">
                                                 <p class="sub_title">扱い部門</p>
-                                                <!--<input type="checkbox" name="out1[]" value="2" checked="checked" disabled="disabled">Jack
-                                                <input type="checkbox" name="out1[]" value="1" checked="checked" disabled="disabled">Betty
-                                                <input type="checkbox" name="out1[]" value="3" checked="checked" disabled="disabled">Jewelry-->
-                                                <input type="checkbox" name="out1[]" value="2"  @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>Jack
-                                                <input type="checkbox" name="out1[]" value="1"  @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>Betty
-                                                <input type="checkbox" name="out1[]" value="3"  @if(isset($out1_c) && $out1_c <> "OFF") checked @elseif (empty($out1_c)) checked @endif>Jewelry
+                                                <input type="checkbox" id="aaa" name="out1[]" value="2" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Jack</span>
+                                                <input type="checkbox" id="aaa" name="out1[]" value="1" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Betty</span>
+                                                <input type="checkbox" id="aaa" name="out1[]" value="3" checked="checked"  onclick="return false;"><span style="color:#cccccc;">Jewelry</span>
+                                                
                                                 <p class="sub_title">商品区分</p>
                                                 <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
                                                 <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
