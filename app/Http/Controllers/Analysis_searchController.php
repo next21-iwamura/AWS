@@ -4032,7 +4032,6 @@ class Analysis_searchController extends Controller
                                                             } else {
                                                                 $all_sum_arari_progress3 = "---";
                                                             }
-                                                        echo $shop_sum_uriage_progress_pre3;
                                                         // HTML作成
                                                             ($shop_sum_uriage_progress == 0 || $shop_sum_uriage_progress == "" || $shop_sum_uriage_progress == "---") ? $shop_uriage_view1 = $shop_sum_uriage_progress : $shop_uriage_view1 = number_format($shop_sum_uriage_progress);
                                                             ($shop_sum_uriage_progress_pre == 0 || $shop_sum_uriage_progress_pre == "" || $shop_sum_uriage_progress_pre == "---") ? $shop_uriage_view2 = $shop_sum_uriage_progress_pre : $shop_uriage_view2 = number_format($shop_sum_uriage_progress_pre);
