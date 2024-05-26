@@ -326,7 +326,7 @@ class Analysis2_searchController extends Controller
 
         // 変数初期化
             $start_year = "";
-            $start_month = "01";
+            $start_month = "";
             $start_day = "";
             $end_year = "";
             $end_month = "";

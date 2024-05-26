@@ -966,7 +966,7 @@ box-sizing: border-box;
                                                     <li>現在データの累計のカッコ内 → 過去比(上昇は赤、下落は青)</li>
                                                     <li>現在の「金額」「点数」「粗利」の平均について：データ格納最終日がその月の最終日でなければ平均計算に含めない（月のデータが最終日まで揃っていないので、先月までの合計の平均値を表示）</li>
                                                     <li>データを登録する際はデータ内の期間を参照し、過去の余計なデータを残さないためDB上のその期間を削除した上で内容を登録しているので、手動で中身を編集しないよう注意</li>
-                                                    <li>登録データは「CSV」形式の文字コードが「UTF-8」のものを使用（<a href="https://lomo-jackroad.ssl-lolipop.jp/laravel/analysis" target="_blank">データを登録する</a>）</li>
+                                                    <li>登録データは「CSV」形式の文字コードが「UTF-8」のものを使用（<a href="analysis" target="_blank">データを登録する</a>）</li>
 
                                                     </ol>
                                                     <p style="font-weight:bold;border-bottom:1px dotted #666666;border-left:5px solid #666666;padding-left:.5em;margin: top 2px;em;">備考</p>
