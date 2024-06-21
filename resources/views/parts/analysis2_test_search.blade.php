@@ -2317,7 +2317,8 @@ box-sizing: border-box;
                     @endif
                 @endif
 
-                
+                                                @if(isset($aaa)){!! $aaa !!}@endif
+
             <!-- ブランド・点数順用 end -->
 
     @endif
