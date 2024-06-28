@@ -5527,7 +5527,6 @@ class Analysis2_test_searchController extends Controller
                                    /************************************************************************************************************************************************************************************************************* */
                                         // 商品IDのみ取得し配列化 end
                                    /************************************************************************************************************************************************************************************************************* */
-//print_r($all_id_array);
 
                                    /************************************************************************************************************************************************************************************************************* */
                                         // 月ごとのブランドのみ取得し配列化
@@ -5549,7 +5548,12 @@ class Analysis2_test_searchController extends Controller
                                                         $table_name . '.bumon',
                                                         $table_name . '.shouhin_name',
                                                         $table_name . '.tag',
-                                                        
+                                                        $table_name . '.ref',
+                                                        $table_name . '.siiresuuryou',
+                                                        $table_name . '.nyuukosuuryou',
+                                                        $table_name . '.uriagesuuryou',
+                                                        $table_name . '.shukkosuuryou',
+                                                        $table_name . '.chouseisuuryou',
 
                                                     ])
                                                 // 条件（期間の指定）
@@ -5609,65 +5613,212 @@ class Analysis2_test_searchController extends Controller
                                                         $month = $temp3_buy->date;
                                                         $month = mb_substr($month,0,-3);
                                                     // 個別ブランド番号
-                                                        $temp3_brand_no[$i]= $temp3_buy->brand_id;
+                                                        $temp3_brand_no[$i] = $temp3_buy->brand_id;
                                                     // 個別ブランド名
-                                                        $temp3_brand[$i]= $temp3_buy->brand_name;
+                                                        $temp3_brand[$i] = $temp3_buy->brand_name;
                                                     // 個別商品ID
-                                                       $temp3_id[$i]= $temp3_buy->tag;
+                                                       $temp3_id[$i] = $temp3_buy->tag;
                                                     // 当月在庫数量
-                                                       $temp3_num[$i]= $temp3_buy->tougetsumizaikosuuryou;
-                                                        
+                                                       $temp3_num[$i] = $temp3_buy->tougetsumizaikosuuryou;
+                                                    // 商品名
+                                                       $temp3_name[$i] = $temp3_buy->shouhin_name;
+                                                    // 型番
+                                                       $temp3_ref[$i] = $temp3_buy->ref;
+                                                    // 商品区分分類名
+                                                       $temp3_bunrui[$i] = $temp3_buy->shouhinkubunbunrui_name;
+                                                    // 仕入れ数量
+                                                       $temp3_siire_num[$i] = $temp3_buy->siiresuuryou;
+                                                    // 入庫数量
+                                                       $temp3_nyuuko_num[$i] = $temp3_buy->nyuukosuuryou;
+                                                    // 売上数量
+                                                       $temp3_uriage_num[$i] = $temp3_buy->uriagesuuryou;
+                                                    // 出庫数量
+                                                       $temp3_shukko_num[$i] = $temp3_buy->shukkosuuryou;
+                                                    // 調整数量
+                                                       $temp3_chousei_num[$i] = $temp3_buy->chouseisuuryou;
+                                                    // 在庫金額（仕入れ金額）
+                                                       $temp3_zaikokingaku[$i] = $temp3_buy->zaikokingaku;
+                                                       
+                                                       
+                                                        $all_num_array = array();
+                                                        $all_kingaku_array = array();
                                                         $ii = 0;
-                                                        $id_sort = array();
-                                                        $num_sort = array();
                                                         foreach($all_id_array as $var){
-                                                            // 個別商品IDが全商品ID配列の値と一致した場合
-                                                            if($var == $temp3_id[$i]){
-                                                                // 個別商品ID用在庫数格納変数が存在すれば
-                                                                if(isset(${"all_id_num" . $ii})){
-                                                                    // 個別商品ID用在庫数格納変に在庫数を追加
-                                                                    ${"all_id_num" . $ii} = ${"all_id_num" . $ii} + $temp3_num[$i];
-                                                                } else {
-                                                                    // 個別商品ID用在庫数格納変に在庫数を代入
-                                                                    ${"all_id_num" . $ii} = $temp3_num[$i];
+                                                                 
+                                                            // 個別商品IDが全商品ID配列の値と一致した場合（DB上は同一商品IDが複数存在する）
+                                                                if($var == $temp3_id[$i]){
+                                                                    // 商品ID代入
+                                                                        ${"id" . $ii} = $temp3_id[$i];
+                                                                    // ブランド名代入
+                                                                        ${"brand" . $ii} = $temp3_brand[$i];
+                                                                    // 商品名代入
+                                                                        ${"name" . $ii} = $temp3_name[$i];
+                                                                        
+                                                                    // 当月在庫数量の合計
+                                                                        // 個別商品ID用在庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_num" . $ii})){
+                                                                                // 個別商品ID用在庫数格納変数に在庫数を追加
+                                                                                    ${"all_id_num" . $ii} = ${"all_id_num" . $ii} + $temp3_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用在庫数格納変数に在庫数を代入
+                                                                                    ${"all_id_num" . $ii} = $temp3_num[$i];
+                                                                            }
+                                                                    // 仕入れ数量の合計
+                                                                        // 個別商品ID用仕入れ数格納変数が存在すれば
+                                                                            if(isset(${"all_id_siire_num" . $ii})){
+                                                                                // 個別商品ID用仕入れ数格納変数に仕入れ数を追加
+                                                                                    ${"all_id_siire_num" . $ii} = ${"all_id_siire_num" . $ii} + $temp3_siire_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用仕入れ数格納変数に仕入れ数を代入
+                                                                                    ${"all_id_siire_num" . $ii} = $temp3_siire_num[$i];
+                                                                            }
+                                                                    // 入庫数の合計
+                                                                        // 個別商品ID用入庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_nyuuko_num" . $ii})){
+                                                                                // 個別商品ID用入庫数格納変数に入庫数を追加
+                                                                                    ${"all_id_nyuuko_num" . $ii} = ${"all_id_nyuuko_num" . $ii} + $temp3_nyuuko_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用入庫数格納変数に入庫数を代入
+                                                                                    ${"all_id_nyuuko_num" . $ii} = $temp3_nyuuko_num[$i];
+                                                                            }
+                                                                    // 売上数の合計
+                                                                        // 個別商品ID用売上数格納変数が存在すれば
+                                                                            if(isset(${"all_id_uriage_num" . $ii})){
+                                                                                // 個別商品ID用売上数格納変数に売上数を追加
+                                                                                    ${"all_id_uriage_num" . $ii} = ${"all_id_uriage_num" . $ii} + $temp3_uriage_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用売上数格納変数に売上数を代入
+                                                                                    ${"all_id_uriage_num" . $ii} = $temp3_uriage_num[$i];
+                                                                            }
+                                                                    // 出庫数の合計
+                                                                        // 個別商品ID用出庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_shukko_num" . $ii})){
+                                                                                // 個別商品ID用出庫数格納変数に出庫数を追加
+                                                                                    ${"all_id_shukko_num" . $ii} = ${"all_id_shukko_num" . $ii} + $temp3_shukko_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用出庫数格納変数に出庫数を代入
+                                                                                    ${"all_id_shukko_num" . $ii} = $temp3_shukko_num[$i];
+                                                                            }
+                                                                    // 調整数の合計
+                                                                        // 個別商品ID用調整数格納変数が存在すれば
+                                                                            if(isset(${"all_id_chousei_num" . $ii})){
+                                                                                // 個別商品ID用調整数格納変数に調整数を追加
+                                                                                    ${"all_id_chousei_num" . $ii} = ${"all_id_chousei_num" . $ii} + $temp3_chousei_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用調整数格納変数に調整数を代入
+                                                                                    ${"all_id_chousei_num" . $ii} = $temp3_chousei_num[$i];
+                                                                            }
+                                                                    // 在庫金額の合計
+                                                                        // 個別商品ID用在庫金額格納変数が存在すれば
+                                                                            if(isset(${"kingaku" . $ii})){
+                                                                                // 個別商品ID用在庫金額格納変数に在庫金額を追加
+                                                                                    ${"kingaku" . $ii} = ${"kingaku" . $ii} + (int)$temp3_zaikokingaku[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用在庫金額格納変数に在庫金額を代入
+                                                                                    ${"kingaku" . $ii} = (int)$temp3_zaikokingaku[$i];
+                                                                            }
+    
+                                                                    
                                                                 }
                                                                 
-                                                            }
-                                                            if(isset(${"all_id_num" . $ii})){
-                                                                array_push($num_sort,${"all_id_num" . $ii});
-                                                                array_push($id_sort,$var);
-                                                            }
+
+                                                            // 上記ロジックで各商品IDの合計値を取得できたタイミングで全商品ID毎の合計本数を格納する配列へ追加（本数が存在する場合）（さらに「$all_id_array 」と同じ順番にする必要があるので、「$all_id_array 」の処理ロジックの中で実施）
+                                                                if(isset(${"all_id_num" . $ii})){
+                                                                    array_push($all_num_array,${"all_id_num" . $ii});
+                                                                }
+                                                                if(isset(${"kingaku" . $ii})){
+                                                                    array_push($all_kingaku_array,${"kingaku" . $ii});
+                                                                }
+
 
                                                             $ii++;
                                                         }
+                                                                                                                        
+
+                                                    // 上記ロジックで取得した各要素の合計数などを一つの変数に入れたいので、もう一度同じ処理「foreach($all_id_array as $var){」の中で実行
+                                                       /* $ii = 0;
+                                                        $product_info[$i] = "";
+                                                        foreach($all_id_array as $var){
+                                                                 
+                                                            // 個別商品IDが全商品ID配列の値と一致した場合（DB上は同一商品IDが複数存在する）
+                                                                if($var == $temp3_id[$i]){
+                                                                    
+
+                                                                    // DBの同一商品IDが最初に登場したタイミングで処理を実施
+                                                                        if(isset(${"first" . $ii})){
+                                                                        } else {
+                                                                            // 複数存在する同一商品IDが最初に登場したか否かを判別するためだけの変数（初回のみ以下の処理を実行するため）
+                                                                                ${"first" . $ii} = "ON";
+                                                                            // 1度だけの処理なので、各IDが最初に登場したタイミングで以下の処理を実施（さらに「$all_id_array 」と同じ順番にする必要があるので、「$all_id_array 」の処理ロジックの中で実施）
+                                                                                // 各商品情報を変数に代入
+                                                                                    $product_info[$i] = $temp3_id[$i] . "_" . $temp3_brand[$i] . "_" . $temp3_name[$i] . "_" . ${"all_id_siire_num" . $ii} . "_" . ${"all_id_nyuuko_num" . $ii} . "_" . ${"all_id_uriage_num" . $ii} . "_" . ${"all_id_shukko_num" . $ii} . "_" . ${"all_id_chousei_num" . $ii} . "_" . $all_num_array[$ii] . "_" . $all_kingaku_array[$ii];
+                                                                                // スペック付の全商品ID格納する配列へ追加（既に存在する場合は回避）
+                                                                                    if(in_array($product_info[$i],$spec_array)){
+                                                                                        
+                                                                                    } else {
+                                                                                        array_push($spec_array,$product_info[$i]);
+                                                                                    }
+
+                                                                        }
+                                                                }
+
+                                                            $ii++;
+                                                        }*/
+                                                        
 
                                                     $i++;
                                                 }
 
 
+                                                // 上記ロジックで取得した各要素の合計数などを一つの変数に入れる
+                                                    $ii = 0;
+                                                    $spec_array= array();
+                                                    $product_info[$ii] = "";
+                                                    foreach($all_id_array as $var){
+                                                        // 各商品情報を変数に代入
+                                                            $product_info[$ii] = ${"id" . $ii} . "%" . ${"brand" . $ii}. "%" . ${"name" . $ii} . "%" . ${"all_id_siire_num" . $ii} . "%" . ${"all_id_nyuuko_num" . $ii} . "%" . ${"all_id_uriage_num" . $ii} . "%" . ${"all_id_shukko_num" . $ii} . "%" . ${"all_id_chousei_num" . $ii} . "%" . ${"kingaku" . $ii};
+                                                        // スペック付の全商品ID格納する配列へ追加
+                                                            array_push($spec_array,$product_info[$ii]);
+
+                                                        $ii++;
+                                                    }
+
+
+
+
                                     /************************************************************************************************************************************************************************************************************* */
                                         // 月ごとにブランドや部門別のデータを作成
                                     /************************************************************************************************************************************************************************************************************* */
-  
-                                                        $ii = 0;
-                                                        foreach($all_id_array as $var){
-                                                            
-                                                            //echo $var . "(" . ${"all_id_num" . $ii} . ")<br>";
-                                                        $ii++;
-                                                            
-                                                        }
+  //print_r($spec_array);
                                                         
-                                                        //20240621 ↓ソートがうまくいっていない。本数順で表示されるが、紐づく商品IDの順番は元のままなので、商品IDも本数に紐付いた順序にする必要がある
-                                                       arsort($num_sort);
-                                                       $i = 0;
-                                                       $sorce = "<div style='width:400px; margin:0 auto;'>";
-                                                       foreach($num_sort as $val){
+                                                       $ii = 0;
+                                                        $all_id_num_array = array();
+                                                        foreach($all_num_array as $var){
+                                                            // 連想配列のキー（商品ID）と要素（本数）を配列へ追加
+                                                               $all_id_num_array = array_merge($all_id_num_array,array($spec_array[$ii] => $var));
+                                                                // $all_id_num_array = array_merge($all_id_num_array,array($all_id_array[$ii] => $var));
+                                                        $ii++;
+                                                        }
+                                                        //print_r($all_id_num_array);
+                                                        
+                                                        // 配列を要素（本数）の降順なるよう並び替え
+                                                           arsort($all_id_num_array);
                                                            
-                                                           $sorce .= "<div style='display:flex;justify-content:space-between;width:400px;border:1px solid #ccc;'><div style='width:200px;border-right:1px solid #ccc;'>" . $id_sort[$i] . "</div><div style='width:200px;'>" . $val . "</div></div>";
-                                                           //echo $all_id_array[$i] . "(" . $val . ")<br>";
-                                                           
-                                                           $i++;
-                                                       }
+                                                        // 並び替えた配列から表示用ソースを作成
+                                                           $i = 0;
+                                                           $sorce = "<div style='width:1000px; margin:0 auto;'>";
+                                                           foreach($all_id_num_array as $key => $val){
+                                                               $sorce .= "<div style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'>";
+                                                               ${"info" .$i} = explode("%", $key);
+                                                               foreach(${"info" .$i} as $val2){
+                                                                   $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val2 . "</div>";
+                                                               }
+                                                               $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val . "</div></div>";
+                                                               
+                                                              // $sorce .= "<div style='display:flex;justify-content:space-between;width:400px;border:1px solid #ccc;'><div style='width:200px;border-right:1px solid #ccc;'>" . $key . "</div><div style='width:200px;'>" . $val . "</div></div>";
+
+                                                               $i++;
+                                                           }
                                                        $sorce .= "</div>";
 
 
