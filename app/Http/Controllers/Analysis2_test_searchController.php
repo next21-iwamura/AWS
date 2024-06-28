@@ -5066,11 +5066,13 @@ class Analysis2_test_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
 
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
                                                         // 現在ジャック・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_jack_sum_" . $brand_code} = (int)(${"now_brand_jack_sum_" . $brand_code} / $i);
+                                                            
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
                                                             
                                                             ${"now_brand_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy . "</div></div>";
                                                         
@@ -5099,11 +5101,14 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_jack_sum_" . $brand_code}) && ${"past_brand2_jack_sum_" . $brand_code} <> 0 && ${"past_brand2_jack_sum_" . $brand_code} <> "" && ${"now_brand2_jack_sum_" . $brand_code} <> 0 && ${"now_brand2_jack_sum_" . $brand_code} <> ""){ $yoy2 = floor(${"now_brand2_jack_sum_" . $brand_code} / ${"past_brand2_jack_sum_" . $brand_code} * 100); if($yoy2 >= 100){$yoy2 = "<span class='fc_red'>" . $yoy2 . "%</span>";} else {$yoy2 = "<span class='fc_blue'>" . $yoy2 . "%</span>";}}else {$yoy2 = "";}
                                                         // 現在ジャック・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_jack_sum_" . $brand_code} = (int)(${"now_brand2_jack_sum_" . $brand_code} / $i);
+                                                        
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jack_sum_" . $brand_code}) && ${"past_brand2_jack_sum_" . $brand_code} <> 0 && ${"past_brand2_jack_sum_" . $brand_code} <> "" && ${"now_brand2_jack_sum_" . $brand_code} <> 0 && ${"now_brand2_jack_sum_" . $brand_code} <> ""){ $yoy2 = floor(${"now_brand2_jack_sum_" . $brand_code} / ${"past_brand2_jack_sum_" . $brand_code} * 100); if($yoy2 >= 100){$yoy2 = "<span class='fc_red'>" . $yoy2 . "%</span>";} else {$yoy2 = "<span class='fc_blue'>" . $yoy2 . "%</span>";}}else {$yoy2 = "";}
+                                                            
                                                             ${"now_brand2_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5133,11 +5138,14 @@ class Analysis2_test_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
                                                         // 現在ベティー・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_betty_sum_" . $brand_code} = (int)(${"now_brand_betty_sum_" . $brand_code} / $i);
+                                                            
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
+                                                            
                                                             ${"now_brand_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5165,11 +5173,14 @@ class Analysis2_test_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_betty_sum_" . $brand_code}) && ${"past_brand2_betty_sum_" . $brand_code} <> 0 && ${"past_brand2_betty_sum_" . $brand_code} <> "" && ${"now_brand2_betty_sum_" . $brand_code} <> 0 && ${"now_brand2_betty_sum_" . $brand_code} <> ""){ $yoy_b2 = floor(${"now_brand2_betty_sum_" . $brand_code} / ${"past_brand2_betty_sum_" . $brand_code} * 100); if($yoy_b2 >= 100){$yoy_b2 = "<span class='fc_red'>" . $yoy_b2 . "%</span>";} else {$yoy_b2 = "<span class='fc_blue'>" . $yoy_b2 . "%</span>";}}else {$yoy_b2 = "";}
                                                         // 現在ベティー・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_betty_sum_" . $brand_code} = (int)(${"now_brand2_betty_sum_" . $brand_code} / $i);
+                                                           
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_betty_sum_" . $brand_code}) && ${"past_brand2_betty_sum_" . $brand_code} <> 0 && ${"past_brand2_betty_sum_" . $brand_code} <> "" && ${"now_brand2_betty_sum_" . $brand_code} <> 0 && ${"now_brand2_betty_sum_" . $brand_code} <> ""){ $yoy_b2 = floor(${"now_brand2_betty_sum_" . $brand_code} / ${"past_brand2_betty_sum_" . $brand_code} * 100); if($yoy_b2 >= 100){$yoy_b2 = "<span class='fc_red'>" . $yoy_b2 . "%</span>";} else {$yoy_b2 = "<span class='fc_blue'>" . $yoy_b2 . "%</span>";}}else {$yoy_b2 = "";}
+                                                            
                                                             ${"now_brand2_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5199,11 +5210,14 @@ class Analysis2_test_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
                                                         // 現在ジュエリー・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_jewelry_sum_" . $brand_code} = (int)(${"now_brand_jewelry_sum_" . $brand_code} / $i);
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
+                                                            
+                                                            
                                                             ${"now_brand_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5231,11 +5245,14 @@ class Analysis2_test_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_jewelry_sum_" . $brand_code}) && ${"past_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand2_jewelry_sum_" . $brand_code} <> "" && ${"now_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand2_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw2 = floor(${"now_brand2_jewelry_sum_" . $brand_code} / ${"past_brand2_jewelry_sum_" . $brand_code} * 100); if($yoy_jw2 >= 100){$yoy_jw2 = "<span class='fc_red'>" . $yoy_jw2 . "%</span>";} else {$yoy_jw2 = "<span class='fc_blue'>" . $yoy_jw2 . "%</span>";}}else {$yoy_jw2 = "";}
                                                         // 現在ジュエリー・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_jewelry_sum_" . $brand_code} = (int)(${"now_brand2_jewelry_sum_" . $brand_code} / $i);
+                                                       
+                                                       // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jewelry_sum_" . $brand_code}) && ${"past_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand2_jewelry_sum_" . $brand_code} <> "" && ${"now_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand2_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw2 = floor(${"now_brand2_jewelry_sum_" . $brand_code} / ${"past_brand2_jewelry_sum_" . $brand_code} * 100); if($yoy_jw2 >= 100){$yoy_jw2 = "<span class='fc_red'>" . $yoy_jw2 . "%</span>";} else {$yoy_jw2 = "<span class='fc_blue'>" . $yoy_jw2 . "%</span>";}}else {$yoy_jw2 = "";}
+                                                            
                                                             ${"now_brand2_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5806,7 +5823,7 @@ class Analysis2_test_searchController extends Controller
                                                            
                                                         // 並び替えた配列から表示用ソースを作成
                                                            $i = 0;
-                                                           $sorce = "<div style='width:1000px; margin:0 auto;'>";
+                                                           $sorce = "<div style='width:1000px; margin:0 auto;'><ul style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li></ul>";
                                                            foreach($all_id_num_array as $key => $val){
                                                                $sorce .= "<div style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'>";
                                                                ${"info" .$i} = explode("%", $key);
