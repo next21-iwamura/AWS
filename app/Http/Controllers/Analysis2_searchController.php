@@ -291,7 +291,7 @@ class Analysis2_searchController extends Controller
                             
                             // [在庫]商品ID別用 
                                 } else if (PostRequest::has('search3')){
-                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day);
+                                    return $this->db_info_get3($start_year,$start_month,$start_day,$end_year,$end_month,$end_day,$this_year,$last_year,$two_years_ago,$output,$out1,$out2,$out3,$out1_view,$search,$three_years_ago,/*$order_select,*/$next_year,$first_day,$last_day,$order_select);
                             // 検索前の表示用 
                                 } else {
                                     // フォームのデフォルト値を付与
@@ -547,6 +547,7 @@ class Analysis2_searchController extends Controller
                                 // 20240510 二桁表示ではないので、ただの文字列からdateへ。年月だけに計算しなおすのが面倒なので、後ろの日部分を消す事で対応
                                 $between_start_view = $between_start;
                                 $between_start_view = substr($between_start_view, 0, -2);
+                                $between_end_view = $between_end;
                                 $between_end_view = substr($between_end_view, 0, -3);
 
                                 // 20240510 上記変更後だと日が無いためエラーになるので代入する変数を変更
@@ -765,7 +766,6 @@ class Analysis2_searchController extends Controller
                             /************************************************************************************************************************************************************************************************************* */
                                 // ジャック用（過去の期間）
                             /************************************************************************************************************************************************************************************************************* */
-                                    
                                     if($out1_b == "ON"){
                                             // DB検索（ジャック値）スタート
                                                 $past_jack_buys = DB::table($table_name) 
@@ -798,7 +798,7 @@ class Analysis2_searchController extends Controller
 
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -809,7 +809,28 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                 
                                                     })
 
@@ -914,7 +935,7 @@ class Analysis2_searchController extends Controller
                                                     })
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -925,8 +946,29 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
-                                                
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
+
                                                     })
 
                                                 // ソート順指定
@@ -1030,7 +1072,7 @@ class Analysis2_searchController extends Controller
 
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -1041,7 +1083,28 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                 
                                                     })
                                                     
@@ -1583,7 +1646,7 @@ class Analysis2_searchController extends Controller
 
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -1594,7 +1657,28 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                 
                                                     })
                                                 
@@ -1727,7 +1811,7 @@ class Analysis2_searchController extends Controller
 
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -1738,7 +1822,28 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                 
                                                     })
                                                 
@@ -1863,7 +1968,7 @@ class Analysis2_searchController extends Controller
 
                                                 // 条件
                                                     ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                        // 条件（修理預かりか否か）
+                                                       /* // 条件（修理預かりか否か）
                                                             if($out3_a == "ON"){
                                                                 $query->orwhere("souko_name","not like","%修理預%");
                                                             }
@@ -1874,8 +1979,28 @@ class Analysis2_searchController extends Controller
                                                         // 条件（商品ID無しか否か）
                                                             if($out3_c == "ON"){
                                                                 $query->orwhere("tag","<>","");
-                                                            }
-                                                
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                     })
                                                
                                                     
@@ -3704,7 +3829,9 @@ class Analysis2_searchController extends Controller
                                 $between_end = $end_year . "/" . $end_month . "/" . $end_day ." 23-59:59";
                                 $between_start_view = $start_year . "/" . $start_month . "/" . $start_day;
                                 $between_end_view = $end_year . "/" . $end_month . "/" . $end_day;
-
+                                // 20240621 1桁月表示の前に0を追記
+                                $between_start_view_title = $start_year . "/" . str_pad( $start_month, 2, 0, STR_PAD_LEFT);
+                                $between_end_view_title = $end_year . "/" . str_pad( $end_month, 2, 0, STR_PAD_LEFT);
 
                                 $diff_start1 = new DateTime($between_start_view);
                                 $diff_end1 = new DateTime($between_end_view);
@@ -3791,22 +3918,22 @@ class Analysis2_searchController extends Controller
                                         $manth_now_array = array();
                                         $manth_past_array = array();
                                     // カンマ区切りの文字列版
-                                        $temp5_web_manthly_data = "";
-                                        $temp5_web_manthly_data2 = "";
-                                        $temp5_web_manthly_data3 = "";
+                                        $temp2_web_manthly_data = "";
+                                        $temp2_web_manthly_data2 = "";
+                                        $temp2_web_manthly_data3 = "";
 
-                                        $now_temp5_jack_manthly_data_uriage = "";
-                                        $now_temp5_jack_manthly_data_honsuu = "";
-                                        $now_temp5_betty_manthly_data_uriage = "";
-                                        $now_temp5_betty_manthly_data_honsuu = "";
-                                        $now_temp5_jewelry_manthly_data_uriage = "";
-                                        $now_temp5_jewelry_manthly_data_honsuu = "";
-                                        $past_temp5_jack_manthly_data_uriage = "";
-                                        $past_temp5_jack_manthly_data_honsuu = "";
-                                        $past_temp5_betty_manthly_data_uriage = "";
-                                        $past_temp5_betty_manthly_data_honsuu = "";
-                                        $past_temp5_jewelry_manthly_data_uriage = "";
-                                        $past_temp5_jewelry_manthly_data_honsuu = "";
+                                        $now_temp2_jack_manthly_data_uriage = "";
+                                        $now_temp2_jack_manthly_data_honsuu = "";
+                                        $now_temp2_betty_manthly_data_uriage = "";
+                                        $now_temp2_betty_manthly_data_honsuu = "";
+                                        $now_temp2_jewelry_manthly_data_uriage = "";
+                                        $now_temp2_jewelry_manthly_data_honsuu = "";
+                                        $past_temp2_jack_manthly_data_uriage = "";
+                                        $past_temp2_jack_manthly_data_honsuu = "";
+                                        $past_temp2_betty_manthly_data_uriage = "";
+                                        $past_temp2_betty_manthly_data_honsuu = "";
+                                        $past_temp2_jewelry_manthly_data_uriage = "";
+                                        $past_temp2_jewelry_manthly_data_honsuu = "";
 
                                 // 開始日が2日以降の場合は過去の取得月期間を現在より一か月多くする（開始日を2日以降にすると過去の最後月の変数が足りないエラー　→　例：同年5月2日～7月17日の二か月半の場合、現在は5月6月7月で変数は三つだが、過去は2月3月4月5月の四つ必要なためずれる事が原因　→　チャートも過去のみ最後の月に値が入るので、開始は1日の方が分かりやすい）
                                     if($start_day <> 1){$over_month = $diff_month + 1;}else {$over_month = $diff_month;}
@@ -3830,44 +3957,44 @@ class Analysis2_searchController extends Controller
                                         }
                                         // 現在用
                                             array_push($manth_now_array,$manth_now);
-                                            $now_temp5_jack_manthly_data_uriage .= $manth_now . ",";
-                                            $now_temp5_jack_manthly_data_honsuu .= $manth_now . ",";
-                                            $now_temp5_betty_manthly_data_uriage .= $manth_now . ",";
-                                            $now_temp5_betty_manthly_data_honsuu .= $manth_now . ",";
-                                            $now_temp5_jewelry_manthly_data_uriage .= $manth_now . ",";
-                                            $now_temp5_jewelry_manthly_data_honsuu .= $manth_now . ",";
+                                            $now_temp2_jack_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp2_jack_manthly_data_honsuu .= $manth_now . ",";
+                                            $now_temp2_betty_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp2_betty_manthly_data_honsuu .= $manth_now . ",";
+                                            $now_temp2_jewelry_manthly_data_uriage .= $manth_now . ",";
+                                            $now_temp2_jewelry_manthly_data_honsuu .= $manth_now . ",";
                                             // 過去用
                                             array_push($manth_past_array,$past_manth2);
-                                            $past_temp5_jack_manthly_data_uriage .= $past_manth2 . ",";
-                                            $past_temp5_jack_manthly_data_honsuu .= $past_manth2 . ",";
-                                            $past_temp5_betty_manthly_data_uriage .= $past_manth2 . ",";
-                                            $past_temp5_betty_manthly_data_honsuu .= $past_manth2 . ",";
-                                            $past_temp5_jewelry_manthly_data_uriage .= $past_manth2 . ",";
-                                            $past_temp5_jewelry_manthly_data_honsuu .= $past_manth2 . ",";
+                                            $past_temp2_jack_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp2_jack_manthly_data_honsuu .= $past_manth2 . ",";
+                                            $past_temp2_betty_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp2_betty_manthly_data_honsuu .= $past_manth2 . ",";
+                                            $past_temp2_jewelry_manthly_data_uriage .= $past_manth2 . ",";
+                                            $past_temp2_jewelry_manthly_data_honsuu .= $past_manth2 . ",";
                                                 
-                                            $temp5_web_manthly_data .= $manth_now . ",";
-                                            $temp5_web_manthly_data2 .= $manth_now . ",";
-                                            $temp5_web_manthly_data3 .= $manth_now . ",";
+                                            $temp2_web_manthly_data .= $manth_now . ",";
+                                            $temp2_web_manthly_data2 .= $manth_now . ",";
+                                            $temp2_web_manthly_data3 .= $manth_now . ",";
 
 
                                     }
-                                    $now_temp5_jack_manthly_data_uriage = trim($now_temp5_jack_manthly_data_uriage ,",");
-                                    $now_temp5_jack_manthly_data_honsuu = trim($now_temp5_jack_manthly_data_honsuu ,",");
-                                    $now_temp5_betty_manthly_data_uriage = trim($now_temp5_betty_manthly_data_uriage ,",");
-                                    $now_temp5_betty_manthly_data_honsuu = trim($now_temp5_betty_manthly_data_honsuu ,",");
-                                    $now_temp5_jewelry_manthly_data_uriage = trim($now_temp5_jewelry_manthly_data_uriage ,",");
-                                    $now_temp5_jewelry_manthly_data_honsuu = trim($now_temp5_jewelry_manthly_data_honsuu ,",");
-                                    $past_temp5_jack_manthly_data_uriage = trim($past_temp5_jack_manthly_data_uriage ,",");
-                                    $past_temp5_jack_manthly_data_honsuu = trim($past_temp5_jack_manthly_data_honsuu ,",");
-                                    $past_temp5_betty_manthly_data_uriage = trim($past_temp5_betty_manthly_data_uriage ,",");
-                                    $past_temp5_betty_manthly_data_honsuu = trim($past_temp5_betty_manthly_data_honsuu ,",");
-                                    $past_temp5_jewelry_manthly_data_uriage = trim($past_temp5_jewelry_manthly_data_uriage ,",");
-                                    $past_temp5_jewelry_manthly_data_honsuu = trim($past_temp5_jewelry_manthly_data_honsuu ,",");
+                                    $now_temp2_jack_manthly_data_uriage = trim($now_temp2_jack_manthly_data_uriage ,",");
+                                    $now_temp2_jack_manthly_data_honsuu = trim($now_temp2_jack_manthly_data_honsuu ,",");
+                                    $now_temp2_betty_manthly_data_uriage = trim($now_temp2_betty_manthly_data_uriage ,",");
+                                    $now_temp2_betty_manthly_data_honsuu = trim($now_temp2_betty_manthly_data_honsuu ,",");
+                                    $now_temp2_jewelry_manthly_data_uriage = trim($now_temp2_jewelry_manthly_data_uriage ,",");
+                                    $now_temp2_jewelry_manthly_data_honsuu = trim($now_temp2_jewelry_manthly_data_honsuu ,",");
+                                    $past_temp2_jack_manthly_data_uriage = trim($past_temp2_jack_manthly_data_uriage ,",");
+                                    $past_temp2_jack_manthly_data_honsuu = trim($past_temp2_jack_manthly_data_honsuu ,",");
+                                    $past_temp2_betty_manthly_data_uriage = trim($past_temp2_betty_manthly_data_uriage ,",");
+                                    $past_temp2_betty_manthly_data_honsuu = trim($past_temp2_betty_manthly_data_honsuu ,",");
+                                    $past_temp2_jewelry_manthly_data_uriage = trim($past_temp2_jewelry_manthly_data_uriage ,",");
+                                    $past_temp2_jewelry_manthly_data_honsuu = trim($past_temp2_jewelry_manthly_data_honsuu ,",");
 
 
-                                    $temp5_web_manthly_data = trim($temp5_web_manthly_data ,",");
-                                    $temp5_web_manthly_data2 = trim($temp5_web_manthly_data2 ,",");
-                                    $temp5_web_manthly_data3 = trim($temp5_web_manthly_data3 ,",");
+                                    $temp2_web_manthly_data = trim($temp2_web_manthly_data ,",");
+                                    $temp2_web_manthly_data2 = trim($temp2_web_manthly_data2 ,",");
+                                    $temp2_web_manthly_data3 = trim($temp2_web_manthly_data3 ,",");
 
 
                     /************************************************************************************************************************************************************************************************************* */
@@ -3895,7 +4022,7 @@ class Analysis2_searchController extends Controller
                                                 $all_past_brand_array = array();
 
                                             // DB検索（月ごとのブランドのみ取得し配列化用）スタート
-                                                $past_temp5_buys = DB::table($table_name) 
+                                                $past_temp2_buys = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
                                                         $table_name . '.date',
@@ -3925,18 +4052,39 @@ class Analysis2_searchController extends Controller
                                                     })
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                            // 条件（修理預かりか否か）
-                                                                if($out3_a == "ON"){
-                                                                    $query->orwhere("souko_name","not like","%修理預%");
-                                                                }
-                                                            // 条件（ブランド名無しか否か）
-                                                                if($out3_b == "ON"){
-                                                                    $query->orwhere("brand_name","<>","");
-                                                                }
-                                                            // 条件（商品ID無しか否か）
-                                                                if($out3_c == "ON"){
-                                                                    $query->orwhere("tag","<>","");
-                                                                }
+                                                       /* // 条件（修理預かりか否か）
+                                                            if($out3_a == "ON"){
+                                                                $query->orwhere("souko_name","not like","%修理預%");
+                                                            }
+                                                        // 条件（ブランド名無しか否か）
+                                                            if($out3_b == "ON"){
+                                                                $query->orwhere("brand_name","<>","");
+                                                            }
+                                                        // 条件（商品ID無しか否か）
+                                                            if($out3_c == "ON"){
+                                                                $query->orwhere("tag","<>","");
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                     
                                                         })
                                                     
@@ -3954,64 +4102,64 @@ class Analysis2_searchController extends Controller
 
                                             // クエリビルダスタート
                                                 $i = 0;
-                                                foreach ($past_temp5_buys as $past_temp5_buy) {
+                                                foreach ($past_temp2_buys as $past_temp2_buy) {
 
                                                     // 各月名
-                                                        $month = $past_temp5_buy->date;
+                                                        $month = $past_temp2_buy->date;
                                                         $month = mb_substr($month,0,-3);
                                                     // 個別ブランド番号
-                                                        $temp5_brand_no[$i]= $past_temp5_buy->brand_id;
+                                                        $temp2_brand_no[$i]= $past_temp2_buy->brand_id;
                                                     // 個別ブランド名
-                                                        $temp5_brand[$i]= $past_temp5_buy->brand_name;
+                                                        $temp2_brand[$i]= $past_temp2_buy->brand_name;
 
                                                        
                                                             // 過去全期間全ブランド一覧用配列にブランドをセット
-                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",$all_past_brand_array, true)){
+                                                                if(in_array($temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]",$all_past_brand_array, true)){
                                                                 } else {
-                                                                    if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
-                                                                        array_push($all_past_brand_array,$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                    if($temp2_brand[$i] != "" && $temp2_brand[$i] != "不明"){
+                                                                        array_push($all_past_brand_array,$temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]");
                                                                     }
                                                                 }
                                                             
                                                             // 各月の全ブランド配列に含まれていない場合のみ個別ブランド名を配列にセット
-                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",${"past_brand_array_" . $month}, true)){
+                                                                if(in_array($temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]",${"past_brand_array_" . $month}, true)){
                                                                 } else {
                                                                     // 月毎の全ブランドを配列へ代入
-                                                                        if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
-                                                                            array_push(${"past_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
-                                                                            array_push(${"past_brand2_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                        if($temp2_brand[$i] != "" && $temp2_brand[$i] != "不明"){
+                                                                            array_push(${"past_brand_array_" . $month},$temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]");
+                                                                            array_push(${"past_brand2_array_" . $month},$temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]");
                                                                         }
                                                                     // 月毎のブランド毎の在庫を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"past_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand_jack_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jack_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand_betty_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jewelry_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jack_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand_betty_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand_jewelry_sum_" . $temp2_brand_no[$i]} = 0;
                                                                         
                                                                     // 月毎のブランド毎の在庫用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"past_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand_jack_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand_betty_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand_jack_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand_betty_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand_jewelry_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand_jack_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand_betty_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand_jewelry_js_" . $temp2_brand_no[$i]} = "";
                                                                 
                                                                     // 月毎のブランド毎の在庫点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"past_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand2_jack_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"past_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jack_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_betty_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jewelry_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jack_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_betty_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"past_brand2_jewelry_sum_" . $temp2_brand_no[$i]} = 0;
                                                                         
                                                                     // 月毎のブランド毎の在庫点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"past_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand2_jack_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand2_betty_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"past_brand2_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jack_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand2_betty_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jewelry_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jack_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand2_betty_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"past_brand2_jewelry_js_" . $temp2_brand_no[$i]} = "";
                                                                 
                                                                 }
                                                     
@@ -4024,7 +4172,7 @@ class Analysis2_searchController extends Controller
                                     /************************************************************************************************************************************************************************************************************* */
 
                                         // DB検索（月ごとのブランドのみ取得し配列化用）スタート
-                                                $past_temp5_buys2 = DB::table($table_name) 
+                                                $past_temp2_buys2 = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
                                                         $table_name . '.date',
@@ -4057,19 +4205,39 @@ class Analysis2_searchController extends Controller
 
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                            // 条件（修理預かりか否か）
-                                                                if($out3_a == "ON"){
-                                                                    $query->orwhere("souko_name","not like","%修理預%");
-                                                                }
-                                                            // 条件（ブランド名無しか否か）
-                                                                if($out3_b == "ON"){
-                                                                    $query->orwhere("brand_name","<>","");
-                                                                }
-                                                            // 条件（商品ID無しか否か）
-                                                                if($out3_c == "ON"){
-                                                                    $query->orwhere("tag","<>","");
-                                                                }
-                                                    
+                                                       /* // 条件（修理預かりか否か）
+                                                            if($out3_a == "ON"){
+                                                                $query->orwhere("souko_name","not like","%修理預%");
+                                                            }
+                                                        // 条件（ブランド名無しか否か）
+                                                            if($out3_b == "ON"){
+                                                                $query->orwhere("brand_name","<>","");
+                                                            }
+                                                        // 条件（商品ID無しか否か）
+                                                            if($out3_c == "ON"){
+                                                                $query->orwhere("tag","<>","");
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                         })
 
 
@@ -4079,15 +4247,15 @@ class Analysis2_searchController extends Controller
 
                                             // クエリビルダスタート2
                                                 $i = 0;
-                                                foreach ($past_temp5_buys2 as $past_temp5_buy2) {
+                                                foreach ($past_temp2_buys2 as $past_temp2_buy2) {
                                                     // 各月名
-                                                        $past_month = $past_temp5_buy2->date;
+                                                        $past_month = $past_temp2_buy2->date;
                                                         $past_month = mb_substr($past_month,0,-3);
-                                                        $past_brand[$i]= $past_temp5_buy2->brand_id;
-                                                        $past_brandname[$i]= $past_temp5_buy2->brand_name;
-                                                        $past_bumon[$i]= $past_temp5_buy2->bumon;
-                                                        $past_uriage[$i]= $past_temp5_buy2->zaikokingaku;
-                                                        $past_uriage2[$i]= $past_temp5_buy2->tougetsumizaikosuuryou;
+                                                        $past_brand[$i]= $past_temp2_buy2->brand_id;
+                                                        $past_brandname[$i]= $past_temp2_buy2->brand_name;
+                                                        $past_bumon[$i]= $past_temp2_buy2->bumon;
+                                                        $past_uriage[$i]= $past_temp2_buy2->zaikokingaku;
+                                                        $past_uriage2[$i]= $past_temp2_buy2->tougetsumizaikosuuryou;
 
                                                             // 現在の月毎ブランド一覧配列を展開
                                                                 foreach(${"past_brand_array_" . $past_month} as $past_brand2){
@@ -4123,7 +4291,7 @@ class Analysis2_searchController extends Controller
                                             $all_past_brand2_betty_sorce = "";
                                             $all_past_brand_jewelry_sorce = "";
                                             $all_past_brand2_jewelry_sorce = "";
-                                            $past_temp5_title = "";
+                                            $past_temp2_title = "";
                                             $past_brand_sort = array();
                                             $past_brand2_sort = array();
                                             $past_brand_sort_b = array();
@@ -4137,7 +4305,7 @@ class Analysis2_searchController extends Controller
                                                 // JSグラフ用
                                                     $past_js_month .= "'" . $past_month . "(" . date("Y-m", strtotime($past_month. " -" . ($diff_month + 1) . " month")) . ")'" . ",";
                                                 // 現在タイトル表示用
-                                                    $past_temp5_title .= "<div class='title2 ta_c'>" . $past_month . "</div>";
+                                                    $past_temp2_title .= "<div class='title2 ta_c'>" . $past_month . "</div>";
                                                 // 現在月毎ブランド一覧配列を展開
                                                     foreach(${"past_brand_array_" . $past_month} as $past_brand){
                                                         $past_brand_name = mb_substr( $past_brand , 0 , mb_strpos($past_brand, "[") );
@@ -4406,14 +4574,14 @@ class Analysis2_searchController extends Controller
 
 
 
-                                            $past_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $past_between_start_view . "～<br>" . $past_between_end_view . "</div>" . $past_temp5_title . "<div class='title6 ta_c'>平均</div></div>";
+                                            $past_temp2_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $past_between_start_view . "～<br>" . $past_between_end_view . "</div>" . $past_temp2_title . "<div class='title6 ta_c'>平均</div></div>";
 
-                                            $all_past_brand_jack_sorce = "<p class='title_b'>過去・Jackブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand_jack_sorce . "</div></div>";
-                                            $all_past_brand2_jack_sorce = "<p class='title_b'>過去・Jackブランド在庫別点数</p>" . $past_temp5_title . "<div class='brand_list'>" . $all_past_brand2_jack_sorce . "</div></div>";
-                                            $all_past_brand_betty_sorce = "<p class='title_b'>過去・Bettyブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand_betty_sorce . "</div></div>";
-                                            $all_past_brand2_betty_sorce = "<p class='title_b'>過去・Bettyブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_b'>" . $all_past_brand2_betty_sorce . "</div></div>";
-                                            $all_past_brand_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別在庫</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand_jewelry_sorce . "</div></div>";
-                                            $all_past_brand2_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別点数</p>" . $past_temp5_title . "<div class='brand_list_jw'>" . $all_past_brand2_jewelry_sorce . "</div></div>";
+                                            $all_past_brand_jack_sorce = "<p class='title_b'>過去・Jackブランド別在庫</p>" . $past_temp2_title . "<div class='brand_list'>" . $all_past_brand_jack_sorce . "</div></div>";
+                                            $all_past_brand2_jack_sorce = "<p class='title_b'>過去・Jackブランド在庫別点数</p>" . $past_temp2_title . "<div class='brand_list'>" . $all_past_brand2_jack_sorce . "</div></div>";
+                                            $all_past_brand_betty_sorce = "<p class='title_b'>過去・Bettyブランド別在庫</p>" . $past_temp2_title . "<div class='brand_list_b'>" . $all_past_brand_betty_sorce . "</div></div>";
+                                            $all_past_brand2_betty_sorce = "<p class='title_b'>過去・Bettyブランド別点数</p>" . $past_temp2_title . "<div class='brand_list_b'>" . $all_past_brand2_betty_sorce . "</div></div>";
+                                            $all_past_brand_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別在庫</p>" . $past_temp2_title . "<div class='brand_list_jw'>" . $all_past_brand_jewelry_sorce . "</div></div>";
+                                            $all_past_brand2_jewelry_sorce = "<p class='title_b'>過去・Jewelryブランド別点数</p>" . $past_temp2_title . "<div class='brand_list_jw'>" . $all_past_brand2_jewelry_sorce . "</div></div>";
                                         }
 
                         // 列の横幅を列数によって可変させる
@@ -4497,7 +4665,7 @@ class Analysis2_searchController extends Controller
                                                 $all_now_brand_array = array();
 
                                             // DB検索（月ごとのブランドのみ取得し配列化用）スタート
-                                                $temp5_buys = DB::table($table_name) 
+                                                $temp2_buys = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
                                                         $table_name . '.date',
@@ -4532,19 +4700,39 @@ class Analysis2_searchController extends Controller
                                                     
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                            // 条件（修理預かりか否か）
-                                                                if($out3_a == "ON"){
-                                                                    $query->orwhere("souko_name","not like","%修理預%");
-                                                                }
-                                                            // 条件（ブランド名無しか否か）
-                                                                if($out3_b == "ON"){
-                                                                    $query->orwhere("brand_name","<>","");
-                                                                }
-                                                            // 条件（商品ID無しか否か）
-                                                                if($out3_c == "ON"){
-                                                                    $query->orwhere("tag","<>","");
-                                                                }
-                                                    
+                                                       /* // 条件（修理預かりか否か）
+                                                            if($out3_a == "ON"){
+                                                                $query->orwhere("souko_name","not like","%修理預%");
+                                                            }
+                                                        // 条件（ブランド名無しか否か）
+                                                            if($out3_b == "ON"){
+                                                                $query->orwhere("brand_name","<>","");
+                                                            }
+                                                        // 条件（商品ID無しか否か）
+                                                            if($out3_c == "ON"){
+                                                                $query->orwhere("tag","<>","");
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                         })
 
                                                 // ソート順指定
@@ -4559,60 +4747,60 @@ class Analysis2_searchController extends Controller
 
                                             // クエリビルダスタート
                                                 $i = 0;
-                                                foreach ($temp5_buys as $temp5_buy) {
+                                                foreach ($temp2_buys as $temp2_buy) {
 
                                                     // 各月名
-                                                        $month = $temp5_buy->date;
+                                                        $month = $temp2_buy->date;
                                                         $month = mb_substr($month,0,-3);
                                                     // 個別ブランド番号
-                                                        $temp5_brand_no[$i]= $temp5_buy->brand_id;
+                                                        $temp2_brand_no[$i]= $temp2_buy->brand_id;
                                                     // 個別ブランド名
-                                                        $temp5_brand[$i]= $temp5_buy->brand_name;
+                                                        $temp2_brand[$i]= $temp2_buy->brand_name;
 
                                                             // 現在全期間全ブランド一覧用配列にブランドをセット
-                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",$all_now_brand_array, true)){
+                                                                if(in_array($temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]",$all_now_brand_array, true)){
                                                                 } else {
-                                                                    if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
-                                                                        array_push($all_now_brand_array,$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                    if($temp2_brand[$i] != "" && $temp2_brand[$i] != "不明"){
+                                                                        array_push($all_now_brand_array,$temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]");
                                                                     }
                                                                 }
                                                             
                                                             // 各月の全ブランド配列に含まれていない場合のみ個別ブランド名を配列にセット
-                                                                if(in_array($temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]",${"now_brand_array_" . $month}, true)){
+                                                                if(in_array($temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]",${"now_brand_array_" . $month}, true)){
                                                                 } else {
                                                                     // 月毎の全ブランドを配列へ代入
-                                                                        if($temp5_brand[$i] != "" && $temp5_brand[$i] != "不明"){
-                                                                            array_push(${"now_brand_array_" . $month},$temp5_brand[$i] . "[" . $temp5_brand_no[$i] . "]");
+                                                                        if($temp2_brand[$i] != "" && $temp2_brand[$i] != "不明"){
+                                                                            array_push(${"now_brand_array_" . $month},$temp2_brand[$i] . "[" . $temp2_brand_no[$i] . "]");
                                                                         }
                                                                     // 月毎のブランド毎の在庫を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"now_brand_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand_jack_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand_betty_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jack_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand_betty_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jewelry_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jack_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand_betty_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand_jewelry_sum_" . $temp2_brand_no[$i]} = 0;
                                                                     // 月毎のブランド毎の在庫用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"now_brand_jack_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand_betty_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand_jack_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand_betty_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand_jack_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand_betty_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand_jewelry_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand_jack_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand_betty_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand_jewelry_js_" . $temp2_brand_no[$i]} = "";
                                                                         
                                                                     // 月毎のブランド毎の在庫点数を代入するための変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"now_brand2_jack_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand2_betty_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand2_jewelry_" . $month . "-" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand2_jack_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand2_betty_sum_" . $temp5_brand_no[$i]} = 0;
-                                                                        ${"now_brand2_jewelry_sum_" . $temp5_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jack_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_betty_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jewelry_" . $month . "-" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jack_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_betty_sum_" . $temp2_brand_no[$i]} = 0;
+                                                                        ${"now_brand2_jewelry_sum_" . $temp2_brand_no[$i]} = 0;
                                                                     // 月毎のブランド毎の在庫点数用HTMLの変数名作成（変数名を変える事で全ブランド毎の変数を作成）
-                                                                        ${"now_brand2_jack_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand2_betty_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand2_jewelry_sorce_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand2_jack_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand2_betty_js_" . $temp5_brand_no[$i]} = "";
-                                                                        ${"now_brand2_jewelry_js_" . $temp5_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jack_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand2_betty_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jewelry_sorce_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jack_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand2_betty_js_" . $temp2_brand_no[$i]} = "";
+                                                                        ${"now_brand2_jewelry_js_" . $temp2_brand_no[$i]} = "";
                                                                         
                                                                 }
                                                                 
@@ -4628,7 +4816,7 @@ class Analysis2_searchController extends Controller
                                                 
 
                                         // DB検索（月ごとのブランドのみ取得し配列化用）スタート
-                                                $temp5_buys2 = DB::table($table_name) 
+                                                $temp2_buys2 = DB::table($table_name) 
                                                 // 月毎にグループ化して値を分けるための処理
                                                     ->select([
                                                         $table_name . '.date',
@@ -4661,18 +4849,39 @@ class Analysis2_searchController extends Controller
 
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
-                                                            // 条件（修理預かりか否か）
-                                                                if($out3_a == "ON"){
-                                                                    $query->orwhere("souko_name","not like","%修理預%");
-                                                                }
-                                                            // 条件（ブランド名無しか否か）
-                                                                if($out3_b == "ON"){
-                                                                    $query->orwhere("brand_name","<>","");
-                                                                }
-                                                            // 条件（商品ID無しか否か）
-                                                                if($out3_c == "ON"){
-                                                                    $query->orwhere("tag","<>","");
-                                                                }
+                                                       /* // 条件（修理預かりか否か）
+                                                            if($out3_a == "ON"){
+                                                                $query->orwhere("souko_name","not like","%修理預%");
+                                                            }
+                                                        // 条件（ブランド名無しか否か）
+                                                            if($out3_b == "ON"){
+                                                                $query->orwhere("brand_name","<>","");
+                                                            }
+                                                        // 条件（商品ID無しか否か）
+                                                            if($out3_c == "ON"){
+                                                                $query->orwhere("tag","<>","");
+                                                            }*/
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
                                                     
                                                         })
 
@@ -4683,15 +4892,15 @@ class Analysis2_searchController extends Controller
 
                                             // クエリビルダスタート
                                                 $i = 0;
-                                                foreach ($temp5_buys2 as $temp5_buy2) {
+                                                foreach ($temp2_buys2 as $temp2_buy2) {
                                                     // 各月名
-                                                        $month = $temp5_buy2->date;
+                                                        $month = $temp2_buy2->date;
                                                         $month = mb_substr($month,0,-3);
-                                                        $brand[$i]= $temp5_buy2->brand_id;
-                                                        $brandname[$i]= $temp5_buy2->brand_name;
-                                                        $bumon[$i]= $temp5_buy2->bumon;
-                                                        $uriage[$i]= $temp5_buy2->zaikokingaku;
-                                                        $uriage2[$i]= $temp5_buy2->tougetsumizaikosuuryou;
+                                                        $brand[$i]= $temp2_buy2->brand_id;
+                                                        $brandname[$i]= $temp2_buy2->brand_name;
+                                                        $bumon[$i]= $temp2_buy2->bumon;
+                                                        $uriage[$i]= $temp2_buy2->zaikokingaku;
+                                                        $uriage2[$i]= $temp2_buy2->tougetsumizaikosuuryou;
 
                                                             // 現在の月毎ブランド一覧配列を展開
                                                                 foreach(${"now_brand_array_" . $month} as $brand2){
@@ -4727,7 +4936,7 @@ class Analysis2_searchController extends Controller
                                             $all_now_brand2_betty_sorce = "";
                                             $all_now_brand_jewelry_sorce = "";
                                             $all_now_brand2_jewelry_sorce = "";
-                                            $now_temp5_title = "";
+                                            $now_temp2_title = "";
                                             $brand_sort = array();
                                             $brand2_sort = array();
                                             $brand_sort_b = array();
@@ -4743,7 +4952,7 @@ class Analysis2_searchController extends Controller
                                                     $js_month .= "'" . $month . "(" . date("Y-m", strtotime($month. " -" . ($diff_month + 1) . " month")) . ")'" . ",";
                                                 
                                                 // 現在タイトル表示用
-                                                    $now_temp5_title .= "<div class='title2 ta_c'>" . $month . "</div>";
+                                                    $now_temp2_title .= "<div class='title2 ta_c'>" . $month . "</div>";
                                                 // 現在月毎ブランド一覧配列を展開
                                                     foreach(${"now_brand_array_" . $month} as $brand){
 
@@ -4857,11 +5066,13 @@ class Analysis2_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
 
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
                                                         // 現在ジャック・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_jack_sum_" . $brand_code} = (int)(${"now_brand_jack_sum_" . $brand_code} / $i);
+                                                            
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jack_sum_" . $brand_code}) && ${"past_brand_jack_sum_" . $brand_code} <> 0 && ${"past_brand_jack_sum_" . $brand_code} <> "" && ${"now_brand_jack_sum_" . $brand_code} <> 0 && ${"now_brand_jack_sum_" . $brand_code} <> ""){ $yoy = floor(${"now_brand_jack_sum_" . $brand_code} / ${"past_brand_jack_sum_" . $brand_code} * 100); if($yoy >= 100){$yoy = "<span class='fc_red'>" . $yoy . "%</span>";} else {$yoy = "<span class='fc_blue'>" . $yoy . "%</span>";}}else {$yoy = "";}
                                                             
                                                             ${"now_brand_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy . "</div></div>";
                                                         
@@ -4890,11 +5101,14 @@ class Analysis2_searchController extends Controller
                                                         }
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect <> "" && in_array($check_brand_value,$brandselect)){$checked_now_j_uriage = "checked";} else {$checked_now_j_uriage = "";}
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_jack_sum_" . $brand_code}) && ${"past_brand2_jack_sum_" . $brand_code} <> 0 && ${"past_brand2_jack_sum_" . $brand_code} <> "" && ${"now_brand2_jack_sum_" . $brand_code} <> 0 && ${"now_brand2_jack_sum_" . $brand_code} <> ""){ $yoy2 = floor(${"now_brand2_jack_sum_" . $brand_code} / ${"past_brand2_jack_sum_" . $brand_code} * 100); if($yoy2 >= 100){$yoy2 = "<span class='fc_red'>" . $yoy2 . "%</span>";} else {$yoy2 = "<span class='fc_blue'>" . $yoy2 . "%</span>";}}else {$yoy2 = "";}
                                                         // 現在ジャック・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_jack_sum_" . $brand_code} = (int)(${"now_brand2_jack_sum_" . $brand_code} / $i);
+                                                        
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jack_sum_" . $brand_code}) && ${"past_brand2_jack_sum_" . $brand_code} <> 0 && ${"past_brand2_jack_sum_" . $brand_code} <> "" && ${"now_brand2_jack_sum_" . $brand_code} <> 0 && ${"now_brand2_jack_sum_" . $brand_code} <> ""){ $yoy2 = floor(${"now_brand2_jack_sum_" . $brand_code} / ${"past_brand2_jack_sum_" . $brand_code} * 100); if($yoy2 >= 100){$yoy2 = "<span class='fc_red'>" . $yoy2 . "%</span>";} else {$yoy2 = "<span class='fc_blue'>" . $yoy2 . "%</span>";}}else {$yoy2 = "";}
+                                                            
                                                             ${"now_brand2_jack_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect[]' value='" . $check_brand_value . "' " . $checked_now_j_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jack_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jack_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -4924,11 +5138,14 @@ class Analysis2_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
                                                         // 現在ベティー・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_betty_sum_" . $brand_code} = (int)(${"now_brand_betty_sum_" . $brand_code} / $i);
+                                                            
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_betty_sum_" . $brand_code}) && ${"past_brand_betty_sum_" . $brand_code} <> 0 && ${"past_brand_betty_sum_" . $brand_code} <> "" && ${"now_brand_betty_sum_" . $brand_code} <> 0 && ${"now_brand_betty_sum_" . $brand_code} <> ""){ $yoy_b = floor(${"now_brand_betty_sum_" . $brand_code} / ${"past_brand_betty_sum_" . $brand_code} * 100); if($yoy_b >= 100){$yoy_b = "<span class='fc_red'>" . $yoy_b . "%</span>";} else {$yoy_b = "<span class='fc_blue'>" . $yoy_b . "%</span>";}}else {$yoy_b = "";}
+                                                            
                                                             ${"now_brand_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -4956,11 +5173,14 @@ class Analysis2_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_b <> "" && in_array($check_brand_value,$brandselect_b)){$checked_now_b_uriage = "checked";} else {$checked_now_b_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_betty_sum_" . $brand_code}) && ${"past_brand2_betty_sum_" . $brand_code} <> 0 && ${"past_brand2_betty_sum_" . $brand_code} <> "" && ${"now_brand2_betty_sum_" . $brand_code} <> 0 && ${"now_brand2_betty_sum_" . $brand_code} <> ""){ $yoy_b2 = floor(${"now_brand2_betty_sum_" . $brand_code} / ${"past_brand2_betty_sum_" . $brand_code} * 100); if($yoy_b2 >= 100){$yoy_b2 = "<span class='fc_red'>" . $yoy_b2 . "%</span>";} else {$yoy_b2 = "<span class='fc_blue'>" . $yoy_b2 . "%</span>";}}else {$yoy_b2 = "";}
                                                         // 現在ベティー・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_betty_sum_" . $brand_code} = (int)(${"now_brand2_betty_sum_" . $brand_code} / $i);
+                                                           
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_betty_sum_" . $brand_code}) && ${"past_brand2_betty_sum_" . $brand_code} <> 0 && ${"past_brand2_betty_sum_" . $brand_code} <> "" && ${"now_brand2_betty_sum_" . $brand_code} <> 0 && ${"now_brand2_betty_sum_" . $brand_code} <> ""){ $yoy_b2 = floor(${"now_brand2_betty_sum_" . $brand_code} / ${"past_brand2_betty_sum_" . $brand_code} * 100); if($yoy_b2 >= 100){$yoy_b2 = "<span class='fc_red'>" . $yoy_b2 . "%</span>";} else {$yoy_b2 = "<span class='fc_blue'>" . $yoy_b2 . "%</span>";}}else {$yoy_b2 = "";}
+                                                            
                                                             ${"now_brand2_betty_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_b[]' value='" . $check_brand_value . "' " . $checked_now_b_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_betty_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_betty_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_b2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -4990,11 +5210,14 @@ class Analysis2_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
                                                         // 現在ジュエリー・在庫表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand_jewelry_sum_" . $brand_code} = (int)(${"now_brand_jewelry_sum_" . $brand_code} / $i);
+                                                        // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand_jewelry_sum_" . $brand_code}) && ${"past_brand_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand_jewelry_sum_" . $brand_code} <> "" && ${"now_brand_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw = floor(${"now_brand_jewelry_sum_" . $brand_code} / ${"past_brand_jewelry_sum_" . $brand_code} * 100); if($yoy_jw >= 100){$yoy_jw = "<span class='fc_red'>" . $yoy_jw . "%</span>";} else {$yoy_jw = "<span class='fc_blue'>" . $yoy_jw . "%</span>";}}else {$yoy_jw = "";}
+                                                            
+                                                            
                                                             ${"now_brand_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5022,11 +5245,14 @@ class Analysis2_searchController extends Controller
                                                         $check_brand_value = $brand_code . "[" . $brand_name  . "]";
                                                         if($brandselect_jw <> "" && in_array($check_brand_value,$brandselect_jw)){$checked_now_jw_uriage = "checked";} else {$checked_now_jw_uriage = "";}
                                                         
-                                                        // 前期比の作成
-                                                            if(isset(${"past_brand2_jewelry_sum_" . $brand_code}) && ${"past_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand2_jewelry_sum_" . $brand_code} <> "" && ${"now_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand2_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw2 = floor(${"now_brand2_jewelry_sum_" . $brand_code} / ${"past_brand2_jewelry_sum_" . $brand_code} * 100); if($yoy_jw2 >= 100){$yoy_jw2 = "<span class='fc_red'>" . $yoy_jw2 . "%</span>";} else {$yoy_jw2 = "<span class='fc_blue'>" . $yoy_jw2 . "%</span>";}}else {$yoy_jw2 = "";}
                                                         // 現在ジュエリー・点数表示の各ブランド毎の行を作成
                                                             // 20240524 累計→平均へ変更
                                                                 ${"now_brand2_jewelry_sum_" . $brand_code} = (int)(${"now_brand2_jewelry_sum_" . $brand_code} / $i);
+                                                       
+                                                       // 20240628 上記で変数の内容を「累計→平均へ変更」へ変更したため、該当名称の変数を使用する下記ロジックを上記ロジック上から下へ移動  
+                                                        // 前期比の作成
+                                                            if(isset(${"past_brand2_jewelry_sum_" . $brand_code}) && ${"past_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"past_brand2_jewelry_sum_" . $brand_code} <> "" && ${"now_brand2_jewelry_sum_" . $brand_code} <> 0 && ${"now_brand2_jewelry_sum_" . $brand_code} <> ""){ $yoy_jw2 = floor(${"now_brand2_jewelry_sum_" . $brand_code} / ${"past_brand2_jewelry_sum_" . $brand_code} * 100); if($yoy_jw2 >= 100){$yoy_jw2 = "<span class='fc_red'>" . $yoy_jw2 . "%</span>";} else {$yoy_jw2 = "<span class='fc_blue'>" . $yoy_jw2 . "%</span>";}}else {$yoy_jw2 = "";}
+                                                            
                                                             ${"now_brand2_jewelry_sorce_" . $brand_code} = "<div class='wid100 ul1b'><div class='title1 ta_c'><input type='checkbox' name='brandselect_jw[]' value='" . $check_brand_value . "' " . $checked_now_jw_uriage . "> " . $brand_name . "</div>" . ${"now_brand2_jewelry_sorce_" . $brand_code}  . "<div class='title4 ta_r'>" . number_format((int)${"now_brand2_jewelry_sum_" . $brand_code}) . "</div><div class='title4 ta_c'>" . $yoy_jw2 . "</div></div>";
                                                         
                                                         // 合計値が0でないブランドのみソースを追記
@@ -5036,17 +5262,18 @@ class Analysis2_searchController extends Controller
                                                 }
 
 
-                                            $now_temp5_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp5_title . "<div class='title6 ta_c'>平均</div><div class='title6 ta_c'>過去比</div></div>";
+                                            //20240621$now_temp2_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp2_title . "<div class='title6 ta_c'>平均</div><div class='title6 ta_c'>過去比</div></div>";
+                                            $now_temp2_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view_title . "～<br>" . $between_end_view_title . "</div>" . $now_temp2_title . "<div class='title6 ta_c'>平均</div><div class='title6 ta_c'>過去比</div></div>";
 
 
-                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
-                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
+                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫</p>" . $now_temp2_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
+                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫点数</p>" . $now_temp2_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
 
-                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
-                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
+                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫</p>" . $now_temp2_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
+                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫点数</p>" . $now_temp2_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
                                             
-                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
-                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫点数</p>" . $now_temp5_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
+                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫</p>" . $now_temp2_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
+                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫点数</p>" . $now_temp2_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
 
 
 
@@ -5120,7 +5347,7 @@ class Analysis2_searchController extends Controller
 
 
 
-        return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,/*'out3_d' => $out3_d,'out3_e' => $out3_e,'out3_f' => $out3_f,'out4_a' => $out4_a,'out4_b' => $out4_b,*/'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_past_brand_jack_sorce' => $all_past_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'all_past_brand2_jack_sorce' => $all_past_brand2_jack_sorce/*,'temp5_all_sorce' => $temp5_all_sorce,'temp5_all_sorce2' => $temp5_all_sorce2,'js_web_uriage' => $js_web_uriage,'js_shop_uriage' => $js_shop_uriage,'js_oroshi_uriage' => $js_oroshi_uriage,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp5_all_sorce' => $past_temp5_all_sorce,'past_temp5_all_sorce2' => $past_temp5_all_sorce2,'past_js_web_uriage' => $past_js_web_uriage,'past_js_shop_uriage' => $past_js_shop_uriage,'past_js_oroshi_uriage' => $past_js_oroshi_uriage,'past_js_web_number' => $past_js_web_number,'past_js_shop_number' => $past_js_shop_number,'past_js_oroshi_number' => $past_js_oroshi_number,'js_web_number' => $js_web_number,'js_shop_number' => $js_shop_number,'js_oroshi_number' => $js_oroshi_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'js_web_arari' => $js_web_arari,'js_shop_arari' => $js_shop_arari,'js_oroshi_arari' => $js_oroshi_arari,'js_all_month_arari' => $js_all_month_arari,'past_js_web_arari' => $past_js_web_arari,'past_js_shop_arari' => $past_js_shop_arari,'past_js_oroshi_arari' => $past_js_oroshi_arari,'js_past_all_month_arari' => $js_past_all_month_arari,'temp5_all_sorce3' => $temp5_all_sorce3,'past_temp5_all_sorce3' => $past_temp5_all_sorce3,'search' => $search*/,'js_month' => $js_month,'line_width' => $line_width,'search' => $search,/*'out5' => $out5,'out5_a' => $out5_a,'out5_b' => $out5_b,'out5_c' => $out5_c,*/'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandcode_now_j_uriage1' => $js_brandcode_now_j_uriage1,'js_brandcode_now_j_uriage2' => $js_brandcode_now_j_uriage2,'js_brandcode_now_j_uriage3' => $js_brandcode_now_j_uriage3,'js_brandcode_now_j_uriage4' => $js_brandcode_now_j_uriage4,'js_brandcode_now_j_uriage5' => $js_brandcode_now_j_uriage5,'js_brandcode_past_j_uriage1' => $js_brandcode_past_j_uriage1,'js_brandcode_past_j_uriage2' => $js_brandcode_past_j_uriage2,'js_brandcode_past_j_uriage3' => $js_brandcode_past_j_uriage3,'js_brandcode_past_j_uriage4' => $js_brandcode_past_j_uriage4,'js_brandcode_past_j_uriage5' => $js_brandcode_past_j_uriage5,'js_brandcode_now_j_honsuu1' => $js_brandcode_now_j_honsuu1,'js_brandcode_now_j_honsuu2' => $js_brandcode_now_j_honsuu2,'js_brandcode_now_j_honsuu3' => $js_brandcode_now_j_honsuu3,'js_brandcode_now_j_honsuu4' => $js_brandcode_now_j_honsuu4,'js_brandcode_now_j_honsuu5' => $js_brandcode_now_j_honsuu5,'js_brandcode_past_j_honsuu1' => $js_brandcode_past_j_honsuu1,'js_brandcode_past_j_honsuu2' => $js_brandcode_past_j_honsuu2,'js_brandcode_past_j_honsuu3' => $js_brandcode_past_j_honsuu3,'js_brandcode_past_j_honsuu4' => $js_brandcode_past_j_honsuu4,'js_brandcode_past_j_honsuu5' => $js_brandcode_past_j_honsuu5,'out1_view' => $out1_view,'js_brandcode_now_b_honsuu1' => $js_brandcode_now_b_honsuu1,'js_brandcode_now_b_honsuu2' => $js_brandcode_now_b_honsuu2,'js_brandcode_now_b_honsuu3' => $js_brandcode_now_b_honsuu3,'js_brandcode_now_b_honsuu4' => $js_brandcode_now_b_honsuu4,'js_brandcode_now_b_honsuu5' => $js_brandcode_now_b_honsuu5,'js_brandcode_past_b_honsuu1' => $js_brandcode_past_b_honsuu1,'js_brandcode_past_b_honsuu2' => $js_brandcode_past_b_honsuu2,'js_brandcode_past_b_honsuu3' => $js_brandcode_past_b_honsuu3,'js_brandcode_past_b_honsuu4' => $js_brandcode_past_b_honsuu4,'js_brandcode_past_b_honsuu5' => $js_brandcode_past_b_honsuu5,'js_brandcode_now_b_uriage1' => $js_brandcode_now_b_uriage1,'js_brandcode_now_b_uriage2' => $js_brandcode_now_b_uriage2,'js_brandcode_now_b_uriage3' => $js_brandcode_now_b_uriage3,'js_brandcode_now_b_uriage4' => $js_brandcode_now_b_uriage4,'js_brandcode_now_b_uriage5' => $js_brandcode_now_b_uriage5,'js_brandcode_past_b_uriage1' => $js_brandcode_past_b_uriage1,'js_brandcode_past_b_uriage2' => $js_brandcode_past_b_uriage2,'js_brandcode_past_b_uriage3' => $js_brandcode_past_b_uriage3,'js_brandcode_past_b_uriage4' => $js_brandcode_past_b_uriage4,'js_brandcode_past_b_uriage5' => $js_brandcode_past_b_uriage5,'js_brandcode_now_jw_honsuu1' => $js_brandcode_now_jw_honsuu1,'js_brandcode_now_jw_honsuu2' => $js_brandcode_now_jw_honsuu2,'js_brandcode_now_jw_honsuu3' => $js_brandcode_now_jw_honsuu3,'js_brandcode_now_jw_honsuu4' => $js_brandcode_now_jw_honsuu4,'js_brandcode_now_jw_honsuu5' => $js_brandcode_now_jw_honsuu5,'js_brandcode_past_jw_honsuu1' => $js_brandcode_past_jw_honsuu1,'js_brandcode_past_jw_honsuu2' => $js_brandcode_past_jw_honsuu2,'js_brandcode_past_jw_honsuu3' => $js_brandcode_past_jw_honsuu3,'js_brandcode_past_jw_honsuu4' => $js_brandcode_past_jw_honsuu4,'js_brandcode_past_jw_honsuu5' => $js_brandcode_past_jw_honsuu5,'js_brandcode_now_jw_uriage1' => $js_brandcode_now_jw_uriage1,'js_brandcode_now_jw_uriage2' => $js_brandcode_now_jw_uriage2,'js_brandcode_now_jw_uriage3' => $js_brandcode_now_jw_uriage3,'js_brandcode_now_jw_uriage4' => $js_brandcode_now_jw_uriage4,'js_brandcode_now_jw_uriage5' => $js_brandcode_now_jw_uriage5,'js_brandcode_past_jw_uriage1' => $js_brandcode_past_jw_uriage1,'js_brandcode_past_jw_uriage2' => $js_brandcode_past_jw_uriage2,'js_brandcode_past_jw_uriage3' => $js_brandcode_past_jw_uriage3,'js_brandcode_past_jw_uriage4' => $js_brandcode_past_jw_uriage4,'js_brandcode_past_jw_uriage5' => $js_brandcode_past_jw_uriage5,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_past_brand_betty_sorce' => $all_past_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_past_brand2_betty_sorce' => $all_past_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_past_brand_jewelry_sorce' => $all_past_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'all_past_brand2_jewelry_sorce' => $all_past_brand2_jewelry_sorce,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'brandselect' => $brandselect,'brandselect_b' => $brandselect_b,'brandselect_jw' => $brandselect_jw,'brand_bumon_select' => $brand_bumon_select,'view_select' => $view_select]);
+        return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,/*'out3_d' => $out3_d,'out3_e' => $out3_e,'out3_f' => $out3_f,'out4_a' => $out4_a,'out4_b' => $out4_b,*/'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_past_brand_jack_sorce' => $all_past_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'all_past_brand2_jack_sorce' => $all_past_brand2_jack_sorce/*,'temp2_all_sorce' => $temp2_all_sorce,'temp2_all_sorce2' => $temp2_all_sorce2,'js_web_uriage' => $js_web_uriage,'js_shop_uriage' => $js_shop_uriage,'js_oroshi_uriage' => $js_oroshi_uriage,'past_between_start' => $past_between_start,'past_between_end' => $past_between_end,'past_temp2_all_sorce' => $past_temp2_all_sorce,'past_temp2_all_sorce2' => $past_temp2_all_sorce2,'past_js_web_uriage' => $past_js_web_uriage,'past_js_shop_uriage' => $past_js_shop_uriage,'past_js_oroshi_uriage' => $past_js_oroshi_uriage,'past_js_web_number' => $past_js_web_number,'past_js_shop_number' => $past_js_shop_number,'past_js_oroshi_number' => $past_js_oroshi_number,'js_web_number' => $js_web_number,'js_shop_number' => $js_shop_number,'js_oroshi_number' => $js_oroshi_number,'js_all_month_uriage' => $js_all_month_uriage,'js_past_all_month_uriage' => $js_past_all_month_uriage,'js_all_month_number' => $js_all_month_number,'js_past_all_month_number' => $js_past_all_month_number,'js_web_arari' => $js_web_arari,'js_shop_arari' => $js_shop_arari,'js_oroshi_arari' => $js_oroshi_arari,'js_all_month_arari' => $js_all_month_arari,'past_js_web_arari' => $past_js_web_arari,'past_js_shop_arari' => $past_js_shop_arari,'past_js_oroshi_arari' => $past_js_oroshi_arari,'js_past_all_month_arari' => $js_past_all_month_arari,'temp2_all_sorce3' => $temp2_all_sorce3,'past_temp2_all_sorce3' => $past_temp2_all_sorce3,'search' => $search*/,'js_month' => $js_month,'line_width' => $line_width,'search' => $search,/*'out5' => $out5,'out5_a' => $out5_a,'out5_b' => $out5_b,'out5_c' => $out5_c,*/'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandcode_now_j_uriage1' => $js_brandcode_now_j_uriage1,'js_brandcode_now_j_uriage2' => $js_brandcode_now_j_uriage2,'js_brandcode_now_j_uriage3' => $js_brandcode_now_j_uriage3,'js_brandcode_now_j_uriage4' => $js_brandcode_now_j_uriage4,'js_brandcode_now_j_uriage5' => $js_brandcode_now_j_uriage5,'js_brandcode_past_j_uriage1' => $js_brandcode_past_j_uriage1,'js_brandcode_past_j_uriage2' => $js_brandcode_past_j_uriage2,'js_brandcode_past_j_uriage3' => $js_brandcode_past_j_uriage3,'js_brandcode_past_j_uriage4' => $js_brandcode_past_j_uriage4,'js_brandcode_past_j_uriage5' => $js_brandcode_past_j_uriage5,'js_brandcode_now_j_honsuu1' => $js_brandcode_now_j_honsuu1,'js_brandcode_now_j_honsuu2' => $js_brandcode_now_j_honsuu2,'js_brandcode_now_j_honsuu3' => $js_brandcode_now_j_honsuu3,'js_brandcode_now_j_honsuu4' => $js_brandcode_now_j_honsuu4,'js_brandcode_now_j_honsuu5' => $js_brandcode_now_j_honsuu5,'js_brandcode_past_j_honsuu1' => $js_brandcode_past_j_honsuu1,'js_brandcode_past_j_honsuu2' => $js_brandcode_past_j_honsuu2,'js_brandcode_past_j_honsuu3' => $js_brandcode_past_j_honsuu3,'js_brandcode_past_j_honsuu4' => $js_brandcode_past_j_honsuu4,'js_brandcode_past_j_honsuu5' => $js_brandcode_past_j_honsuu5,'out1_view' => $out1_view,'js_brandcode_now_b_honsuu1' => $js_brandcode_now_b_honsuu1,'js_brandcode_now_b_honsuu2' => $js_brandcode_now_b_honsuu2,'js_brandcode_now_b_honsuu3' => $js_brandcode_now_b_honsuu3,'js_brandcode_now_b_honsuu4' => $js_brandcode_now_b_honsuu4,'js_brandcode_now_b_honsuu5' => $js_brandcode_now_b_honsuu5,'js_brandcode_past_b_honsuu1' => $js_brandcode_past_b_honsuu1,'js_brandcode_past_b_honsuu2' => $js_brandcode_past_b_honsuu2,'js_brandcode_past_b_honsuu3' => $js_brandcode_past_b_honsuu3,'js_brandcode_past_b_honsuu4' => $js_brandcode_past_b_honsuu4,'js_brandcode_past_b_honsuu5' => $js_brandcode_past_b_honsuu5,'js_brandcode_now_b_uriage1' => $js_brandcode_now_b_uriage1,'js_brandcode_now_b_uriage2' => $js_brandcode_now_b_uriage2,'js_brandcode_now_b_uriage3' => $js_brandcode_now_b_uriage3,'js_brandcode_now_b_uriage4' => $js_brandcode_now_b_uriage4,'js_brandcode_now_b_uriage5' => $js_brandcode_now_b_uriage5,'js_brandcode_past_b_uriage1' => $js_brandcode_past_b_uriage1,'js_brandcode_past_b_uriage2' => $js_brandcode_past_b_uriage2,'js_brandcode_past_b_uriage3' => $js_brandcode_past_b_uriage3,'js_brandcode_past_b_uriage4' => $js_brandcode_past_b_uriage4,'js_brandcode_past_b_uriage5' => $js_brandcode_past_b_uriage5,'js_brandcode_now_jw_honsuu1' => $js_brandcode_now_jw_honsuu1,'js_brandcode_now_jw_honsuu2' => $js_brandcode_now_jw_honsuu2,'js_brandcode_now_jw_honsuu3' => $js_brandcode_now_jw_honsuu3,'js_brandcode_now_jw_honsuu4' => $js_brandcode_now_jw_honsuu4,'js_brandcode_now_jw_honsuu5' => $js_brandcode_now_jw_honsuu5,'js_brandcode_past_jw_honsuu1' => $js_brandcode_past_jw_honsuu1,'js_brandcode_past_jw_honsuu2' => $js_brandcode_past_jw_honsuu2,'js_brandcode_past_jw_honsuu3' => $js_brandcode_past_jw_honsuu3,'js_brandcode_past_jw_honsuu4' => $js_brandcode_past_jw_honsuu4,'js_brandcode_past_jw_honsuu5' => $js_brandcode_past_jw_honsuu5,'js_brandcode_now_jw_uriage1' => $js_brandcode_now_jw_uriage1,'js_brandcode_now_jw_uriage2' => $js_brandcode_now_jw_uriage2,'js_brandcode_now_jw_uriage3' => $js_brandcode_now_jw_uriage3,'js_brandcode_now_jw_uriage4' => $js_brandcode_now_jw_uriage4,'js_brandcode_now_jw_uriage5' => $js_brandcode_now_jw_uriage5,'js_brandcode_past_jw_uriage1' => $js_brandcode_past_jw_uriage1,'js_brandcode_past_jw_uriage2' => $js_brandcode_past_jw_uriage2,'js_brandcode_past_jw_uriage3' => $js_brandcode_past_jw_uriage3,'js_brandcode_past_jw_uriage4' => $js_brandcode_past_jw_uriage4,'js_brandcode_past_jw_uriage5' => $js_brandcode_past_jw_uriage5,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_past_brand_betty_sorce' => $all_past_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_past_brand2_betty_sorce' => $all_past_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_past_brand_jewelry_sorce' => $all_past_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'all_past_brand2_jewelry_sorce' => $all_past_brand2_jewelry_sorce,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage1' => $js_brandname_now_j_uriage1,'js_brandname_now_j_uriage2' => $js_brandname_now_j_uriage2,'js_brandname_now_j_uriage3' => $js_brandname_now_j_uriage3,'js_brandname_now_j_uriage4' => $js_brandname_now_j_uriage4,'js_brandname_now_j_uriage5' => $js_brandname_now_j_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage1' => $js_brandname_now_b_uriage1,'js_brandname_now_b_uriage2' => $js_brandname_now_b_uriage2,'js_brandname_now_b_uriage3' => $js_brandname_now_b_uriage3,'js_brandname_now_b_uriage4' => $js_brandname_now_b_uriage4,'js_brandname_now_b_uriage5' => $js_brandname_now_b_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage1' => $js_brandname_now_jw_uriage1,'js_brandname_now_jw_uriage2' => $js_brandname_now_jw_uriage2,'js_brandname_now_jw_uriage3' => $js_brandname_now_jw_uriage3,'js_brandname_now_jw_uriage4' => $js_brandname_now_jw_uriage4,'js_brandname_now_jw_uriage5' => $js_brandname_now_jw_uriage5,'brandselect' => $brandselect,'brandselect_b' => $brandselect_b,'brandselect_jw' => $brandselect_jw,'brand_bumon_select' => $brand_bumon_select,'view_select' => $view_select]);
         
     }
 
@@ -5128,6 +5355,522 @@ class Analysis2_searchController extends Controller
 
 
 
+
+/************************************************************************************************************************************************************************************************************* */
+    // DB情報取得（商品ID別用）
+/************************************************************************************************************************************************************************************************************* */
+
+    public function db_info_get3($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u){
+
+        $start_year = $a;
+        $start_month = $b;
+        $start_day = $c;
+        $end_year = $d;
+        $end_month = $e;
+        $end_day = $f;
+        $this_year = $g;
+        $last_year = $h;
+        $two_years_ago = $j;
+        $output = $k;
+        $out1 = $l;
+        $out2 = $m;
+        $out3 = $n;
+        $out1_view = $o;
+        $search = $p;
+        $three_years_ago = $q;
+        $next_year = $r;
+        $first_day = $s;
+        $last_day = $t;
+        $order_select = $u;
+
+
+            // 選択月を取得                        
+                $start = date("Y-m", strtotime($start_year. "-" . $start_month)) . "-01";
+
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // DB登録ロジックを実施
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 定数管理用（メソッドの呼び出し）start
+                    /************************************************************************************************************************************************************************************************************* */
+                            $define = $this->define();
+                            $def_i = 0;
+                            // 各変数にパスやファイル名を代入
+                                foreach($define as $def){
+                                    if($def_i == 0){ $bladename = $def; }
+                                    if($def_i == 1){ $file_pass = $def; }
+                                    if($def_i == 2){ $file_pass2 = $def; }
+                                    if($def_i == 3){ $file_name = $def; }
+                                    if($def_i == 4){ $table_name = $def; }
+
+                                    $def_i++;
+                                }
+                    /************************************************************************************************************************************************************************************************************* */
+                        // 定数管理用（メソッドの呼び出し）end
+                    /************************************************************************************************************************************************************************************************************* */
+                
+                    /************************************************************************************************************************************************************************************************************* */
+                        // フォームボタン押下時情報の受け取り start
+                    /************************************************************************************************************************************************************************************************************* */
+
+                            // 「フォーム表示ボタン」フラグ
+                                if (PostRequest::has('form_view')) {
+                                    $form_view = PostRequest::input('form_view');
+                                } else {$form_view = "OFF";}
+                            
+
+                            // 「扱い部門」フラグ
+                                $out1_a = "OFF";
+                                $out1_b = "OFF";
+                                $out1_c = "OFF";
+                                if($out1 <> "" && in_array('1',$out1)){ $out1_a = "ON";}
+                                if($out1 <> "" && in_array('2',$out1)){ $out1_b = "ON";}
+                                if($out1 <> "" && in_array('3',$out1)){ $out1_c = "ON";}
+
+                            // 新中アンフラグ
+                                $out2_a = "OFF";
+                                $out2_b = "OFF";
+                                $out2_c = "OFF";
+                                if($out2 <> "" && in_array('1',$out2)){ $out2_a = "ON";}
+                                if($out2 <> "" && in_array('2',$out2)){ $out2_b = "ON";}
+                                if($out2 <> "" && in_array('3',$out2)){ $out2_c = "ON";}
+
+                            // 条件
+                                $out3_a = "OFF";
+                                $out3_b = "OFF";
+                                $out3_c = "OFF";
+
+                                if($out3 <> "" && in_array('1',$out3)){ $out3_a = "ON";}
+                                if($out3 <> "" && in_array('2',$out3)){ $out3_b = "ON";}
+                                if($out3 <> "" && in_array('3',$out3)){ $out3_c = "ON";}
+
+
+                    /************************************************************************************************************************************************************************************************************* */
+                        // フォームボタン押下時情報の受け取り end
+                    /************************************************************************************************************************************************************************************************************* */
+
+
+                                   /************************************************************************************************************************************************************************************************************* */
+                                        // 商品IDのみ取得し配列化 start
+                                   /************************************************************************************************************************************************************************************************************* */
+                                            
+                                            // 全商品ID一覧
+                                                $all_id_array = array();
+
+                                            // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $temp3_buys = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.date',
+                                                        $table_name . '.zaikokingaku',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
+                                                        $table_name . '.shouhin_name',
+                                                        $table_name . '.tag',
+                                                        
+
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->where($table_name . '.date', $start)
+
+
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
+																}
+                                                    
+                                                    })
+                                                    
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
+                                                    
+                                                        })
+
+                                                // ソート順指定
+                                                    ->orderBy('date', 'asc')
+                                                    ->get();
+
+                                            // クエリビルダスタート
+                                                $i = 0;
+                                                foreach ($temp3_buys as $temp3_buy) {
+
+                                                    // 個別商品ID
+                                                       $temp3_id[$i]= $temp3_buy->tag;
+
+                                                    // 全商品ID一覧用配列に商品IDをセット（同じIDが配列に存在しない場合のみ）
+                                                        if(in_array($temp3_id[$i],$all_id_array, true)){
+                                                        } else {
+                                                           array_push($all_id_array,$temp3_id[$i]);
+                                                        }
+
+                                                    $i++;
+                                                }
+                                   /************************************************************************************************************************************************************************************************************* */
+                                        // 商品IDのみ取得し配列化 end
+                                   /************************************************************************************************************************************************************************************************************* */
+
+                                   /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとのブランドのみ取得し配列化
+                                    /************************************************************************************************************************************************************************************************************* */
+                                            
+                                            // 各商品IDの本数一覧
+                                                $all_id_num_array = array();
+                                            
+                                            // DB検索（月ごとのブランドのみ取得し配列化用）スタート
+                                                $temp3_buys = DB::table($table_name) 
+                                                // 月毎にグループ化して値を分けるための処理
+                                                    ->select([
+                                                        $table_name . '.date',
+                                                        $table_name . '.zaikokingaku',
+                                                        $table_name . '.brand_name',
+                                                        $table_name . '.brand_id',
+                                                        $table_name . '.shouhinkubunbunrui_name',
+                                                        $table_name . '.tougetsumizaikosuuryou',
+                                                        $table_name . '.bumon',
+                                                        $table_name . '.shouhin_name',
+                                                        $table_name . '.tag',
+                                                        $table_name . '.ref',
+                                                        $table_name . '.siiresuuryou',
+                                                        $table_name . '.nyuukosuuryou',
+                                                        $table_name . '.uriagesuuryou',
+                                                        $table_name . '.shukkosuuryou',
+                                                        $table_name . '.chouseisuuryou',
+
+                                                    ])
+                                                // 条件（期間の指定）
+                                                    ->where($table_name . '.date', $start)
+
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
+															// 条件（商品区分分類名が新品）
+																if($out2_a == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
+																}
+															// 条件（商品区分分類名が中古）
+																if($out2_b == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
+																}
+															// 条件（商品区分分類名がアンティーク）
+																if($out2_c == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
+																}
+                                                    
+                                                    })
+                                                    
+                                                    // 条件
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
+	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "OFF"){
+                                                                $query->where("souko_name","not like","%修理預%");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "OFF"){
+                                                                $query->where("brand_name","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "ON"){
+                                                                $query->where("tag","<>","");
+	                                                        } else if($out3_a == "OFF" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "OFF" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "OFF"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        } else if($out3_a == "ON" && $out3_b == "ON" && $out3_c == "ON"){
+	                                                            $query->Where("souko_name","not like","%修理預%");
+	                                                            $query->Where('tag', '<>', "");
+	                                                            $query->Where('brand_name', '<>', "");
+	                                                        }
+                                                    
+                                                        })
+
+                                                // ソート順指定
+                                                    ->orderBy('date', 'asc')
+                                                    ->get();
+
+                                            // クエリビルダスタート
+                                                $i = 0;
+                                                foreach ($temp3_buys as $temp3_buy) {
+
+                                                    // 各月名
+                                                        $month = $temp3_buy->date;
+                                                        $month = mb_substr($month,0,-3);
+                                                    // 個別ブランド番号
+                                                        $temp3_brand_no[$i] = $temp3_buy->brand_id;
+                                                    // 個別ブランド名
+                                                        $temp3_brand[$i] = $temp3_buy->brand_name;
+                                                    // 個別商品ID
+                                                       $temp3_id[$i] = $temp3_buy->tag;
+                                                    // 当月在庫数量
+                                                       $temp3_num[$i] = $temp3_buy->tougetsumizaikosuuryou;
+                                                    // 商品名
+                                                       $temp3_name[$i] = $temp3_buy->shouhin_name;
+                                                    // 型番
+                                                       $temp3_ref[$i] = $temp3_buy->ref;
+                                                    // 商品区分分類名
+                                                       $temp3_bunrui[$i] = $temp3_buy->shouhinkubunbunrui_name;
+                                                    // 仕入れ数量
+                                                       $temp3_siire_num[$i] = $temp3_buy->siiresuuryou;
+                                                    // 入庫数量
+                                                       $temp3_nyuuko_num[$i] = $temp3_buy->nyuukosuuryou;
+                                                    // 売上数量
+                                                       $temp3_uriage_num[$i] = $temp3_buy->uriagesuuryou;
+                                                    // 出庫数量
+                                                       $temp3_shukko_num[$i] = $temp3_buy->shukkosuuryou;
+                                                    // 調整数量
+                                                       $temp3_chousei_num[$i] = $temp3_buy->chouseisuuryou;
+                                                    // 在庫金額（仕入れ金額）
+                                                       $temp3_zaikokingaku[$i] = $temp3_buy->zaikokingaku;
+                                                       
+                                                       
+                                                        $all_num_array = array();
+                                                        $all_kingaku_array = array();
+                                                        $ii = 0;
+                                                        foreach($all_id_array as $var){
+                                                                 
+                                                            // 個別商品IDが全商品ID配列の値と一致した場合（DB上は同一商品IDが複数存在する）
+                                                                if($var == $temp3_id[$i]){
+                                                                    // 商品ID代入
+                                                                        ${"id" . $ii} = $temp3_id[$i];
+                                                                    // ブランド名代入
+                                                                        ${"brand" . $ii} = $temp3_brand[$i];
+                                                                    // 商品名代入
+                                                                        ${"name" . $ii} = $temp3_name[$i];
+                                                                        
+                                                                    // 当月在庫数量の合計
+                                                                        // 個別商品ID用在庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_num" . $ii})){
+                                                                                // 個別商品ID用在庫数格納変数に在庫数を追加
+                                                                                    ${"all_id_num" . $ii} = ${"all_id_num" . $ii} + $temp3_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用在庫数格納変数に在庫数を代入
+                                                                                    ${"all_id_num" . $ii} = $temp3_num[$i];
+                                                                            }
+                                                                    // 仕入れ数量の合計
+                                                                        // 個別商品ID用仕入れ数格納変数が存在すれば
+                                                                            if(isset(${"all_id_siire_num" . $ii})){
+                                                                                // 個別商品ID用仕入れ数格納変数に仕入れ数を追加
+                                                                                    ${"all_id_siire_num" . $ii} = ${"all_id_siire_num" . $ii} + $temp3_siire_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用仕入れ数格納変数に仕入れ数を代入
+                                                                                    ${"all_id_siire_num" . $ii} = $temp3_siire_num[$i];
+                                                                            }
+                                                                    // 入庫数の合計
+                                                                        // 個別商品ID用入庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_nyuuko_num" . $ii})){
+                                                                                // 個別商品ID用入庫数格納変数に入庫数を追加
+                                                                                    ${"all_id_nyuuko_num" . $ii} = ${"all_id_nyuuko_num" . $ii} + $temp3_nyuuko_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用入庫数格納変数に入庫数を代入
+                                                                                    ${"all_id_nyuuko_num" . $ii} = $temp3_nyuuko_num[$i];
+                                                                            }
+                                                                    // 売上数の合計
+                                                                        // 個別商品ID用売上数格納変数が存在すれば
+                                                                            if(isset(${"all_id_uriage_num" . $ii})){
+                                                                                // 個別商品ID用売上数格納変数に売上数を追加
+                                                                                    ${"all_id_uriage_num" . $ii} = ${"all_id_uriage_num" . $ii} + $temp3_uriage_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用売上数格納変数に売上数を代入
+                                                                                    ${"all_id_uriage_num" . $ii} = $temp3_uriage_num[$i];
+                                                                            }
+                                                                    // 出庫数の合計
+                                                                        // 個別商品ID用出庫数格納変数が存在すれば
+                                                                            if(isset(${"all_id_shukko_num" . $ii})){
+                                                                                // 個別商品ID用出庫数格納変数に出庫数を追加
+                                                                                    ${"all_id_shukko_num" . $ii} = ${"all_id_shukko_num" . $ii} + $temp3_shukko_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用出庫数格納変数に出庫数を代入
+                                                                                    ${"all_id_shukko_num" . $ii} = $temp3_shukko_num[$i];
+                                                                            }
+                                                                    // 調整数の合計
+                                                                        // 個別商品ID用調整数格納変数が存在すれば
+                                                                            if(isset(${"all_id_chousei_num" . $ii})){
+                                                                                // 個別商品ID用調整数格納変数に調整数を追加
+                                                                                    ${"all_id_chousei_num" . $ii} = ${"all_id_chousei_num" . $ii} + $temp3_chousei_num[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用調整数格納変数に調整数を代入
+                                                                                    ${"all_id_chousei_num" . $ii} = $temp3_chousei_num[$i];
+                                                                            }
+                                                                    // 在庫金額の合計
+                                                                        // 個別商品ID用在庫金額格納変数が存在すれば
+                                                                            if(isset(${"kingaku" . $ii})){
+                                                                                // 個別商品ID用在庫金額格納変数に在庫金額を追加
+                                                                                    ${"kingaku" . $ii} = ${"kingaku" . $ii} + (int)$temp3_zaikokingaku[$i];
+                                                                            } else {
+                                                                                // 個別商品ID用在庫金額格納変数に在庫金額を代入
+                                                                                    ${"kingaku" . $ii} = (int)$temp3_zaikokingaku[$i];
+                                                                            }
+    
+                                                                    
+                                                                }
+                                                                
+
+                                                            // 上記ロジックで各商品IDの合計値を取得できたタイミングで全商品ID毎の合計本数を格納する配列へ追加（本数が存在する場合）（さらに「$all_id_array 」と同じ順番にする必要があるので、「$all_id_array 」の処理ロジックの中で実施）
+                                                                if(isset(${"all_id_num" . $ii})){
+                                                                    array_push($all_num_array,${"all_id_num" . $ii});
+                                                                }
+                                                                if(isset(${"kingaku" . $ii})){
+                                                                    array_push($all_kingaku_array,${"kingaku" . $ii});
+                                                                }
+
+
+                                                            $ii++;
+                                                        }
+                                                                                                                        
+
+                                                    // 上記ロジックで取得した各要素の合計数などを一つの変数に入れたいので、もう一度同じ処理「foreach($all_id_array as $var){」の中で実行
+                                                       /* $ii = 0;
+                                                        $product_info[$i] = "";
+                                                        foreach($all_id_array as $var){
+                                                                 
+                                                            // 個別商品IDが全商品ID配列の値と一致した場合（DB上は同一商品IDが複数存在する）
+                                                                if($var == $temp3_id[$i]){
+                                                                    
+
+                                                                    // DBの同一商品IDが最初に登場したタイミングで処理を実施
+                                                                        if(isset(${"first" . $ii})){
+                                                                        } else {
+                                                                            // 複数存在する同一商品IDが最初に登場したか否かを判別するためだけの変数（初回のみ以下の処理を実行するため）
+                                                                                ${"first" . $ii} = "ON";
+                                                                            // 1度だけの処理なので、各IDが最初に登場したタイミングで以下の処理を実施（さらに「$all_id_array 」と同じ順番にする必要があるので、「$all_id_array 」の処理ロジックの中で実施）
+                                                                                // 各商品情報を変数に代入
+                                                                                    $product_info[$i] = $temp3_id[$i] . "_" . $temp3_brand[$i] . "_" . $temp3_name[$i] . "_" . ${"all_id_siire_num" . $ii} . "_" . ${"all_id_nyuuko_num" . $ii} . "_" . ${"all_id_uriage_num" . $ii} . "_" . ${"all_id_shukko_num" . $ii} . "_" . ${"all_id_chousei_num" . $ii} . "_" . $all_num_array[$ii] . "_" . $all_kingaku_array[$ii];
+                                                                                // スペック付の全商品ID格納する配列へ追加（既に存在する場合は回避）
+                                                                                    if(in_array($product_info[$i],$spec_array)){
+                                                                                        
+                                                                                    } else {
+                                                                                        array_push($spec_array,$product_info[$i]);
+                                                                                    }
+
+                                                                        }
+                                                                }
+
+                                                            $ii++;
+                                                        }*/
+                                                        
+
+                                                    $i++;
+                                                }
+
+
+                                                // 上記ロジックで取得した各要素の合計数などを一つの変数に入れる
+                                                    $ii = 0;
+                                                    $spec_array= array();
+                                                    $product_info[$ii] = "";
+                                                    foreach($all_id_array as $var){
+                                                        // 各商品情報を変数に代入
+                                                            $product_info[$ii] = ${"id" . $ii} . "%" . ${"brand" . $ii}. "%" . ${"name" . $ii} . "%" . ${"all_id_siire_num" . $ii} . "%" . ${"all_id_nyuuko_num" . $ii} . "%" . ${"all_id_uriage_num" . $ii} . "%" . ${"all_id_shukko_num" . $ii} . "%" . ${"all_id_chousei_num" . $ii} . "%" . ${"kingaku" . $ii};
+                                                        // スペック付の全商品ID格納する配列へ追加
+                                                            array_push($spec_array,$product_info[$ii]);
+
+                                                        $ii++;
+                                                    }
+
+
+
+
+                                    /************************************************************************************************************************************************************************************************************* */
+                                        // 月ごとにブランドや部門別のデータを作成
+                                    /************************************************************************************************************************************************************************************************************* */
+  //print_r($spec_array);
+                                                        
+                                                       $ii = 0;
+                                                        $all_id_num_array = array();
+                                                        foreach($all_num_array as $var){
+                                                            // 連想配列のキー（商品ID）と要素（本数）を配列へ追加
+                                                               $all_id_num_array = array_merge($all_id_num_array,array($spec_array[$ii] => $var));
+                                                                // $all_id_num_array = array_merge($all_id_num_array,array($all_id_array[$ii] => $var));
+                                                        $ii++;
+                                                        }
+                                                        //print_r($all_id_num_array);
+                                                        
+                                                        // 配列を要素（本数）の降順なるよう並び替え
+                                                           arsort($all_id_num_array);
+                                                           
+                                                        // 並び替えた配列から表示用ソースを作成
+                                                           $i = 0;
+                                                           $sorce = "<div style='width:1000px; margin:0 auto;'><ul style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li></ul>";
+                                                           foreach($all_id_num_array as $key => $val){
+                                                               $sorce .= "<div style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'>";
+                                                               ${"info" .$i} = explode("%", $key);
+                                                               foreach(${"info" .$i} as $val2){
+                                                                   $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val2 . "</div>";
+                                                               }
+                                                               $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val . "</div></div>";
+                                                               
+                                                              // $sorce .= "<div style='display:flex;justify-content:space-between;width:400px;border:1px solid #ccc;'><div style='width:200px;border-right:1px solid #ccc;'>" . $key . "</div><div style='width:200px;'>" . $val . "</div></div>";
+
+                                                               $i++;
+                                                           }
+                                                       $sorce .= "</div>";
+
+
+echo $sorce;
+
+                                            /*$now_temp3_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp3_title . "<div class='title6 ta_c'>平均</div><div class='title6 ta_c'>過去比</div></div>";
+
+
+                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
+                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
+
+                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
+                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
+                                            
+                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
+                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
+
+*/
+
+/********************************************************************************************* */
+//現在用 END
+/********************************************************************************************* */
+
+
+
+
+
+    //if (PostRequest::has('brand_bumon_select')){ $brand_bumon_select = PostRequest::input('brand_bumon_select');} else {$brand_bumon_select = "";}
+    //if (PostRequest::has('view_select')){ $view_select = PostRequest::input('view_select');} else {$view_select = "";}
+
+
+       // return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'line_width' => $line_width,'search' => $search,'out1_view' => $out1_view,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'view_select' => $view_select]);
+        return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'output' => $output]);
+        
+    }
 
 
 

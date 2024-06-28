@@ -635,8 +635,9 @@ box-sizing: border-box;
                                             <p class="sub_title"><span>出力パターン選択</span></p>
                                             <select name="output" class="output_select">
                                                 <option value="0">出力パターンを選択</option>
-                                                <option value="1" @if(isset($output) && $output == 1) selected @elseif (empty($output) && $output == 1) selected @endif>[在庫]月別</option>
-                                                <!--<option value="2" @if(isset($output) && $output == 2) selected @elseif (empty($output) && $output == 2) selected @endif>[在庫]ブランド別</option>-->
+                                                <option value="1" @if(isset($output) && $output == 1) selected @elseif (empty($output) && $output == 1) selected @endif>[在庫]サマリ</option>
+                                                <option value="2" @if(isset($output) && $output == 2) selected @elseif (empty($output) && $output == 2) selected @endif>[在庫]ブランド別</option>
+                                                <!--<option value="3" @if(isset($output) && $output == 3) selected @elseif (empty($output) && $output == 3) selected @endif>[在庫]商品ID別</option>-->
                                             </select>
                                         </div>
                                         <p class="ta_c"><button type="submit" id="form_view" name="form_view" value="フォームの表示"><span>フォームの表示</span></button></p>
@@ -667,33 +668,36 @@ box-sizing: border-box;
                                             <option value="12" @if(isset($start_month) && $start_month == 12) selected @elseif (empty($start_month) && $start_month == 12) selected @endif>12月</option>
                                         </select>
 
-                                        </div>     
-                                        <div class="period_box">
-                                        終了：<select name="end_year" class="period_select">
-                                            <option value="">終了年を選択</option>
-                                            <option value="{{ $next_year }}" @if(isset($end_year) && $end_year == $next_year) selected @elseif (empty($end_year)) selected @endif>@if(isset($next_year)){{ $next_year }}@endif年</option>
-                                            <option value="{{ $this_year }}" @if(isset($end_year) && $end_year == $this_year) selected @elseif (empty($end_year)) selected @endif>@if(isset($this_year)){{ $this_year }}@endif年</option>
-                                            <option value="{{ $last_year }}" @if(isset($end_year) && $end_year == $last_year) selected @endif>@if(isset($last_year)){{ $last_year }}@endif年</option>
-                                            <option value="{{ $two_years_ago }}" @if(isset($end_year) && $end_year == $two_years_ago) selected @endif>@if(isset($two_years_ago)){{ $two_years_ago }}@endif年</option>
-                                            <option value="{{ $three_years_ago }}" @if(isset($end_year) && $end_year == $three_years_ago) selected @endif>@if(isset($three_years_ago)){{ $three_years_ago }}@endif年</option>
-                                        </select>
-                                        <select name="end_month" class="period_select">
-                                            <option value="">終了月を選択</option>
-                                            <option value="1" @if(isset($end_month) && $end_month == 1) selected @elseif (empty($end_month) && $end_month == 1) selected @endif>1月</option>
-                                            <option value="2" @if(isset($end_month) && $end_month == 2) selected @elseif (empty($end_month) && $end_month == 2) selected @endif>2月</option>
-                                            <option value="3" @if(isset($end_month) && $end_month == 3) selected @elseif (empty($end_month) && $end_month == 3) selected @endif>3月</option>
-                                            <option value="4" @if(isset($end_month) && $end_month == 4) selected @elseif (empty($end_month) && $end_month == 4) selected @endif>4月</option>
-                                            <option value="5" @if(isset($end_month) && $end_month == 5) selected @elseif (empty($end_month) && $end_month == 5) selected @endif>5月</option>
-                                            <option value="6" @if(isset($end_month) && $end_month == 6) selected @elseif (empty($end_month) && $end_month == 6) selected @endif>6月</option>
-                                            <option value="7" @if(isset($end_month) && $end_month == 7) selected @elseif (empty($end_month) && $end_month == 7) selected @endif>7月</option>
-                                            <option value="8" @if(isset($end_month) && $end_month == 8) selected @elseif (empty($end_month) && $end_month == 8) selected @endif>8月</option>
-                                            <option value="9" @if(isset($end_month) && $end_month == 9) selected @elseif (empty($end_month) && $end_month == 9) selected @endif>9月</option>
-                                            <option value="10" @if(isset($end_month) && $end_month == 10) selected @elseif (empty($end_month) && $end_month == 10) selected @endif>10月</option>
-                                            <option value="11" @if(isset($end_month) && $end_month == 11) selected @elseif (empty($end_month) && $end_month == 11) selected @endif>11月</option>
-                                            <option value="12" @if(isset($end_month) && $end_month == 12) selected @elseif (empty($end_month) && $end_month == 12) selected @endif>12月</option>
-                                        </select>
-
-                                        </div> 
+                                        </div>
+                                        <!-- ID別は指定月のみの在庫順なので非表示 -->
+                                        @if(isset($output) && $output <> 3 )
+                                            <div class="period_box">
+                                            終了：<select name="end_year" class="period_select">
+                                                <option value="">終了年を選択</option>
+                                                <option value="{{ $next_year }}" @if(isset($end_year) && $end_year == $next_year) selected @elseif (empty($end_year)) selected @endif>@if(isset($next_year)){{ $next_year }}@endif年</option>
+                                                <option value="{{ $this_year }}" @if(isset($end_year) && $end_year == $this_year) selected @elseif (empty($end_year)) selected @endif>@if(isset($this_year)){{ $this_year }}@endif年</option>
+                                                <option value="{{ $last_year }}" @if(isset($end_year) && $end_year == $last_year) selected @endif>@if(isset($last_year)){{ $last_year }}@endif年</option>
+                                                <option value="{{ $two_years_ago }}" @if(isset($end_year) && $end_year == $two_years_ago) selected @endif>@if(isset($two_years_ago)){{ $two_years_ago }}@endif年</option>
+                                                <option value="{{ $three_years_ago }}" @if(isset($end_year) && $end_year == $three_years_ago) selected @endif>@if(isset($three_years_ago)){{ $three_years_ago }}@endif年</option>
+                                            </select>
+                                            <select name="end_month" class="period_select">
+                                                <option value="">終了月を選択</option>
+                                                <option value="1" @if(isset($end_month) && $end_month == 1) selected @elseif (empty($end_month) && $end_month == 1) selected @endif>1月</option>
+                                                <option value="2" @if(isset($end_month) && $end_month == 2) selected @elseif (empty($end_month) && $end_month == 2) selected @endif>2月</option>
+                                                <option value="3" @if(isset($end_month) && $end_month == 3) selected @elseif (empty($end_month) && $end_month == 3) selected @endif>3月</option>
+                                                <option value="4" @if(isset($end_month) && $end_month == 4) selected @elseif (empty($end_month) && $end_month == 4) selected @endif>4月</option>
+                                                <option value="5" @if(isset($end_month) && $end_month == 5) selected @elseif (empty($end_month) && $end_month == 5) selected @endif>5月</option>
+                                                <option value="6" @if(isset($end_month) && $end_month == 6) selected @elseif (empty($end_month) && $end_month == 6) selected @endif>6月</option>
+                                                <option value="7" @if(isset($end_month) && $end_month == 7) selected @elseif (empty($end_month) && $end_month == 7) selected @endif>7月</option>
+                                                <option value="8" @if(isset($end_month) && $end_month == 8) selected @elseif (empty($end_month) && $end_month == 8) selected @endif>8月</option>
+                                                <option value="9" @if(isset($end_month) && $end_month == 9) selected @elseif (empty($end_month) && $end_month == 9) selected @endif>9月</option>
+                                                <option value="10" @if(isset($end_month) && $end_month == 10) selected @elseif (empty($end_month) && $end_month == 10) selected @endif>10月</option>
+                                                <option value="11" @if(isset($end_month) && $end_month == 11) selected @elseif (empty($end_month) && $end_month == 11) selected @endif>11月</option>
+                                                <option value="12" @if(isset($end_month) && $end_month == 12) selected @elseif (empty($end_month) && $end_month == 12) selected @endif>12月</option>
+                                            </select>
+    
+                                            </div> 
+                                         @endif 
                                 <!-- 期間指定検索ボタン END -->
                                        
                                 @endif 
@@ -733,7 +737,6 @@ box-sizing: border-box;
                                     @endif
                                     
                                 <!-- ブランド用 -->
-                                <!--
                                     @if(isset($output) && $output == 2)
                                             <div class="ta_c">
                                                 <p class="sub_title">扱い部門</p>
@@ -757,7 +760,31 @@ box-sizing: border-box;
                                             </div>
                                     @endif
                                     
-                                    -->
+                                <!-- 商品ID用 -->
+                                    @if(isset($output) && $output == 3)
+                                            <div class="ta_c">
+                                                <p class="sub_title">扱い部門</p>
+                                                <input type="checkbox" name="out1[]" value="2"  @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>Jack
+                                                <input type="checkbox" name="out1[]" value="1"  @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>Betty
+                                                <input type="checkbox" name="out1[]" value="3"  @if(isset($out1_c) && $out1_c <> "OFF") checked @elseif (empty($out1_c)) checked @endif>Jewelry
+                                                
+                                                <p class="sub_title">商品区分</p>
+                                                <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
+                                                <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
+                                                <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @elseif (empty($out2_c)) checked @endif>アンティーク<br>
+                                                <p>
+                                                <input type="radio" name="out1_view" value="1" @if(isset($out1_view) && $out1_view == "1" || empty($out1_view)) checked @endif>在庫金額順
+                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2") checked @endif>在庫点数順  
+                                                </p>
+                                                <p class="sub_title">条件</p>
+                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>修理在庫を除く<br>
+                                                <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @endif>ブランド名無しを除く<br>
+                                                <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @endif>商品ID無しを除く<br>
+                                                <p class="ta_c"><button type="submit" id="search2" name="search3" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
+                                            </div>
+                                    @endif
+                                    
+
                                 </div>
 
                            
@@ -2211,6 +2238,91 @@ box-sizing: border-box;
 
     @endif
 <!-- 全ブランド用 end -->
+
+<!-- [在庫]商品ID別用 -->
+    @if(isset($output) && $output == 3 && isset($search) && $search == "ON")  
+
+            <!-- ブランド・在庫順用（月毎の数字表示部分） start -->
+                @if(isset($out1_view) && $out1_view == "1" || empty($out1_view))
+                    @if(isset($out1_a) && $out1_a == "ON")
+                        <div class="op2a">
+                            <dd class="op1a">
+                                    @if(isset($all_now_brand_jack_sorce)){!! $all_now_brand_jack_sorce !!}@endif
+                                    @if(isset($all_past_brand_jack_sorce)){!! $all_past_brand_jack_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+
+                    @endif
+                    @if(isset($out1_b) && $out1_b == "ON")
+                        <div class="op2b">
+                            <dd class="op1b">
+                                @if(isset($all_now_brand_betty_sorce)){!! $all_now_brand_betty_sorce !!}@endif
+                                @if(isset($all_past_brand_betty_sorce)){!! $all_past_brand_betty_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+                    @endif
+                    @if(isset($out1_c) && $out1_c == "ON")
+                        <dl class="op2c">
+                            <dd class="op1c">
+                                @if(isset($all_now_brand_jewelry_sorce)){!! $all_now_brand_jewelry_sorce !!}@endif
+                                @if(isset($all_past_brand_jewelry_sorce)){!! $all_past_brand_jewelry_sorce !!}@endif
+                            </dd>
+                        </dl>                                    
+                    @endif
+                @endif
+            <!-- ブランド・在庫順用（月毎の数字表示部分） end -->
+            
+                <!-- ブランド・点数順用 start
+                @if(isset($out1_view) && $out1_view == "2")
+
+                    <div class="chart1">
+                        @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
+                        @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
+                    </div>
+                    <div class="chart2" style="display:none;">
+                        @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
+                        @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
+                    </div>
+                    <div class="chart3" style="display:none;">
+                        @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
+                        @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
+                    </div>
+                @endif -->
+
+                @if(isset($out1_view) && $out1_view == "2" || empty($out1_view))
+                    @if(isset($out1_a) && $out1_a == "ON")
+                        <div class="op2a">
+                            <dd class="op1a">
+                                    @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
+                                    @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
+                            </dd>
+                        </div>          
+
+                    @endif
+                    @if(isset($out1_b) && $out1_b == "ON")
+                        <div class="op2b">
+                            <dd class="op1b">
+                                @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
+                                @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
+                            </dd>
+                        </div>                                    
+                    @endif
+                    @if(isset($out1_c) && $out1_c == "ON")
+                        <dl class="op2c">
+                            <dd class="op1c">
+                                @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
+                                @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
+                            </dd>
+                        </dl>                                    
+                    @endif
+                @endif
+
+                                                @if(isset($aaa)){!! $aaa !!}@endif
+
+            <!-- ブランド・点数順用 end -->
+
+    @endif
+
                  
 
 
