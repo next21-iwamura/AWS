@@ -598,6 +598,10 @@ class OpCreateNew_testsController extends Controller
                                             $secondhand_state[$i] = $data[$i] -> secondhand_state = mb_convert_encoding($data[$i] -> secondhand_state, "UTF-8", "auto");   // 20220510 中古状態(未使用品など)
                                             // 20230917
                                             $bag_color[$i] = $data[$i] -> bag_color = mb_convert_encoding($data[$i] -> bag_color, "UTF-8", "auto");
+                                            // 20240609
+                                            $jewelry_material[$i] = $data[$i] -> jewelry_material = mb_convert_encoding($data[$i] -> jewelry_material, "UTF-8", "auto");
+
+
 
 //20231026if($goods[$i] == "om001"){$status_flg[$i] = "Bランク商品(バッグ)";}
 // if($goods[$i] == "rx012"){$category[$i] = "オイスター デイト"; $class[$i] = "アンティーク";$site_id[$i] = "両方";}
@@ -731,7 +735,8 @@ class OpCreateNew_testsController extends Controller
                                 /************************************************************************************************************************************************************************************************************* */
                                         // 20210827 「セール価格」の取得追加 $read_genre_csv2 = $this->read_genre_csv2($i,$brand[$i],$goods[$i],$type[$i],$genre_name[$i],$model[$i],$name[$i],$size[$i],$sozai[$i],$houseki[$i],$belt_mat[$i],$shape[$i],$color[$i],$mov[$i],$category[$i],$spec[$i],$site_id[$i],$same_jack[$i],$same_betty[$i],$class[$i],$status_flg[$i],$price[$i],$case[$i],$case_k[$i],$remark[$i],$jewelry_type[$i],$comment[$i]);
                                         // 20230917 $read_genre_csv2 = $this->read_genre_csv2($i,$brand[$i],$goods[$i],$type[$i],$genre_name[$i],$model[$i],$name[$i],$size[$i],$sozai[$i],$houseki[$i],$belt_mat[$i],$shape[$i],$color[$i],$mov[$i],$category[$i],$spec[$i],$site_id[$i],$same_jack[$i],$same_betty[$i],$class[$i],$status_flg[$i],$price[$i],$case[$i],$case_k[$i],$remark[$i],$jewelry_type[$i],$comment[$i],$price_sale[$i]);
-                                        $read_genre_csv2 = $this->read_genre_csv2($i,$brand[$i],$goods[$i],$type[$i],$genre_name[$i],$model[$i],$name[$i],$size[$i],$sozai[$i],$houseki[$i],$belt_mat[$i],$shape[$i],$color[$i],$mov[$i],$category[$i],$spec[$i],$site_id[$i],$same_jack[$i],$same_betty[$i],$class[$i],$status_flg[$i],$price[$i],$case[$i],$case_k[$i],$remark[$i],$jewelry_type[$i],$comment[$i],$price_sale[$i],$bag_color[$i]);
+                                        // 20240609 $read_genre_csv2 = $this->read_genre_csv2($i,$brand[$i],$goods[$i],$type[$i],$genre_name[$i],$model[$i],$name[$i],$size[$i],$sozai[$i],$houseki[$i],$belt_mat[$i],$shape[$i],$color[$i],$mov[$i],$category[$i],$spec[$i],$site_id[$i],$same_jack[$i],$same_betty[$i],$class[$i],$status_flg[$i],$price[$i],$case[$i],$case_k[$i],$remark[$i],$jewelry_type[$i],$comment[$i],$price_sale[$i],$bag_color[$i]);
+                                        $read_genre_csv2 = $this->read_genre_csv2($i,$brand[$i],$goods[$i],$type[$i],$genre_name[$i],$model[$i],$name[$i],$size[$i],$sozai[$i],$houseki[$i],$belt_mat[$i],$shape[$i],$color[$i],$mov[$i],$category[$i],$spec[$i],$site_id[$i],$same_jack[$i],$same_betty[$i],$class[$i],$status_flg[$i],$price[$i],$case[$i],$case_k[$i],$remark[$i],$jewelry_type[$i],$comment[$i],$price_sale[$i],$bag_color[$i],$jewelry_material[$i]);
 
                                         ${"read_genre_csv2" . $i} = $read_genre_csv2;
 
@@ -5924,17 +5929,17 @@ class OpCreateNew_testsController extends Controller
                         // 20240412
                         $img10_add = "";
                         if($type[$i] == "バッグ/財布/小物"){
-                            if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], '25' ) !== false  ){
+                            if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && (strpos($model[$i], 'バーキン25' ) !== false || strpos($model[$i], 'バーキンタッチ25' ) !== false)  ){
                                 $img10_add = "birkin_25_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], '30' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && (strpos($model[$i], 'バーキン30' ) !== false || strpos($model[$i], 'バーキンタッチ30' ) !== false)  ){
                                 $img10_add = "birkin_30_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], '35' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], 'バーキン35' ) !== false  ){
                                 $img10_add = "birkin_35_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], '40' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "バーキン" && strpos($model[$i], 'バーキン40' ) !== false  ){
                                 $img10_add = "birkin_40_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos($model[$i], '25' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos($model[$i], 'ケリー25' ) !== false  ){
                                 $img10_add = "kelly_25_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos($model[$i], '28' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && (strpos($model[$i], 'ケリー 28' ) !== false || strpos($model[$i], 'ケリータッチ28' ) !== false)  ){
                                 $img10_add = "kelly_28_illust.jpg";
                             } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos($model[$i], '32' ) !== false  ){
                                 $img10_add = "kelly_32_illust.jpg";
@@ -5950,13 +5955,13 @@ class OpCreateNew_testsController extends Controller
                                 $img10_add = "gardenparty_tpm_illust.jpg";
                             } else if($brand[$i] == "エルメス" && $category[$i] == "ガーデンパーティー" && strpos($model[$i], 'PM' ) !== false  ){
                                 $img10_add = "gardenparty_pm_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], '25' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], 'ボリード1923 25' ) !== false  ){
                                 $img10_add = "bolide_25_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], '27' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], 'ボリード27' ) !== false  ){
                                 $img10_add = "bolide_27_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], '30' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], 'ボリード1923 30' ) !== false  ){
                                 $img10_add = "bolide_30_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], '31' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ボリード" && strpos($model[$i], 'ボリード31' ) !== false  ){
                                 $img10_add = "bolide_31_illust.jpg";
                             } else if($brand[$i] == "ヴァレクストラ" && $category[$i] == "イジィデ" && strpos($model[$i], 'マイクロ' ) !== false  ){
                                 $img10_add = "iside_micro_illust.jpg";
@@ -6456,7 +6461,8 @@ class OpCreateNew_testsController extends Controller
             
             // 20210827 「セール価格」の取得追加 public function read_genre_csv2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z,$a2,$b2){
             // 20230917 public function read_genre_csv2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z,$a2,$b2,$c2){
-            public function read_genre_csv2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z,$a2,$b2,$c2,$d2){
+            // 20240609 public function read_genre_csv2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z,$a2,$b2,$c2,$d2){
+            public function read_genre_csv2($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,$q,$r,$s,$t,$u,$v,$w,$x,$y,$z,$a2,$b2,$c2,$d2,$e2){
 
                 $i = $a;
                 $brand[$i] = $b;
@@ -6492,6 +6498,9 @@ class OpCreateNew_testsController extends Controller
 
                 // 20230917
                 $bag_color[$i] = $d2;
+
+                // 20240609
+                $jewelry_material = $e2;
 
 
                 $genre_c_name[$i] = "";
@@ -7555,7 +7564,14 @@ class OpCreateNew_testsController extends Controller
                                                                     }
                                                                     // 20211025 ブランド毎に作成
                                                                     if($genre_name_preg[$i] == "ネックレス・ペンダントトップ" && $csv_brand[$i] == $genre_brand[$i]){
-                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                        //20240705
+                                                                        if($genre_brand[$i] == "エルメス" && $category[$i] == "ポップH" && strpos( $jewelry_type[$i], 'ネックレス・ペンダントトップ' ) !== false){
+                                                                            if($var[${"info0_" . $goods[$i]}] <> "jjhej9" && $var[${"info0_" . $goods[$i]}] <> "bjkaj9"){
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                        } else {
+                                                                            $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                        }
                                                                     }
 
                                                                     // 20211230
@@ -7730,8 +7746,6 @@ class OpCreateNew_testsController extends Controller
 
                                                                 // 20230716 追加
                                                                 if($genre_name_preg[$i] == "ルース(裸石)" && strpos( $jewelry_type[$i], 'ルース' ) !== false){
-                                                                    echo $jewelry_type[$i] . "(" .$genre_name_preg[$i] . ")<br>";
-
                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                 }
 
@@ -7749,7 +7763,33 @@ class OpCreateNew_testsController extends Controller
                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                 }
 
-
+                                                                // 20240607
+                                                                if($genre_brand[$i] == "ポメラート" && $category[$i] == "ポメラート トゥギャザー" && $genre_name_preg[$i] == "ポメラート トゥギャザー"){ 
+                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                }
+                                                                if($genre_brand[$i] == "カルティエ" && $category[$i] == "クラッシュ ドゥ カルティエ" && $genre_name_preg[$i] == "クラッシュ ドゥ カルティエ"){ 
+                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                }
+                                                                if($genre_brand[$i] == "喜平" && $jewelry_type[$i] == "ネックレス・ペンダントトップ" && $jewelry_material == "イエローゴールド"){ 
+                                                                    if($var[${"info0_" . $goods[$i]}] == "jjkihei3" || $var[${"info0_" . $goods[$i]}] == "bjkihei3"){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }
+                                                                }
+                                                                if($genre_brand[$i] == "喜平" && $jewelry_type[$i] == "ネックレス・ペンダントトップ" && $jewelry_material == "プラチナ"){ 
+                                                                    if($var[${"info0_" . $goods[$i]}] == "jjkihei4" || $var[${"info0_" . $goods[$i]}] == "bjkihei4"){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }
+                                                                }
+                                                                if($genre_brand[$i] == "喜平" && $jewelry_type[$i] == "ブレスレット" && $jewelry_material == "イエローゴールド"){ 
+                                                                    if($var[${"info0_" . $goods[$i]}] == "jjkihei5" || $var[${"info0_" . $goods[$i]}] == "bjkihei5"){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }
+                                                                }
+                                                                if($genre_brand[$i] == "喜平" && $jewelry_type[$i] == "ブレスレット" && $jewelry_material == "プラチナ"){ 
+                                                                    if($var[${"info0_" . $goods[$i]}] == "jjkihei6" || $var[${"info0_" . $goods[$i]}] == "bjkihei6"){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }
+                                                                }
 
                                                         // ステータスフラグ情報用
                                                             // 20221212
@@ -7890,6 +7930,12 @@ class OpCreateNew_testsController extends Controller
                                                                                 }
                                                                                 if(strpos( $jewelry_type[$i], 'リュック' ) !== false){
                                                                                     if($genre_name_preg[$i] == "リュック"){
+                                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                    }
+                                                                                }
+                                                                            // 20240706
+                                                                                if(strpos( $jewelry_type[$i], 'ポーチ' ) !== false){
+                                                                                    if($genre_name_preg[$i] == "ポーチ"){
                                                                                         $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                     }
                                                                                 }
@@ -8184,9 +8230,25 @@ class OpCreateNew_testsController extends Controller
 
                                                                                 
                                                                             // 20231221
-                                                                                if($genre_brand[$i] == "エルメス" && $category[$i] == "オータクロア" && $genre_name_preg[$i] == "オータクロア"){ 
-                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
-                                                                                }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "オータクロア" && $genre_name_preg[$i] == "オータクロア"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            // 20240607
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos( $genre_c_model[$i], 'ミニケリー' ) !== false && $genre_name_preg[$i] == "ミニケリー"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "イン・ザ・ループ" && $genre_name_preg[$i] == "イン・ザ・ループ"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "ヴァンキャトル ヴァンキャトル" && $genre_name_preg[$i] == "ヴァンキャトル ヴァンキャトル"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "スティープル" && $genre_name_preg[$i] == "スティープル"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "シャネル" && $category[$i] == "シャネル 22" && $genre_name_preg[$i] == "シャネル 22"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
 
                                                                             // 「財布」取得用
                                                                                 // 20240202
@@ -8195,7 +8257,13 @@ class OpCreateNew_testsController extends Controller
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhewak" || $var[${"info0_" . $goods[$i]}] == "bbhewak"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
+                                                                                    // 20240609
+                                                                                    } else if(strpos( $jewelry_type[$i], 'ポーチ' ) !== false){
+                                                                                        if($var[${"info0_" . $goods[$i]}] == "jb16" || $var[${"info0_" . $goods[$i]}] == "bb16" || $var[${"info0_" . $goods[$i]}] == "jbhepc" || $var[${"info0_" . $goods[$i]}] == "bbhepc"){
+                                                                                            $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                        }
                                                                                     }
+                                                                                    
                                                                                 }
 
                                                                                 // 20210415 「ルイ・ヴィトン」の「その他」の場合のみ無条件で拾えるよう追記
@@ -10529,7 +10597,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                                     // 20220302
                                                                     // 新品 ロイヤル
                                                                     if($genre_class[$i] == "新品"){
-                                                                        if($category[$i] == "ロイヤル" || $category[$i] == "ペラゴス"){
+                                                                        //20240609if($category[$i] == "ロイヤル" || $category[$i] == "ペラゴス"){
+                                                                        if($category[$i] == "ロイヤル" || $category[$i] == "ペラゴス" || $category[$i] == "レンジャー"){
                                                                             $genre_c_name[$i] = "チューダー(チュードル) その他";
                                                                         }
                                                                     }
@@ -10900,8 +10969,9 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                         // 20210627
                                                         } else if($genre_brand[$i] == "ブライトリング"){
                                                             // 20220502 if($category[$i] == "コックピット"){
-                                                            if($category[$i] == "コックピット" || $category[$i] == "クロノマット" || $category[$i] == "スーパーオーシャンヘリテージ" || $category[$i] == "トランスオーシャン"){
-                                                                $genre_c_name[$i] = "ブライトリング その他";
+                                                            //20240705if($category[$i] == "コックピット" || $category[$i] == "クロノマット" || $category[$i] == "スーパーオーシャンヘリテージ" || $category[$i] == "トランスオーシャン"){
+                                                            if($category[$i] == "コックピット" || $category[$i] == "スーパーオーシャンヘリテージ" || $category[$i] == "トランスオーシャン"){
+                                                                    $genre_c_name[$i] = "ブライトリング その他";
                                                             }
                                                         // 20211117
                                                         // 20231026 撤去
@@ -10946,12 +11016,13 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                             }
                                                             
                                                         // チューダー(チュードル) 
-                                                        } else if($genre_brand[$i] == "チューダー(チュードル)"){
+                                                        /*20240705} else if($genre_brand[$i] == "チューダー(チュードル)"){
 
                                                             // 新中アン チューダー(チュードル) その他
                                                             if($category[$i] == "プリンセス"){
                                                                 $genre_c_name[$i] = "チューダー(チュードル) その他";
                                                             }
+                                                        */
 
                                                         // オメガ
                                                         } else if($genre_brand[$i] == "オメガ"){
@@ -10965,7 +11036,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                         } else if($genre_brand[$i] == "フランク ミュラー"){
 
                                                             // 新中 フランク・ミュラー その他
-                                                            if(($category[$i] == "フランク・ミュラー その他" || $category[$i] == "ハート トゥ ハート" || $category[$i] == "ヴァンガード レディ" || $category[$i] == "ギャレ" || $category[$i] == "インフィニティ") && $genre_class[$i] != "アンティーク"){
+                                                            //20240705if(($category[$i] == "フランク・ミュラー その他" || $category[$i] == "ハート トゥ ハート" || $category[$i] == "ヴァンガード レディ" || $category[$i] == "ギャレ" || $category[$i] == "インフィニティ") && $genre_class[$i] != "アンティーク"){
+                                                            if(($category[$i] == "フランク・ミュラー その他" || $category[$i] == "ギャレ" || $category[$i] == "インフィニティ") && $genre_class[$i] != "アンティーク"){
                                                                 $genre_c_name[$i] = "フランク ミュラー その他";
                                                             }
 
@@ -10989,38 +11061,42 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                         
                                                         } else if($genre_brand[$i] == "パテック フィリップ"){
 
-                                                            if($category[$i] == "TWENTY~4"){
+                                                            /*20240705if($category[$i] == "TWENTY~4"){
 
                                                                   $genre_c_name[$i] = "パテック フィリップ その他";
-                                                            }
+                                                            }*/
         
                                                         } else if($genre_brand[$i] == "ジャガー・ルクルト"){
-                                                            if(($category[$i] == "ランデヴー" || $category[$i] == "イデアル")){
+                                                            /*20240705if(($category[$i] == "ランデヴー" || $category[$i] == "イデアル")){
                                                                 $genre_c_name[$i] = "ジャガー・ルクルト その他";
-                                                            }
+                                                            }*/
 
                                                         } else if(strpos($genre_brand[$i],'セイコー') !== false){
-                                                            if($category[$i] == "ルキア" && $genre_class[$i] == "新品"){
+                                                            /*20240705if($category[$i] == "ルキア" && $genre_class[$i] == "新品"){
                                                                 $genre_c_name[$i] = "セイコー その他";
-                                                            }
+                                                            }*/
                                                         } else if(strpos($genre_brand[$i],'ブランパン') !== false){
-                                                            if($category[$i] == "レディバード"){
+                                                            /*20240704 if($category[$i] == "レディバード"){
                                                                 $genre_c_name[$i] = "ブランパン その他";
+                                                            }*/
+                                                            if($category[$i] == "レディバード"){
+                                                                $genre_c_name[$i] = "レディーバード";
                                                             }
                                                         } else if($genre_brand[$i] == "ブレゲ"){
-                                                            if($category[$i] == "クイーン・オブ・ネイプルズ"){
+                                                            /*20240705if($category[$i] == "クイーン・オブ・ネイプルズ"){
                                                                 $genre_c_name[$i] = "ブレゲ その他";
-                                                            }
+                                                            }*/
                                                         } else if($genre_brand[$i] == "ブルガリ"){
-                                                            if(($category[$i] == "ビー・ゼロワン" || $category[$i] == "オーバル" || $category[$i] == "セルペンティ" || $category[$i] == "クアドラート" || $category[$i] == "ソロテンポ" || $category[$i] == "ディーヴァ ドリーム" || $category[$i] == "ルチェア")){
+                                                            //20240705if(($category[$i] == "ビー・ゼロワン" || $category[$i] == "オーバル" || $category[$i] == "セルペンティ" || $category[$i] == "クアドラート" || $category[$i] == "ソロテンポ" || $category[$i] == "ディーヴァ ドリーム" || $category[$i] == "ルチェア")){
+                                                            if(($category[$i] == "オーバル" || $category[$i] == "クアドラート" || $category[$i] == "ソロテンポ")){
                                                                 $genre_c_name[$i] = "ブルガリ その他";
                                                             }
                                                         // 20210401
                                                         } else if($genre_brand[$i] == "ロンジン"){
                                                             //20220331if($category[$i] == "ロンジン イクエストリアン コレクション" || $category[$i] == 'ロンジン プリマルナ'){
-                                                                if($category[$i] == "ロンジン イクエストリアン コレクション" || $category[$i] == 'ロンジン プリマルナ' || $category[$i] == 'ロンジン ミニ'){
+                                                                /*20240705if($category[$i] == "ロンジン イクエストリアン コレクション" || $category[$i] == 'ロンジン プリマルナ' || $category[$i] == 'ロンジン ミニ'){
                                                                     $genre_c_name[$i] = "ロンジン その他";
-                                                            }
+                                                                }*/
                                                         // カルティエ 
                                                         } else if($genre_brand[$i] == "カルティエ"){
 
@@ -11029,7 +11105,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                             if($category[$i] == "タンク フランセーズ"){
                                                                 // 20230716 $genre_c_name[$i] = "タンク その他";
                                                             //} else if(($category[$i] == "ベニュワール" || $category[$i] == "バロン ブラン ドゥ カルティエ" || $category[$i] == "バレリーナ" || $category[$i] == "ラドーニャ" || $category[$i] == "イプノーズ" || $category[$i] == "マイヨン ドゥ カルティエ" || $category[$i] == "パンテール ドゥ カルティエ")){
-                                                            } else if(($category[$i] == "ベニュワール" || $category[$i] == "バロン ブラン ドゥ カルティエ" || $category[$i] == "バレリーナ" || $category[$i] == "ラドーニャ" || $category[$i] == "イプノーズ" || $category[$i] == "マイヨン ドゥ カルティエ")){
+                                                            //20240705} else if(($category[$i] == "ベニュワール" || $category[$i] == "バロン ブラン ドゥ カルティエ" || $category[$i] == "バレリーナ" || $category[$i] == "ラドーニャ" || $category[$i] == "イプノーズ" || $category[$i] == "マイヨン ドゥ カルティエ")){
+                                                            } else if(($category[$i] == "バレリーナ" || $category[$i] == "イプノーズ" || $category[$i] == "マイヨン ドゥ カルティエ")){
                                                                 $genre_c_name[$i] = "カルティエ その他";
                                                             // 20211120
                                                             // } else if(strpos($model[$i],'マスト') !== false && $category[$i] != 'タンク マスト'){
@@ -11140,7 +11217,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                         // オメガ 
                                                         } else if($genre_brand[$i] == "オメガ"){
                                                             //20210401 オメガのカテゴリが「レイルマスター」の場合に新ジャンルは「シーマスター」を追記
-                                                                if($category[$i] == "レイルマスター" && $genre_class[$i] == "新品"){
+                                                                // 20240705if($category[$i] == "レイルマスター" && $genre_class[$i] == "新品"){
+                                                                if($category[$i] == "レイルマスター"){
 
                                                                     $genre_c_name[$i] = "シーマスター";
                                                                 }
@@ -11203,6 +11281,16 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                             if(strpos($model[$i],'デイデイト') !== false){
                                                 $genre_m_name[$i] = "デイデイト";
                                             }
+                                        }
+
+                                    // 20240607
+                                        if($genre_brand[$i] == "オメガ"){
+                                            if($genre_site[$i] == "BettyRoad"){
+                                                if($category[$i] == "シーマスターアクアテラ" && $genre_class[$i] == "新品"){
+                                                    $genre_m_name[$i] = "シーマスター";
+                                                    $jack_only[$i] = "BETTY";
+                                                } 
+                                            } 
                                         }
 
                                         //　20231016 新品ロレックス ターノグラフ(Jack)
@@ -11451,7 +11539,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                 
                                                 }
                                             }
-                                        
+
+
                                     // アンティーク オメガ
                                         } else if($genre_brand[$i] == "オメガ" && $genre_class[$i] == "アンティーク"){
                                             
@@ -11926,7 +12015,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                     if($genre_site[$i] == "BettyRoad"){
 
                                         // ブランドが「チューダー(チュードル)」で、カテゴリが「プリンス」や「1926」や「クレア ドゥ ローズ」や「スタイル」の新品の場合、「チューダー(チュードル) その他」も取得する為
-                                        if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926" || $category[$i] == "クレア ドゥ ローズ") && $genre_class[$i] == "新品"){
+                                        //20240705if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926" || $category[$i] == "クレア ドゥ ローズ") && $genre_class[$i] == "新品"){
+                                        if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926") && $genre_class[$i] == "新品"){
 
                                             $genre_m_name[$i] = "チューダー(チュードル) その他";
                                             $jack_only[$i] = "ON";
@@ -11963,7 +12053,12 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                             // 20210609
                                             } else if($category[$i] == "レディ デイトジャスト"){
                                                 $genre_m_name[$i] = "デイトジャスト";
-                                                $jack_only[$i] = "BETTY";
+                                                // 20240705 ブランド：ロレックス・登録サイト：両方・カテゴリ：レディ デイトジャストの場合は、jwrx71[レディ デイトジャスト]を取得させる
+                                                if($genre_site[$i] == "BettyRoad" && $category[$i] == "レディ デイトジャスト"){
+                                                    $jack_only[$i] = "";
+                                                } else {
+                                                    $jack_only[$i] = "BETTY";
+                                                }
                                             }
 
                                         // 20220801
@@ -11971,6 +12066,14 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                             
                                             if($category[$i] == "タンク ディヴァン"){
                                                 $genre_m_name[$i] = "タンク その他";
+                                                $jack_only[$i] = "BETTY";
+                                            } 
+    
+                                        // 20240607
+                                        } else if($genre_brand[$i] == "オメガ"){
+                                            
+                                            if($category[$i] == "シーマスターアクアテラ"){
+                                                $genre_m_name[$i] = "シーマスター";
                                                 $jack_only[$i] = "BETTY";
                                             } 
     
