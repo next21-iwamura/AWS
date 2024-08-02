@@ -5433,9 +5433,25 @@ class Analysis2_test_searchController extends Controller
                                 $out2_a = "OFF";
                                 $out2_b = "OFF";
                                 $out2_c = "OFF";
+                                $out2_d = "OFF";
+                                $out2_e = "OFF";
+                                $out2_f = "OFF";
+                                $out2_g = "OFF";
+                                $out2_h = "OFF";
+                                $out2_i = "OFF";
+                                $out2_j = "OFF";
+                                $out2_k = "OFF";
                                 if($out2 <> "" && in_array('1',$out2)){ $out2_a = "ON";}
                                 if($out2 <> "" && in_array('2',$out2)){ $out2_b = "ON";}
                                 if($out2 <> "" && in_array('3',$out2)){ $out2_c = "ON";}
+                                if($out2 <> "" && in_array('4',$out2)){ $out2_d = "ON";}
+                                if($out2 <> "" && in_array('5',$out2)){ $out2_e = "ON";}
+                                if($out2 <> "" && in_array('6',$out2)){ $out2_f = "ON";}
+                                if($out2 <> "" && in_array('7',$out2)){ $out2_g = "ON";}
+                                if($out2 <> "" && in_array('8',$out2)){ $out2_h = "ON";}
+                                if($out2 <> "" && in_array('9',$out2)){ $out2_i = "ON";}
+                                if($out2 <> "" && in_array('10',$out2)){ $out2_j = "ON";}
+                                if($out2 <> "" && in_array('11',$out2)){ $out2_k = "ON";}
 
                             // 条件
                                 $out3_a = "OFF";
@@ -5480,18 +5496,43 @@ class Analysis2_test_searchController extends Controller
 
 
 
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
-															// 条件（商品区分分類名が新品）
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e,$out2_f,$out2_g,$out2_h,$out2_i,$out2_j,$out2_k) {
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計新品%");
 																}
-															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計中古%");
 																}
-															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計アンティーク%");
+																}
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%バッグ新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ﾊﾞｯｸﾞ新品%");
+																}
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%バッグﾞ中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ﾊﾞｯｸﾞ中古%");
+																}
+																if($out2_f == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ジュエリー新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ｼﾞｭｴﾘｰ新品%");
+																}
+																if($out2_g == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ジュエリー中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ｼﾞｭｴﾘｰ中古%");
+																}
+																if($out2_h == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","委託");
+																}
+																if($out2_i == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","修理");
+																}
+																if($out2_j == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","その他");
+																}
+																if($out2_k == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","");
 																}
                                                     
                                                     })
@@ -5576,18 +5617,43 @@ class Analysis2_test_searchController extends Controller
                                                 // 条件（期間の指定）
                                                     ->where($table_name . '.date', $start)
 
-                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c) {
-															// 条件（商品区分分類名が新品）
+                                                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e,$out2_f,$out2_g,$out2_h,$out2_i,$out2_j,$out2_k) {
 																if($out2_a == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計新品%");
 																}
-															// 条件（商品区分分類名が中古）
 																if($out2_b == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計中古%");
 																}
-															// 条件（商品区分分類名がアンティーク）
 																if($out2_c == "ON"){
-																	$query->orwhere("shouhinkubunbunrui_name","like","%アンティーク%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%時計アンティーク%");
+																}
+																if($out2_d == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%バッグ新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ﾊﾞｯｸﾞ新品%");
+																}
+																if($out2_e == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%バッグﾞ中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ﾊﾞｯｸﾞ中古%");
+																}
+																if($out2_f == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ジュエリー新品%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ｼﾞｭｴﾘｰ新品%");
+																}
+																if($out2_g == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ジュエリー中古%");
+																	$query->orwhere("shouhinkubunbunrui_name","like","%ｼﾞｭｴﾘｰ中古%");
+																}
+																if($out2_h == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","委託");
+																}
+																if($out2_i == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","修理");
+																}
+																if($out2_j == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","その他");
+																}
+																if($out2_k == "ON"){
+																	$query->orwhere("shouhinkubunbunrui_name","");
 																}
                                                     
                                                     })
@@ -5670,6 +5736,10 @@ class Analysis2_test_searchController extends Controller
                                                                         ${"brand" . $ii} = $temp3_brand[$i];
                                                                     // 商品名代入
                                                                         ${"name" . $ii} = $temp3_name[$i];
+                                                                    // 商品区分分類名
+                                                                        ${"bunrui" . $ii} = $temp3_bunrui[$i];
+                                                                    // 型番
+                                                                        ${"ref" . $ii} = $temp3_ref[$i];
                                                                         
                                                                     // 当月在庫数量の合計
                                                                         // 個別商品ID用在庫数格納変数が存在すれば
@@ -5752,37 +5822,6 @@ class Analysis2_test_searchController extends Controller
                                                         }
                                                                                                                         
 
-                                                    // 上記ロジックで取得した各要素の合計数などを一つの変数に入れたいので、もう一度同じ処理「foreach($all_id_array as $var){」の中で実行
-                                                       /* $ii = 0;
-                                                        $product_info[$i] = "";
-                                                        foreach($all_id_array as $var){
-                                                                 
-                                                            // 個別商品IDが全商品ID配列の値と一致した場合（DB上は同一商品IDが複数存在する）
-                                                                if($var == $temp3_id[$i]){
-                                                                    
-
-                                                                    // DBの同一商品IDが最初に登場したタイミングで処理を実施
-                                                                        if(isset(${"first" . $ii})){
-                                                                        } else {
-                                                                            // 複数存在する同一商品IDが最初に登場したか否かを判別するためだけの変数（初回のみ以下の処理を実行するため）
-                                                                                ${"first" . $ii} = "ON";
-                                                                            // 1度だけの処理なので、各IDが最初に登場したタイミングで以下の処理を実施（さらに「$all_id_array 」と同じ順番にする必要があるので、「$all_id_array 」の処理ロジックの中で実施）
-                                                                                // 各商品情報を変数に代入
-                                                                                    $product_info[$i] = $temp3_id[$i] . "_" . $temp3_brand[$i] . "_" . $temp3_name[$i] . "_" . ${"all_id_siire_num" . $ii} . "_" . ${"all_id_nyuuko_num" . $ii} . "_" . ${"all_id_uriage_num" . $ii} . "_" . ${"all_id_shukko_num" . $ii} . "_" . ${"all_id_chousei_num" . $ii} . "_" . $all_num_array[$ii] . "_" . $all_kingaku_array[$ii];
-                                                                                // スペック付の全商品ID格納する配列へ追加（既に存在する場合は回避）
-                                                                                    if(in_array($product_info[$i],$spec_array)){
-                                                                                        
-                                                                                    } else {
-                                                                                        array_push($spec_array,$product_info[$i]);
-                                                                                    }
-
-                                                                        }
-                                                                }
-
-                                                            $ii++;
-                                                        }*/
-                                                        
-
                                                     $i++;
                                                 }
 
@@ -5793,7 +5832,7 @@ class Analysis2_test_searchController extends Controller
                                                     $product_info[$ii] = "";
                                                     foreach($all_id_array as $var){
                                                         // 各商品情報を変数に代入
-                                                            $product_info[$ii] = ${"id" . $ii} . "%" . ${"brand" . $ii}. "%" . ${"name" . $ii} . "%" . ${"all_id_siire_num" . $ii} . "%" . ${"all_id_nyuuko_num" . $ii} . "%" . ${"all_id_uriage_num" . $ii} . "%" . ${"all_id_shukko_num" . $ii} . "%" . ${"all_id_chousei_num" . $ii} . "%" . ${"kingaku" . $ii};
+                                                            $product_info[$ii] = ${"brand" . $ii}. "%" . ${"name" . $ii} . "%" . ${"bunrui" . $ii} . "%" . ${"ref" . $ii} . "%" . ${"id" . $ii} . "%" . ${"all_id_siire_num" . $ii} . "%" . ${"all_id_nyuuko_num" . $ii} . "%" . ${"all_id_uriage_num" . $ii} . "%" . ${"all_id_shukko_num" . $ii} . "%" . ${"all_id_chousei_num" . $ii} . "%" . ${"all_id_num" . $ii} . "%" . ${"kingaku" . $ii};
                                                         // スペック付の全商品ID格納する配列へ追加
                                                             array_push($spec_array,$product_info[$ii]);
 
@@ -5810,65 +5849,56 @@ class Analysis2_test_searchController extends Controller
                                                         
                                                        $ii = 0;
                                                         $all_id_num_array = array();
-                                                        foreach($all_num_array as $var){
-                                                            // 連想配列のキー（商品ID）と要素（本数）を配列へ追加
-                                                               $all_id_num_array = array_merge($all_id_num_array,array($spec_array[$ii] => $var));
-                                                                // $all_id_num_array = array_merge($all_id_num_array,array($all_id_array[$ii] => $var));
-                                                        $ii++;
+                                                        if($out1_view == 2 || $out1_view == ""){
+                                                                foreach($all_num_array as $var){
+                                                                    // 連想配列のキー（商品ID）と要素を配列へ追加
+                                                                       $all_id_num_array = array_merge($all_id_num_array,array($spec_array[$ii] => $var));
+                                                                        // $all_id_num_array = array_merge($all_id_num_array,array($all_id_array[$ii] => $var));
+                                                                $ii++;
+                                                                }
+                                                        } else if($out1_view == 1){
+                                                                foreach($all_kingaku_array as $var){
+                                                                    // 連想配列のキー（商品ID）と要素を配列へ追加
+                                                                       $all_id_num_array = array_merge($all_id_num_array,array($spec_array[$ii] => $var));
+                                                                        // $all_id_num_array = array_merge($all_id_num_array,array($all_id_array[$ii] => $var));
+                                                                $ii++;
+                                                                }
                                                         }
                                                         //print_r($all_id_num_array);
                                                         
-                                                        // 配列を要素（本数）の降順なるよう並び替え
+                                                        // 配列を要素（本数 or 金額）の降順なるよう並び替え
                                                            arsort($all_id_num_array);
                                                            
                                                         // 並び替えた配列から表示用ソースを作成
                                                            $i = 0;
-                                                           $sorce = "<div style='width:1000px; margin:0 auto;'><ul style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li><li style='width:100px;border-right:1px solid #ccc;'>ブランド名</li></ul>";
+                                                           $sorce = "<div class='id_container'><ul><li>ブランド名</li><li>商品名</li><li>商品区分分類</li><li>RefNo</li><li>商品ID</li><li>仕入数量</li><li>入庫数量</li><li>売上数量</li><li>出庫数量</li><li>調整数量</li><li>在庫数量</li><li>在庫金額(仕入金額)</li></ul>";
                                                            foreach($all_id_num_array as $key => $val){
-                                                               $sorce .= "<div style='display:flex;justify-content:space-between;width:1000px;border:1px solid #ccc;'>";
+                                                               $sorce .= "<ul>";
                                                                ${"info" .$i} = explode("%", $key);
+                                                               $ii = 0;
                                                                foreach(${"info" .$i} as $val2){
-                                                                   $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val2 . "</div>";
+                                                                   if($ii == 4 && $val2 == ""){
+                                                                        $sorce .= "<li>---</li>";
+                                                                   } else {
+                                                                        $sorce .= "<li>" . $val2 . "</li>";
+                                                                   }
+                                                                   $ii++;
                                                                }
-                                                               $sorce .= "<div style='width:100px;border-right:1px solid #ccc;'>" . $val . "</div></div>";
-                                                               
-                                                              // $sorce .= "<div style='display:flex;justify-content:space-between;width:400px;border:1px solid #ccc;'><div style='width:200px;border-right:1px solid #ccc;'>" . $key . "</div><div style='width:200px;'>" . $val . "</div></div>";
+                                                               $sorce .= "</ul>";
 
                                                                $i++;
                                                            }
                                                        $sorce .= "</div>";
 
 
-echo $sorce;
-
-                                            /*$now_temp3_title = "<div class='box1'><div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view . "～<br>" . $between_end_view . "</div>" . $now_temp3_title . "<div class='title6 ta_c'>平均</div><div class='title6 ta_c'>過去比</div></div>";
-
-
-                                            $all_now_brand_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list'>" . $all_now_brand_jack_sorce . "</div></div>";
-                                            $all_now_brand2_jack_sorce = "<p class='title_a'>現在・Jackブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list'>" . $all_now_brand2_jack_sorce . "</div></div>";
-
-                                            $all_now_brand_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list_b'>" . $all_now_brand_betty_sorce . "</div></div>";
-                                            $all_now_brand2_betty_sorce = "<p class='title_a'>現在・Bettyブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list_b'>" . $all_now_brand2_betty_sorce . "</div></div>";
-                                            
-                                            $all_now_brand_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫</p>" . $now_temp3_title . "<div class='brand_list_jw'>" . $all_now_brand_jewelry_sorce . "</div></div>";
-                                            $all_now_brand2_jewelry_sorce = "<p class='title_a'>現在・Jewelryブランド別在庫点数</p>" . $now_temp3_title . "<div class='brand_list_jw'>" . $all_now_brand2_jewelry_sorce . "</div></div>";
-
-*/
 
 /********************************************************************************************* */
 //現在用 END
 /********************************************************************************************* */
 
 
-
-
-
-    //if (PostRequest::has('brand_bumon_select')){ $brand_bumon_select = PostRequest::input('brand_bumon_select');} else {$brand_bumon_select = "";}
-    //if (PostRequest::has('view_select')){ $view_select = PostRequest::input('view_select');} else {$view_select = "";}
-
-
        // return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'end_year' => $end_year,'end_month' => $end_month,'end_day' => $end_day,'output' => $output,'form_view' => $form_view,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'all_now_brand_jack_sorce' => $all_now_brand_jack_sorce,'all_now_brand2_jack_sorce' => $all_now_brand2_jack_sorce,'line_width' => $line_width,'search' => $search,'out1_view' => $out1_view,'all_now_brand_betty_sorce' => $all_now_brand_betty_sorce,'all_now_brand2_betty_sorce' => $all_now_brand2_betty_sorce,'all_now_brand_jewelry_sorce' => $all_now_brand_jewelry_sorce,'all_now_brand2_jewelry_sorce' => $all_now_brand2_jewelry_sorce,'view_select' => $view_select]);
-        return view($bladename,['first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'output' => $output]);
+        return view($bladename,['sorce' => $sorce,'first_day' => $first_day,'last_day' => $last_day,'next_year'=> $next_year,'this_year' => $this_year,'last_year' => $last_year,'two_years_ago' => $two_years_ago,'three_years_ago' => $three_years_ago,'start_year' => $start_year,'start_month' => $start_month,'start_day' => $start_day,'output' => $output,'search' => $search,'out1' => $out1,'out1_a' => $out1_a,'out1_b' => $out1_b,'out1_c' => $out1_c,'out2_a' => $out2_a,'out2_b' => $out2_b,'out2_c' => $out2_c,'out2_d' => $out2_d,'out2_e' => $out2_e,'out2_f' => $out2_f,'out2_g' => $out2_g,'out2_h' => $out2_h,'out2_i' => $out2_i,'out2_j' => $out2_j,'out2_k' => $out2_k,'out3_a' => $out3_a,'out3_b' => $out3_b,'out3_c' => $out3_c,'out1_view' => $out1_view]);
         
     }
 
