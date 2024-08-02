@@ -637,7 +637,7 @@ box-sizing: border-box;
                                                 <option value="0">出力パターンを選択</option>
                                                 <option value="1" @if(isset($output) && $output == 1) selected @elseif (empty($output) && $output == 1) selected @endif>[在庫]サマリ</option>
                                                 <option value="2" @if(isset($output) && $output == 2) selected @elseif (empty($output) && $output == 2) selected @endif>[在庫]ブランド別</option>
-                                                <!--<option value="3" @if(isset($output) && $output == 3) selected @elseif (empty($output) && $output == 3) selected @endif>[在庫]商品ID別</option>-->
+                                                <option value="3" @if(isset($output) && $output == 3) selected @elseif (empty($output) && $output == 3) selected @endif>[在庫]商品ID別</option>
                                             </select>
                                         </div>
                                         <p class="ta_c"><button type="submit" id="form_view" name="form_view" value="フォームの表示"><span>フォームの表示</span></button></p>
@@ -764,22 +764,31 @@ box-sizing: border-box;
                                     @if(isset($output) && $output == 3)
                                             <div class="ta_c">
                                                 <p class="sub_title">扱い部門</p>
-                                                <input type="checkbox" name="out1[]" value="2"  @if(isset($out1_b) && $out1_b <> "OFF") checked @elseif (empty($out1_b)) checked @endif>Jack
-                                                <input type="checkbox" name="out1[]" value="1"  @if(isset($out1_a) && $out1_a <> "OFF") checked @elseif (empty($out1_a)) checked @endif>Betty
-                                                <input type="checkbox" name="out1[]" value="3"  @if(isset($out1_c) && $out1_c <> "OFF") checked @elseif (empty($out1_c)) checked @endif>Jewelry
+                                                <input type="checkbox" name="out1[]" value="2"  @if(isset($out1_b) && $out1_b <> "OFF") checked @endif>Jack
+                                                <input type="checkbox" name="out1[]" value="1"  @if(isset($out1_a) && $out1_a <> "OFF") checked @endif>Betty
+                                                <input type="checkbox" name="out1[]" value="3"  @if(isset($out1_c) && $out1_c <> "OFF") checked @endif>Jewelry
                                                 
                                                 <p class="sub_title">商品区分</p>
-                                                <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
-                                                <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
-                                                <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @elseif (empty($out2_c)) checked @endif>アンティーク<br>
-                                                <p>
-                                                <input type="radio" name="out1_view" value="1" @if(isset($out1_view) && $out1_view == "1" || empty($out1_view)) checked @endif>在庫金額順
-                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2") checked @endif>在庫点数順  
-                                                </p>
+                                                <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @endif>時計新品
+                                                <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @endif>時計中古<br>
+                                                <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @endif>時計アンティーク
+                                                <input type="checkbox" name="out2[]" value="4" @if(isset($out2_d) && $out2_d <> "OFF") checked @endif>バッグ新品<br>
+                                                <input type="checkbox" name="out2[]" value="5" @if(isset($out2_e) && $out2_e <> "OFF") checked @endif>バッグ中古
+                                                <input type="checkbox" name="out2[]" value="6" @if(isset($out2_f) && $out2_f <> "OFF") checked @endif>ジュエリー新品<br>
+                                                <input type="checkbox" name="out2[]" value="7" @if(isset($out2_g) && $out2_g <> "OFF") checked @endif>ジュエリー中古
+                                                <input type="checkbox" name="out2[]" value="8" @if(isset($out2_h) && $out2_h <> "OFF") checked @endif>委託<br>
+                                                <input type="checkbox" name="out2[]" value="9" @if(isset($out2_i) && $out2_i <> "OFF") checked @endif>修理<br>
+                                                <input type="checkbox" name="out2[]" value="10" @if(isset($out2_j) && $out2_j <> "OFF") checked @endif>その他
+                                                <input type="checkbox" name="out2[]" value="11" @if(isset($out2_k) && $out2_k <> "OFF") checked @endif>空白<br>
                                                 <p class="sub_title">条件</p>
-                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>修理在庫を除く<br>
+                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @endif>修理在庫を除く<br>
                                                 <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @endif>ブランド名無しを除く<br>
                                                 <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @endif>商品ID無しを除く<br>
+                                                <p>
+                                                <input type="radio" name="out1_view" value="1" @if(isset($out1_view) && $out1_view == "1") checked @endif>在庫金額順
+                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2") checked @endif>在庫点数順  
+                                                </p>
+
                                                 <p class="ta_c"><button type="submit" id="search2" name="search3" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
                                             </div>
                                     @endif
@@ -796,6 +805,7 @@ box-sizing: border-box;
                             <!-- 検索結果表示 START -->
                                 <div class="search_area">
                                 <!-- 使用方法エリア -->
+                                @if(isset($output) && $output <> 3) 
                                     <div class="method">
                                         <div>
                                                 <div class="btn_bulldown_"><span class="method_btn">補足</span></div>
@@ -829,6 +839,7 @@ box-sizing: border-box;
                                                 </div>
                                         </div>
                                     </div>
+                                    @endif
                                 <!-- グラフ表示切り替えボタン用 -->                            
                                     <script type="text/javascript">
                                             $(function(){
@@ -2241,85 +2252,44 @@ box-sizing: border-box;
 
 <!-- [在庫]商品ID別用 -->
     @if(isset($output) && $output == 3 && isset($search) && $search == "ON")  
+<style type="text/css">
+	.id_container{width:100%; margin:0 auto;}
+	.id_container ul{display:flex;justify-content:space-between;width:100%;border:1px solid #ccc;margin:0 auto;padding:0 0;}
+	.id_container ul li{list-style:none; border-right:1px solid #ccc;box-sizing: border-box;font-size:12px;}
+	.id_container li:first-child{width:9%;}
+	.id_container li:nth-child(2){width:24%;}
+	.id_container li:nth-child(3){width:8%;}
+	.id_container li:nth-child(4){width:12%;}
+	.id_container li:nth-child(5){width:7%;}
+	.id_container li:nth-child(6),
+	.id_container li:nth-child(7),
+	.id_container li:nth-child(8),
+	.id_container li:nth-child(9),
+	.id_container li:nth-child(10){width:5%;}
+	.id_container li:nth-child(11){width:6%;}
+	.id_container li:nth-child(12){width:9%;}
+	/* タイトルのみ */
+	.id_container ul:first-child li{text-align:center;padding:2px 0 2px /*1em*/0;}
+	.id_container ul:first-child li:nth-child(11),.id_container ul:first-child li:nth-child(12){background:#ffa500;}
+	.id_container ul:first-child li:not(:nth-child(11)):not(:nth-child(12)){background:#b0c4de;}
+	/* タイトル以外（文字は左寄せ、数字は右寄せ） */
+	.id_container ul:not(:first-child) li:first-child,
+	.id_container ul:not(:first-child) li:nth-child(2),
+	.id_container ul:not(:first-child) li:nth-child(3),
+	.id_container ul:not(:first-child) li:nth-child(4),
+	.id_container ul:not(:first-child) li:nth-child(5){text-align:left;padding:2px 0 2px 1em;background:#ffffff;}
+	.id_container ul:not(:first-child) li:nth-child(6),
+	.id_container ul:not(:first-child) li:nth-child(7),
+	.id_container ul:not(:first-child) li:nth-child(8),
+	.id_container ul:not(:first-child) li:nth-child(9),
+	.id_container ul:not(:first-child) li:nth-child(10),
+	.id_container ul:not(:first-child) li:nth-child(11),
+	.id_container ul:not(:first-child) li:nth-child(12){text-align:right;padding:2px 1em 2px 0;background:#ffffff;}
+	
+	
+</style>
+          @if(isset($sorce)){!! $sorce !!}@endif
 
-            <!-- ブランド・在庫順用（月毎の数字表示部分） start -->
-                @if(isset($out1_view) && $out1_view == "1" || empty($out1_view))
-                    @if(isset($out1_a) && $out1_a == "ON")
-                        <div class="op2a">
-                            <dd class="op1a">
-                                    @if(isset($all_now_brand_jack_sorce)){!! $all_now_brand_jack_sorce !!}@endif
-                                    @if(isset($all_past_brand_jack_sorce)){!! $all_past_brand_jack_sorce !!}@endif
-                            </dd>
-                        </div>                                    
-
-                    @endif
-                    @if(isset($out1_b) && $out1_b == "ON")
-                        <div class="op2b">
-                            <dd class="op1b">
-                                @if(isset($all_now_brand_betty_sorce)){!! $all_now_brand_betty_sorce !!}@endif
-                                @if(isset($all_past_brand_betty_sorce)){!! $all_past_brand_betty_sorce !!}@endif
-                            </dd>
-                        </div>                                    
-                    @endif
-                    @if(isset($out1_c) && $out1_c == "ON")
-                        <dl class="op2c">
-                            <dd class="op1c">
-                                @if(isset($all_now_brand_jewelry_sorce)){!! $all_now_brand_jewelry_sorce !!}@endif
-                                @if(isset($all_past_brand_jewelry_sorce)){!! $all_past_brand_jewelry_sorce !!}@endif
-                            </dd>
-                        </dl>                                    
-                    @endif
-                @endif
-            <!-- ブランド・在庫順用（月毎の数字表示部分） end -->
-            
-                <!-- ブランド・点数順用 start
-                @if(isset($out1_view) && $out1_view == "2")
-
-                    <div class="chart1">
-                        @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
-                        @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
-                    </div>
-                    <div class="chart2" style="display:none;">
-                        @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
-                        @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
-                    </div>
-                    <div class="chart3" style="display:none;">
-                        @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
-                        @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
-                    </div>
-                @endif -->
-
-                @if(isset($out1_view) && $out1_view == "2" || empty($out1_view))
-                    @if(isset($out1_a) && $out1_a == "ON")
-                        <div class="op2a">
-                            <dd class="op1a">
-                                    @if(isset($all_now_brand2_jack_sorce)){!! $all_now_brand2_jack_sorce !!}@endif
-                                    @if(isset($all_past_brand2_jack_sorce)){!! $all_past_brand2_jack_sorce !!}@endif
-                            </dd>
-                        </div>          
-
-                    @endif
-                    @if(isset($out1_b) && $out1_b == "ON")
-                        <div class="op2b">
-                            <dd class="op1b">
-                                @if(isset($all_now_brand2_betty_sorce)){!! $all_now_brand2_betty_sorce !!}@endif
-                                @if(isset($all_past_brand2_betty_sorce)){!! $all_past_brand2_betty_sorce !!}@endif
-                            </dd>
-                        </div>                                    
-                    @endif
-                    @if(isset($out1_c) && $out1_c == "ON")
-                        <dl class="op2c">
-                            <dd class="op1c">
-                                @if(isset($all_now_brand2_jewelry_sorce)){!! $all_now_brand2_jewelry_sorce !!}@endif
-                                @if(isset($all_past_brand2_jewelry_sorce)){!! $all_past_brand2_jewelry_sorce !!}@endif
-                            </dd>
-                        </dl>                                    
-                    @endif
-                @endif
-
-                                                @if(isset($aaa)){!! $aaa !!}@endif
-
-            <!-- ブランド・点数順用 end -->
 
     @endif
 

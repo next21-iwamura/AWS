@@ -805,6 +805,7 @@ box-sizing: border-box;
                             <!-- 検索結果表示 START -->
                                 <div class="search_area">
                                 <!-- 使用方法エリア -->
+                                @if(isset($output) && $output <> 3) 
                                     <div class="method">
                                         <div>
                                                 <div class="btn_bulldown_"><span class="method_btn">補足</span></div>
@@ -838,6 +839,7 @@ box-sizing: border-box;
                                                 </div>
                                         </div>
                                     </div>
+                                    @endif
                                 <!-- グラフ表示切り替えボタン用 -->                            
                                     <script type="text/javascript">
                                             $(function(){
@@ -2253,8 +2255,8 @@ box-sizing: border-box;
 <style type="text/css">
 	.id_container{width:100%; margin:0 auto;}
 	.id_container ul{display:flex;justify-content:space-between;width:100%;border:1px solid #ccc;margin:0 auto;padding:0 0;}
-	.id_container ul li{list-style:none; border-right:1px solid #ccc;box-sizing: border-box;}
-	.id_container li:first-child{width:8%;}
+	.id_container ul li{list-style:none; border-right:1px solid #ccc;box-sizing: border-box;font-size:12px;}
+	.id_container li:first-child{width:9%;}
 	.id_container li:nth-child(2){width:24%;}
 	.id_container li:nth-child(3){width:8%;}
 	.id_container li:nth-child(4){width:12%;}
@@ -2267,7 +2269,7 @@ box-sizing: border-box;
 	.id_container li:nth-child(11){width:6%;}
 	.id_container li:nth-child(12){width:9%;}
 	/* タイトルのみ */
-	.id_container ul:first-child li{text-align:left;padding:2px 0 2px 1em;}
+	.id_container ul:first-child li{text-align:center;padding:2px 0 2px /*1em*/0;}
 	.id_container ul:first-child li:nth-child(11),.id_container ul:first-child li:nth-child(12){background:#ffa500;}
 	.id_container ul:first-child li:not(:nth-child(11)):not(:nth-child(12)){background:#b0c4de;}
 	/* タイトル以外（文字は左寄せ、数字は右寄せ） */

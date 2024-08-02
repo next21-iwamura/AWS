@@ -5875,11 +5875,21 @@ class Analysis2_test_searchController extends Controller
                                                            foreach($all_id_num_array as $key => $val){
                                                                $sorce .= "<ul>";
                                                                ${"info" .$i} = explode("%", $key);
+                                                               
                                                                $ii = 0;
+                                                               $not[$i] = "";
                                                                foreach(${"info" .$i} as $val2){
                                                                    if($ii == 4 && $val2 == ""){
+                                                                    $not[$i] = "ON";
+                                                                   }
+                                                                   $ii++;
+                                                               }
+                                                               $ii = 0;
+                                                               foreach(${"info" .$i} as $val2){
+                                                                   if($not[$i] == "ON" && ($ii == 0 || $ii == 1 || $ii == 2 || $ii == 3 || $ii == 4)){
                                                                         $sorce .= "<li>---</li>";
                                                                    } else {
+                                                                        if(is_numeric($val2)){$val2 = number_format($val2);};
                                                                         $sorce .= "<li>" . $val2 . "</li>";
                                                                    }
                                                                    $ii++;
