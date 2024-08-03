@@ -5889,7 +5889,8 @@ class Analysis2_test_searchController extends Controller
                                                                    if($not[$i] == "ON" && ($ii == 0 || $ii == 1 || $ii == 2 || $ii == 3 || $ii == 4)){
                                                                         $sorce .= "<li>---</li>";
                                                                    } else {
-                                                                        if(is_numeric($val2)){$val2 = number_format($val2);};
+                                                                       // 数字の場合、カンマを入れる（ID以外）
+                                                                        if(is_numeric($val2) && $ii <> 4){$val2 = number_format($val2);};
                                                                         $sorce .= "<li>" . $val2 . "</li>";
                                                                    }
                                                                    $ii++;
