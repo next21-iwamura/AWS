@@ -437,13 +437,15 @@ class KaitorisController extends Controller
                 }
 
             // PC用商品ソースのテンプレート
-                $p_rand = mt_rand(1,5);
+                /*20240809処理が重いので簡単にできる範囲でランダムロジックを外したい
+                $p_rand = mt_rand(1,5);*/
                 $dammy = "";                
-                $dammy_sp = "";                
-                for($p_i = 0; $p_i < $p_rand; $p_i++){
+                $dammy_sp = "";   
+                /*20240809処理が重いので簡単にできる範囲でランダムロジックを外したい
+                20240809for($p_i = 0; $p_i < $p_rand; $p_i++){*/
                     $dammy .= '<p class="' . $class_name1 . "23" . $class_name2 . '">' . $pc_price . "</p>";
                     $dammy_sp .='<div class="' . $class_name1 . "23" . $class_name2 . '"><p class="' . $class_name1 . "14" . $class_name2 . '">' . $sp_price . '</p></div>';
-                }
+                //}
                 $pc_sorce = "<div class='" . $class_name1 . "2" . $class_name2 . " " . $class_name1 . "4" . $class_name2 . "'>";
                 $pc_sorce .= "<p>" .$info1 . "</p>";
                 $pc_sorce .= "<p>". $info2 . "</p>";
@@ -4042,12 +4044,16 @@ class KaitorisController extends Controller
             
             // クラス名をソース出力毎にランダム化する為の変数を作成
                 // mt_randだけだとセットした上限の桁数になる事が多く、クラス名の文字数が固定されやすいので、mt_randにセットする数字の桁数自体をランダムにする事で回避するための記述をする事で対処
+                /* 20240809 処理が重いので簡単にできる範囲でランダムロジックを外したい   
                     $rand = mt_rand(1,9);
                     $rand2 = "%0" . $rand . "d";
                     $rand3 = "9" . sprintf($rand2, "0");
-
-                $class_name1 = chr(mt_rand(97, 122)) . mt_rand(0,$rand3);
-                $class_name2 = chr(mt_rand(97, 122)) . mt_rand(0,$rand3);
+    
+                    $class_name1 = chr(mt_rand(97, 122)) . mt_rand(0,$rand3);
+                    $class_name2 = chr(mt_rand(97, 122)) . mt_rand(0,$rand3);
+                */
+                    $class_name1 = "name1";
+                    $class_name2 = "name2";
                 //echo $class_name1 . "(" . $class_name2 . ")";
 
 

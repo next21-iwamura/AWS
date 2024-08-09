@@ -8,6 +8,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 	<script src="https://sub-jackroad.ssl-lolipop.jp/RMS/tools/op/js/jquery.typist.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>    
+    
+    <link rel="stylesheet" type="text/css" href="https://www.jackroad.co.jp/css/lp/new_k_teigaku.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jackroad.co.jp/css/lp/teigaku_appeal.css">
+    
     <script type="text/javascript">
 		<!--
 				$(function() {
