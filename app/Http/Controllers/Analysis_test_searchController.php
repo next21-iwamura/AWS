@@ -33011,6 +33011,10 @@ class Analysis_test_searchController extends Controller
                                 if($out1 <> "" && in_array('4',$out1)){ $out1_c = "ON";}
                                 if($out1 <> "" && in_array('5',$out1)){ $out1_d = "ON";}
                                 
+                                // 免税は必ず表示
+                                $out1_c = "ON";
+
+                                
                             // 新中アンフラグ
                                 $out2_a = "OFF";
                                 $out2_b = "OFF";
@@ -33495,7 +33499,17 @@ class Analysis_test_searchController extends Controller
                             }
                     })*/
                     // 店舗と通販を取得
-                    ->Where([['baikyakukubun', 1], ['baikyakukubun',2]])
+                    // 「baikyakukubun」が「1」or「2」の場合
+                    ->where(function ($query){
+                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                    })
+                    
+                    
+                    
+                    
+
+                    //->orwhere("baikyakukubun",1)
+                    //->orwhere("baikyakukubun",2)
             // 条件（期間の指定）
                 ->whereBetween($table_name . '.uriage', [$last_day_top, $last_day])
                     
@@ -33841,7 +33855,10 @@ if($out1_c == "ON"){
                         }
                 })*/
                     // 店舗と通販を取得
-                    ->Where([['baikyakukubun', 1], ['baikyakukubun',2]])
+                    // 「baikyakukubun」が「1」or「2」の場合
+                    ->where(function ($query){
+                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                    })
                 
         // 条件（期間の指定）
             ->whereBetween($table_name . '.uriage', [$last_month_top, $last_month])
@@ -34190,7 +34207,10 @@ if($out1_c == "ON"){
                         }
                 })*/
                     // 店舗と通販を取得
-                    ->Where([['baikyakukubun', 1], ['baikyakukubun',2]])
+                    // 「baikyakukubun」が「1」or「2」の場合
+                    ->where(function ($query){
+                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                    })
                 
                 
         // 条件（期間の指定）
@@ -35032,7 +35052,10 @@ if($out1_c == "ON"){
             // 条件（売上部門が卸）
                 //->where('baikyakukubun',3)
                     // 店舗と通販を取得
-                    ->Where([['baikyakukubun', 1], ['baikyakukubun',2]])
+                    // 「baikyakukubun」が「1」or「2」の場合
+                    ->where(function ($query){
+                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                    })
                 
             // 条件（期間の指定）
                 ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
@@ -36371,8 +36394,11 @@ if($out1_c == "ON"){
                                         $query->where('baikyakukubun',3);
                                 }
                         })*/
-                        // 店舗と通販を取得
-                        ->Where([['baikyakukubun', 1], ['baikyakukubun',2]])
+                    // 店舗と通販を取得
+                    // 「baikyakukubun」が「1」or「2」の場合
+                    ->where(function ($query){
+                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                    })
                         
                     // 条件（期間の指定）
                         ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
