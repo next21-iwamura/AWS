@@ -778,10 +778,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">ROLEX<br>買取価格表</p>
                                         <ul class="atention">
@@ -793,17 +793,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -906,8 +906,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -926,8 +926,8 @@ class Kaitori_testsController extends Controller
                                     <p>いますぐ無料査定!!</p>
                                     <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                     </div>
                                     <p>お電話でもお気軽にご相談ください。</p>
                                     <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -1177,7 +1177,7 @@ class Kaitori_testsController extends Controller
                         <div class="satei_img">
                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_line.webp" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
                             <div class="satei_img_box">
-                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1">
+                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc">
                                     <picture>
                                       <source type="image/webp" srcset="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_satei.webp" width="200" height="100">
                                       <img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_satei.png" alt="3ステップ査定" width="200" height="100">
@@ -1185,7 +1185,7 @@ class Kaitori_testsController extends Controller
                                 </a>
                             </div>
                             <div class="satei_img_box">
-                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3">
+                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc">
                                     <picture>
                                       <source type="image/webp" srcset="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_delivery.webp" width="200" height="100">
                                       <img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_delivery.png" alt="宅配買取" width="200" height="100">
@@ -1656,7 +1656,7 @@ class Kaitori_testsController extends Controller
                         <div class="satei_img">
                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_line.webp" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
                             <div class="satei_img_box">
-                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1">
+                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc">
                                     <picture>
                                       <source type="image/webp" srcset="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_satei.webp" width="200" height="100">
                                       <img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_satei.png" alt="3ステップ査定" width="200" height="100">
@@ -1664,7 +1664,7 @@ class Kaitori_testsController extends Controller
                                 </a>
                             </div>
                             <div class="satei_img_box">
-                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3">
+                                <a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc">
                                     <picture>
                                       <source type="image/webp" srcset="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_delivery.webp" width="200" height="100">
                                       <img src="https://www.jackroad.co.jp/img/lp/purchase_record/contents/btn_delivery.png" alt="宅配買取" width="200" height="100">
@@ -1759,10 +1759,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">TAG HEUER<br>買取価格表</p>
                                         <ul class="atention">
@@ -1773,17 +1773,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -1885,8 +1885,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -1903,8 +1903,8 @@ class Kaitori_testsController extends Controller
                                 <p>いますぐ無料査定!!</p>
                                 <div class="satei_img">
                                 <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                 </div>
                                 <p>お電話でもお気軽にご相談ください。</p>
                                 <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2013,10 +2013,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">OMEGA<br>買取価格表</p>
                                         <ul class="atention">
@@ -2027,17 +2027,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2140,8 +2140,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2158,8 +2158,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2269,10 +2269,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">IWC<br>買取価格表</p>
                                         <ul class="atention">
@@ -2283,17 +2283,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2396,8 +2396,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2414,8 +2414,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2523,10 +2523,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">SEIKO<br>買取価格表</p>
                                         <ul class="atention">
@@ -2537,17 +2537,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2648,8 +2648,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2666,8 +2666,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2776,10 +2776,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">BREITLING<br>買取価格表</p>
                                         <ul class="atention">
@@ -2790,17 +2790,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2902,8 +2902,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -2920,8 +2920,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3030,10 +3030,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">PANERAI<br>買取価格表</p>
                                         <ul class="atention">
@@ -3044,17 +3044,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3156,8 +3156,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3174,8 +3174,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3282,10 +3282,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">CARTIER<br>買取価格表</p>
                                         <ul class="atention">
@@ -3296,17 +3296,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3408,8 +3408,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3426,8 +3426,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3538,8 +3538,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3556,8 +3556,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3668,8 +3668,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3686,8 +3686,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3721,6 +3721,7 @@ class Kaitori_testsController extends Controller
                 $brand_color = "dc143c";
                 $brand_color2 = "f0ffff";
                 $brand_title = "オーデマ ピゲ買取ページ・";
+
                 /*$brand_header='<div class="kaitori_view">
 
                                     <div class="ta-l">
@@ -3797,10 +3798,10 @@ class Kaitori_testsController extends Controller
                                             <p class="sp">詳しくは買取価格表・カンタン査定からご確認下さい。</p>
                                         </div>
                                         <div class="btn_area2 bgc-blue">
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                            <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                         </div>													
                                         <p class="other_brand_title">AUDEMARS PIGUET<br>買取価格表</p>
                                         <ul class="atention">
@@ -3811,17 +3812,17 @@ class Kaitori_testsController extends Controller
                                         <div>
                 ';
                 $brand_footer='				<div class="btn_area">
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
-                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="pc"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_satei_sp.png" alt="簡単査定を申し込む" width="305" height="75"></a></p>
+                                                <p class="sp"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/kaitori/btn_delivery_sp.png" alt="宅配査定を申し込む" width="305" height="75"></a></p>
                                             </div>
                                             <div id="satei_area">
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3923,8 +3924,8 @@ class Kaitori_testsController extends Controller
                                         <p>いますぐ無料査定!!</p>
                                         <div class="satei_img">
                                         <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                        <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                         </div>
                                         <p>お電話でもお気軽にご相談ください。</p>
                                         <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -3941,8 +3942,8 @@ class Kaitori_testsController extends Controller
                                             <p>いますぐ無料査定!!</p>
                                             <div class="satei_img">
                                             <!--<div class="satei_img_box"><a href="#"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_line.png" width="200" height="100" alt="LINE査定" loading="eager"></a></div>-->
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link1"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
-                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#link3"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink1_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_satei.png" width="200" height="100" alt="3ステップ査定" loading="eager"></a></div>
+                                            <div class="satei_img_box"><a href="https://www.jackroad.co.jp/shop/pages/j_brand_watch01.aspx#ilink2_pc"><img src="https://www.jackroad.co.jp/img/lp/purchase_record/btn_delivery.png" width="200" height="100" alt="宅配買取" loading="eager"></a></div>
                                             </div>
                                             <p>お電話でもお気軽にご相談ください。</p>
                                             <p><a href="tel:0333869399">03-3386-9399</a></p>
@@ -4029,11 +4030,24 @@ class Kaitori_testsController extends Controller
                 </script>";
             $sp_header = "\n" . '<div class="sp sp_title sticky">モデル / 文字盤色 / 品番</div><div class="info_area sp"><div class="update">[ 最終更新日：' . date('Y / m / d') . ' ]</div><div class="other"><a href="#other">▼ 他ブランドの買取価格表はこちら ▼</a></div></div><span id="sp_m_top" class="mens_link"></span><div class="mens_title">メンズ</div>';
 
+
+            // 20240811 ブラウザがエッジの場合、以下の部分で、$brand_headerなどの変数が存在しないエラーになるため各変数の有無によるロジックを追記 → エッジはブラウザの文字コードの問題と思われる。出力するとタイトルのみ出力されて、それも文字化けしているので、参照ファイルを正しく読み込めずに変数自体を作成できない事が原因だと思われる。対応しない。
+            if(empty($brand_header)){$brand_header = "";}
+            if(empty($complate)){$complate = "";}
+            if(empty($brand_color)){$brand_color = "";}
+            if(empty($brand_color2)){$brand_color2 = "";}
+            if(empty($brand_title)){$brand_title = "";}
+            if(empty($brand_header)){$brand_header = "";}
+            if(empty($brand_footer)){$brand_footer = "";}
+            if(empty($js_area)){$js_area = "";}
+            if(empty($sp_header)){$sp_header = "";}
+
             $brand_header = $brand_header . '<div class="info_area pc"><div class="update">[ 最終更新日：' . date('Y / m / d') . ' ]</div><div class="other"><a href="#other">▼ 他ブランドの買取価格表はこちら </a></div></div>';
             
             $temp_html = $brand_header;
 
             $source = array('complate' => $complate,'brand_color' => $brand_color,'brand_color2' => $brand_color2,'brand_title' => $brand_title,'brand_header' => $brand_header,'brand_footer' => $brand_footer,'js_area' => $js_area,'sp_header' => $sp_header);
+
             return $source;
         }
 
