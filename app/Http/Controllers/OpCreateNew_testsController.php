@@ -5945,11 +5945,14 @@ class OpCreateNew_testsController extends Controller
                                 $img10_add = "kelly_32_illust.jpg";
                             } else if($brand[$i] == "エルメス" && $category[$i] == "ケリー" && strpos($model[$i], 'ミニケリー2' ) !== false  ){
                                 $img10_add = "minikelly_2_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'PM' ) !== false  ){
+                            //20240817名称変更} else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'PM' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタン" && strpos($model[$i], 'PM' ) !== false  ){
                                 $img10_add = "picotinlock_pm_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'MM' ) !== false  ){
+                            //20240817名称変更} else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'MM' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタン" && strpos($model[$i], 'MM' ) !== false  ){
                                 $img10_add = "picotinlock_mm_illust.jpg";
-                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'GM' ) !== false  ){
+                            //20240817名称変更} else if($brand[$i] == "エルメス" && $category[$i] == "ピコタンロック" && strpos($model[$i], 'GM' ) !== false  ){
+                            } else if($brand[$i] == "エルメス" && $category[$i] == "ピコタン" && strpos($model[$i], 'GM' ) !== false  ){
                                 $img10_add = "picotinlock_gm_illust.jpg";
                             } else if($brand[$i] == "エルメス" && $category[$i] == "ガーデンパーティー" && strpos($model[$i], 'TPM' ) !== false  ){
                                 $img10_add = "gardenparty_tpm_illust.jpg";
@@ -8048,51 +8051,63 @@ class OpCreateNew_testsController extends Controller
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhemc" || $var[${"info0_" . $goods[$i]}] == "bbhemc"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "レッド" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "レッド" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "レッド" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepird" || $var[${"info0_" . $goods[$i]}] == "bbhepird"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ホワイト" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ホワイト" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ホワイト" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepiwt" || $var[${"info0_" . $goods[$i]}] == "bbhepiwt"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ベージュ" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ベージュ" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ベージュ" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepibg" || $var[${"info0_" . $goods[$i]}] == "bbhepibg"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ブルー" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ブルー" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ブルー" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepibl" || $var[${"info0_" . $goods[$i]}] == "bbhepibl"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ブラック" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ブラック" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ブラック" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepibk" || $var[${"info0_" . $goods[$i]}] == "bbhepibk"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ブラウン" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ブラウン" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ブラウン" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepibw" || $var[${"info0_" . $goods[$i]}] == "bbhepibw"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ピンク" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ピンク" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ピンク" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepipk" || $var[${"info0_" . $goods[$i]}] == "bbhepipk"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "ネイビー" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "ネイビー" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "ネイビー" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepinb" || $var[${"info0_" . $goods[$i]}] == "bbhepinb"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "グレー" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "グレー" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "グレー" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepigy" || $var[${"info0_" . $goods[$i]}] == "bbhepigy"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "グリーン" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "グリーン" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "グリーン" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepigr" || $var[${"info0_" . $goods[$i]}] == "bbhepigr"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "オレンジ" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "オレンジ" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "オレンジ" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepior" || $var[${"info0_" . $goods[$i]}] == "bbhepior"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($bag_color[$i] == "イエロー" && $category[$i] == "ピコタンロック"){
+                                                                                    //20240817名称変更} else if($bag_color[$i] == "イエロー" && $category[$i] == "ピコタンロック"){
+                                                                                    } else if($bag_color[$i] == "イエロー" && $category[$i] == "ピコタン"){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepiye" || $var[${"info0_" . $goods[$i]}] == "bbhepiye"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
@@ -8164,15 +8179,18 @@ class OpCreateNew_testsController extends Controller
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbheke28" || $var[${"info0_" . $goods[$i]}] == "bbheke28"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'PM' ) !== false){
+                                                                                    //20240817名称変更} else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'PM' ) !== false){
+                                                                                    } else if($category[$i] == "ピコタン" && strpos( $genre_c_model[$i], 'PM' ) !== false){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepipm" || $var[${"info0_" . $goods[$i]}] == "bbhepipm"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'MM' ) !== false){
+                                                                                    //20240817名称変更} else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'MM' ) !== false){
+                                                                                    } else if($category[$i] == "ピコタン" && strpos( $genre_c_model[$i], 'MM' ) !== false){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepimm" || $var[${"info0_" . $goods[$i]}] == "bbhepimm"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                    } else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'GM' ) !== false){
+                                                                                    //20240817名称変更} else if($category[$i] == "ピコタンロック" && strpos( $genre_c_model[$i], 'GM' ) !== false){
+                                                                                    } else if($category[$i] == "ピコタン" && strpos( $genre_c_model[$i], 'GM' ) !== false){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhepigm" || $var[${"info0_" . $goods[$i]}] == "bbhepigm"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
@@ -8194,6 +8212,11 @@ class OpCreateNew_testsController extends Controller
                                                                                         }
                                                                                     } else if($category[$i] == "ボリード" && (strpos( $genre_c_model[$i], 'ボリード45' ) !== false || strpos( $genre_c_model[$i], 'ボリードリラックス45' ) !== false)){
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbhebo45" || $var[${"info0_" . $goods[$i]}] == "bbhebo45"){
+                                                                                            $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                        }
+                                                                                    // 20240817
+                                                                                    } else if($category[$i] == "ケリー" && (strpos( $genre_c_model[$i], 'ケリー トゥー・ゴー' ) !== false || strpos( $genre_c_model[$i], 'ケリートゥーゴー' ) !== false)){
+                                                                                        if($var[${"info0_" . $goods[$i]}] == "jbheke29" || $var[${"info0_" . $goods[$i]}] == "bbheke29"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
                                                                                     }
@@ -8297,8 +8320,9 @@ class OpCreateNew_testsController extends Controller
                                                                                         $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                     }
                                                                                 }
-                                                                                if(strpos( $genre_c_model[$i], 'ピコタン' ) !== false && $genre_name_preg[$i] == "ピコタンロック" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
-                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                //20240817名称変更if(strpos( $genre_c_model[$i], 'ピコタン' ) !== false && $genre_name_preg[$i] == "ピコタンロック" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                if(strpos( $genre_c_model[$i], 'ピコタン' ) !== false && $genre_name_preg[$i] == "ピコタン" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
                                                                                 if(strpos( $genre_c_model[$i], 'ボリード' ) !== false && $genre_name_preg[$i] == "ボリード" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
@@ -8335,7 +8359,7 @@ class OpCreateNew_testsController extends Controller
 
 
 
-                                                                                // 20210415 「バーキン、ケリー、ピコタンロック、ボリード、ガーデンパーティー、エヴリン」以外は「その他 バッグ」を取得（※「ツイリー」「チャーム」は関係ないがバッグではないのでこれら以外というロジックも成り立つ）
+                                                                                // 20210415 「バーキン、ケリー、ピコタン、ボリード、ガーデンパーティー、エヴリン」以外は「その他 バッグ」を取得（※「ツイリー」「チャーム」は関係ないがバッグではないのでこれら以外というロジックも成り立つ）
                                                                                 /* 20211120 「その他 バッグ」を拾う為のロジックを撤去
                                                                                 if(
                                                                                 strpos( $genre_c_model[$i], 'バーキン' ) === false && 
@@ -8430,7 +8454,7 @@ class OpCreateNew_testsController extends Controller
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbvlx4" || $var[${"info0_" . $goods[$i]}] == "bbvlx4"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                }
+                                                                                }$jewelry_type[$i] = "小物";
 
                                                                             // 20210401 ブランド専用の「財布」or「小物」ジャンルを取得
                                                                                 if($genre_brand[$i] == "シャネル"){
@@ -8466,6 +8490,12 @@ class OpCreateNew_testsController extends Controller
                                                                                         $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                     }
                                                                                 }
+
+                                                                                // 20240817
+                                                                                if($genre_brand[$i] == "エルメス" && $category[$i] == "リンディ" && $genre_name_preg[$i] == "リンディ" && strpos( $jewelry_type[$i], '小物' ) !== false){ 
+                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                }
+
                                                                     
 
                                                                             // ブランドがジャンルに存在するかのフラグ（このフラグがあれば「その他」には入らない）
@@ -10419,7 +10449,9 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                         } else if($genre_brand[$i] == "フランク ミュラー"){
 
                                                             // 20210324 if($category[$i] == "ラウンド" && $genre_class[$i] == "新品"){
-                                                            if(($category[$i] == "ラウンド" || $category[$i] == "カサブランカ") && $genre_class[$i] == "新品"){
+                                                            // 20240813 if(($category[$i] == "ラウンド" || $category[$i] == "カサブランカ") && $genre_class[$i] == "新品"){
+                                                            if(($category[$i] == "ラウンド" || $category[$i] == "カサブランカ" || $category[$i] == "マスタースクエア") && $genre_class[$i] == "新品"){
+                                                                
                                                                     $genre_c_name[$i] = "フランク ミュラー その他";
 
                                                             // 新中 フランク ミュラー その他
@@ -12016,7 +12048,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
 
                                         // ブランドが「チューダー(チュードル)」で、カテゴリが「プリンス」や「1926」や「クレア ドゥ ローズ」や「スタイル」の新品の場合、「チューダー(チュードル) その他」も取得する為
                                         //20240705if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926" || $category[$i] == "クレア ドゥ ローズ") && $genre_class[$i] == "新品"){
-                                        if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926") && $genre_class[$i] == "新品"){
+                                        // 20240813 if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "スタイル" || $category[$i] == "1926") && $genre_class[$i] == "新品"){
+                                        if($genre_brand[$i] == "チューダー(チュードル)" && ($category[$i] == "プリンス" || $category[$i] == "1926") && $genre_class[$i] == "新品"){
 
                                             $genre_m_name[$i] = "チューダー(チュードル) その他";
                                             $jack_only[$i] = "ON";
