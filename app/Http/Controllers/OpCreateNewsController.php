@@ -8454,7 +8454,7 @@ class OpCreateNewsController extends Controller
                                                                                         if($var[${"info0_" . $goods[$i]}] == "jbvlx4" || $var[${"info0_" . $goods[$i]}] == "bbvlx4"){
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
-                                                                                }$jewelry_type[$i] = "小物";
+                                                                                }
 
                                                                             // 20210401 ブランド専用の「財布」or「小物」ジャンルを取得
                                                                                 if($genre_brand[$i] == "シャネル"){
@@ -8492,7 +8492,7 @@ class OpCreateNewsController extends Controller
                                                                                 }
 
                                                                                 // 20240817
-                                                                                if($genre_brand[$i] == "エルメス" && $category[$i] == "リンディ" && $genre_name_preg[$i] == "リンディ" && strpos( $jewelry_type[$i], '小物' ) !== false){ 
+                                                                                if($genre_brand[$i] == "エルメス" && $category[$i] == "リンディ" && $genre_name_preg[$i] == "リンディ"){ 
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
 
