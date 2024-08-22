@@ -635,11 +635,12 @@ box-sizing: border-box;
                                                 <option value="3" @if(isset($output) && $output == 3) selected @elseif (empty($output) && $output == 3) selected @endif>[売上]通販区分</option>
                                                 <option value="5" @if(isset($output) && $output == 5) selected @elseif (empty($output) && $output == 5) selected @endif>[売上]扱い部門</option>
                                                 <option value="6" @if(isset($output) && $output == 6) selected @elseif (empty($output) && $output == 6) selected @endif>[売上]ブランド</option>
+                                                <option value="7" @if(isset($output) && $output == 7) selected @elseif (empty($output) && $output == 7) selected @endif>[売上]免税区分</option>
                                             </select>
                                         </div>
                                         <p class="ta_c"><button type="submit" id="form_view" name="form_view" value="フォームの表示"><span>フォームの表示</span></button></p>
                                        
-                                        @if(isset($output) && ($output == 2 || $output == 3 || $output == 5 || $output == 6))
+                                        @if(isset($output) && ($output == 2 || $output == 3 || $output == 5 || $output == 6 || $output == 7))
                                         <p class="sub_title"><span>出力期間の選択</span></p>
                                         <div class="period_box">
                                         開始：<select name="start_year" class="period_select">
@@ -807,6 +808,74 @@ box-sizing: border-box;
                                                 <p class="ta_c"><button type="submit" id="search" name="search" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
                                             </div>
                                     @endif
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                <!-- [売上]免税区分別用 -->
+                                    @if(isset($output) && $output == 7)
+                                            <div class="ta_c">
+                                                <p class="sub_title">売却区分</p>
+                                                <!--<input type="checkbox" name="out1[]" value="1">売却区分で出力する<br>-->
+                                                <input type="checkbox" name="out1[]" value="2" checked="checked" disabled="disabled">店舗
+                                                <input type="hidden" name="out1[]" value="2">
+                                                <input type="checkbox" name="out1[]" value="3" checked="checked" disabled="disabled">通販
+                                                <input type="hidden" name="out1[]" value="3">
+                                                <!--<input type="checkbox" name="out1[]" value="4" @if($out1_c <> "OFF") checked @endif>卸
+                                                <br>
+                                                <input type="checkbox" name="out1[]" value="5" @if($out1_d <> "OFF") checked @endif>卸に空白を含める-->
+                                                <p class="sub_title">商品区分</p>
+                                                <input type="checkbox" name="out2[]" value="1" @if(isset($out2_a) && $out2_a <> "OFF") checked @elseif (empty($out2_a)) checked @endif>新品
+                                                <input type="checkbox" name="out2[]" value="2" @if(isset($out2_b) && $out2_b <> "OFF") checked @elseif (empty($out2_b)) checked @endif>中古
+                                                <input type="checkbox" name="out2[]" value="3" @if(isset($out2_c) && $out2_c <> "OFF") checked @elseif (empty($out2_c)) checked @endif>アンティーク<br>
+                                                <input type="checkbox" name="out2[]" value="4" @if(isset($out2_d) && $out2_d <> "OFF") checked @endif>その他
+                                                <input type="checkbox" name="out2[]" value="5" @if(isset($out2_e) && $out2_e <> "OFF") checked @endif>修理
+                                                <p class="sub_title">通販区分</p>
+                                                <input type="checkbox" name="out3[]" value="1" @if(isset($out3_a) && $out3_a <> "OFF") checked @elseif (empty($out3_a)) checked @endif>自社
+                                                <input type="checkbox" name="out3[]" value="2" @if(isset($out3_b) && $out3_b <> "OFF") checked @elseif (empty($out3_b)) checked @endif>楽天
+                                                <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @elseif (empty($out3_c)) checked @endif>ヤフー<br>
+                                                <input type="checkbox" name="out3[]" value="4" @if(isset($out3_d) && $out3_d <> "OFF") checked @elseif (empty($out3_d)) checked @endif>電話・雑誌
+                                                <input type="checkbox" name="out3[]" value="5" @if(isset($out3_e) && $out3_e <> "OFF") checked @elseif (empty($out3_e)) checked @endif>Yオークション<br>
+                                                <input type="checkbox" name="out3[]" value="6" @if(isset($out3_f) && $out3_f <> "OFF") checked @elseif (empty($out3_f)) checked @endif>修理品返送
+                                                <!--<p class="sub_title">免税区分</p>
+                                                <input type="checkbox" name="out4[]" value="1" @if(isset($out4_a) && $out4_a <> "OFF") checked @elseif (empty($out4_a)) checked @endif>対象外
+                                                <input type="checkbox" name="out4[]" value="2" @if(isset($out4_b) && $out4_b <> "OFF") checked @elseif (empty($out4_b)) checked @endif>免税-->
+                                                <p class="sub_title">扱い部門</p>
+                                                <input type="checkbox" name="out5[]" value="2" @if(isset($out5_a) && $out5_a <> "OFF") checked @elseif (empty($out5_a)) checked @endif>Jack
+                                                <input type="checkbox" name="out5[]" value="3" @if(isset($out5_b) && $out5_b <> "OFF") checked @elseif (empty($out5_b)) checked @endif>Betty
+                                                <input type="checkbox" name="out5[]" value="4" @if(isset($out5_c) && $out5_c <> "OFF") checked @elseif (empty($out5_c)) checked @endif>Jewelry
+                                                <p class="sub_title">進捗の表示</p>
+                                                <input type="radio" name="out6" value="ON" @if(isset($out6) && $out6 == "ON") checked @elseif (empty($out6)) checked @endif>表示する
+                                                <input type="radio" name="out6" value="OFF" @if(isset($out6) && $out6 == "OFF") checked @endif>表示しない
+                                                <p class="ta_c"><button type="submit" id="search6" name="search6" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
+                                            </div>
+                                    @endif
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
                                 <!-- [売上]通販区分用 -->
                                     @if(isset($output) && $output == 3)
                                             <div class="ta_c">
@@ -4261,6 +4330,475 @@ box-sizing: border-box;
 
     @endif
 <!-- 全ブランド用 end -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- [売上]免税区分用 -->
+@if(isset($output) && $output == 7 && isset($search) && $search == "ON")  
+<div class="" style="width:100%;">
+                                            <div class="ul" style="width:100%;margin-bottom:2em;">
+                                                <input type="button" class= "brand_btn1 btn1" value="金額・推移表示" style= "background:#000000; color:#ffffff; width:30%;">
+                                                <input type="button" class= "brand_btn2 btn2" value="点数・推移表示" style= "width:30%;">
+                                                <input type="button" class= "brand_btn3 btn3" value="粗利・推移表示" style= "width:30%;">
+                                                <input type="button" class= "brand_btn4 btn4" value="金額構成比・推移表示" style= "width:30%;">
+                                                <input type="button" class= "brand_btn5 btn5" value="点数構成比・推移表示" style= "width:30%;">
+                                                <input type="button" class= "brand_btn6 btn6" value="粗利率・推移表示" style= "width:30%;">
+
+                        <!-- 上記ボタンを押すと以下のvalue内容が変わる。その内容でどの部門表示用ボタンを押したかを判断する -->
+                            <input type="text" class="view_select" style="display:none;" name="view_select" value="">
+                                <script type="text/javascript">
+                                    $(".brand_btn1").on("click", function (e) {
+                                        $('.view_select').val('view1');
+                                    });
+                                    $(".brand_btn2").on("click", function (e) {
+                                        $('.view_select').val('view2');
+                                    });
+                                    $(".brand_btn3").on("click", function (e) {
+                                        $('.view_select').val('view3');
+                                    });
+                                    $(".brand_btn4").on("click", function (e) {
+                                        $('.view_select').val('view4');
+                                    });
+                                    $(".brand_btn5").on("click", function (e) {
+                                        $('.view_select').val('view5');
+                                    });
+                                    $(".brand_btn6").on("click", function (e) {
+                                        $('.view_select').val('view6');
+                                    });
+                                </script>
+                                                
+                                            </div>
+
+                                            <div style="width:100%;" class="chart1 section">
+                                                <canvas id="mychart"></canvas>
+                                            </div>
+                                            <div style="width:100%;display:none;" class="chart2 section">
+                                                <canvas id="mychart2"></canvas>
+                                            </div>
+                                            <div style="width:100%;display:none;" class="chart3 section">
+                                                <canvas id="mychart3"></canvas>
+                                            </div>
+                                            <div style="width:100%;display:none;" class="chart4 section">
+                                                <canvas id="mychart4"></canvas>
+                                            </div>
+                                            <div style="width:100%;display:none;" class="chart5 section">
+                                                <canvas id="mychart5"></canvas>
+                                            </div>
+                                            <div style="width:100%;display:none;" class="chart6 section">
+                                                <canvas id="mychart6"></canvas>
+                                            </div>
+
+
+                                           <!-- <div class="chart1 section">
+                                                <canvas id="mychart"></canvas>
+                                            </div>
+                                            <div class="chart2 section">
+                                                <canvas id="mychart2"></canvas>
+                                            </div>
+                                            <div class="chart3 section">
+                                                <canvas id="mychart3"></canvas>
+                                            </div>-->
+
+
+                                            
+                                            <script>
+                                                var ctx = document.getElementById('mychart');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)',
+                                                    data: [@if(isset($js_shop_uriage)){!! $js_shop_uriage !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($js_web_uriage))    
+                                                    }, {
+                                                    label: '通販(免税外)',
+                                                    data: [{!! $js_web_uriage !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($js_oroshi_uriage))
+                                                    }, {
+                                                    label: '店舗・通販(免税)',
+                                                    data: [{!! $js_oroshi_uriage !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_js_shop_uriage))
+                                                    }, {
+                                                    label: '店舗(免税外)(過去)',
+                                                    data: [{!! $past_js_shop_uriage !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_js_web_uriage))
+                                                    }, {
+                                                    label: '通販(免税外)(過去)',
+                                                    data: [{!! $past_js_web_uriage !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_js_oroshi_uriage))
+                                                    }, {
+                                                    label: '店舗・通販(免税)(過去)',
+                                                    data: [{!! $past_js_oroshi_uriage !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }, {
+                                                    type: 'bar',
+                                                    label: '過去合計',
+                                                    data: [@if(isset($js_past_all_month_uriage)){!! $js_past_all_month_uriage !!}@endif],
+                                                    backgroundColor: "#dcdcdc",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }, {
+                                                    type: 'bar',
+                                                    label: '合計',
+                                                    data: [@if(isset($js_all_month_uriage)){!! $js_all_month_uriage !!}@endif],
+                                                    backgroundColor: "#a9a9a9",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+
+                                                var ctx = document.getElementById('mychart2');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)',
+                                                    data: [@if(isset($js_shop_number)){!! $js_shop_number !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($js_web_number))    
+                                                    }, {
+                                                    label: '通販(免税外)',
+                                                    data: [{!! $js_web_number !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($js_oroshi_number))
+                                                    }, {
+                                                    label: '店舗・通販(免税)',
+                                                    data: [{!! $js_oroshi_number !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_js_shop_number))
+                                                    }, {
+                                                    label: '店舗(免税外)(過去)',
+                                                    data: [{!! $past_js_shop_number !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_js_web_number))
+                                                    }, {
+                                                    label: '通販(免税外)(過去)',
+                                                    data: [{!! $past_js_web_number !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_js_oroshi_number))
+                                                    }, {
+                                                    label: '店舗・通販(免税)(過去)',
+                                                    data: [{!! $past_js_oroshi_number !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }, {
+                                                    type: 'bar',
+                                                    label: '過去合計',
+                                                    data: [@if(isset($js_past_all_month_number)){!! $js_past_all_month_number !!}@endif],
+                                                    backgroundColor: "#dcdcdc",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }, {
+                                                    type: 'bar',
+                                                    label: '合計',
+                                                    data: [@if(isset($js_all_month_number)){!! $js_all_month_number !!}@endif],
+                                                    backgroundColor: "#a9a9a9",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+
+                                                var ctx = document.getElementById('mychart3');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)',
+                                                    data: [@if(isset($js_shop_arari)){!! $js_shop_arari !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($js_web_arari))    
+                                                    }, {
+                                                    label: '通販(免税外)',
+                                                    data: [{!! $js_web_arari !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($js_oroshi_arari))
+                                                    }, {
+                                                    label: '店舗・通販(免税)',
+                                                    data: [{!! $js_oroshi_arari !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_js_shop_arari))
+                                                    }, {
+                                                    label: '店舗(免税外)(過去)',
+                                                    data: [{!! $past_js_shop_arari !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_js_web_arari))
+                                                    }, {
+                                                    label: '通販(免税外)(過去)',
+                                                    data: [{!! $past_js_web_arari !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_js_oroshi_arari))
+                                                    }, {
+                                                    label: '店舗・通販(免税)(過去)',
+                                                    data: [{!! $past_js_oroshi_arari !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }, {
+                                                    type: 'bar',
+                                                    label: '過去合計',
+                                                    data: [@if(isset($js_past_all_month_arari)){!! $js_past_all_month_arari !!}@endif],
+                                                    backgroundColor: "#dcdcdc",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }, {
+                                                    type: 'bar',
+                                                    label: '合計',
+                                                    data: [@if(isset($js_all_month_arari)){!! $js_all_month_arari !!}@endif],
+                                                    backgroundColor: "#a9a9a9",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+                                                var ctx = document.getElementById('mychart4');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)・金額構成比',
+                                                    data: [@if(isset($shop_total_js2)){!! $shop_total_js2 !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($web_total_js2))    
+                                                    }, {
+                                                    label: '通販(免税外)・金額構成比',
+                                                    data: [{!! $web_total_js2 !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($oroshi_total_js2))
+                                                    }, {
+                                                    label: '店舗・通販(免税)・金額構成比',
+                                                    data: [{!! $oroshi_total_js2 !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_shop_total_js2))
+                                                    }, {
+                                                    label: '店舗(免税外)・金額構成比(過去)',
+                                                    data: [{!! $past_shop_total_js2 !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_web_total_js2))
+                                                    }, {
+                                                    label: '通販(免税外)・金額構成比(過去)',
+                                                    data: [{!! $past_web_total_js2 !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_oroshi_total_js2))
+                                                    }, {
+                                                    label: '店舗・通販(免税)・金額構成比(過去)',
+                                                    data: [{!! $past_oroshi_total_js2 !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+                                                var ctx = document.getElementById('mychart5');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)・点数構成比',
+                                                    data: [@if(isset($shop_total_js3)){!! $shop_total_js3 !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($web_total_js3))    
+                                                    }, {
+                                                    label: '通販(免税外)・点数構成比',
+                                                    data: [{!! $web_total_js3 !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($oroshi_total_js3))
+                                                    }, {
+                                                    label: '店舗・通販(免税)・点数構成比',
+                                                    data: [{!! $oroshi_total_js3 !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_shop_total_js3))
+                                                    }, {
+                                                    label: '店舗(免税外)・点数構成比(過去)',
+                                                    data: [{!! $past_shop_total_js3 !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_web_total_js3))
+                                                    }, {
+                                                    label: '通販(免税外)・点数構成比(過去)',
+                                                    data: [{!! $past_web_total_js3 !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_oroshi_total_js3))
+                                                    }, {
+                                                    label: '店舗・通販(免税)(免税外)・点数構成比(過去)',
+                                                    data: [{!! $past_oroshi_total_js3 !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+
+
+                                                var ctx = document.getElementById('mychart6');
+                                                var myChart = new Chart(ctx, {
+                                                type: 'line',
+                                                data: {
+                                                    labels: [@if(isset($js_month)){!! $js_month !!}@endif],
+                                                    datasets: [{
+                                                    label: '店舗(免税外)・粗利率',
+                                                    data: [@if(isset($shop_total_js)){!! $shop_total_js !!}@endif],
+                                                    borderColor: '#c53d43',
+                                                @if(isset($web_total_js))    
+                                                    }, {
+                                                    label: '通販(免税外)・粗利率',
+                                                    data: [{!! $web_total_js !!}],
+                                                    borderColor: '#007bbb',
+                                                @endif      
+                                                @if(isset($oroshi_total_js))
+                                                    }, {
+                                                    label: '店舗・通販(免税)・粗利率',
+                                                    data: [{!! $oroshi_total_js !!}],
+                                                    borderColor: '#006e54',
+                                                @endif
+                                                @if(isset($past_shop_total_js))
+                                                    }, {
+                                                    label: '店舗(免税外)・粗利率(過去)',
+                                                    data: [{!! $past_shop_total_js !!}],
+                                                    borderColor: '#e198b4',
+                                                @endif
+                                                @if(isset($past_web_total_js))
+                                                    }, {
+                                                    label: '通販(免税外)・粗利率(過去)',
+                                                    data: [{!! $past_web_total_js !!}],
+                                                    borderColor: '#bbc8e6',
+                                                @endif
+                                                @if(isset($past_oroshi_total_js))
+                                                    }, {
+                                                    label: '店舗・通販(免税)・粗利率(過去)',
+                                                    data: [{!! $past_oroshi_total_js !!}],
+                                                    borderColor: '#a2d7dd',
+                                                @endif
+                                                    }, {
+                                                    type: 'bar',
+                                                    label: '粗利率合計(過去)',
+                                                    data: [@if(isset($past_all_arari_total)){!! $past_all_arari_total !!}@endif],
+                                                    backgroundColor: "#dcdcdc",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }, {
+                                                    type: 'bar',
+                                                    label: '粗利率合計',
+                                                    data: [@if(isset($all_arari_total)){!! $all_arari_total !!}@endif],
+                                                    backgroundColor: "#a9a9a9",
+                                                    borderColor: "rgb(255, 99, 132, 0.5)",
+                                                    yAxisID: "temperatureChart",
+                                                }],
+                                                },
+                                                options: {
+                                                    /*y: {
+                                                    min: 3000000,
+                                                    max: 1800000000,
+                                                    },*/
+                                                },
+                                                });
+
+
+                                            </script>
+
+                                <!-- グラフの表示 -->
+                                    <div class="op2a">
+                                        <dd class="op1a">
+                                            @if(isset($temp1_all_sorce)){!! $temp1_all_sorce !!}@endif
+                                            @if(isset($uriage_progress_html)){!! $uriage_progress_html !!}@endif
+                                            @if(isset($temp1_all_sorce2)){!! $temp1_all_sorce2 !!}@endif
+                                            @if(isset($number_progress_html)){!! $number_progress_html !!}@endif
+                                            @if(isset($temp1_all_sorce3)){!! $temp1_all_sorce3 !!}@endif
+                                            @if(isset($arari_progress_html)){!! $arari_progress_html !!}@endif
+                                            @if(isset($temp1_all_sorce4)){!! $temp1_all_sorce4 !!}@endif
+                                            @if(isset($temp1_all_sorce5)){!! $temp1_all_sorce5 !!}@endif
+                                            @if(isset($temp1_all_sorce6)){!! $temp1_all_sorce6 !!}@endif
+                                            @if(isset($temp1_all_sorce7)){!! $temp1_all_sorce7 !!}@endif
+                                            @if(isset($temp1_all_sorce8)){!! $temp1_all_sorce8 !!}@endif
+                                            @if(isset($temp1_all_sorce9)){!! $temp1_all_sorce9 !!}@endif
+                                            @if(isset($temp1_all_sorce10)){!! $temp1_all_sorce10 !!}@endif
+                                        </dd>
+                                    </div>                                    
+                                    <div class="op2a">
+                                        <dd class="op1a">
+                                            @if(isset($past_temp1_all_sorce)){!! $past_temp1_all_sorce !!}@endif
+                                            @if(isset($past_temp1_all_sorce2)){!! $past_temp1_all_sorce2 !!}@endif
+                                            @if(isset($past_temp1_all_sorce3)){!! $past_temp1_all_sorce3 !!}@endif
+                                            @if(isset($past_temp1_all_sorce4)){!! $past_temp1_all_sorce4 !!}@endif
+                                            @if(isset($past_temp1_all_sorce5)){!! $past_temp1_all_sorce5 !!}@endif
+                                            @if(isset($past_temp1_all_sorce6)){!! $past_temp1_all_sorce6 !!}@endif
+                                        </dd>
+                                    </div>                                    
+
+
+
+
+                                    </div>
+                                    
+
+@endif
                                 </div>
                             <!-- 検索結果表示 END -->
 

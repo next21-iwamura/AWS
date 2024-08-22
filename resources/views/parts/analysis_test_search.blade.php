@@ -4417,36 +4417,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
+                                                    label: '店舗(免税外)',
                                                     data: [@if(isset($js_shop_uriage)){!! $js_shop_uriage !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($js_web_uriage))    
                                                     }, {
-                                                    label: '通販',
+                                                    label: '通販(免税外)',
                                                     data: [{!! $js_web_uriage !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($js_oroshi_uriage))
                                                     }, {
-                                                    label: '卸',
+                                                    label: '店舗・通販(免税)',
                                                     data: [{!! $js_oroshi_uriage !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_js_shop_uriage))
                                                     }, {
-                                                    label: '店舗(過去)',
+                                                    label: '店舗(免税外)(過去)',
                                                     data: [{!! $past_js_shop_uriage !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_js_web_uriage))
                                                     }, {
-                                                    label: '通販(過去)',
+                                                    label: '通販(免税外)(過去)',
                                                     data: [{!! $past_js_web_uriage !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_js_oroshi_uriage))
                                                     }, {
-                                                    label: '卸(過去)',
+                                                    label: '店舗・通販(免税)(過去)',
                                                     data: [{!! $past_js_oroshi_uriage !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
@@ -4480,36 +4480,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
+                                                    label: '店舗(免税外)',
                                                     data: [@if(isset($js_shop_number)){!! $js_shop_number !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($js_web_number))    
                                                     }, {
-                                                    label: '通販',
+                                                    label: '通販(免税外)',
                                                     data: [{!! $js_web_number !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($js_oroshi_number))
                                                     }, {
-                                                    label: '卸',
+                                                    label: '店舗・通販(免税)',
                                                     data: [{!! $js_oroshi_number !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_js_shop_number))
                                                     }, {
-                                                    label: '店舗(過去)',
+                                                    label: '店舗(免税外)(過去)',
                                                     data: [{!! $past_js_shop_number !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_js_web_number))
                                                     }, {
-                                                    label: '通販(過去)',
+                                                    label: '通販(免税外)(過去)',
                                                     data: [{!! $past_js_web_number !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_js_oroshi_number))
                                                     }, {
-                                                    label: '卸(過去)',
+                                                    label: '店舗・通販(免税)(過去)',
                                                     data: [{!! $past_js_oroshi_number !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
@@ -4543,36 +4543,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗',
+                                                    label: '店舗(免税外)',
                                                     data: [@if(isset($js_shop_arari)){!! $js_shop_arari !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($js_web_arari))    
                                                     }, {
-                                                    label: '通販',
+                                                    label: '通販(免税外)',
                                                     data: [{!! $js_web_arari !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($js_oroshi_arari))
                                                     }, {
-                                                    label: '卸',
+                                                    label: '店舗・通販(免税)',
                                                     data: [{!! $js_oroshi_arari !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_js_shop_arari))
                                                     }, {
-                                                    label: '店舗(過去)',
+                                                    label: '店舗(免税外)(過去)',
                                                     data: [{!! $past_js_shop_arari !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_js_web_arari))
                                                     }, {
-                                                    label: '通販(過去)',
+                                                    label: '通販(免税外)(過去)',
                                                     data: [{!! $past_js_web_arari !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_js_oroshi_arari))
                                                     }, {
-                                                    label: '卸(過去)',
+                                                    label: '店舗・通販(免税)(過去)',
                                                     data: [{!! $past_js_oroshi_arari !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
@@ -4605,36 +4605,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗・金額構成比',
+                                                    label: '店舗(免税外)・金額構成比',
                                                     data: [@if(isset($shop_total_js2)){!! $shop_total_js2 !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($web_total_js2))    
                                                     }, {
-                                                    label: '通販・金額構成比',
+                                                    label: '通販(免税外)・金額構成比',
                                                     data: [{!! $web_total_js2 !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($oroshi_total_js2))
                                                     }, {
-                                                    label: '卸・金額構成比',
+                                                    label: '店舗・通販(免税)・金額構成比',
                                                     data: [{!! $oroshi_total_js2 !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_shop_total_js2))
                                                     }, {
-                                                    label: '店舗・金額構成比(過去)',
+                                                    label: '店舗(免税外)・金額構成比(過去)',
                                                     data: [{!! $past_shop_total_js2 !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_web_total_js2))
                                                     }, {
-                                                    label: '通販・金額構成比(過去)',
+                                                    label: '通販(免税外)・金額構成比(過去)',
                                                     data: [{!! $past_web_total_js2 !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_oroshi_total_js2))
                                                     }, {
-                                                    label: '卸・金額構成比(過去)',
+                                                    label: '店舗・通販(免税)・金額構成比(過去)',
                                                     data: [{!! $past_oroshi_total_js2 !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
@@ -4653,36 +4653,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗・点数構成比',
+                                                    label: '店舗(免税外)・点数構成比',
                                                     data: [@if(isset($shop_total_js3)){!! $shop_total_js3 !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($web_total_js3))    
                                                     }, {
-                                                    label: '通販・点数構成比',
+                                                    label: '通販(免税外)・点数構成比',
                                                     data: [{!! $web_total_js3 !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($oroshi_total_js3))
                                                     }, {
-                                                    label: '卸・点数構成比',
+                                                    label: '店舗・通販(免税)・点数構成比',
                                                     data: [{!! $oroshi_total_js3 !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_shop_total_js3))
                                                     }, {
-                                                    label: '店舗・点数構成比(過去)',
+                                                    label: '店舗(免税外)・点数構成比(過去)',
                                                     data: [{!! $past_shop_total_js3 !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_web_total_js3))
                                                     }, {
-                                                    label: '通販・点数構成比(過去)',
+                                                    label: '通販(免税外)・点数構成比(過去)',
                                                     data: [{!! $past_web_total_js3 !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_oroshi_total_js3))
                                                     }, {
-                                                    label: '卸・点数構成比(過去)',
+                                                    label: '店舗・通販(免税)(免税外)・点数構成比(過去)',
                                                     data: [{!! $past_oroshi_total_js3 !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif
@@ -4703,36 +4703,36 @@ box-sizing: border-box;
                                                 data: {
                                                     labels: [@if(isset($js_month)){!! $js_month !!}@endif],
                                                     datasets: [{
-                                                    label: '店舗・粗利率',
+                                                    label: '店舗(免税外)・粗利率',
                                                     data: [@if(isset($shop_total_js)){!! $shop_total_js !!}@endif],
                                                     borderColor: '#c53d43',
                                                 @if(isset($web_total_js))    
                                                     }, {
-                                                    label: '通販・粗利率',
+                                                    label: '通販(免税外)・粗利率',
                                                     data: [{!! $web_total_js !!}],
                                                     borderColor: '#007bbb',
                                                 @endif      
                                                 @if(isset($oroshi_total_js))
                                                     }, {
-                                                    label: '卸・粗利率',
+                                                    label: '店舗・通販(免税)・粗利率',
                                                     data: [{!! $oroshi_total_js !!}],
                                                     borderColor: '#006e54',
                                                 @endif
                                                 @if(isset($past_shop_total_js))
                                                     }, {
-                                                    label: '店舗・粗利率(過去)',
+                                                    label: '店舗(免税外)・粗利率(過去)',
                                                     data: [{!! $past_shop_total_js !!}],
                                                     borderColor: '#e198b4',
                                                 @endif
                                                 @if(isset($past_web_total_js))
                                                     }, {
-                                                    label: '通販・粗利率(過去)',
+                                                    label: '通販(免税外)・粗利率(過去)',
                                                     data: [{!! $past_web_total_js !!}],
                                                     borderColor: '#bbc8e6',
                                                 @endif
                                                 @if(isset($past_oroshi_total_js))
                                                     }, {
-                                                    label: '卸・粗利率(過去)',
+                                                    label: '店舗・通販(免税)・粗利率(過去)',
                                                     data: [{!! $past_oroshi_total_js !!}],
                                                     borderColor: '#a2d7dd',
                                                 @endif

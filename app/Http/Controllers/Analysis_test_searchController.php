@@ -32885,36 +32885,6 @@ class Analysis_test_searchController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /************************************************************************************************************************************************************************************************************* */
     // DB情報取得（[売上]免税区分別用）
 /************************************************************************************************************************************************************************************************************* */
@@ -33356,7 +33326,7 @@ class Analysis_test_searchController extends Controller
                                                                         $shop_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($shop_progress as $shop_buy_progress) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $shop_sum_uriage_progress = $shop_buy_progress -> shop_uriage;
                                                                             $shop_sum_number_progress = $shop_buy_progress -> shop_number;
                                                                             $shop_sum_arari_progress  = $shop_buy_progress -> shop_arari;
@@ -33464,7 +33434,7 @@ class Analysis_test_searchController extends Controller
                                                                         $web_sum_uriage_progress = "";
                                                                         $i2 = 0;
                                                                         foreach ($web_progress as $web_buy_progress) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $web_sum_uriage_progress = $web_buy_progress -> web_uriage;
                                                                             $web_sum_number_progress = $web_buy_progress -> web_number;
                                                                             $web_sum_arari_progress  = $web_buy_progress -> web_arari;
@@ -33474,137 +33444,137 @@ class Analysis_test_searchController extends Controller
 
 
 
-// DB検索（卸値）スタート
-    $oroshi_sum_uriage_progress = "";
-    $oroshi_sum_number_progress = "";
-    $oroshi_sum_arari_progress = "";
-    
-    if($out1_c == "ON"){
-            $oroshi_progress = DB::table($table_name) 
-            // 月毎にグループ化して値を分けるための処理
-                ->select([
-                    \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
-                    \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
-                    \DB::raw("SUM(uriagesuu) AS oroshi_number"),
-                    \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
-            ])
-            // 条件（売上部門が卸）
-                    /*->where(function ($query) use ($out1_d) {
-                            if($out1_d == "ON"){
-                                // 「卸」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
-                                    $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
-                            } else {
-                                // 「卸」のみを取得
-                                    $query->where('baikyakukubun',3);
-                            }
-                    })*/
-                    // 店舗と通販を取得
-                    // 「baikyakukubun」が「1」or「2」の場合
-                    ->where(function ($query){
-                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
-                    })
-                    
-                    
-                    
-                    
-
-                    //->orwhere("baikyakukubun",1)
-                    //->orwhere("baikyakukubun",2)
-            // 条件（期間の指定）
-                ->whereBetween($table_name . '.uriage', [$last_day_top, $last_day])
-                    
-                // 条件（分類名）
-                    ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
-                        // 条件（商品区分分類名が新品）
-                            if($out2_a == "ON"){
-                                $query->orwhere("shouhinkubunbunruimei","like","%新品%");
-                            }
-                        // 条件（商品区分分類名が中古）
-                            if($out2_b == "ON"){
-                                $query->orwhere("shouhinkubunbunruimei","like","%中古%");
-                            }
-                        // 条件（商品区分分類名がアンティーク）
-                            if($out2_c == "ON"){
-                                $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-                            }
-                        // 条件（商品区分分類名がその他）
-                            if($out2_d == "ON"){
-                                $query->orwhere("shouhinkubunbunruimei","like","%その他%");
-                            }
-                        // 条件（商品区分分類名が修理）
-                            if($out2_e == "ON"){
-                                $query->orwhere("shouhinkubunbunruimei","like","%修理%");
-                            }
-                
-                })
-            // 条件（通販区分）
-                ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-    
-                        $query->orWhere('tsuuhankubun','');
-    
-                        // 条件（通販区分が自社）
-                            if($out3_a == "ON"){
-                                $query->orWhere('tsuuhankubun',1);
-                            }
-                        // 条件（通販区分が楽天）
-                            if($out3_b == "ON"){
-                                $query->orWhere('tsuuhankubun',2);
-                            }
-                        // 条件（通販区分がヤフー）
-                            if($out3_c == "ON"){
-                                $query->orWhere('tsuuhankubun',3);
-                            }
-                        // 条件（通販区分が電話・雑誌）
-                            if($out3_d == "ON"){
-                                $query->orWhere('tsuuhankubun',5);
-                            }
-                        // 条件（通販区分がYオークション）
-                            if($out3_e == "ON"){
-                                $query->orWhere('tsuuhankubun',4);
-                            }
-                        // 条件（通販区分が修理品返送）
-                            if($out3_f == "ON"){
-                                $query->orWhere('tsuuhankubun',9);
-                            }
-                
-                })
-            // 条件（免税）
-                ->where("menzei","like","%免税%")
-        
-            // 条件（扱い部門）
-                ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
-    
-                        $query->orWhere('bumonmei','');
-    
-                        // 条件（扱い部門がジャック）
-                            if($out5_a == "ON"){
-                                $query->orWhere('bumonmei','Jackroad');
-                            }
-                        // 条件（扱い部門がベティー）
-                            if($out5_b == "ON"){
-                                $query->orWhere('bumonmei','BettyRoad');
-                            }
-                        // 条件（扱い部門がジュエリー）
-                            if($out5_c == "ON"){
-                                $query->orWhere('bumonmei','Jewelry');
-                            }
-            
-                })
-            // ソート順指定
-                ->orderBy('uriage', 'asc')
-                ->get();
-            // クエリビルダスタート
-                // 変数リセット
-                    $oroshi_sum_uriage_progress = "";
-                    $i2 = 0;
-                    foreach ($oroshi_progress as $oroshi_buy_progress) {
-                        // 各月卸売上
-                        $oroshi_sum_uriage_progress = $oroshi_buy_progress -> oroshi_uriage;
-                        $oroshi_sum_number_progress = $oroshi_buy_progress -> oroshi_number;
-                        $oroshi_sum_arari_progress  = $oroshi_buy_progress -> oroshi_arari;
-                        $i2++;
-                    }
-}
+                                            // DB検索（店舗・通販(免税)値）スタート
+                                                $oroshi_sum_uriage_progress = "";
+                                                $oroshi_sum_number_progress = "";
+                                                $oroshi_sum_arari_progress = "";
+                                                
+                                                if($out1_c == "ON"){
+                                                        $oroshi_progress = DB::table($table_name) 
+                                                        // 月毎にグループ化して値を分けるための処理
+                                                            ->select([
+                                                                \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
+                                                                \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
+                                                                \DB::raw("SUM(uriagesuu) AS oroshi_number"),
+                                                                \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
+                                                        ])
+                                                        // 条件（売上部門が店舗・通販(免税)）
+                                                                /*->where(function ($query) use ($out1_d) {
+                                                                        if($out1_d == "ON"){
+                                                                            // 「店舗・通販(免税)」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
+                                                                                $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
+                                                                        } else {
+                                                                            // 「店舗・通販(免税)」のみを取得
+                                                                                $query->where('baikyakukubun',3);
+                                                                        }
+                                                                })*/
+                                                                // 店舗と通販を取得
+                                                                // 「baikyakukubun」が「1」or「2」の場合
+                                                                ->where(function ($query){
+                                                                    $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                                                                })
+                                                                
+                                                                
+                                                                
+                                                                
+                                            
+                                                                //->orwhere("baikyakukubun",1)
+                                                                //->orwhere("baikyakukubun",2)
+                                                        // 条件（期間の指定）
+                                                            ->whereBetween($table_name . '.uriage', [$last_day_top, $last_day])
+                                                                
+                                                            // 条件（分類名）
+                                                                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                                    // 条件（商品区分分類名が新品）
+                                                                        if($out2_a == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%新品%");
+                                                                        }
+                                                                    // 条件（商品区分分類名が中古）
+                                                                        if($out2_b == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%中古%");
+                                                                        }
+                                                                    // 条件（商品区分分類名がアンティーク）
+                                                                        if($out2_c == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+                                                                        }
+                                                                    // 条件（商品区分分類名がその他）
+                                                                        if($out2_d == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%その他%");
+                                                                        }
+                                                                    // 条件（商品区分分類名が修理）
+                                                                        if($out2_e == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%修理%");
+                                                                        }
+                                                            
+                                                            })
+                                                        // 条件（通販区分）
+                                                            ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                
+                                                                    $query->orWhere('tsuuhankubun','');
+                                                
+                                                                    // 条件（通販区分が自社）
+                                                                        if($out3_a == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',1);
+                                                                        }
+                                                                    // 条件（通販区分が楽天）
+                                                                        if($out3_b == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',2);
+                                                                        }
+                                                                    // 条件（通販区分がヤフー）
+                                                                        if($out3_c == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',3);
+                                                                        }
+                                                                    // 条件（通販区分が電話・雑誌）
+                                                                        if($out3_d == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',5);
+                                                                        }
+                                                                    // 条件（通販区分がYオークション）
+                                                                        if($out3_e == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',4);
+                                                                        }
+                                                                    // 条件（通販区分が修理品返送）
+                                                                        if($out3_f == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',9);
+                                                                        }
+                                                            
+                                                            })
+                                                        // 条件（免税）
+                                                            ->where("menzei","like","%免税%")
+                                                    
+                                                        // 条件（扱い部門）
+                                                            ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
+                                                
+                                                                    $query->orWhere('bumonmei','');
+                                                
+                                                                    // 条件（扱い部門がジャック）
+                                                                        if($out5_a == "ON"){
+                                                                            $query->orWhere('bumonmei','Jackroad');
+                                                                        }
+                                                                    // 条件（扱い部門がベティー）
+                                                                        if($out5_b == "ON"){
+                                                                            $query->orWhere('bumonmei','BettyRoad');
+                                                                        }
+                                                                    // 条件（扱い部門がジュエリー）
+                                                                        if($out5_c == "ON"){
+                                                                            $query->orWhere('bumonmei','Jewelry');
+                                                                        }
+                                                        
+                                                            })
+                                                        // ソート順指定
+                                                            ->orderBy('uriage', 'asc')
+                                                            ->get();
+                                                        // クエリビルダスタート
+                                                            // 変数リセット
+                                                                $oroshi_sum_uriage_progress = "";
+                                                                $i2 = 0;
+                                                                foreach ($oroshi_progress as $oroshi_buy_progress) {
+                                                                    // 各月店舗・通販(免税)売上
+                                                                    $oroshi_sum_uriage_progress = $oroshi_buy_progress -> oroshi_uriage;
+                                                                    $oroshi_sum_number_progress = $oroshi_buy_progress -> oroshi_number;
+                                                                    $oroshi_sum_arari_progress  = $oroshi_buy_progress -> oroshi_arari;
+                                                                    $i2++;
+                                                                }
+                                            }
 
 
                                         /************************************************************************************************************************************************************************************************************* */
@@ -33715,7 +33685,7 @@ class Analysis_test_searchController extends Controller
                                                                         $shop_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($shop_progress2 as $shop_buy_progress2) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $shop_sum_uriage_progress2 = $shop_buy_progress2 -> shop_uriage2;
                                                                             $shop_sum_number_progress2 = $shop_buy_progress2 -> shop_number2;
                                                                             $shop_sum_arari_progress2  = $shop_buy_progress2 -> shop_arari2;
@@ -33821,7 +33791,7 @@ class Analysis_test_searchController extends Controller
                                                                         $web_sum_uriage_progress2 = "";
                                                                         $i2 = 0;
                                                                         foreach ($web_progress2 as $web_buy_progress2) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $web_sum_uriage_progress2 = $web_buy_progress2 -> web_uriage2;
                                                                             $web_sum_number_progress2 = $web_buy_progress2 -> web_number2;
                                                                             $web_sum_arari_progress2  = $web_buy_progress2 -> web_arari2;
@@ -33831,130 +33801,130 @@ class Analysis_test_searchController extends Controller
 
 
 
-// DB検索（卸値）スタート
-$oroshi_sum_uriage_progress2 = "";
-$oroshi_sum_number_progress2 = "";
-$oroshi_sum_arari_progress2 = "";
-if($out1_c == "ON"){                                                                
-        $oroshi_progress2 = DB::table($table_name) 
-        // 月毎にグループ化して値を分けるための処理
-            ->select([
-                \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month2'),
-                \DB::raw("SUM(uriagekingaku) AS oroshi_uriage2"),
-                \DB::raw("SUM(uriagesuu) AS oroshi_number2"),
-                \DB::raw("SUM(ararikingaku) AS oroshi_arari2"),
-        ])
-        // 条件（売上部門が卸）
-                /*->where(function ($query) use ($out1_d) {
-                        if($out1_d == "ON"){
-                            // 「卸」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
-                                $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
-                        } else {
-                            // 「卸」のみを取得
-                                $query->where('baikyakukubun',3);
-                        }
-                })*/
-                    // 店舗と通販を取得
-                    // 「baikyakukubun」が「1」or「2」の場合
-                    ->where(function ($query){
-                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
-                    })
-                
-        // 条件（期間の指定）
-            ->whereBetween($table_name . '.uriage', [$last_month_top, $last_month])
-                
-            // 条件（分類名）
-                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
-                    // 条件（商品区分分類名が新品）
-                        if($out2_a == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%新品%");
-                        }
-                    // 条件（商品区分分類名が中古）
-                        if($out2_b == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%中古%");
-                        }
-                    // 条件（商品区分分類名がアンティーク）
-                        if($out2_c == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-                        }
-                    // 条件（商品区分分類名がその他）
-                        if($out2_d == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%その他%");
-                        }
-                    // 条件（商品区分分類名が修理）
-                        if($out2_e == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%修理%");
-                        }
-            
-            })
-        // 条件（通販区分）
-            ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-
-                    $query->orWhere('tsuuhankubun','');
-
-                    // 条件（通販区分が自社）
-                        if($out3_a == "ON"){
-                            $query->orWhere('tsuuhankubun',1);
-                        }
-                    // 条件（通販区分が楽天）
-                        if($out3_b == "ON"){
-                            $query->orWhere('tsuuhankubun',2);
-                        }
-                    // 条件（通販区分がヤフー）
-                        if($out3_c == "ON"){
-                            $query->orWhere('tsuuhankubun',3);
-                        }
-                    // 条件（通販区分が電話・雑誌）
-                        if($out3_d == "ON"){
-                            $query->orWhere('tsuuhankubun',5);
-                        }
-                    // 条件（通販区分がYオークション）
-                        if($out3_e == "ON"){
-                            $query->orWhere('tsuuhankubun',4);
-                        }
-                    // 条件（通販区分が修理品返送）
-                        if($out3_f == "ON"){
-                            $query->orWhere('tsuuhankubun',9);
-                        }
-            
-            })
-        // 条件（免税）
-                ->where("menzei","like","%免税%")
-    
-        // 条件（扱い部門）
-            ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
-
-                    $query->orWhere('bumonmei','');
-
-                    // 条件（扱い部門がジャック）
-                        if($out5_a == "ON"){
-                            $query->orWhere('bumonmei','Jackroad');
-                        }
-                    // 条件（扱い部門がベティー）
-                        if($out5_b == "ON"){
-                            $query->orWhere('bumonmei','BettyRoad');
-                        }
-                    // 条件（扱い部門がジュエリー）
-                        if($out5_c == "ON"){
-                            $query->orWhere('bumonmei','Jewelry');
-                        }
-        
-            })
-        // ソート順指定
-            ->orderBy('uriage', 'asc')
-            ->get();
-        // クエリビルダスタート
-            // 変数リセット
-                $oroshi_sum_uriage_progress2 = "";
-                $i2 = 0;
-                foreach ($oroshi_progress2 as $oroshi_buy_progress2) {
-                    // 各月卸売上
-                    $oroshi_sum_uriage_progress2 = $oroshi_buy_progress2 -> oroshi_uriage2;
-                    $oroshi_sum_number_progress2 = $oroshi_buy_progress2 -> oroshi_number2;
-                    $oroshi_sum_arari_progress2  = $oroshi_buy_progress2 -> oroshi_arari2;
-                    $i2++;
-                }
-}
+                                            // DB検索（店舗・通販(免税)値）スタート
+                                            $oroshi_sum_uriage_progress2 = "";
+                                            $oroshi_sum_number_progress2 = "";
+                                            $oroshi_sum_arari_progress2 = "";
+                                            if($out1_c == "ON"){                                                                
+                                                    $oroshi_progress2 = DB::table($table_name) 
+                                                    // 月毎にグループ化して値を分けるための処理
+                                                        ->select([
+                                                            \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month2'),
+                                                            \DB::raw("SUM(uriagekingaku) AS oroshi_uriage2"),
+                                                            \DB::raw("SUM(uriagesuu) AS oroshi_number2"),
+                                                            \DB::raw("SUM(ararikingaku) AS oroshi_arari2"),
+                                                    ])
+                                                    // 条件（売上部門が店舗・通販(免税)）
+                                                            /*->where(function ($query) use ($out1_d) {
+                                                                    if($out1_d == "ON"){
+                                                                        // 「店舗・通販(免税)」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
+                                                                            $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
+                                                                    } else {
+                                                                        // 「店舗・通販(免税)」のみを取得
+                                                                            $query->where('baikyakukubun',3);
+                                                                    }
+                                                            })*/
+                                                                // 店舗と通販を取得
+                                                                // 「baikyakukubun」が「1」or「2」の場合
+                                                                ->where(function ($query){
+                                                                    $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                                                                })
+                                                            
+                                                    // 条件（期間の指定）
+                                                        ->whereBetween($table_name . '.uriage', [$last_month_top, $last_month])
+                                                            
+                                                        // 条件（分類名）
+                                                            ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                                // 条件（商品区分分類名が新品）
+                                                                    if($out2_a == "ON"){
+                                                                        $query->orwhere("shouhinkubunbunruimei","like","%新品%");
+                                                                    }
+                                                                // 条件（商品区分分類名が中古）
+                                                                    if($out2_b == "ON"){
+                                                                        $query->orwhere("shouhinkubunbunruimei","like","%中古%");
+                                                                    }
+                                                                // 条件（商品区分分類名がアンティーク）
+                                                                    if($out2_c == "ON"){
+                                                                        $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+                                                                    }
+                                                                // 条件（商品区分分類名がその他）
+                                                                    if($out2_d == "ON"){
+                                                                        $query->orwhere("shouhinkubunbunruimei","like","%その他%");
+                                                                    }
+                                                                // 条件（商品区分分類名が修理）
+                                                                    if($out2_e == "ON"){
+                                                                        $query->orwhere("shouhinkubunbunruimei","like","%修理%");
+                                                                    }
+                                                        
+                                                        })
+                                                    // 条件（通販区分）
+                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                            
+                                                                $query->orWhere('tsuuhankubun','');
+                                            
+                                                                // 条件（通販区分が自社）
+                                                                    if($out3_a == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',1);
+                                                                    }
+                                                                // 条件（通販区分が楽天）
+                                                                    if($out3_b == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',2);
+                                                                    }
+                                                                // 条件（通販区分がヤフー）
+                                                                    if($out3_c == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',3);
+                                                                    }
+                                                                // 条件（通販区分が電話・雑誌）
+                                                                    if($out3_d == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',5);
+                                                                    }
+                                                                // 条件（通販区分がYオークション）
+                                                                    if($out3_e == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',4);
+                                                                    }
+                                                                // 条件（通販区分が修理品返送）
+                                                                    if($out3_f == "ON"){
+                                                                        $query->orWhere('tsuuhankubun',9);
+                                                                    }
+                                                        
+                                                        })
+                                                    // 条件（免税）
+                                                            ->where("menzei","like","%免税%")
+                                                
+                                                    // 条件（扱い部門）
+                                                        ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
+                                            
+                                                                $query->orWhere('bumonmei','');
+                                            
+                                                                // 条件（扱い部門がジャック）
+                                                                    if($out5_a == "ON"){
+                                                                        $query->orWhere('bumonmei','Jackroad');
+                                                                    }
+                                                                // 条件（扱い部門がベティー）
+                                                                    if($out5_b == "ON"){
+                                                                        $query->orWhere('bumonmei','BettyRoad');
+                                                                    }
+                                                                // 条件（扱い部門がジュエリー）
+                                                                    if($out5_c == "ON"){
+                                                                        $query->orWhere('bumonmei','Jewelry');
+                                                                    }
+                                                    
+                                                        })
+                                                    // ソート順指定
+                                                        ->orderBy('uriage', 'asc')
+                                                        ->get();
+                                                    // クエリビルダスタート
+                                                        // 変数リセット
+                                                            $oroshi_sum_uriage_progress2 = "";
+                                                            $i2 = 0;
+                                                            foreach ($oroshi_progress2 as $oroshi_buy_progress2) {
+                                                                // 各月店舗・通販(免税)売上
+                                                                $oroshi_sum_uriage_progress2 = $oroshi_buy_progress2 -> oroshi_uriage2;
+                                                                $oroshi_sum_number_progress2 = $oroshi_buy_progress2 -> oroshi_number2;
+                                                                $oroshi_sum_arari_progress2  = $oroshi_buy_progress2 -> oroshi_arari2;
+                                                                $i2++;
+                                                            }
+                                            }
                                         
                                         
                                         /************************************************************************************************************************************************************************************************************* */
@@ -34067,7 +34037,7 @@ if($out1_c == "ON"){
                                                                         $shop_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($shop_progress3 as $shop_buy_progress3) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $shop_sum_uriage_progress3 = $shop_buy_progress3 -> shop_uriage3;
                                                                             $shop_sum_number_progress3 = $shop_buy_progress3 -> shop_number3;
                                                                             $shop_sum_arari_progress3  = $shop_buy_progress3 -> shop_arari3;
@@ -34173,7 +34143,7 @@ if($out1_c == "ON"){
                                                                         $web_sum_uriage_progress3 = "";
                                                                         $i2 = 0;
                                                                         foreach ($web_progress3 as $web_buy_progress3) {
-                                                                            // 各月卸売上
+                                                                            // 各月店舗・通販(免税)売上
                                                                             $web_sum_uriage_progress3 = $web_buy_progress3 -> web_uriage3;
                                                                             $web_sum_number_progress3 = $web_buy_progress3 -> web_number3;
                                                                             $web_sum_arari_progress3  = $web_buy_progress3 -> web_arari3;
@@ -34183,132 +34153,132 @@ if($out1_c == "ON"){
 
 
 
-// DB検索（卸値）スタート
-$oroshi_sum_uriage_progress3 = "";
-$oroshi_sum_number_progress3 = "";
-$oroshi_sum_arari_progress3 = "";
-if($out1_c == "ON"){                                                                
-        $oroshi_progress3 = DB::table($table_name) 
-        // 月毎にグループ化して値を分けるための処理
-            ->select([
-                \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month3'),
-                \DB::raw("SUM(uriagekingaku) AS oroshi_uriage3"),
-                \DB::raw("SUM(uriagesuu) AS oroshi_number3"),
-                \DB::raw("SUM(ararikingaku) AS oroshi_arari3"),
-        ])
-        // 条件（売上部門が卸）
-                /*->where(function ($query) use ($out1_d) {
-                        if($out1_d == "ON"){
-                            // 「卸」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
-                                $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
-                        } else {
-                            // 「卸」のみを取得
-                                $query->where('baikyakukubun',3);
-                        }
-                })*/
-                    // 店舗と通販を取得
-                    // 「baikyakukubun」が「1」or「2」の場合
-                    ->where(function ($query){
-                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
-                    })
-                
-                
-        // 条件（期間の指定）
-            ->whereBetween($table_name . '.uriage', [$past_between_start_progress, $past_between_end_progress])
-                
-            // 条件（分類名）
-                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
-                    // 条件（商品区分分類名が新品）
-                        if($out2_a == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%新品%");
-                        }
-                    // 条件（商品区分分類名が中古）
-                        if($out2_b == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%中古%");
-                        }
-                    // 条件（商品区分分類名がアンティーク）
-                        if($out2_c == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-                        }
-                    // 条件（商品区分分類名がその他）
-                        if($out2_d == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%その他%");
-                        }
-                    // 条件（商品区分分類名が修理）
-                        if($out2_e == "ON"){
-                            $query->orwhere("shouhinkubunbunruimei","like","%修理%");
-                        }
-            
-            })
-        // 条件（通販区分）
-            ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-
-                    $query->orWhere('tsuuhankubun','');
-
-                    // 条件（通販区分が自社）
-                        if($out3_a == "ON"){
-                            $query->orWhere('tsuuhankubun',1);
-                        }
-                    // 条件（通販区分が楽天）
-                        if($out3_b == "ON"){
-                            $query->orWhere('tsuuhankubun',2);
-                        }
-                    // 条件（通販区分がヤフー）
-                        if($out3_c == "ON"){
-                            $query->orWhere('tsuuhankubun',3);
-                        }
-                    // 条件（通販区分が電話・雑誌）
-                        if($out3_d == "ON"){
-                            $query->orWhere('tsuuhankubun',5);
-                        }
-                    // 条件（通販区分がYオークション）
-                        if($out3_e == "ON"){
-                            $query->orWhere('tsuuhankubun',4);
-                        }
-                    // 条件（通販区分が修理品返送）
-                        if($out3_f == "ON"){
-                            $query->orWhere('tsuuhankubun',9);
-                        }
-            
-            })
-        // 条件（免税）
-                ->where("menzei","like","%免税%")
-    
-        // 条件（扱い部門）
-            ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
-
-                    $query->orWhere('bumonmei','');
-
-                    // 条件（扱い部門がジャック）
-                        if($out5_a == "ON"){
-                            $query->orWhere('bumonmei','Jackroad');
-                        }
-                    // 条件（扱い部門がベティー）
-                        if($out5_b == "ON"){
-                            $query->orWhere('bumonmei','BettyRoad');
-                        }
-                    // 条件（扱い部門がジュエリー）
-                        if($out5_c == "ON"){
-                            $query->orWhere('bumonmei','Jewelry');
-                        }
-        
-            })
-        // ソート順指定
-            ->orderBy('uriage', 'asc')
-            ->get();
-        // クエリビルダスタート
-            // 変数リセット
-                $oroshi_sum_uriage_progress3 = "";
-                $i2 = 0;
-                foreach ($oroshi_progress3 as $oroshi_buy_progress3) {
-                    // 各月卸売上
-                    $oroshi_sum_uriage_progress3 = $oroshi_buy_progress3 -> oroshi_uriage3;
-                    $oroshi_sum_number_progress3 = $oroshi_buy_progress3 -> oroshi_number3;
-                    $oroshi_sum_arari_progress3  = $oroshi_buy_progress3 -> oroshi_arari3;
-                    $i2++;
-                }
-
-}
+                                                // DB検索（店舗・通販(免税)値）スタート
+                                                $oroshi_sum_uriage_progress3 = "";
+                                                $oroshi_sum_number_progress3 = "";
+                                                $oroshi_sum_arari_progress3 = "";
+                                                if($out1_c == "ON"){                                                                
+                                                        $oroshi_progress3 = DB::table($table_name) 
+                                                        // 月毎にグループ化して値を分けるための処理
+                                                            ->select([
+                                                                \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month3'),
+                                                                \DB::raw("SUM(uriagekingaku) AS oroshi_uriage3"),
+                                                                \DB::raw("SUM(uriagesuu) AS oroshi_number3"),
+                                                                \DB::raw("SUM(ararikingaku) AS oroshi_arari3"),
+                                                        ])
+                                                        // 条件（売上部門が店舗・通販(免税)）
+                                                                /*->where(function ($query) use ($out1_d) {
+                                                                        if($out1_d == "ON"){
+                                                                            // 「店舗・通販(免税)」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
+                                                                                $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
+                                                                        } else {
+                                                                            // 「店舗・通販(免税)」のみを取得
+                                                                                $query->where('baikyakukubun',3);
+                                                                        }
+                                                                })*/
+                                                                    // 店舗と通販を取得
+                                                                    // 「baikyakukubun」が「1」or「2」の場合
+                                                                    ->where(function ($query){
+                                                                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                                                                    })
+                                                                
+                                                                
+                                                        // 条件（期間の指定）
+                                                            ->whereBetween($table_name . '.uriage', [$past_between_start_progress, $past_between_end_progress])
+                                                                
+                                                            // 条件（分類名）
+                                                                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                                    // 条件（商品区分分類名が新品）
+                                                                        if($out2_a == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%新品%");
+                                                                        }
+                                                                    // 条件（商品区分分類名が中古）
+                                                                        if($out2_b == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%中古%");
+                                                                        }
+                                                                    // 条件（商品区分分類名がアンティーク）
+                                                                        if($out2_c == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+                                                                        }
+                                                                    // 条件（商品区分分類名がその他）
+                                                                        if($out2_d == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%その他%");
+                                                                        }
+                                                                    // 条件（商品区分分類名が修理）
+                                                                        if($out2_e == "ON"){
+                                                                            $query->orwhere("shouhinkubunbunruimei","like","%修理%");
+                                                                        }
+                                                            
+                                                            })
+                                                        // 条件（通販区分）
+                                                            ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                
+                                                                    $query->orWhere('tsuuhankubun','');
+                                                
+                                                                    // 条件（通販区分が自社）
+                                                                        if($out3_a == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',1);
+                                                                        }
+                                                                    // 条件（通販区分が楽天）
+                                                                        if($out3_b == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',2);
+                                                                        }
+                                                                    // 条件（通販区分がヤフー）
+                                                                        if($out3_c == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',3);
+                                                                        }
+                                                                    // 条件（通販区分が電話・雑誌）
+                                                                        if($out3_d == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',5);
+                                                                        }
+                                                                    // 条件（通販区分がYオークション）
+                                                                        if($out3_e == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',4);
+                                                                        }
+                                                                    // 条件（通販区分が修理品返送）
+                                                                        if($out3_f == "ON"){
+                                                                            $query->orWhere('tsuuhankubun',9);
+                                                                        }
+                                                            
+                                                            })
+                                                        // 条件（免税）
+                                                                ->where("menzei","like","%免税%")
+                                                    
+                                                        // 条件（扱い部門）
+                                                            ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
+                                                
+                                                                    $query->orWhere('bumonmei','');
+                                                
+                                                                    // 条件（扱い部門がジャック）
+                                                                        if($out5_a == "ON"){
+                                                                            $query->orWhere('bumonmei','Jackroad');
+                                                                        }
+                                                                    // 条件（扱い部門がベティー）
+                                                                        if($out5_b == "ON"){
+                                                                            $query->orWhere('bumonmei','BettyRoad');
+                                                                        }
+                                                                    // 条件（扱い部門がジュエリー）
+                                                                        if($out5_c == "ON"){
+                                                                            $query->orWhere('bumonmei','Jewelry');
+                                                                        }
+                                                        
+                                                            })
+                                                        // ソート順指定
+                                                            ->orderBy('uriage', 'asc')
+                                                            ->get();
+                                                        // クエリビルダスタート
+                                                            // 変数リセット
+                                                                $oroshi_sum_uriage_progress3 = "";
+                                                                $i2 = 0;
+                                                                foreach ($oroshi_progress3 as $oroshi_buy_progress3) {
+                                                                    // 各月店舗・通販(免税)売上
+                                                                    $oroshi_sum_uriage_progress3 = $oroshi_buy_progress3 -> oroshi_uriage3;
+                                                                    $oroshi_sum_number_progress3 = $oroshi_buy_progress3 -> oroshi_number3;
+                                                                    $oroshi_sum_arari_progress3  = $oroshi_buy_progress3 -> oroshi_arari3;
+                                                                    $i2++;
+                                                                }
+                                                
+                                                }
                                       
                                         
                                         
@@ -34360,29 +34330,32 @@ if($out1_c == "ON"){
                                                             } else {
                                                                 $web_sum_arari_progress_pre = "";
                                                             }
-$oroshi_sum_uriage_progress_pre = "";
-$oroshi_sum_number_progress_pre = "";
-$oroshi_sum_arari_progress_pre = "";
-if($out1_c == "ON"){ 
-    // 卸・月間売上額予測
-        if($oroshi_sum_uriage_progress <> "" && $oroshi_sum_uriage_progress <> 0){
-            $oroshi_sum_uriage_progress_pre = (float)((int)$oroshi_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
-        } else {
-            $oroshi_sum_uriage_progress_pre = "";
-        }
-    // 卸・月間売上点数予測
-        if($oroshi_sum_number_progress <> "" && $oroshi_sum_number_progress <> 0){
-            $oroshi_sum_number_progress_pre = (float)((int)$oroshi_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
-        } else {
-            $oroshi_sum_number_progress_pre = "";
-        }
-    // 卸・月間売上粗利予測
-        if($oroshi_sum_arari_progress <> "" && $oroshi_sum_arari_progress <> 0){
-            $oroshi_sum_arari_progress_pre = (float)((int)$oroshi_sum_arari_progress / (int)$last_day_last) * (int)$last_day_last2;
-        } else {
-            $oroshi_sum_arari_progress_pre = "";
-        }
-}
+                                                            
+                                                            
+                                                            
+                                                $oroshi_sum_uriage_progress_pre = "";
+                                                $oroshi_sum_number_progress_pre = "";
+                                                $oroshi_sum_arari_progress_pre = "";
+                                                if($out1_c == "ON"){ 
+                                                    // 店舗・通販(免税)・月間売上額予測
+                                                        if($oroshi_sum_uriage_progress <> "" && $oroshi_sum_uriage_progress <> 0){
+                                                            $oroshi_sum_uriage_progress_pre = (float)((int)$oroshi_sum_uriage_progress / (int)$last_day_last) * (int)$last_day_last2;
+                                                        } else {
+                                                            $oroshi_sum_uriage_progress_pre = "";
+                                                        }
+                                                    // 店舗・通販(免税)・月間売上点数予測
+                                                        if($oroshi_sum_number_progress <> "" && $oroshi_sum_number_progress <> 0){
+                                                            $oroshi_sum_number_progress_pre = (float)((int)$oroshi_sum_number_progress / (int)$last_day_last) * (int)$last_day_last2;
+                                                        } else {
+                                                            $oroshi_sum_number_progress_pre = "";
+                                                        }
+                                                    // 店舗・通販(免税)・月間売上粗利予測
+                                                        if($oroshi_sum_arari_progress <> "" && $oroshi_sum_arari_progress <> 0){
+                                                            $oroshi_sum_arari_progress_pre = (float)((int)$oroshi_sum_arari_progress / (int)$last_day_last) * (int)$last_day_last2;
+                                                        } else {
+                                                            $oroshi_sum_arari_progress_pre = "";
+                                                        }
+                                                }
 
                                                     
                                                 // 先月比
@@ -34427,31 +34400,34 @@ if($out1_c == "ON"){
                                                             } else {
                                                                 $web_sum_arari_progress_pre2 = "---";
                                                             }
-$oroshi_sum_uriage_progress_pre2 = "";
-$oroshi_sum_number_progress_pre2 = "";
-$oroshi_sum_arari_progress_pre2 = "";
-if($out1_c == "ON"){ 
-    // 卸・売上額予測・先月比
-        if($oroshi_sum_uriage_progress_pre <> "" && $oroshi_sum_uriage_progress_pre <> 0 && $oroshi_sum_uriage_progress2 <> "" && $oroshi_sum_uriage_progress2 <> 0){
-            $oroshi_sum_uriage_progress_pre2 = (floor(((float)$oroshi_sum_uriage_progress_pre / (float)$oroshi_sum_uriage_progress2) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_uriage_progress_pre2 = "---";
-        }
-
-    // 卸・売上点数予測・先月比
-        if($oroshi_sum_number_progress_pre <> "" && $oroshi_sum_number_progress_pre <> 0 && $oroshi_sum_number_progress2 <> "" && $oroshi_sum_number_progress2 <> 0){
-            $oroshi_sum_number_progress_pre2 = (floor(((float)$oroshi_sum_number_progress_pre / (float)$oroshi_sum_number_progress2) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_number_progress_pre2 = "---";
-        }
-
-    // 卸・売上粗利予測・先月比
-        if($oroshi_sum_arari_progress_pre <> "" && $oroshi_sum_arari_progress_pre <> 0 && $oroshi_sum_arari_progress2 <> "" && $oroshi_sum_arari_progress2 <> 0){
-            $oroshi_sum_arari_progress_pre2 = (floor(((float)$oroshi_sum_arari_progress_pre / (float)$oroshi_sum_arari_progress2) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_arari_progress_pre2 = "---";
-        }
-}
+                                                            
+                                                            
+                                                            
+                                                    $oroshi_sum_uriage_progress_pre2 = "";
+                                                    $oroshi_sum_number_progress_pre2 = "";
+                                                    $oroshi_sum_arari_progress_pre2 = "";
+                                                    if($out1_c == "ON"){ 
+                                                        // 店舗・通販(免税)・売上額予測・先月比
+                                                            if($oroshi_sum_uriage_progress_pre <> "" && $oroshi_sum_uriage_progress_pre <> 0 && $oroshi_sum_uriage_progress2 <> "" && $oroshi_sum_uriage_progress2 <> 0){
+                                                                $oroshi_sum_uriage_progress_pre2 = (floor(((float)$oroshi_sum_uriage_progress_pre / (float)$oroshi_sum_uriage_progress2) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_uriage_progress_pre2 = "---";
+                                                            }
+                                                    
+                                                        // 店舗・通販(免税)・売上点数予測・先月比
+                                                            if($oroshi_sum_number_progress_pre <> "" && $oroshi_sum_number_progress_pre <> 0 && $oroshi_sum_number_progress2 <> "" && $oroshi_sum_number_progress2 <> 0){
+                                                                $oroshi_sum_number_progress_pre2 = (floor(((float)$oroshi_sum_number_progress_pre / (float)$oroshi_sum_number_progress2) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_number_progress_pre2 = "---";
+                                                            }
+                                                    
+                                                        // 店舗・通販(免税)・売上粗利予測・先月比
+                                                            if($oroshi_sum_arari_progress_pre <> "" && $oroshi_sum_arari_progress_pre <> 0 && $oroshi_sum_arari_progress2 <> "" && $oroshi_sum_arari_progress2 <> 0){
+                                                                $oroshi_sum_arari_progress_pre2 = (floor(((float)$oroshi_sum_arari_progress_pre / (float)$oroshi_sum_arari_progress2) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_arari_progress_pre2 = "---";
+                                                            }
+                                                    }
                                                 // 過去比
                                                         // 店舗(免税外)・売上額予測・過去比
                                                             if($shop_sum_uriage_progress_pre <> "" && $shop_sum_uriage_progress_pre <> 0 && $shop_sum_uriage_progress3 <> "" && $shop_sum_uriage_progress3 <> 0){
@@ -34490,29 +34466,32 @@ if($out1_c == "ON"){
                                                             } else {
                                                                 $web_sum_arari_progress_pre3 = "---";
                                                             }
-$oroshi_sum_uriage_progress_pre3 = "";
-$oroshi_sum_number_progress_pre3 = "";
-$oroshi_sum_arari_progress_pre3 = "";
-if($out1_c == "ON"){ 
-    // 卸(免税外)・売上額予測・過去比
-        if($oroshi_sum_uriage_progress_pre <> "" && $oroshi_sum_uriage_progress_pre <> 0 && $oroshi_sum_uriage_progress3 <> "" && $oroshi_sum_uriage_progress3 <> 0){
-            $oroshi_sum_uriage_progress_pre3 = (floor(((float)$oroshi_sum_uriage_progress_pre / (float)$oroshi_sum_uriage_progress3) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_uriage_progress_pre3 = "---";
-        }
-    // 卸(免税外)・売上点数予測・過去比
-        if($oroshi_sum_number_progress_pre <> "" && $oroshi_sum_number_progress_pre <> 0 && $oroshi_sum_number_progress3 <> "" && $oroshi_sum_number_progress3 <> 0){
-            $oroshi_sum_number_progress_pre3 = (floor(((float)$oroshi_sum_number_progress_pre / (float)$oroshi_sum_number_progress3) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_number_progress_pre3 = "---";
-        }
-    // 卸(免税外)・売上粗利予測・過去比
-        if($oroshi_sum_arari_progress_pre <> "" && $oroshi_sum_arari_progress_pre <> 0 && $oroshi_sum_arari_progress3 <> "" && $oroshi_sum_arari_progress3 <> 0){
-            $oroshi_sum_arari_progress_pre3 = (floor(((float)$oroshi_sum_arari_progress_pre / (float)$oroshi_sum_arari_progress3) * 100 * 10)) / 10;
-        } else {
-            $oroshi_sum_arari_progress_pre3 = "---";
-        }
-}
+                                                            
+                                                            
+                                                            
+                                                    $oroshi_sum_uriage_progress_pre3 = "";
+                                                    $oroshi_sum_number_progress_pre3 = "";
+                                                    $oroshi_sum_arari_progress_pre3 = "";
+                                                    if($out1_c == "ON"){ 
+                                                        // 店舗・通販(免税)・売上額予測・過去比
+                                                            if($oroshi_sum_uriage_progress_pre <> "" && $oroshi_sum_uriage_progress_pre <> 0 && $oroshi_sum_uriage_progress3 <> "" && $oroshi_sum_uriage_progress3 <> 0){
+                                                                $oroshi_sum_uriage_progress_pre3 = (floor(((float)$oroshi_sum_uriage_progress_pre / (float)$oroshi_sum_uriage_progress3) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_uriage_progress_pre3 = "---";
+                                                            }
+                                                        // 店舗・通販(免税)・売上点数予測・過去比
+                                                            if($oroshi_sum_number_progress_pre <> "" && $oroshi_sum_number_progress_pre <> 0 && $oroshi_sum_number_progress3 <> "" && $oroshi_sum_number_progress3 <> 0){
+                                                                $oroshi_sum_number_progress_pre3 = (floor(((float)$oroshi_sum_number_progress_pre / (float)$oroshi_sum_number_progress3) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_number_progress_pre3 = "---";
+                                                            }
+                                                        // 店舗・通販(免税)・売上粗利予測・過去比
+                                                            if($oroshi_sum_arari_progress_pre <> "" && $oroshi_sum_arari_progress_pre <> 0 && $oroshi_sum_arari_progress3 <> "" && $oroshi_sum_arari_progress3 <> 0){
+                                                                $oroshi_sum_arari_progress_pre3 = (floor(((float)$oroshi_sum_arari_progress_pre / (float)$oroshi_sum_arari_progress3) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $oroshi_sum_arari_progress_pre3 = "---";
+                                                            }
+                                                    }
 
                                                 // 合計値
                                                         // データ格納最終月・売上額進捗合計
@@ -35036,191 +35015,191 @@ if($out1_c == "ON"){
      
 
                             /************************************************************************************************************************************************************************************************************* */
-                                // 卸用(免税外)（過去の期間）
+                                // 店舗・通販(免税)（過去の期間）
                             /************************************************************************************************************************************************************************************************************* */
-if($out1_c == "ON"){
-        // DB検索（卸）スタート
-            $past_oroshi_buys = DB::table($table_name) 
-            // 月毎にグループ化して値を分けるための処理
-                ->select([
-                    \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
-                    \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
-                    \DB::raw("SUM(uriagesuu) AS oroshi_number"),
-                    \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
-                ])
-                ->groupBy('oroshi_month')
-            // 条件（売上部門が卸）
-                //->where('baikyakukubun',3)
-                    // 店舗と通販を取得
-                    // 「baikyakukubun」が「1」or「2」の場合
-                    ->where(function ($query){
-                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
-                    })
-                
-            // 条件（期間の指定）
-                ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
-            // 条件（分類名）
-                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
-						// 条件（商品区分分類名が新品）
-							if($out2_a == "ON"){
-								$query->orwhere("shouhinkubunbunruimei","like","%新品%");
-							}
-						// 条件（商品区分分類名が中古）
-							if($out2_b == "ON"){
-								$query->orwhere("shouhinkubunbunruimei","like","%中古%");
-							}
-						// 条件（商品区分分類名がアンティーク）
-							if($out2_c == "ON"){
-								$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-							}
-						// 条件（商品区分分類名がその他）
-							if($out2_d == "ON"){
-								$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-							}
-						// 条件（商品区分分類名が修理）
-							if($out2_e == "ON"){
-								$query->orwhere("shouhinkubunbunruimei","like","%修理%");
-							}
-                
-                })
-            // 条件（通販区分）
-                ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-
-                        $query->orWhere('tsuuhankubun','');
-
-						// 条件（通販区分が自社）
-							if($out3_a == "ON"){
-								$query->orWhere('tsuuhankubun',1);
-							}
-						// 条件（通販区分が楽天）
-							if($out3_b == "ON"){
-								$query->orWhere('tsuuhankubun',2);
-							}
-						// 条件（通販区分がヤフー）
-							if($out3_c == "ON"){
-								$query->orWhere('tsuuhankubun',3);
-							}
-						// 条件（通販区分が電話・雑誌）
-							if($out3_d == "ON"){
-								$query->orWhere('tsuuhankubun',5);
-							}
-						// 条件（通販区分がYオークション）
-							if($out3_e == "ON"){
-								$query->orWhere('tsuuhankubun',4);
-							}
-						// 条件（通販区分が修理品返送）
-							if($out3_f == "ON"){
-								$query->orWhere('tsuuhankubun',9);
-							}
-                
-                })
-            // 条件（免税）
-                ->where("menzei","like","%免税%")
-                                
-            // 条件（扱い部門）
-                ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
-
-                        $query->orWhere('bumonmei','');
-
-						// 条件（扱い部門がジャック）
-							if($out5_a == "ON"){
-								$query->orWhere('bumonmei','Jackroad');
-							}
-						// 条件（扱い部門がベティー）
-							if($out5_b == "ON"){
-								$query->orWhere('bumonmei','BettyRoad');
-							}
-						// 条件（扱い部門がジュエリー）
-							if($out5_c == "ON"){
-								$query->orWhere('bumonmei','Jewelry');
-							}
-              
-                })
-            // ソート順指定
-                ->orderBy('uriage', 'asc')
-                ->get();
-
-        // クエリビルダスタート
-            // 以下の変数は月数フラグとして後のロジックで使用するが、フォームにて「免税のみ」を選択した場合「卸」は全月一つも無いので、上でロジックが止まってしまい月数カウントの変数も0のままとなる。「卸」のみ独立した変数名として、カウント用は店舗用で対応
-            $past_i2 = 0;
-            // 変数リセット
-                $past_oroshi_sum_uriage = 0;
-                $past_oroshi_sum_number = 0;
-                $past_oroshi_sum_arari= 0;
-                foreach ($past_oroshi_buys as $past_oroshi_buy) {
-                    // 各月名
-                        $past_oroshi_month[$past_i2]= $past_oroshi_buy->oroshi_month;
-                    // 各月卸売上
-                        $past_oroshi_uriage[$past_i2]= $past_oroshi_buy->oroshi_uriage;
-                        // 全過去期間に現在の期間が含まれている場合
-                            if(strpos($past_temp1_oroshi_manthly_data, $past_oroshi_month[$past_i2] ) !== false){
-                                // 文字列の同期間名を現在月の売上に書き換え
-                                    $past_temp1_oroshi_manthly_data = str_replace($past_oroshi_month[$past_i2], $past_oroshi_uriage[$past_i2], $past_temp1_oroshi_manthly_data);
-                            }
-                    // 全期間卸売上合計
-                        $past_oroshi_sum_uriage = (int)$past_oroshi_sum_uriage + (int)$past_oroshi_uriage[$past_i2];
-                    // 各月卸点数
-                        $past_oroshi_number[$past_i2]= $past_oroshi_buy->oroshi_number;
-                        // 全過去期間に現在の期間が含まれている場合
-                            if(strpos($past_temp1_oroshi_manthly_data2, $past_oroshi_month[$past_i2] ) !== false){
-                                // 文字列の同期間名を現在月の売上に書き換え
-                                    $past_temp1_oroshi_manthly_data2 = str_replace($past_oroshi_month[$past_i2], $past_oroshi_number[$past_i2], $past_temp1_oroshi_manthly_data2);
-                            }
-                    // 全期間卸点数合計
-                        $past_oroshi_sum_number = (int)$past_oroshi_sum_number + (int)$past_oroshi_number[$past_i2];
-                    
-                    // 各月卸粗利
-                        $past_oroshi_arari[$past_i2]= $past_oroshi_buy->oroshi_arari;
-                        // 全過去期間に現在の期間が含まれている場合
-                            if(strpos($past_temp1_oroshi_manthly_data3, $past_oroshi_month[$past_i2] ) !== false){
-                                // 文字列の同期間名を現在月の売上に書き換え
-                                    $past_temp1_oroshi_manthly_data3 = str_replace($past_oroshi_month[$past_i2], $past_oroshi_arari[$past_i2], $past_temp1_oroshi_manthly_data3);
-                            }
-                    // 全期間卸粗利合計
-                        $past_oroshi_sum_arari = (int)$past_oroshi_sum_arari + (int)$past_oroshi_arari[$past_i2];
-                        
-                        $past_i2++;
-                }
-            // 全期間卸売上合計とその平均値のHTML作成
-                $past_temp1_oroshi_sum = "";
-                if($past_oroshi_sum_uriage <> 0 && $past_oroshi_sum_uriage <> ""){
-                    $past_oroshi_sum_uriage_c = number_format((int)$past_oroshi_sum_uriage); 
-                    $past_oroshi_sum_uriage_ave = number_format(floor((int)$past_oroshi_sum_uriage / $past_i2));
-                    $past_oroshi_sum_uriage_ave2 = floor((int)$past_oroshi_sum_uriage / $past_i);
-                } else {
-                    $past_oroshi_sum_uriage_c = $past_oroshi_sum_uriage; 
-                    $past_oroshi_sum_uriage_ave = 0;
-                    $past_oroshi_sum_uriage_ave2 = 0;
-                }
-                //$past_temp1_oroshi_sum .= "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_uriage / $past_i2)) . "</div></div>";
-                $past_temp1_oroshi_sum .= "<div class='title4 ta_r'>" . $past_oroshi_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_uriage_ave . "</div></div>";
-            // 全期間卸売上点数合計とその平均値のHTML作成
-                $past_temp1_oroshi_sum2 = "";
-                if($past_oroshi_sum_number <> 0 && $past_oroshi_sum_number <> ""){
-                    $past_oroshi_sum_number_c = number_format((int)$past_oroshi_sum_number); 
-                    $past_oroshi_sum_number_ave = number_format(floor((int)$past_oroshi_sum_number / $past_i2));
-                    $past_oroshi_sum_number_ave2 = floor((int)$past_oroshi_sum_number / $past_i);
-                } else {
-                    $past_oroshi_sum_number_c = $past_oroshi_sum_number; 
-                    $past_oroshi_sum_number_ave = 0;
-                    $past_oroshi_sum_number_ave2 = 0;
-                }
-                //$past_temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_number) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_number / $past_i2)) . "</div></div>";
-                $past_temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . $past_oroshi_sum_number_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_number_ave . "</div></div>";
-            // 全期間卸粗利合計とその平均値のHTML作成
-                $past_temp1_oroshi_sum3 = "";
-                if($past_oroshi_sum_arari <> 0 && $past_oroshi_sum_arari <> ""){
-                    $past_oroshi_sum_arari_c = number_format((int)$past_oroshi_sum_arari); 
-                    $past_oroshi_sum_arari_ave = number_format(floor((int)$past_oroshi_sum_arari / $past_i2));
-                    $past_oroshi_sum_arari_ave2 = floor((int)$past_oroshi_sum_arari / $past_i);
-                } else {
-                    $past_oroshi_sum_arari_c = $past_oroshi_sum_arari; 
-                    $past_oroshi_sum_arari_ave = 0;
-                    $past_oroshi_sum_arari_ave2 = 0;
-                }
-                //$past_temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_arari / $past_i2)) . "</div></div>";
-                $past_temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . $past_oroshi_sum_arari_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_arari_ave . "</div></div>";
-}
+                                                if($out1_c == "ON"){
+                                                        // DB検索（店舗・通販(免税)）スタート
+                                                            $past_oroshi_buys = DB::table($table_name) 
+                                                            // 月毎にグループ化して値を分けるための処理
+                                                                ->select([
+                                                                    \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
+                                                                    \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
+                                                                    \DB::raw("SUM(uriagesuu) AS oroshi_number"),
+                                                                    \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
+                                                                ])
+                                                                ->groupBy('oroshi_month')
+                                                            // 条件（売上部門が店舗・通販(免税)）
+                                                                //->where('baikyakukubun',3)
+                                                                    // 店舗と通販を取得
+                                                                    // 「baikyakukubun」が「1」or「2」の場合
+                                                                    ->where(function ($query){
+                                                                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                                                                    })
+                                                                
+                                                            // 条件（期間の指定）
+                                                                ->whereBetween($table_name . '.uriage', [$past_between_start, $past_between_end])
+                                                            // 条件（分類名）
+                                                                ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                						// 条件（商品区分分類名が新品）
+                                                							if($out2_a == "ON"){
+                                                								$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+                                                							}
+                                                						// 条件（商品区分分類名が中古）
+                                                							if($out2_b == "ON"){
+                                                								$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+                                                							}
+                                                						// 条件（商品区分分類名がアンティーク）
+                                                							if($out2_c == "ON"){
+                                                								$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+                                                							}
+                                                						// 条件（商品区分分類名がその他）
+                                                							if($out2_d == "ON"){
+                                                								$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+                                                							}
+                                                						// 条件（商品区分分類名が修理）
+                                                							if($out2_e == "ON"){
+                                                								$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+                                                							}
+                                                                
+                                                                })
+                                                            // 条件（通販区分）
+                                                                ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
+                                                
+                                                                        $query->orWhere('tsuuhankubun','');
+                                                
+                                                						// 条件（通販区分が自社）
+                                                							if($out3_a == "ON"){
+                                                								$query->orWhere('tsuuhankubun',1);
+                                                							}
+                                                						// 条件（通販区分が楽天）
+                                                							if($out3_b == "ON"){
+                                                								$query->orWhere('tsuuhankubun',2);
+                                                							}
+                                                						// 条件（通販区分がヤフー）
+                                                							if($out3_c == "ON"){
+                                                								$query->orWhere('tsuuhankubun',3);
+                                                							}
+                                                						// 条件（通販区分が電話・雑誌）
+                                                							if($out3_d == "ON"){
+                                                								$query->orWhere('tsuuhankubun',5);
+                                                							}
+                                                						// 条件（通販区分がYオークション）
+                                                							if($out3_e == "ON"){
+                                                								$query->orWhere('tsuuhankubun',4);
+                                                							}
+                                                						// 条件（通販区分が修理品返送）
+                                                							if($out3_f == "ON"){
+                                                								$query->orWhere('tsuuhankubun',9);
+                                                							}
+                                                                
+                                                                })
+                                                            // 条件（免税）
+                                                                ->where("menzei","like","%免税%")
+                                                                                
+                                                            // 条件（扱い部門）
+                                                                ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
+                                                
+                                                                        $query->orWhere('bumonmei','');
+                                                
+                                                						// 条件（扱い部門がジャック）
+                                                							if($out5_a == "ON"){
+                                                								$query->orWhere('bumonmei','Jackroad');
+                                                							}
+                                                						// 条件（扱い部門がベティー）
+                                                							if($out5_b == "ON"){
+                                                								$query->orWhere('bumonmei','BettyRoad');
+                                                							}
+                                                						// 条件（扱い部門がジュエリー）
+                                                							if($out5_c == "ON"){
+                                                								$query->orWhere('bumonmei','Jewelry');
+                                                							}
+                                                              
+                                                                })
+                                                            // ソート順指定
+                                                                ->orderBy('uriage', 'asc')
+                                                                ->get();
+                                                
+                                                        // クエリビルダスタート
+                                                            // 以下の変数は月数フラグとして後のロジックで使用するが、フォームにて「免税のみ」を選択した場合「店舗・通販(免税)」は全月一つも無いので、上でロジックが止まってしまい月数カウントの変数も0のままとなる。「店舗・通販(免税)」のみ独立した変数名として、カウント用は店舗用で対応
+                                                            $past_i2 = 0;
+                                                            // 変数リセット
+                                                                $past_oroshi_sum_uriage = 0;
+                                                                $past_oroshi_sum_number = 0;
+                                                                $past_oroshi_sum_arari= 0;
+                                                                foreach ($past_oroshi_buys as $past_oroshi_buy) {
+                                                                    // 各月名
+                                                                        $past_oroshi_month[$past_i2]= $past_oroshi_buy->oroshi_month;
+                                                                    // 各月店舗・通販(免税)売上
+                                                                        $past_oroshi_uriage[$past_i2]= $past_oroshi_buy->oroshi_uriage;
+                                                                        // 全過去期間に現在の期間が含まれている場合
+                                                                            if(strpos($past_temp1_oroshi_manthly_data, $past_oroshi_month[$past_i2] ) !== false){
+                                                                                // 文字列の同期間名を現在月の売上に書き換え
+                                                                                    $past_temp1_oroshi_manthly_data = str_replace($past_oroshi_month[$past_i2], $past_oroshi_uriage[$past_i2], $past_temp1_oroshi_manthly_data);
+                                                                            }
+                                                                    // 全期間店舗・通販(免税)売上合計
+                                                                        $past_oroshi_sum_uriage = (int)$past_oroshi_sum_uriage + (int)$past_oroshi_uriage[$past_i2];
+                                                                    // 各月店舗・通販(免税)点数
+                                                                        $past_oroshi_number[$past_i2]= $past_oroshi_buy->oroshi_number;
+                                                                        // 全過去期間に現在の期間が含まれている場合
+                                                                            if(strpos($past_temp1_oroshi_manthly_data2, $past_oroshi_month[$past_i2] ) !== false){
+                                                                                // 文字列の同期間名を現在月の売上に書き換え
+                                                                                    $past_temp1_oroshi_manthly_data2 = str_replace($past_oroshi_month[$past_i2], $past_oroshi_number[$past_i2], $past_temp1_oroshi_manthly_data2);
+                                                                            }
+                                                                    // 全期間店舗・通販(免税)点数合計
+                                                                        $past_oroshi_sum_number = (int)$past_oroshi_sum_number + (int)$past_oroshi_number[$past_i2];
+                                                                    
+                                                                    // 各月店舗・通販(免税)粗利
+                                                                        $past_oroshi_arari[$past_i2]= $past_oroshi_buy->oroshi_arari;
+                                                                        // 全過去期間に現在の期間が含まれている場合
+                                                                            if(strpos($past_temp1_oroshi_manthly_data3, $past_oroshi_month[$past_i2] ) !== false){
+                                                                                // 文字列の同期間名を現在月の売上に書き換え
+                                                                                    $past_temp1_oroshi_manthly_data3 = str_replace($past_oroshi_month[$past_i2], $past_oroshi_arari[$past_i2], $past_temp1_oroshi_manthly_data3);
+                                                                            }
+                                                                    // 全期間店舗・通販(免税)粗利合計
+                                                                        $past_oroshi_sum_arari = (int)$past_oroshi_sum_arari + (int)$past_oroshi_arari[$past_i2];
+                                                                        
+                                                                        $past_i2++;
+                                                                }
+                                                            // 全期間店舗・通販(免税)売上合計とその平均値のHTML作成
+                                                                $past_temp1_oroshi_sum = "";
+                                                                if($past_oroshi_sum_uriage <> 0 && $past_oroshi_sum_uriage <> ""){
+                                                                    $past_oroshi_sum_uriage_c = number_format((int)$past_oroshi_sum_uriage); 
+                                                                    $past_oroshi_sum_uriage_ave = number_format(floor((int)$past_oroshi_sum_uriage / $past_i2));
+                                                                    $past_oroshi_sum_uriage_ave2 = floor((int)$past_oroshi_sum_uriage / $past_i);
+                                                                } else {
+                                                                    $past_oroshi_sum_uriage_c = $past_oroshi_sum_uriage; 
+                                                                    $past_oroshi_sum_uriage_ave = 0;
+                                                                    $past_oroshi_sum_uriage_ave2 = 0;
+                                                                }
+                                                                //$past_temp1_oroshi_sum .= "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_uriage / $past_i2)) . "</div></div>";
+                                                                $past_temp1_oroshi_sum .= "<div class='title4 ta_r'>" . $past_oroshi_sum_uriage_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_uriage_ave . "</div></div>";
+                                                            // 全期間店舗・通販(免税)売上点数合計とその平均値のHTML作成
+                                                                $past_temp1_oroshi_sum2 = "";
+                                                                if($past_oroshi_sum_number <> 0 && $past_oroshi_sum_number <> ""){
+                                                                    $past_oroshi_sum_number_c = number_format((int)$past_oroshi_sum_number); 
+                                                                    $past_oroshi_sum_number_ave = number_format(floor((int)$past_oroshi_sum_number / $past_i2));
+                                                                    $past_oroshi_sum_number_ave2 = floor((int)$past_oroshi_sum_number / $past_i);
+                                                                } else {
+                                                                    $past_oroshi_sum_number_c = $past_oroshi_sum_number; 
+                                                                    $past_oroshi_sum_number_ave = 0;
+                                                                    $past_oroshi_sum_number_ave2 = 0;
+                                                                }
+                                                                //$past_temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_number) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_number / $past_i2)) . "</div></div>";
+                                                                $past_temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . $past_oroshi_sum_number_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_number_ave . "</div></div>";
+                                                            // 全期間店舗・通販(免税)粗利合計とその平均値のHTML作成
+                                                                $past_temp1_oroshi_sum3 = "";
+                                                                if($past_oroshi_sum_arari <> 0 && $past_oroshi_sum_arari <> ""){
+                                                                    $past_oroshi_sum_arari_c = number_format((int)$past_oroshi_sum_arari); 
+                                                                    $past_oroshi_sum_arari_ave = number_format(floor((int)$past_oroshi_sum_arari / $past_i2));
+                                                                    $past_oroshi_sum_arari_ave2 = floor((int)$past_oroshi_sum_arari / $past_i);
+                                                                } else {
+                                                                    $past_oroshi_sum_arari_c = $past_oroshi_sum_arari; 
+                                                                    $past_oroshi_sum_arari_ave = 0;
+                                                                    $past_oroshi_sum_arari_ave2 = 0;
+                                                                }
+                                                                //$past_temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$past_oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$past_oroshi_sum_arari / $past_i2)) . "</div></div>";
+                                                                $past_temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . $past_oroshi_sum_arari_c . "</div><div class='title4 ta_r'>" . $past_oroshi_sum_arari_ave . "</div></div>";
+                                                }
 
                                             
                             /************************************************************************************************************************************************************************************************************* */
@@ -35276,17 +35255,20 @@ if($out1_c == "ON"){
                                                         if(isset($past_shop_number[$past_all_i])){$past_all_month_number = $past_all_month_number + (int)$past_shop_number[$past_all_i];} 
                                                         if(isset($past_shop_arari[$past_all_i])){$past_all_month_arari = $past_all_month_arari + (int)$past_shop_arari[$past_all_i]; }
                                                     }
-if($out1_c == "ON"){ 
-    // フォーム上の選択が「免税」のみだと「卸」は全月0なので「卸」を含む足し算だとエラーとなるため、条件分岐で回避
-        if($out4_a == "OFF" && $out4_b == "ON"){
-            $past_all_month_uriage = $past_all_month_uriage; 
-            $past_all_month_number = $past_all_month_number; 
-            $past_all_month_arari = $past_all_month_arari; 
-        } else {
-            if(isset($past_oroshi_uriage[$past_all_i])){ $past_all_month_uriage = $past_all_month_uriage + (int)$past_oroshi_uriage[$past_all_i]; }
-            if(isset($past_oroshi_number[$past_all_i])){ $past_all_month_number = $past_all_month_number + (int)$past_oroshi_number[$past_all_i]; }
-            if(isset($past_oroshi_arari[$past_all_i])){ $past_all_month_arari = $past_all_month_arari + (int)$past_oroshi_arari[$past_all_i]; }
-        }
+                                                    
+                                                    
+                                                    
+                                                if($out1_c == "ON"){ 
+                                                    // フォーム上の選択が「免税」のみだと「店舗・通販(免税)」は全月0なので「店舗・通販(免税)」を含む足し算だとエラーとなるため、条件分岐で回避
+                                                        if($out4_a == "OFF" && $out4_b == "ON"){
+                                                            $past_all_month_uriage = $past_all_month_uriage; 
+                                                            $past_all_month_number = $past_all_month_number; 
+                                                            $past_all_month_arari = $past_all_month_arari; 
+                                                        } else {
+                                                            if(isset($past_oroshi_uriage[$past_all_i])){ $past_all_month_uriage = $past_all_month_uriage + (int)$past_oroshi_uriage[$past_all_i]; }
+                                                            if(isset($past_oroshi_number[$past_all_i])){ $past_all_month_number = $past_all_month_number + (int)$past_oroshi_number[$past_all_i]; }
+                                                            if(isset($past_oroshi_arari[$past_all_i])){ $past_all_month_arari = $past_all_month_arari + (int)$past_oroshi_arari[$past_all_i]; }
+                                                        }
 }
 
                                                 // 全期間の全部門売上合計
@@ -35492,97 +35474,99 @@ if($out1_c == "ON"){
                                                 }
 
 
-// 卸(免税外)（過去）用HTMLの作成
-    $past_js_oroshi_uriage  = "";
-    $past_js_oroshi_number  = "";
-    $past_js_oroshi_arari  = "";
-    $past_temp1_oroshi_manthly_html = "";
-    $past_temp1_oroshi_manthly_html2 = "";
-    $past_temp1_oroshi_manthly_html3 = "";
-    if($out1_c == "ON"){     
-        // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
-            foreach($manth_past_array as $val){
-                    $val = mb_substr($val,0,-3);
-                    if(strpos($past_temp1_oroshi_manthly_data, $val ) !== false){
-                        $past_temp1_oroshi_manthly_data = str_replace($val, 0, $past_temp1_oroshi_manthly_data);
-                    }
-                    if(strpos($past_temp1_oroshi_manthly_data2, $val ) !== false){
-                        $past_temp1_oroshi_manthly_data2 = str_replace($val, 0, $past_temp1_oroshi_manthly_data2);
-                    }
-                    if(strpos($past_temp1_oroshi_manthly_data3, $val ) !== false){
-                        $past_temp1_oroshi_manthly_data3 = str_replace($val, 0, $past_temp1_oroshi_manthly_data3);
-                    }
-            }
-        // 各月売上が記載された文字列を配列へ変換
-            $past_temp1_oroshi_manthly_array = explode(',',$past_temp1_oroshi_manthly_data);
-            $past_temp1_oroshi_manthly_array2 = explode(',',$past_temp1_oroshi_manthly_data2);
-            $past_temp1_oroshi_manthly_array3 = explode(',',$past_temp1_oroshi_manthly_data3);
-        // 各月のHTMLを作成
-            foreach($past_temp1_oroshi_manthly_array as $val){
-                // 【進捗率の取得】最終月の「過去・卸・売上」を取得
-                    //$past_oroshi_last_uriage = $val;
-                
-                if($val == ""){
-                    // 表示用
-                        $past_temp1_oroshi_manthly_html .= "<div class='title3 ta_r'>0</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_uriage  .= "0, ";
-                } else {
-                    // 表示用
-                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
-                        $past_temp1_oroshi_manthly_html .= "<div class='title3 ta_r'>" . $val . "</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_uriage  .= $val . ", ";
-                }
-    
-            }
-            foreach($past_temp1_oroshi_manthly_array2 as $val){
-                // 【進捗率の取得】最終月の「過去・卸・点数」を取得
-                    //$past_oroshi_last_number = $val;
-    
-                if($val == ""){
-                    // 表示用
-                        $past_temp1_oroshi_manthly_html2 .= "<div class='title3 ta_r'>0</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_number  .= "0, ";
-                } else {
-                    // 表示用
-                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
-                        $past_temp1_oroshi_manthly_html2 .= "<div class='title3 ta_r'>" . $val . "</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_number  .= $val . ", ";
-                }
-    
-            }
-            foreach($past_temp1_oroshi_manthly_array3 as $val){
-                // 【進捗率の取得】最終月の「過去・卸・粗利」を取得
-                    //$past_oroshi_last_arari = $val;
-                
-                if($val == ""){
-                    // 表示用
-                        $past_temp1_oroshi_manthly_html3 .= "<div class='title3 ta_r'>0</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_arari  .= "0, ";
-                } else {
-                    // 表示用
-                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
-                        $past_temp1_oroshi_manthly_html3 .= "<div class='title3 ta_r'>" . $val . "</div>";
-                    // JSグラフ用
-                        $past_js_oroshi_arari  .= $val . ", ";
-                }
-    
-            }
-        // 全体HTMLの作成
-            if(isset($past_temp1_oroshi_manthly_html) && isset($past_temp1_oroshi_sum)){
-                $past_temp1_oroshi_manthly_html = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $past_temp1_oroshi_manthly_html . $past_temp1_oroshi_sum;
-            }
-            if(isset($past_temp1_oroshi_manthly_html2) && isset($past_temp1_oroshi_sum2)){
-                $past_temp1_oroshi_manthly_html2 = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $past_temp1_oroshi_manthly_html2 . $past_temp1_oroshi_sum2;
-            }
-            if(isset($past_temp1_oroshi_manthly_html3) && isset($past_temp1_oroshi_sum3)){
-                $past_temp1_oroshi_manthly_html3 = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $past_temp1_oroshi_manthly_html3 . $past_temp1_oroshi_sum3;
-            }
-    }
+                                                // 店舗・通販(免税)（過去）用HTMLの作成
+                                                    $past_js_oroshi_uriage  = "";
+                                                    $past_js_oroshi_number  = "";
+                                                    $past_js_oroshi_arari  = "";
+                                                    $past_temp1_oroshi_manthly_html = "";
+                                                    $past_temp1_oroshi_manthly_html2 = "";
+                                                    $past_temp1_oroshi_manthly_html3 = "";
+                                                    if($out1_c == "ON"){     
+                                                        // 過去全期間名の文字列で、年月名がそのまま記載されているものは「0」に変換（売上データが存在するは年月名を売上の数字に置き換え済なので、年月名がそのまま残っているものはデータ無なので）
+                                                            foreach($manth_past_array as $val){
+                                                                    $val = mb_substr($val,0,-3);
+                                                                    if(strpos($past_temp1_oroshi_manthly_data, $val ) !== false){
+                                                                        $past_temp1_oroshi_manthly_data = str_replace($val, 0, $past_temp1_oroshi_manthly_data);
+                                                                    }
+                                                                    if(strpos($past_temp1_oroshi_manthly_data2, $val ) !== false){
+                                                                        $past_temp1_oroshi_manthly_data2 = str_replace($val, 0, $past_temp1_oroshi_manthly_data2);
+                                                                    }
+                                                                    if(strpos($past_temp1_oroshi_manthly_data3, $val ) !== false){
+                                                                        $past_temp1_oroshi_manthly_data3 = str_replace($val, 0, $past_temp1_oroshi_manthly_data3);
+                                                                    }
+                                                            }
+                                                        // 各月売上が記載された文字列を配列へ変換
+                                                            $past_temp1_oroshi_manthly_array = explode(',',$past_temp1_oroshi_manthly_data);
+                                                            $past_temp1_oroshi_manthly_array2 = explode(',',$past_temp1_oroshi_manthly_data2);
+                                                            $past_temp1_oroshi_manthly_array3 = explode(',',$past_temp1_oroshi_manthly_data3);
+                                                        // 各月のHTMLを作成
+                                                            foreach($past_temp1_oroshi_manthly_array as $val){
+                                                                // 【進捗率の取得】最終月の「過去・店舗・通販(免税)・売上」を取得
+                                                                    //$past_oroshi_last_uriage = $val;
+                                                                
+                                                                if($val == ""){
+                                                                    // 表示用
+                                                                        $past_temp1_oroshi_manthly_html .= "<div class='title3 ta_r'>0</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_uriage  .= "0, ";
+                                                                } else {
+                                                                    // 表示用
+                                                                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
+                                                                        $past_temp1_oroshi_manthly_html .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_uriage  .= $val . ", ";
+                                                                }
+                                                    
+                                                            }
+                                                            foreach($past_temp1_oroshi_manthly_array2 as $val){
+                                                                // 【進捗率の取得】最終月の「過去・店舗・通販(免税)・点数」を取得
+                                                                    //$past_oroshi_last_number = $val;
+                                                    
+                                                                if($val == ""){
+                                                                    // 表示用
+                                                                        $past_temp1_oroshi_manthly_html2 .= "<div class='title3 ta_r'>0</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_number  .= "0, ";
+                                                                } else {
+                                                                    // 表示用
+                                                                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
+                                                                        $past_temp1_oroshi_manthly_html2 .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_number  .= $val . ", ";
+                                                                }
+                                                    
+                                                            }
+                                                            foreach($past_temp1_oroshi_manthly_array3 as $val){
+                                                                // 【進捗率の取得】最終月の「過去・店舗・通販(免税)・粗利」を取得
+                                                                    //$past_oroshi_last_arari = $val;
+                                                                
+                                                                if($val == ""){
+                                                                    // 表示用
+                                                                        $past_temp1_oroshi_manthly_html3 .= "<div class='title3 ta_r'>0</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_arari  .= "0, ";
+                                                                } else {
+                                                                    // 表示用
+                                                                        if($val <> 0 && $val <> ""){$val = number_format((int)$val);}
+                                                                        $past_temp1_oroshi_manthly_html3 .= "<div class='title3 ta_r'>" . $val . "</div>";
+                                                                    // JSグラフ用
+                                                                        $past_js_oroshi_arari  .= $val . ", ";
+                                                                }
+                                                    
+                                                            }
+                                                        // 全体HTMLの作成
+                                                            if(isset($past_temp1_oroshi_manthly_html) && isset($past_temp1_oroshi_sum)){
+                                                                $past_temp1_oroshi_manthly_html = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $past_temp1_oroshi_manthly_html . $past_temp1_oroshi_sum;
+                                                            }
+                                                            if(isset($past_temp1_oroshi_manthly_html2) && isset($past_temp1_oroshi_sum2)){
+                                                                $past_temp1_oroshi_manthly_html2 = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $past_temp1_oroshi_manthly_html2 . $past_temp1_oroshi_sum2;
+                                                            }
+                                                            if(isset($past_temp1_oroshi_manthly_html3) && isset($past_temp1_oroshi_sum3)){
+                                                                $past_temp1_oroshi_manthly_html3 = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $past_temp1_oroshi_manthly_html3 . $past_temp1_oroshi_sum3;
+                                                            }
+                                                    }
+                                                    
+                                                    
 
                                         // 各月の全部門売上合計のJS表示用
                                                 $js_past_all_month_uriage = "";
@@ -35607,154 +35591,154 @@ if($out1_c == "ON"){
 
 
 
-// 過去・通(免税外)販・粗利率
-
-    $i = 0;
-    $past_web_ratio = "";
-    $past_web_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(免税外)(通販)</div>";
-    $past_web_total = "";
-    $past_web_total_js = "";
-    $all_total = "";
-    $past_web_total_ratio = "";
-    foreach($past_temp1_web_manthly_array3 as $var){
-        if($var == 0){
-            $past_web_ratio = "---";
-            $past_web_total = $past_web_total;
-            if($past_temp1_web_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$past_temp1_web_manthly_array[$i];
-            }
-        } else {
-            if($past_temp1_web_manthly_array[$i] <> 0 && $var <> 0 && $past_temp1_web_manthly_array[$i] <> "" && $var <> ""){
-                $past_web_ratio = (floor(((float)$var / (float)$past_temp1_web_manthly_array[$i]) * 100 * 10)) / 10;
-            } else {
-                $past_web_ratio = "---";
-            }
-            $past_web_total = (int)$past_web_total + (int)$var;
-            if($past_temp1_web_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$past_temp1_web_manthly_array[$i];
-            }
-        }
-        ${"past_web_ratio_" .$i} = "";
-        ${"past_web_ratio_" .$i} = $past_web_ratio;
-
-        $past_web_total_js  .= (float)$past_web_ratio . ", ";
-        if($past_web_ratio <> "" && $past_web_ratio <> 0){$past_web_ratio = number_format((float)$past_web_ratio ,1);}
-        $past_web_sum_arari_per .= "<div class='title6 ta_r'>" . $past_web_ratio . "%</div>";
-
-        $i++;
-    }
-    // 通販用粗利率を取得
-        if($past_web_total <> 0 && $all_total <> 0 && $past_web_total <> "" && $all_total <> ""){
-            $past_web_total_ratio = number_format((floor(((int)$past_web_total / (int)$all_total) * 100 * 10)) / 10 ,1);
-        } else {
-            $past_web_total_ratio = "---";
-        }
-
-        $past_web_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_web_total_ratio . "%</div></div>";
-
-// 過去・店舗(免税外)・粗利率
-
-    $i = 0;
-    $past_shop_ratio = "";
-    $past_shop_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(免税外)(店舗)</div>";
-    $past_shop_total = "";
-    $past_shop_total_js = "";
-    $past_all_total = "";
-    $past_shop_total_ratio = "";
-    foreach($past_temp1_shop_manthly_array3 as $var){
-        if($var == 0){
-            $past_shop_ratio = "---";
-            $past_shop_total = $past_shop_total;
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $past_all_total = $past_all_total;
-            } else {
-                $past_all_total = (int)$past_all_total + (int)$past_temp1_shop_manthly_array[$i];
-            }
-        } else {
-            if($var <> 0 && $past_temp1_shop_manthly_array[$i] <> 0 && $var <> "" && $past_temp1_shop_manthly_array[$i] <> ""){
-                $past_shop_ratio = (floor(((float)$var / (float)$past_temp1_shop_manthly_array[$i]) * 100 * 10)) / 10;
-            } else {
-                $past_shop_ratio = "---";
-            }
-            $past_shop_total = (int)$past_shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $past_all_total = $past_all_total;
-            } else {
-                $past_all_total = (int)$past_all_total + (int)$past_temp1_shop_manthly_array[$i];
-            }
-        }
-        ${"past_shop_ratio_" .$i} = "";
-        ${"past_shop_ratio_" .$i} = $past_shop_ratio;
-        
-        $past_shop_total_js  .= (float)$past_shop_ratio . ", ";
-        $past_shop_sum_arari_per .= "<div class='title6 ta_r'>" . $past_shop_ratio . "%</div>";
-
-        $i++;
-    }
-    // 過去・店舗用粗利率を取得
-        if($past_shop_total <> 0 && $past_all_total <> 0 && $past_shop_total <> "" && $past_all_total <> ""){
-            $past_shop_total_ratio = number_format((floor(((float)$past_shop_total / (float)$past_all_total) * 100 * 10)) / 10 ,1);
-        } else {
-            $past_shop_total_ratio = "---";
-        }
-
-        $past_shop_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_shop_total_ratio . "%</div></div>";
-
-
-// 過去・卸(免税外)・粗利率
-    $past_oroshi_total_js = "";
-
-    if($out1_c == "ON"){
-
-		    $i = 0;
-		    $past_oroshi_ratio = "";
-		    $past_oroshi_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(免税外)(卸)</div>";
-		    $past_oroshi_total = "";
-		    $past_all_total = "";
-		    $past_oroshi_total_ratio = "";
-		    foreach($past_temp1_oroshi_manthly_array3 as $var){
-		        if($var == 0){
-		            $past_oroshi_ratio = "---";
-		            $past_oroshi_total = $past_oroshi_total;
-		            if($past_temp1_oroshi_manthly_array[$i] == 0){
-		                $past_all_total = $past_all_total;
-		            } else {
-		                $past_all_total = (int)$past_all_total + (int)$past_temp1_oroshi_manthly_array[$i];
-		            }
-		        } else {
-                    if($var <> 0 && $past_temp1_oroshi_manthly_array[$i] <> 0 && $var <> "" && $past_temp1_oroshi_manthly_array[$i] <> ""){
-		                $past_oroshi_ratio = number_format((floor(((float)$var / (float)$past_temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-                    } else {
-		                $past_oroshi_ratio = "---";
-                    }
-		            $past_oroshi_total = (int)$past_oroshi_total + (int)$var;
-		            if($past_temp1_oroshi_manthly_array[$i] == 0){
-		                $past_all_total = $past_all_total;
-		            } else {
-		                $past_all_total = (int)$past_all_total + (int)$past_temp1_oroshi_manthly_array[$i];
-		            }
-		        }
-                ${"past_oroshi_ratio_" .$i} = "";
-                ${"past_oroshi_ratio_" .$i} = $past_oroshi_ratio;
-                        
-                $past_oroshi_total_js  .= (float)$past_oroshi_ratio . ", ";
-		        $past_oroshi_sum_arari_per .= "<div class='title6 ta_r'>" . $past_oroshi_ratio . "%</div>";
-
-		        $i++;
-		    }
-		    // 過去・店舗用粗利率を取得
-                if($past_oroshi_total == 0 || $past_oroshi_total == "" || $past_all_total == 0 || $past_all_total == ""){
-		            $past_oroshi_total_ratio = "---";
-                } else {
-		            $past_oroshi_total_ratio = number_format((floor(((int)$past_oroshi_total / (int)$past_all_total) * 100 * 10)) / 10 ,1);
-                }
-
-		        $past_oroshi_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_oroshi_total_ratio . "%</div></div>";
-    }
+                                                // 過去・通(免税外)販・粗利率
+                                                
+                                                    $i = 0;
+                                                    $past_web_ratio = "";
+                                                    $past_web_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>通販粗利率(免税外)</div>";
+                                                    $past_web_total = "";
+                                                    $past_web_total_js = "";
+                                                    $all_total = "";
+                                                    $past_web_total_ratio = "";
+                                                    foreach($past_temp1_web_manthly_array3 as $var){
+                                                        if($var == 0){
+                                                            $past_web_ratio = "---";
+                                                            $past_web_total = $past_web_total;
+                                                            if($past_temp1_web_manthly_array[$i] == 0){
+                                                                $all_total = $all_total;
+                                                            } else {
+                                                                $all_total = (int)$all_total + (int)$past_temp1_web_manthly_array[$i];
+                                                            }
+                                                        } else {
+                                                            if($past_temp1_web_manthly_array[$i] <> 0 && $var <> 0 && $past_temp1_web_manthly_array[$i] <> "" && $var <> ""){
+                                                                $past_web_ratio = (floor(((float)$var / (float)$past_temp1_web_manthly_array[$i]) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $past_web_ratio = "---";
+                                                            }
+                                                            $past_web_total = (int)$past_web_total + (int)$var;
+                                                            if($past_temp1_web_manthly_array[$i] == 0){
+                                                                $all_total = $all_total;
+                                                            } else {
+                                                                $all_total = (int)$all_total + (int)$past_temp1_web_manthly_array[$i];
+                                                            }
+                                                        }
+                                                        ${"past_web_ratio_" .$i} = "";
+                                                        ${"past_web_ratio_" .$i} = $past_web_ratio;
+                                                
+                                                        $past_web_total_js  .= (float)$past_web_ratio . ", ";
+                                                        if($past_web_ratio <> "" && $past_web_ratio <> 0){$past_web_ratio = number_format((float)$past_web_ratio ,1);}
+                                                        $past_web_sum_arari_per .= "<div class='title6 ta_r'>" . $past_web_ratio . "%</div>";
+                                                
+                                                        $i++;
+                                                    }
+                                                    // 通販用粗利率を取得
+                                                        if($past_web_total <> 0 && $all_total <> 0 && $past_web_total <> "" && $all_total <> ""){
+                                                            $past_web_total_ratio = number_format((floor(((int)$past_web_total / (int)$all_total) * 100 * 10)) / 10 ,1);
+                                                        } else {
+                                                            $past_web_total_ratio = "---";
+                                                        }
+                                                
+                                                        $past_web_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_web_total_ratio . "%</div></div>";
+                                                
+                                                // 過去・店舗(免税外)・粗利率
+                                                
+                                                    $i = 0;
+                                                    $past_shop_ratio = "";
+                                                    $past_shop_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>店舗粗利率(免税外)</div>";
+                                                    $past_shop_total = "";
+                                                    $past_shop_total_js = "";
+                                                    $past_all_total = "";
+                                                    $past_shop_total_ratio = "";
+                                                    foreach($past_temp1_shop_manthly_array3 as $var){
+                                                        if($var == 0){
+                                                            $past_shop_ratio = "---";
+                                                            $past_shop_total = $past_shop_total;
+                                                            if($past_temp1_shop_manthly_array[$i] == 0){
+                                                                $past_all_total = $past_all_total;
+                                                            } else {
+                                                                $past_all_total = (int)$past_all_total + (int)$past_temp1_shop_manthly_array[$i];
+                                                            }
+                                                        } else {
+                                                            if($var <> 0 && $past_temp1_shop_manthly_array[$i] <> 0 && $var <> "" && $past_temp1_shop_manthly_array[$i] <> ""){
+                                                                $past_shop_ratio = (floor(((float)$var / (float)$past_temp1_shop_manthly_array[$i]) * 100 * 10)) / 10;
+                                                            } else {
+                                                                $past_shop_ratio = "---";
+                                                            }
+                                                            $past_shop_total = (int)$past_shop_total + (int)$var;
+                                                            if($past_temp1_shop_manthly_array[$i] == 0){
+                                                                $past_all_total = $past_all_total;
+                                                            } else {
+                                                                $past_all_total = (int)$past_all_total + (int)$past_temp1_shop_manthly_array[$i];
+                                                            }
+                                                        }
+                                                        ${"past_shop_ratio_" .$i} = "";
+                                                        ${"past_shop_ratio_" .$i} = $past_shop_ratio;
+                                                        
+                                                        $past_shop_total_js  .= (float)$past_shop_ratio . ", ";
+                                                        $past_shop_sum_arari_per .= "<div class='title6 ta_r'>" . $past_shop_ratio . "%</div>";
+                                                
+                                                        $i++;
+                                                    }
+                                                    // 過去・店舗用粗利率を取得
+                                                        if($past_shop_total <> 0 && $past_all_total <> 0 && $past_shop_total <> "" && $past_all_total <> ""){
+                                                            $past_shop_total_ratio = number_format((floor(((float)$past_shop_total / (float)$past_all_total) * 100 * 10)) / 10 ,1);
+                                                        } else {
+                                                            $past_shop_total_ratio = "---";
+                                                        }
+                                                
+                                                        $past_shop_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_shop_total_ratio . "%</div></div>";
+                                                
+                                                
+                                                // 過去・店舗・通販(免税)・粗利率
+                                                    $past_oroshi_total_js = "";
+                                                
+                                                    if($out1_c == "ON"){
+                                                
+                                                		    $i = 0;
+                                                		    $past_oroshi_ratio = "";
+                                                		    $past_oroshi_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>店舗・通販粗利率(免税)</div>";
+                                                		    $past_oroshi_total = "";
+                                                		    $past_all_total = "";
+                                                		    $past_oroshi_total_ratio = "";
+                                                		    foreach($past_temp1_oroshi_manthly_array3 as $var){
+                                                		        if($var == 0){
+                                                		            $past_oroshi_ratio = "---";
+                                                		            $past_oroshi_total = $past_oroshi_total;
+                                                		            if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                		                $past_all_total = $past_all_total;
+                                                		            } else {
+                                                		                $past_all_total = (int)$past_all_total + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                		            }
+                                                		        } else {
+                                                                    if($var <> 0 && $past_temp1_oroshi_manthly_array[$i] <> 0 && $var <> "" && $past_temp1_oroshi_manthly_array[$i] <> ""){
+                                                		                $past_oroshi_ratio = number_format((floor(((float)$var / (float)$past_temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                                    } else {
+                                                		                $past_oroshi_ratio = "---";
+                                                                    }
+                                                		            $past_oroshi_total = (int)$past_oroshi_total + (int)$var;
+                                                		            if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                		                $past_all_total = $past_all_total;
+                                                		            } else {
+                                                		                $past_all_total = (int)$past_all_total + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                		            }
+                                                		        }
+                                                                ${"past_oroshi_ratio_" .$i} = "";
+                                                                ${"past_oroshi_ratio_" .$i} = $past_oroshi_ratio;
+                                                                        
+                                                                $past_oroshi_total_js  .= (float)$past_oroshi_ratio . ", ";
+                                                		        $past_oroshi_sum_arari_per .= "<div class='title6 ta_r'>" . $past_oroshi_ratio . "%</div>";
+                                                
+                                                		        $i++;
+                                                		    }
+                                                		    // 過去・店舗用粗利率を取得
+                                                                if($past_oroshi_total == 0 || $past_oroshi_total == "" || $past_all_total == 0 || $past_all_total == ""){
+                                                		            $past_oroshi_total_ratio = "---";
+                                                                } else {
+                                                		            $past_oroshi_total_ratio = number_format((floor(((int)$past_oroshi_total / (int)$past_all_total) * 100 * 10)) / 10 ,1);
+                                                                }
+                                                
+                                                		        $past_oroshi_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $past_oroshi_total_ratio . "%</div></div>";
+                                                    }
 
 
 
@@ -35766,7 +35750,7 @@ if($out1_c == "ON"){
                                             $past_all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $past_all_sum_arari = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
-                                            $past_all_sum_arari_per = "<div class='wid100 ul3'><div class='title5 ta_c'>粗利率(合計)</div>";
+                                            $past_all_sum_arari_per = "<div class='wid100 ul3'><div class='title5 ta_c'>粗利率(平均)</div>";
 
                                         // 各月の全部門売上合計を配列に代入
                                             $past_temp1_all_m_sum_uriage_array = array();
@@ -35820,7 +35804,7 @@ if($out1_c == "ON"){
                                                     }
                                                     // 過去・粗利・縦軸合計
                                                         $past_all_sum_arari_per .= "<div class='title6 ta_r'>" . $past_arari_ratio . "%</div>";
-                                                    // 過去・通販・店舗・卸・合計粗利率（JSグラフ用） 
+                                                    // 過去・通販・店舗・店舗・通販(免税)・合計粗利率（JSグラフ用） 
                                                         $past_all_arari_total .= (float)$past_arari_ratio . ", ";
                                                     // 過去・現在の粗利率合計差の計算に使用
                                                         ${"past_arari_ratio_" . $i} = $past_arari_ratio;
@@ -35849,8 +35833,9 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view .= $past_temp1_shop_manthly_html;}
                                             if($out1_b == "ON"){ $view .= $past_temp1_web_manthly_html;}
                                             if($out1_c == "ON"){ $view .= $past_temp1_oroshi_manthly_html;}
-                                            $view_title1 = "（免税以外）";
-                                            $past_temp1_all_sorce = "<p class='title_a'>金額(免税外)（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view . $past_all_sum_uriage . "</div>";
+                                            //$view_title1 = "（免税以外）";
+                                            $view_title1 = "";
+                                            $past_temp1_all_sorce = "<p class='title_a'>金額（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view . $past_all_sum_uriage . "</div>";
 
                                         // 全期間全部門売上点数合計とその平均値のHTML作成
                                             if($past_all_sum_number_all <> 0){ 
@@ -35870,7 +35855,7 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view2 .= $past_temp1_shop_manthly_html2;}
                                             if($out1_b == "ON"){ $view2 .= $past_temp1_web_manthly_html2;}
                                             if($out1_c == "ON"){ $view2 .= $past_temp1_oroshi_manthly_html2;}
-                                            $past_temp1_all_sorce2 = "<p class='title_a'>点数(免税外)（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view2 . $past_all_sum_number . "</div>";
+                                            $past_temp1_all_sorce2 = "<p class='title_a'>点数（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view2 . $past_all_sum_number . "</div>";
 
                                         // 全期間全部門粗利合計とその平均値のHTML作成
                                             if($past_all_sum_arari_all <> 0){ 
@@ -35894,7 +35879,7 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view3 .= $past_temp1_shop_manthly_html3;}
                                             if($out1_b == "ON"){ $view3 .= $past_temp1_web_manthly_html3;}
                                             if($out1_c == "ON"){ $view3 .= $past_temp1_oroshi_manthly_html3;}
-                                            $past_temp1_all_sorce3 = "<p class='title_a'>粗利(免税外)（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view3 . $past_all_sum_arari . $past_shop_sum_arari_per . $past_web_sum_arari_per;
+                                            $past_temp1_all_sorce3 = "<p class='title_a'>粗利（過去）" . $view_title1 . "</p><div class='box1'>" . $past_temp1_title . $view3 . $past_all_sum_arari . $past_shop_sum_arari_per . $past_web_sum_arari_per;
                                             if($out1_c == "ON"){$past_temp1_all_sorce3 .= $past_oroshi_sum_arari_per;}
                                             $past_temp1_all_sorce3 .= $past_all_sum_arari_per  . "</div>";
                     
@@ -36369,427 +36354,427 @@ if($out1_c == "ON"){
                                                     //$temp1_shop_sum3 = "<div class='title4 ta_r'>" . $shop_sum_arari_c . "</div><div class='title4 ta_c'>" . $yoy_arari2 . "</div><div class='title4 ta_r'>" . $shop_sum_arari_ave . "</div></div>";
                                                     $temp1_shop_sum3 = "<div class='title4 ta_r'>" . $shop_sum_arari_c . "</div><div class='title4 ta_r'>" . $shop_sum_arari_ave . "</div></div>";
                                     }
-/************************************************************************************************************************************************************************************************************* */
-    // 卸用
-/************************************************************************************************************************************************************************************************************* */
-        if($out1_c == "ON"){
-                // DB検索（卸）スタート
-                    $oroshi_buys = DB::table($table_name) 
-                    // 月毎にグループ化して値を分けるための処理
-                        ->select([
-                            \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
-                            \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
-                            \DB::raw("SUM(uriagesuu) AS oroshi_number"),
-                            \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
-                        ])
-                        ->groupBy('oroshi_month')
-                    // 条件（売上部門が店舗）
-                        //->where('baikyakukubun',3)
-                        /*->where(function ($query) use ($out1_d) {
-								if($out1_d == "ON"){
-                                    // 「卸」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
-                                        $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
-                                } else {
-                                    // 「卸」のみを取得
-                                        $query->where('baikyakukubun',3);
-                                }
-                        })*/
-                    // 店舗と通販を取得
-                    // 「baikyakukubun」が「1」or「2」の場合
-                    ->where(function ($query){
-                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
-                    })
-                        
-                    // 条件（期間の指定）
-                        ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
-                    // 条件（分類名）
-                        ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
-								// 条件（商品区分分類名が新品）
-									if($out2_a == "ON"){
-										$query->orwhere("shouhinkubunbunruimei","like","%新品%");
-									}
-								// 条件（商品区分分類名が中古）
-									if($out2_b == "ON"){
-										$query->orwhere("shouhinkubunbunruimei","like","%中古%");
-									}
-								// 条件（商品区分分類名がアンティーク）
-									if($out2_c == "ON"){
-										$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
-									}
-								// 条件（商品区分分類名がその他）
-									if($out2_d == "ON"){
-										$query->orwhere("shouhinkubunbunruimei","like","%その他%");
-									}
-								// 条件（商品区分分類名が修理）
-									if($out2_e == "ON"){
-										$query->orwhere("shouhinkubunbunruimei","like","%修理%");
-									}
-                        
-                        })
-                    // 条件（通販区分）
-                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
-
-                                $query->orWhere('tsuuhankubun','');
-
-								// 条件（通販区分が自社）
-									if($out3_a == "ON"){
-										$query->orWhere('tsuuhankubun',1);
-									}
-								// 条件（通販区分が楽天）
-									if($out3_b == "ON"){
-										$query->orWhere('tsuuhankubun',2);
-									}
-								// 条件（通販区分がヤフー）
-									if($out3_c == "ON"){
-										$query->orWhere('tsuuhankubun',3);
-									}
-								// 条件（通販区分が電話・雑誌）
-									if($out3_d == "ON"){
-										$query->orWhere('tsuuhankubun',5);
-									}
-								// 条件（通販区分がYオークション）
-									if($out3_e == "ON"){
-										$query->orWhere('tsuuhankubun',4);
-									}
-								// 条件（通販区分が修理品返送）
-									if($out3_f == "ON"){
-										$query->orWhere('tsuuhankubun',9);
-									}
-                        
-                        })
-                    
-                    // 条件（免税）
-                        ->where("menzei","like","%免税%")
-                                        
-                    // 条件（扱い部門）
-                        ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
-
-                                $query->orWhere('bumonmei','');
-
-								// 条件（扱い部門がジャック）
-									if($out5_a == "ON"){
-										$query->orWhere('bumonmei','Jackroad');
-									}
-								// 条件（扱い部門がベティー）
-									if($out5_b == "ON"){
-										$query->orWhere('bumonmei','BettyRoad');
-									}
-								// 条件（扱い部門がジュエリー）
-									if($out5_c == "ON"){
-										$query->orWhere('bumonmei','Jewelry');
-									}
-                      
-                        })
-                        
-                    // ソート順指定
-                        ->orderBy('uriage', 'asc')
-                        ->get();
-
-                // クエリビルダスタート
-                    // 以下の変数は月数フラグとして後のロジックで使用するが、フォームにて「免税のみ」を選択した場合「卸」は全月一つも無いので、上でロジックが止まってしまい月数カウントの変数も0のままとなる。「卸」のみ独立した変数名として、カウント用は店舗用で対応
-                    $i2 = 0;
-                    // 変数リセット
-                        $oroshi_sum_uriage = "";
-                        $oroshi_sum_number = "";
-                        $oroshi_sum_arari = "";
-                        foreach ($oroshi_buys as $oroshi_buy) {
-                            // 各月名
-                                $oroshi_month[$i2]= $oroshi_buy->oroshi_month;
-                            // 各月卸売上
-                                $oroshi_uriage[$i2]= $oroshi_buy->oroshi_uriage;
-                                // 全過去期間に現在の期間が含まれている場合
-                                    if(strpos($temp1_oroshi_manthly_data, $oroshi_month[$i2] ) !== false){
-                                        // 文字列の同期間名を現在月の売上に書き換え
-                                            $temp1_oroshi_manthly_data = str_replace($oroshi_month[$i2], $oroshi_uriage[$i2], $temp1_oroshi_manthly_data);
-                                    }
-                            // 全期間卸売上合計
-                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                                    if($last_nodata_flag == "ON"){
-                                        $oroshi_sum_uriage_average = (int)$oroshi_sum_uriage;
-                                    } else {
-                                        $oroshi_sum_uriage_average = (int)$oroshi_sum_uriage + (int)$oroshi_uriage[$i2];
-                                    }
-                                $oroshi_sum_uriage = (int)$oroshi_sum_uriage + (int)$oroshi_uriage[$i2];
-                            // 各月卸点数
-                                $oroshi_number[$i2]= $oroshi_buy->oroshi_number;
-                                // 全過去期間に現在の期間が含まれている場合
-                                    if(strpos($temp1_oroshi_manthly_data2, $oroshi_month[$i2] ) !== false){
-                                        // 文字列の同期間名を現在月の売上に書き換え
-                                            $temp1_oroshi_manthly_data2 = str_replace($oroshi_month[$i2], $oroshi_number[$i2], $temp1_oroshi_manthly_data2);
-                                    }
-                            // 全期間卸点数合計
-                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                                    if($last_nodata_flag == "ON"){
-                                        $oroshi_sum_number_average = (int)$oroshi_sum_number;
-                                    } else {
-                                        $oroshi_sum_number_average = (int)$oroshi_sum_number + (int)$oroshi_number[$i2];
-                                    }
-                                $oroshi_sum_number = (int)$oroshi_sum_number + (int)$oroshi_number[$i2];
-
-                            // 各月卸粗利
-                                $oroshi_arari[$i2]= $oroshi_buy->oroshi_arari;
-                                // 全過去期間に現在の期間が含まれている場合
-                                    if(strpos($temp1_oroshi_manthly_data3, $oroshi_month[$i2] ) !== false){
-                                        // 文字列の同期間名を現在月の売上に書き換え
-                                            $temp1_oroshi_manthly_data3 = str_replace($oroshi_month[$i2], $oroshi_arari[$i2], $temp1_oroshi_manthly_data3);
-                                    }
-                            // 全期間卸点数合計
-                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                                    if($last_nodata_flag == "ON"){
-                                        $oroshi_sum_arari_average = (int)$oroshi_sum_arari;
-                                    } else {
-                                        $oroshi_sum_arari_average = (int)$oroshi_sum_arari + (int)$oroshi_arari[$i2];
-                                    }
-                                $oroshi_sum_arari = (int)$oroshi_sum_arari + (int)$oroshi_arari[$i2];
-
-
-
-                            $i2++;
-                        }
-
-
-                    // 全期間卸売上合計とその平均値のHTML作成
-                        $temp1_oroshi_sum = "";
-                        //$temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_c'>" . $yoy_uriage3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_uriage / $i)) . "</div></div>";
-                        if($oroshi_sum_uriage == 0 || $oroshi_sum_uriage == ""){
-                            $temp1_oroshi_sum = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
-                            $oroshi_sum_uriage_ave = 0;
-                            $oroshi_sum_uriage_ave2 = 0;
-                        } else {
-                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                            //$temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_uriage / $i)) . "</div></div>";
-                            //$oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage/ $i));                                                    
-                            //$oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage/ $i);  
-                            if($last_nodata_flag == "ON"){
-                                if($oroshi_sum_uriage_average <> "" && $oroshi_sum_uriage_average <> 0){$oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage_average / ((int)$i -1)));} else {$oroshi_sum_uriage_ave = "---";}
-                                if($oroshi_sum_uriage_average <> "" && $oroshi_sum_uriage_average <> 0){$oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage_average / ((int)$i -1));} else {$oroshi_sum_uriage_ave2 = "---";}
-                            } else {
-                                $oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage / $i));
-                                $oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage / $i);
-                            }
-                            $temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . $oroshi_sum_uriage_ave . "</div></div>";
-                        }
-                    // 全期間卸売上点数合計とその平均値のHTML作成
-                        $temp1_oroshi_sum2 = "";
-                        //$temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_c'>" . $yoy_number3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_number / $i)) . "</div></div>";
-                        if($oroshi_sum_number == 0 || $oroshi_sum_number == ""){
-                            $temp1_oroshi_sum2 = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
-                            $oroshi_sum_number_ave = 0;
-                            $oroshi_sum_number_ave2 = 0;
-                        } else {
-                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                            //$temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_number / $i)) . "</div></div>";
-                            //$oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number/ $i));                                                   
-                            //$oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number/ $i); 
-                            if($last_nodata_flag == "ON"){
-                                if($oroshi_sum_number_average <> "" && $oroshi_sum_number_average <> 0){$oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number_average / ((int)$i -1)));} else {$oroshi_sum_number_ave = "---";}
-                                if($oroshi_sum_number_average <> "" && $oroshi_sum_number_average <> 0){$oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number_average / ((int)$i -1));} else {$oroshi_sum_number_ave2 = "---";}
-                            } else {
-                                $oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number / $i));
-                                $oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number / $i);
-                            }
-                            $temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_r'>" . $oroshi_sum_number_ave . "</div></div>";
-                        }
-
-                    // 全期間卸粗利合計とその平均値のHTML作成
-                        $temp1_oroshi_sum3 = "";
-                        //$temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_c'>" . $yoy_arari3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_arari / $i)) . "</div></div>";
-                        if($oroshi_sum_arari == 0 || $oroshi_sum_arari == ""){
-                            $temp1_oroshi_sum3 = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
-                            $oroshi_sum_arari_ave = 0;
-                            $oroshi_sum_arari_ave2 = 0;
-                        } else {
-                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
-                            //$temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_arari / $i)) . "</div></div>";
-                            //$oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari/ $i));
-                            //$oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari/ $i);  
-                            if($last_nodata_flag == "ON"){
-                                if($oroshi_sum_arari_average <> "" && $oroshi_sum_arari_average <> 0){$oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari_average / ((int)$i -1)));} else {$oroshi_sum_arari_ave = "---";}
-                                if($oroshi_sum_arari_average <> "" && $oroshi_sum_arari_average <> 0){$oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari_average / ((int)$i -1));} else {$oroshi_sum_arari_ave2 = "---";}
-                            } else {
-                                $oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari / $i));
-                                $oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari / $i);
-                            }
-                            $temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . $oroshi_sum_arari_ave . "</div></div>";
-                        }
-                        
-        }
-                            /************************************************************************************************************************************************************************************************************* */
-                                // 全件用
-                            /************************************************************************************************************************************************************************************************************* */
-
-
-                                    // 各月のタイトル表示用HTMLを作成
-                                        $temp1_title2 = "";
-                                        $temp1_title3 = "";
-                                        $temp1_title4 = "";
-                                        $temp1_title5 = "";
-                                        foreach($manth_now_array as $val){
-                                                // 表示用
-                                                $temp1_title2 .= "<div class='title2 ta_c'>" . $val . "</div>";
-                                                // 20230803
-                                                $temp1_title3 .= "<div class='title7 ta_c'>" . $val . "</div>";
-                                                $temp1_title4 .= "<div class='title7 ta_c'>" . $val . "</div>";
-                                                $temp1_title5 .= "<div class='title7 ta_c'>" . $val . "</div>";
-                                            }
-                                
-                                            $temp1_title = "<div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title2 ."<div class='title6 ta_c'>累計</div><!--<div class='title6 ta_c'>過去比</div>--><div class='title6 ta_c'>平均</div></div>";
-                                            $temp1_title3 = "<div class='wid100 ul2'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title3 ."<div class='title7 ta_c'>平均</div></div>";
-                                            $temp1_title4 = "<div class='wid100 ul2 bg_green'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title4 ."<div class='title7 ta_c'>平均</div></div>";
-                                            $temp1_title5 = "<div class='wid100 ul2 bg_yellow'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title5 ."<div class='title7 ta_c'>平均</div></div>";
-                                        
-                                        
-                                        // 全期間の全部門売上合計用変数リセット
-                                            $all_sum_uriage_all = 0;
-                                            $all_sum_number_all = 0;
-                                            $all_sum_arari_all = 0;
-                                            for($all_i = 0; $all_i < $i; $all_i++){
-                                                // 各月の全部門売上合計用変数リセット
-                                                    $all_month_uriage = 0;
-                                                    $all_month_number= 0;
-                                                    $all_month_arari= 0;
-                                                // 各月の全部門売上合計をHTMLへ
-                                                    if($out1_b == "ON"){ 
-                                                        if(isset($web_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$web_uriage[$all_i]; }
-                                                        if(isset($web_number[$all_i])){$all_month_number = $all_month_number + (int)$web_number[$all_i]; }
-                                                        if(isset($web_arari[$all_i])){$all_month_arari = $all_month_arari+ (int)$web_arari[$all_i]; }
-                                                    }
-                                                    if($out1_a == "ON"){ 
-                                                        if(isset($shop_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$shop_uriage[$all_i]; }
-                                                        if(isset($shop_number[$all_i])){$all_month_number = $all_month_number + (int)$shop_number[$all_i]; }
-                                                        if(isset($shop_arari[$all_i])){$all_month_arari = $all_month_arari + (int)$shop_arari[$all_i]; }
-                                                    }
-                                                    if($out1_c == "ON"){ 
-                                                        // フォーム上の選択が「免税」のみだと「卸」は全月0なので「卸」を含む足し算だとエラーとなるため、条件分岐で回避
-                                                            /*if($out4_a == "OFF" && $out4_b == "ON"){
-                                                                $all_month_uriage = $all_month_uriage; 
-                                                                $all_month_number = $all_month_number; 
-                                                                $all_month_arari = $all_month_arari; 
-                                                            } else {*/
-                                                                if(isset($oroshi_uriage[$all_i])){ $all_month_uriage = $all_month_uriage + (int)$oroshi_uriage[$all_i]; }
-                                                                if(isset($oroshi_number[$all_i])){ $all_month_number = $all_month_number + (int)$oroshi_number[$all_i]; }
-                                                                if(isset($oroshi_arari[$all_i])){ $all_month_arari = $all_month_arari + (int)$oroshi_arari[$all_i]; }
-                                                            //}
-
-                                                    }
-                                                // 全期間の全部門売上合計
-                                                    $all_sum_uriage_all = (int)$all_sum_uriage_all + (int)$all_month_uriage;
-                                                    $all_sum_number_all = (int)$all_sum_number_all + (int)$all_month_number;
-                                                    $all_sum_arari_all = (int)$all_sum_arari_all + (int)$all_month_arari;
+                                                /************************************************************************************************************************************************************************************************************* */
+                                                    // 店舗・通販(免税)用
+                                                /************************************************************************************************************************************************************************************************************* */
+                                                        if($out1_c == "ON"){
+                                                                // DB検索（店舗・通販(免税)）スタート
+                                                                    $oroshi_buys = DB::table($table_name) 
+                                                                    // 月毎にグループ化して値を分けるための処理
+                                                                        ->select([
+                                                                            \DB::raw('DATE_FORMAT(uriage, "%Y-%m") AS oroshi_month'),
+                                                                            \DB::raw("SUM(uriagekingaku) AS oroshi_uriage"),
+                                                                            \DB::raw("SUM(uriagesuu) AS oroshi_number"),
+                                                                            \DB::raw("SUM(ararikingaku) AS oroshi_arari"),
+                                                                        ])
+                                                                        ->groupBy('oroshi_month')
+                                                                    // 条件（売上部門が店舗）
+                                                                        //->where('baikyakukubun',3)
+                                                                        /*->where(function ($query) use ($out1_d) {
+                                                								if($out1_d == "ON"){
+                                                                                    // 「店舗・通販(免税)」と空白（おそらく入力間違い分）を含む場合を取得（条件：「店舗」「通販」以外）
+                                                                                        $query->Where([['baikyakukubun', '<>', 1], ['baikyakukubun', '<>', 2]]);
+                                                                                } else {
+                                                                                    // 「店舗・通販(免税)」のみを取得
+                                                                                        $query->where('baikyakukubun',3);
+                                                                                }
+                                                                        })*/
+                                                                    // 店舗と通販を取得
+                                                                    // 「baikyakukubun」が「1」or「2」の場合
+                                                                    ->where(function ($query){
+                                                                        $query->orwhere('baikyakukubun', 1)->orwhere('baikyakukubun', 2);
+                                                                    })
+                                                                        
+                                                                    // 条件（期間の指定）
+                                                                        ->whereBetween($table_name . '.uriage', [$between_start, $between_end])
+                                                                    // 条件（分類名）
+                                                                        ->where(function ($query) use ($out2_a,$out2_b,$out2_c,$out2_d,$out2_e) {
+                                                								// 条件（商品区分分類名が新品）
+                                                									if($out2_a == "ON"){
+                                                										$query->orwhere("shouhinkubunbunruimei","like","%新品%");
+                                                									}
+                                                								// 条件（商品区分分類名が中古）
+                                                									if($out2_b == "ON"){
+                                                										$query->orwhere("shouhinkubunbunruimei","like","%中古%");
+                                                									}
+                                                								// 条件（商品区分分類名がアンティーク）
+                                                									if($out2_c == "ON"){
+                                                										$query->orwhere("shouhinkubunbunruimei","like","%アンティーク%");
+                                                									}
+                                                								// 条件（商品区分分類名がその他）
+                                                									if($out2_d == "ON"){
+                                                										$query->orwhere("shouhinkubunbunruimei","like","%その他%");
+                                                									}
+                                                								// 条件（商品区分分類名が修理）
+                                                									if($out2_e == "ON"){
+                                                										$query->orwhere("shouhinkubunbunruimei","like","%修理%");
+                                                									}
+                                                                        
+                                                                        })
+                                                                    // 条件（通販区分）
+                                                                        ->where(function ($query) use ($out3_a,$out3_b,$out3_c,$out3_d,$out3_e,$out3_f) {
                                                 
-                                            }
-
-
-
-
-
-
-
-// 【進捗率の取得】
-                                        
-
-// 検索スタート日からデータが格納されている最終日までの日数
-    $search_start = strtotime($start_now);
-    $data_end = strtotime($last_day);
-    $data_in_days = ($data_end - $search_start) / (60 * 60 * 24);
-
-// 検索期間
-    $search_start = strtotime($start_now);
-    $search_end = strtotime($end_now);
-    $search_days = ($search_end - $search_start) / (60 * 60 * 24);
-
-// 検索期間・着地予測（期間合計 / データ格納期間 * 検索期間）
-    ($shop_sum_uriage <> 0 && $shop_sum_uriage <> "") ? $shop_term_progress = $shop_sum_uriage / $data_in_days * $search_days : $shop_term_progress = "---";
-    ($web_sum_uriage <> 0 && $web_sum_uriage <> "") ? $web_term_progress = $web_sum_uriage / $data_in_days * $search_days : $web_term_progress = "---";
-    ($shop_sum_number <> 0 && $shop_sum_number <> "") ? $shop_term_progress_n = $shop_sum_number / $data_in_days * $search_days : $shop_term_progress_n = "---";
-    ($web_sum_number <> 0 && $web_sum_number <> "") ? $web_term_progress_n = $web_sum_number / $data_in_days * $search_days : $web_term_progress_n = "---";
-    ($shop_sum_arari <> 0 && $shop_sum_arari <> "") ? $shop_term_progress_a = $shop_sum_arari / $data_in_days * $search_days : $shop_term_progress_a = "---";
-    ($web_sum_arari <> 0 && $web_sum_arari <> "") ? $web_term_progress_a = $web_sum_arari / $data_in_days * $search_days : $web_term_progress_a = "---";
-    
-    $oroshi_term_progress = 0;
-    $oroshi_term_progress_n = 0;
-    $oroshi_term_progress_a = 0;
-    if($out1_c == "ON"){($oroshi_sum_uriage <> 0 && $oroshi_sum_uriage <> "") ? $oroshi_term_progress = $oroshi_sum_uriage / $data_in_days * $search_days : $oroshi_term_progress = "---";}
-    if($out1_c == "ON"){($oroshi_sum_number <> 0 && $oroshi_sum_number <> "") ? $oroshi_term_progress_n = $oroshi_sum_number / $data_in_days * $search_days : $oroshi_term_progress_n = "---";}
-    if($out1_c == "ON"){($oroshi_sum_arari <> 0 && $oroshi_sum_arari <> "") ? $oroshi_term_progress_a = $oroshi_sum_arari / $data_in_days * $search_days : $oroshi_term_progress_a = "---";}
-    
-    // 合計
-        $all_term_progress = (int)$shop_term_progress + (int)$web_term_progress + (int)$oroshi_term_progress;
-        $all_term_progress_n = (int)$shop_term_progress_n + (int)$web_term_progress_n + (int)$oroshi_term_progress_n;
-        $all_term_progress_a = (int)$shop_term_progress_a + (int)$web_term_progress_a + (int)$oroshi_term_progress_a;
-// 検索期間・過去との着地予測比（検索期間・着地予測 / 過去合計）
-    ($shop_term_progress <> 0 && $shop_term_progress <> "" && $past_shop_sum_uriage <> 0 && $past_shop_sum_uriage <> "") ? $shop_term_progress2 = number_format((floor(((int)$shop_term_progress / (int)$past_shop_sum_uriage) * 100 * 10)) / 10,1) : $shop_term_progress2 = 0;
-    ($web_term_progress <> 0 && $web_term_progress <> "" && $past_web_sum_uriage <> 0 && $past_web_sum_uriage <> "") ? $web_term_progress2 = number_format((floor(((int)$web_term_progress / (int)$past_web_sum_uriage) * 100 * 10)) / 10,1) : $web_term_progress2 = 0;
-    ($shop_term_progress_n <> 0 && $shop_term_progress_n <> "" && $past_shop_sum_number <> 0 && $past_shop_sum_number <> "") ? $shop_term_progress2_n = number_format((floor(((int)$shop_term_progress_n / (int)$past_shop_sum_number) * 100 * 10)) / 10,1) : $shop_term_progress2_n = 0;
-    ($web_term_progress_n <> 0 && $web_term_progress_n <> "" && $past_web_sum_number <> 0 && $past_web_sum_number <> "") ? $web_term_progress2_n = number_format((floor(((int)$web_term_progress_n / (int)$past_web_sum_number) * 100 * 10)) / 10,1) : $web_term_progress2_n = 0;
-    ($shop_term_progress_a <> 0 && $shop_term_progress_a <> "" && $past_shop_sum_arari <> 0 && $past_shop_sum_arari <> "") ? $shop_term_progress2_a = number_format((floor(((int)$shop_term_progress_a / (int)$past_shop_sum_arari) * 100 * 10)) / 10,1) : $shop_term_progress2_a = 0;
-    ($web_term_progress_a <> 0 && $web_term_progress_a <> "" && $past_web_sum_arari <> 0 && $past_web_sum_arari <> "") ? $web_term_progress2_a = number_format((floor(((int)$web_term_progress_a / (int)$past_web_sum_arari) * 100 * 10)) / 10,1) : $web_term_progress2_a = 0;
-    
-    if($out1_c == "ON"){
-        if($oroshi_term_progress <> "" && $oroshi_term_progress <> 0 && $past_oroshi_sum_uriage <> "" && $past_oroshi_sum_uriage <> 0){
-            $oroshi_term_progress2 = number_format((floor(((int)$oroshi_term_progress / (int)$past_oroshi_sum_uriage) * 100 * 10)) / 10,1);
-        } else {
-            $oroshi_term_progress2 = "---";
-        }
-        if($oroshi_term_progress_n <> "" && $oroshi_term_progress_n <> 0 && $past_oroshi_sum_number <> "" && $past_oroshi_sum_number <> 0){
-            $oroshi_term_progress2_n = number_format((floor(((int)$oroshi_term_progress_n / (int)$past_oroshi_sum_number) * 100 * 10)) / 10,1);
-        } else {
-            $oroshi_term_progress2_n = "---"; 
-        }
-        if($oroshi_term_progress_a <> "" && $oroshi_term_progress_a <> 0 && $past_oroshi_sum_arari <> "" && $past_oroshi_sum_arari <> 0){
-            $oroshi_term_progress2_a = number_format((floor(((int)$oroshi_term_progress_a / (int)$past_oroshi_sum_arari) * 100 * 10)) / 10,1);
-        } else {
-            $oroshi_term_progress2_a = "---"; 
-        }
-    }
-    
-    // 合計
-    ($all_term_progress <> 0 && $all_term_progress <> "" && $past_all_sum_uriage_all <> 0 && $past_all_sum_uriage_all <> "") ? $all_term_progress2 = number_format((floor(((int)$all_term_progress / (int)$past_all_sum_uriage_all) * 100 * 10)) / 10,1) : $all_term_progress2 = "---";
-    ($all_term_progress_n <> 0 && $all_term_progress_n <> "" && $past_all_sum_number_all <> 0 && $past_all_sum_number_all <> "") ? $all_term_progress2_n = number_format((floor(((int)$all_term_progress_n / (int)$past_all_sum_number_all) * 100 * 10)) / 10,1) : $all_term_progress2_n = "---";
-    ($all_term_progress_a <> 0 && $all_term_progress_a <> "" && $past_all_sum_arari_all <> 0 && $past_all_sum_arari_all <> "") ? $all_term_progress2_a = number_format((floor(((int)$all_term_progress_a / (int)$past_all_sum_arari_all) * 100 * 10)) / 10,1) : $all_term_progress2_a = "---";
-
-// HTML追記
-    ($shop_term_progress <> 0 && $shop_term_progress <> "") ? $shop_term_progress_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress) . "</div>" : $shop_term_progress_view = "<div class='sinchoku'>---</div>";
-    ($shop_sum_uriage <> 0 && $shop_sum_uriage <> "") ? $shop_sum_uriage_view = "<div class='sinchoku'>" . number_format($shop_sum_uriage) . "</div>" : $shop_sum_uriage_view = "<div class='sinchoku'>---</div>";
-    ($shop_term_progress2 < 100) ? $shop_term_progress2_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2 . "%</div>" : $shop_term_progress2_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2 . "%</div>";
-    ($web_term_progress <> 0 && $web_term_progress <> "") ? $web_term_progress_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress) . "</div>" : $web_term_progress_view = "<div class='sinchoku'>---</div>";
-    ($web_sum_uriage <> 0 && $web_sum_uriage <> "") ? $web_sum_uriage_view = "<div class='sinchoku'>" . number_format((int)$web_sum_uriage) . "</div>" : $web_sum_uriage_view = "<div class='sinchoku'>---</div>";
-    ($web_term_progress2 < 100) ? $web_term_progress2_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2 . "%</div>" : $web_term_progress2_view = "<div class='sinchoku fc_red'>" . $web_term_progress2 . "%</div>";
-    
-    ($shop_term_progress_n <> 0 && $shop_term_progress_n <> "") ? $shop_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress_n) . "</div>" : $shop_term_progress_n_view = "<div class='sinchoku'>---</div>";
-    ($shop_sum_number <> 0 && $shop_sum_number <> "") ? $shop_sum_number_view = "<div class='sinchoku'>" . number_format($shop_sum_number) . "</div>" : $shop_sum_number_view = "<div class='sinchoku'>---</div>";
-    ($shop_term_progress2_n < 100) ? $shop_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2_n . "%</div>" : $shop_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2_n . "%</div>";
-    ($web_term_progress_n <> 0 && $web_term_progress_n <> "") ? $web_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress_n) . "</div>" : $web_term_progress_n_view = "<div class='sinchoku'>---</div>";
-    ($web_sum_number <> 0 && $web_sum_number <> "") ? $web_sum_number_view = "<div class='sinchoku'>" . number_format((int)$web_sum_number) . "</div>" : $web_sum_number_view = "<div class='sinchoku'>---</div>";
-    ($web_term_progress2_n < 100) ? $web_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2_n . "%</div>" : $web_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $web_term_progress2_n . "%</div>";
-  
-    ($shop_term_progress_a <> 0 && $shop_term_progress_a <> "") ? $shop_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress_a) . "</div>" : $shop_term_progress_a_view = "<div class='sinchoku'>---</div>";
-    ($shop_sum_arari <> 0 && $shop_sum_arari <> "") ? $shop_sum_arari_view = "<div class='sinchoku'>" . number_format($shop_sum_arari) . "</div>" : $shop_sum_arari_view = "<div class='sinchoku'>---</div>";
-    ($shop_term_progress2_a < 100) ? $shop_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2_a . "%</div>" : $shop_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2_a . "%</div>";
-    ($web_term_progress_a <> 0 && $web_term_progress_a <> "") ? $web_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress_a) . "</div>" : $web_term_progress_a_view = "<div class='sinchoku'>---</div>";
-    ($web_sum_arari <> 0 && $web_sum_arari <> "") ? $web_sum_arari_view = "<div class='sinchoku'>" . number_format((int)$web_sum_arari) . "</div>" : $web_sum_arari_view = "<div class='sinchoku'>---</div>";
-    ($web_term_progress2_a < 100) ? $web_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2_a . "%</div>" : $web_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $web_term_progress2_a . "%</div>";
-    
-    if($out1_c == "ON"){ 
-        ($oroshi_term_progress <> 0 && $oroshi_term_progress <> "") ? $oroshi_term_progress_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress) . "</div>" : $oroshi_term_progress_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_sum_uriage <> 0 && $oroshi_sum_uriage <> "") ? $oroshi_sum_uriage_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_uriage) . "</div>" : $oroshi_sum_uriage_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_term_progress2 < 100) ? $oroshi_term_progress2_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2 . "%</div>" : $oroshi_term_progress2_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2 . "%</div>";
-        ($oroshi_term_progress_n <> 0 && $oroshi_term_progress_n <> "") ? $oroshi_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress_n) . "</div>" : $oroshi_term_progress_n_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_sum_number <> 0 && $oroshi_sum_number <> "") ? $oroshi_sum_number_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_number) . "</div>" : $oroshi_sum_number_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_term_progress2_n < 100) ? $oroshi_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2_n . "%</div>" : $oroshi_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2_n . "%</div>";
-            ($oroshi_term_progress_a <> 0 && $oroshi_term_progress_a <> "") ? $oroshi_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress_a) . "</div>" : $oroshi_term_progress_a_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_sum_arari <> 0 && $oroshi_sum_arari <> "") ? $oroshi_sum_arari_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_arari) . "</div>" : $oroshi_sum_arari_view = "<div class='sinchoku'>---</div>";
-        ($oroshi_term_progress2_a < 100) ? $oroshi_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2_a . "%</div>" : $oroshi_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2_a . "%</div>";
-    }
-    ($all_term_progress <> 0 && $all_term_progress <> "") ? $all_term_progress_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress) . "</div>" : $all_term_progress_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_sum_uriage_all <> 0 && $all_sum_uriage_all <> "") ? $all_sum_uriage_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_uriage_all) . "</div>" : $all_sum_uriage_all_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_term_progress2 < 100) ? $all_term_progress2_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2 . "%</div>" : $all_term_progress2_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2 . "%</div>";
-    ($all_term_progress_n <> 0 && $all_term_progress_n <> "") ? $all_term_progress_n_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress_n) . "</div>" : $all_term_progress_n_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_sum_number_all <> 0 && $all_sum_number_all <> "") ? $all_sum_number_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_number_all) . "</div>" : $all_sum_number_all_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_term_progress2_n < 100) ? $all_term_progress2_n_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_n . "%</div>" : $all_term_progress2_n_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_n . "%</div>";
-    ($all_term_progress_a <> 0 && $all_term_progress_a <> "") ? $all_term_progress_a_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress_a) . "</div>" : $all_term_progress_a_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_sum_arari_all <> 0 && $all_sum_arari_all <> "") ? $all_sum_arari_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_arari_all) . "</div>" : $all_sum_arari_all_view = "<div class='sinchoku bg_grey'>---</div>";
-    ($all_term_progress2_a < 100) ? $all_term_progress2_a_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_a . "%</div>" : $all_term_progress2_a_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_a . "%</div>";
+                                                                                $query->orWhere('tsuuhankubun','');
+                                                
+                                                								// 条件（通販区分が自社）
+                                                									if($out3_a == "ON"){
+                                                										$query->orWhere('tsuuhankubun',1);
+                                                									}
+                                                								// 条件（通販区分が楽天）
+                                                									if($out3_b == "ON"){
+                                                										$query->orWhere('tsuuhankubun',2);
+                                                									}
+                                                								// 条件（通販区分がヤフー）
+                                                									if($out3_c == "ON"){
+                                                										$query->orWhere('tsuuhankubun',3);
+                                                									}
+                                                								// 条件（通販区分が電話・雑誌）
+                                                									if($out3_d == "ON"){
+                                                										$query->orWhere('tsuuhankubun',5);
+                                                									}
+                                                								// 条件（通販区分がYオークション）
+                                                									if($out3_e == "ON"){
+                                                										$query->orWhere('tsuuhankubun',4);
+                                                									}
+                                                								// 条件（通販区分が修理品返送）
+                                                									if($out3_f == "ON"){
+                                                										$query->orWhere('tsuuhankubun',9);
+                                                									}
+                                                                        
+                                                                        })
+                                                                    
+                                                                    // 条件（免税）
+                                                                        ->where("menzei","like","%免税%")
+                                                                                        
+                                                                    // 条件（扱い部門）
+                                                                        ->where(function ($query) use ($out5_a,$out5_b,$out5_c) {
+                                                
+                                                                                $query->orWhere('bumonmei','');
+                                                
+                                                								// 条件（扱い部門がジャック）
+                                                									if($out5_a == "ON"){
+                                                										$query->orWhere('bumonmei','Jackroad');
+                                                									}
+                                                								// 条件（扱い部門がベティー）
+                                                									if($out5_b == "ON"){
+                                                										$query->orWhere('bumonmei','BettyRoad');
+                                                									}
+                                                								// 条件（扱い部門がジュエリー）
+                                                									if($out5_c == "ON"){
+                                                										$query->orWhere('bumonmei','Jewelry');
+                                                									}
+                                                                      
+                                                                        })
+                                                                        
+                                                                    // ソート順指定
+                                                                        ->orderBy('uriage', 'asc')
+                                                                        ->get();
+                                                
+                                                                // クエリビルダスタート
+                                                                    // 以下の変数は月数フラグとして後のロジックで使用するが、フォームにて「免税のみ」を選択した場合「店舗・通販(免税)」は全月一つも無いので、上でロジックが止まってしまい月数カウントの変数も0のままとなる。「店舗・通販(免税)」のみ独立した変数名として、カウント用は店舗用で対応
+                                                                    $i2 = 0;
+                                                                    // 変数リセット
+                                                                        $oroshi_sum_uriage = "";
+                                                                        $oroshi_sum_number = "";
+                                                                        $oroshi_sum_arari = "";
+                                                                        foreach ($oroshi_buys as $oroshi_buy) {
+                                                                            // 各月名
+                                                                                $oroshi_month[$i2]= $oroshi_buy->oroshi_month;
+                                                                            // 各月店舗・通販(免税)売上
+                                                                                $oroshi_uriage[$i2]= $oroshi_buy->oroshi_uriage;
+                                                                                // 全過去期間に現在の期間が含まれている場合
+                                                                                    if(strpos($temp1_oroshi_manthly_data, $oroshi_month[$i2] ) !== false){
+                                                                                        // 文字列の同期間名を現在月の売上に書き換え
+                                                                                            $temp1_oroshi_manthly_data = str_replace($oroshi_month[$i2], $oroshi_uriage[$i2], $temp1_oroshi_manthly_data);
+                                                                                    }
+                                                                            // 全期間店舗・通販(免税)売上合計
+                                                                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                                    if($last_nodata_flag == "ON"){
+                                                                                        $oroshi_sum_uriage_average = (int)$oroshi_sum_uriage;
+                                                                                    } else {
+                                                                                        $oroshi_sum_uriage_average = (int)$oroshi_sum_uriage + (int)$oroshi_uriage[$i2];
+                                                                                    }
+                                                                                $oroshi_sum_uriage = (int)$oroshi_sum_uriage + (int)$oroshi_uriage[$i2];
+                                                                            // 各月店舗・通販(免税)点数
+                                                                                $oroshi_number[$i2]= $oroshi_buy->oroshi_number;
+                                                                                // 全過去期間に現在の期間が含まれている場合
+                                                                                    if(strpos($temp1_oroshi_manthly_data2, $oroshi_month[$i2] ) !== false){
+                                                                                        // 文字列の同期間名を現在月の売上に書き換え
+                                                                                            $temp1_oroshi_manthly_data2 = str_replace($oroshi_month[$i2], $oroshi_number[$i2], $temp1_oroshi_manthly_data2);
+                                                                                    }
+                                                                            // 全期間店舗・通販(免税)点数合計
+                                                                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                                    if($last_nodata_flag == "ON"){
+                                                                                        $oroshi_sum_number_average = (int)$oroshi_sum_number;
+                                                                                    } else {
+                                                                                        $oroshi_sum_number_average = (int)$oroshi_sum_number + (int)$oroshi_number[$i2];
+                                                                                    }
+                                                                                $oroshi_sum_number = (int)$oroshi_sum_number + (int)$oroshi_number[$i2];
+                                                
+                                                                            // 各月店舗・通販(免税)粗利
+                                                                                $oroshi_arari[$i2]= $oroshi_buy->oroshi_arari;
+                                                                                // 全過去期間に現在の期間が含まれている場合
+                                                                                    if(strpos($temp1_oroshi_manthly_data3, $oroshi_month[$i2] ) !== false){
+                                                                                        // 文字列の同期間名を現在月の売上に書き換え
+                                                                                            $temp1_oroshi_manthly_data3 = str_replace($oroshi_month[$i2], $oroshi_arari[$i2], $temp1_oroshi_manthly_data3);
+                                                                                    }
+                                                                            // 全期間店舗・通販(免税)点数合計
+                                                                                // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                                    if($last_nodata_flag == "ON"){
+                                                                                        $oroshi_sum_arari_average = (int)$oroshi_sum_arari;
+                                                                                    } else {
+                                                                                        $oroshi_sum_arari_average = (int)$oroshi_sum_arari + (int)$oroshi_arari[$i2];
+                                                                                    }
+                                                                                $oroshi_sum_arari = (int)$oroshi_sum_arari + (int)$oroshi_arari[$i2];
+                                                
+                                                
+                                                
+                                                                            $i2++;
+                                                                        }
+                                                
+                                                
+                                                                    // 全期間店舗・通販(免税)売上合計とその平均値のHTML作成
+                                                                        $temp1_oroshi_sum = "";
+                                                                        //$temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_c'>" . $yoy_uriage3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_uriage / $i)) . "</div></div>";
+                                                                        if($oroshi_sum_uriage == 0 || $oroshi_sum_uriage == ""){
+                                                                            $temp1_oroshi_sum = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
+                                                                            $oroshi_sum_uriage_ave = 0;
+                                                                            $oroshi_sum_uriage_ave2 = 0;
+                                                                        } else {
+                                                                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                            //$temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_uriage / $i)) . "</div></div>";
+                                                                            //$oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage/ $i));                                                    
+                                                                            //$oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage/ $i);  
+                                                                            if($last_nodata_flag == "ON"){
+                                                                                if($oroshi_sum_uriage_average <> "" && $oroshi_sum_uriage_average <> 0){$oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage_average / ((int)$i -1)));} else {$oroshi_sum_uriage_ave = "---";}
+                                                                                if($oroshi_sum_uriage_average <> "" && $oroshi_sum_uriage_average <> 0){$oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage_average / ((int)$i -1));} else {$oroshi_sum_uriage_ave2 = "---";}
+                                                                            } else {
+                                                                                $oroshi_sum_uriage_ave = number_format(floor((int)$oroshi_sum_uriage / $i));
+                                                                                $oroshi_sum_uriage_ave2 = floor((int)$oroshi_sum_uriage / $i);
+                                                                            }
+                                                                            $temp1_oroshi_sum = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_uriage) . "</div><div class='title4 ta_r'>" . $oroshi_sum_uriage_ave . "</div></div>";
+                                                                        }
+                                                                    // 全期間店舗・通販(免税)売上点数合計とその平均値のHTML作成
+                                                                        $temp1_oroshi_sum2 = "";
+                                                                        //$temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_c'>" . $yoy_number3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_number / $i)) . "</div></div>";
+                                                                        if($oroshi_sum_number == 0 || $oroshi_sum_number == ""){
+                                                                            $temp1_oroshi_sum2 = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
+                                                                            $oroshi_sum_number_ave = 0;
+                                                                            $oroshi_sum_number_ave2 = 0;
+                                                                        } else {
+                                                                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                            //$temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_number / $i)) . "</div></div>";
+                                                                            //$oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number/ $i));                                                   
+                                                                            //$oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number/ $i); 
+                                                                            if($last_nodata_flag == "ON"){
+                                                                                if($oroshi_sum_number_average <> "" && $oroshi_sum_number_average <> 0){$oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number_average / ((int)$i -1)));} else {$oroshi_sum_number_ave = "---";}
+                                                                                if($oroshi_sum_number_average <> "" && $oroshi_sum_number_average <> 0){$oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number_average / ((int)$i -1));} else {$oroshi_sum_number_ave2 = "---";}
+                                                                            } else {
+                                                                                $oroshi_sum_number_ave = number_format(floor((int)$oroshi_sum_number / $i));
+                                                                                $oroshi_sum_number_ave2 = floor((int)$oroshi_sum_number / $i);
+                                                                            }
+                                                                            $temp1_oroshi_sum2 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_number) . "</div><div class='title4 ta_r'>" . $oroshi_sum_number_ave . "</div></div>";
+                                                                        }
+                                                
+                                                                    // 全期間店舗・通販(免税)粗利合計とその平均値のHTML作成
+                                                                        $temp1_oroshi_sum3 = "";
+                                                                        //$temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_c'>" . $yoy_arari3 . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_arari / $i)) . "</div></div>";
+                                                                        if($oroshi_sum_arari == 0 || $oroshi_sum_arari == ""){
+                                                                            $temp1_oroshi_sum3 = "<div class='title4 ta_r'>0</div><div class='title4 ta_r'>0</div></div>";
+                                                                            $oroshi_sum_arari_ave = 0;
+                                                                            $oroshi_sum_arari_ave2 = 0;
+                                                                        } else {
+                                                                            // 【データ格納最終日がその月の最終日でなければ平均計算に含めない】現在の「金額」「点数」「粗利」のみが対象
+                                                                            //$temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . number_format(floor((int)$oroshi_sum_arari / $i)) . "</div></div>";
+                                                                            //$oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari/ $i));
+                                                                            //$oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari/ $i);  
+                                                                            if($last_nodata_flag == "ON"){
+                                                                                if($oroshi_sum_arari_average <> "" && $oroshi_sum_arari_average <> 0){$oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari_average / ((int)$i -1)));} else {$oroshi_sum_arari_ave = "---";}
+                                                                                if($oroshi_sum_arari_average <> "" && $oroshi_sum_arari_average <> 0){$oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari_average / ((int)$i -1));} else {$oroshi_sum_arari_ave2 = "---";}
+                                                                            } else {
+                                                                                $oroshi_sum_arari_ave = number_format(floor((int)$oroshi_sum_arari / $i));
+                                                                                $oroshi_sum_arari_ave2 = floor((int)$oroshi_sum_arari / $i);
+                                                                            }
+                                                                            $temp1_oroshi_sum3 = "<div class='title4 ta_r'>" . number_format((int)$oroshi_sum_arari) . "</div><div class='title4 ta_r'>" . $oroshi_sum_arari_ave . "</div></div>";
+                                                                        }
+                                                                        
+                                                        }
+                                                                            /************************************************************************************************************************************************************************************************************* */
+                                                                                // 全件用
+                                                                            /************************************************************************************************************************************************************************************************************* */
+                                                
+                                                
+                                                                                    // 各月のタイトル表示用HTMLを作成
+                                                                                        $temp1_title2 = "";
+                                                                                        $temp1_title3 = "";
+                                                                                        $temp1_title4 = "";
+                                                                                        $temp1_title5 = "";
+                                                                                        foreach($manth_now_array as $val){
+                                                                                                // 表示用
+                                                                                                $temp1_title2 .= "<div class='title2 ta_c'>" . $val . "</div>";
+                                                                                                // 20230803
+                                                                                                $temp1_title3 .= "<div class='title7 ta_c'>" . $val . "</div>";
+                                                                                                $temp1_title4 .= "<div class='title7 ta_c'>" . $val . "</div>";
+                                                                                                $temp1_title5 .= "<div class='title7 ta_c'>" . $val . "</div>";
+                                                                                            }
+                                                                                
+                                                                                            $temp1_title = "<div class='wid100 ul2'><div class='title5 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title2 ."<div class='title6 ta_c'>累計</div><!--<div class='title6 ta_c'>過去比</div>--><div class='title6 ta_c'>平均</div></div>";
+                                                                                            $temp1_title3 = "<div class='wid100 ul2'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title3 ."<div class='title7 ta_c'>平均</div></div>";
+                                                                                            $temp1_title4 = "<div class='wid100 ul2 bg_green'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title4 ."<div class='title7 ta_c'>平均</div></div>";
+                                                                                            $temp1_title5 = "<div class='wid100 ul2 bg_yellow'><div class='title7 ta_c'>" . $between_start_view. "～<br>" .$between_end_view . "</div>" .$temp1_title5 ."<div class='title7 ta_c'>平均</div></div>";
+                                                                                        
+                                                                                        
+                                                                                        // 全期間の全部門売上合計用変数リセット
+                                                                                            $all_sum_uriage_all = 0;
+                                                                                            $all_sum_number_all = 0;
+                                                                                            $all_sum_arari_all = 0;
+                                                                                            for($all_i = 0; $all_i < $i; $all_i++){
+                                                                                                // 各月の全部門売上合計用変数リセット
+                                                                                                    $all_month_uriage = 0;
+                                                                                                    $all_month_number= 0;
+                                                                                                    $all_month_arari= 0;
+                                                                                                // 各月の全部門売上合計をHTMLへ
+                                                                                                    if($out1_b == "ON"){ 
+                                                                                                        if(isset($web_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$web_uriage[$all_i]; }
+                                                                                                        if(isset($web_number[$all_i])){$all_month_number = $all_month_number + (int)$web_number[$all_i]; }
+                                                                                                        if(isset($web_arari[$all_i])){$all_month_arari = $all_month_arari+ (int)$web_arari[$all_i]; }
+                                                                                                    }
+                                                                                                    if($out1_a == "ON"){ 
+                                                                                                        if(isset($shop_uriage[$all_i])){$all_month_uriage = $all_month_uriage + (int)$shop_uriage[$all_i]; }
+                                                                                                        if(isset($shop_number[$all_i])){$all_month_number = $all_month_number + (int)$shop_number[$all_i]; }
+                                                                                                        if(isset($shop_arari[$all_i])){$all_month_arari = $all_month_arari + (int)$shop_arari[$all_i]; }
+                                                                                                    }
+                                                                                                    if($out1_c == "ON"){ 
+                                                                                                        // フォーム上の選択が「免税」のみだと「店舗・通販(免税)」は全月0なので「店舗・通販(免税)」を含む足し算だとエラーとなるため、条件分岐で回避
+                                                                                                            /*if($out4_a == "OFF" && $out4_b == "ON"){
+                                                                                                                $all_month_uriage = $all_month_uriage; 
+                                                                                                                $all_month_number = $all_month_number; 
+                                                                                                                $all_month_arari = $all_month_arari; 
+                                                                                                            } else {*/
+                                                                                                                if(isset($oroshi_uriage[$all_i])){ $all_month_uriage = $all_month_uriage + (int)$oroshi_uriage[$all_i]; }
+                                                                                                                if(isset($oroshi_number[$all_i])){ $all_month_number = $all_month_number + (int)$oroshi_number[$all_i]; }
+                                                                                                                if(isset($oroshi_arari[$all_i])){ $all_month_arari = $all_month_arari + (int)$oroshi_arari[$all_i]; }
+                                                                                                            //}
+                                                
+                                                                                                    }
+                                                                                                // 全期間の全部門売上合計
+                                                                                                    $all_sum_uriage_all = (int)$all_sum_uriage_all + (int)$all_month_uriage;
+                                                                                                    $all_sum_number_all = (int)$all_sum_number_all + (int)$all_month_number;
+                                                                                                    $all_sum_arari_all = (int)$all_sum_arari_all + (int)$all_month_arari;
+                                                                                                
+                                                                                            }
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                
+                                                // 【進捗率の取得】
+                                                                                        
+                                                
+                                                // 検索スタート日からデータが格納されている最終日までの日数
+                                                    $search_start = strtotime($start_now);
+                                                    $data_end = strtotime($last_day);
+                                                    $data_in_days = ($data_end - $search_start) / (60 * 60 * 24);
+                                                
+                                                // 検索期間
+                                                    $search_start = strtotime($start_now);
+                                                    $search_end = strtotime($end_now);
+                                                    $search_days = ($search_end - $search_start) / (60 * 60 * 24);
+                                                
+                                                // 検索期間・着地予測（期間合計 / データ格納期間 * 検索期間）
+                                                    ($shop_sum_uriage <> 0 && $shop_sum_uriage <> "") ? $shop_term_progress = $shop_sum_uriage / $data_in_days * $search_days : $shop_term_progress = "---";
+                                                    ($web_sum_uriage <> 0 && $web_sum_uriage <> "") ? $web_term_progress = $web_sum_uriage / $data_in_days * $search_days : $web_term_progress = "---";
+                                                    ($shop_sum_number <> 0 && $shop_sum_number <> "") ? $shop_term_progress_n = $shop_sum_number / $data_in_days * $search_days : $shop_term_progress_n = "---";
+                                                    ($web_sum_number <> 0 && $web_sum_number <> "") ? $web_term_progress_n = $web_sum_number / $data_in_days * $search_days : $web_term_progress_n = "---";
+                                                    ($shop_sum_arari <> 0 && $shop_sum_arari <> "") ? $shop_term_progress_a = $shop_sum_arari / $data_in_days * $search_days : $shop_term_progress_a = "---";
+                                                    ($web_sum_arari <> 0 && $web_sum_arari <> "") ? $web_term_progress_a = $web_sum_arari / $data_in_days * $search_days : $web_term_progress_a = "---";
+                                                    
+                                                    $oroshi_term_progress = 0;
+                                                    $oroshi_term_progress_n = 0;
+                                                    $oroshi_term_progress_a = 0;
+                                                    if($out1_c == "ON"){($oroshi_sum_uriage <> 0 && $oroshi_sum_uriage <> "") ? $oroshi_term_progress = $oroshi_sum_uriage / $data_in_days * $search_days : $oroshi_term_progress = "---";}
+                                                    if($out1_c == "ON"){($oroshi_sum_number <> 0 && $oroshi_sum_number <> "") ? $oroshi_term_progress_n = $oroshi_sum_number / $data_in_days * $search_days : $oroshi_term_progress_n = "---";}
+                                                    if($out1_c == "ON"){($oroshi_sum_arari <> 0 && $oroshi_sum_arari <> "") ? $oroshi_term_progress_a = $oroshi_sum_arari / $data_in_days * $search_days : $oroshi_term_progress_a = "---";}
+                                                    
+                                                    // 合計
+                                                        $all_term_progress = (int)$shop_term_progress + (int)$web_term_progress + (int)$oroshi_term_progress;
+                                                        $all_term_progress_n = (int)$shop_term_progress_n + (int)$web_term_progress_n + (int)$oroshi_term_progress_n;
+                                                        $all_term_progress_a = (int)$shop_term_progress_a + (int)$web_term_progress_a + (int)$oroshi_term_progress_a;
+                                                // 検索期間・過去との着地予測比（検索期間・着地予測 / 過去合計）
+                                                    ($shop_term_progress <> 0 && $shop_term_progress <> "" && $past_shop_sum_uriage <> 0 && $past_shop_sum_uriage <> "") ? $shop_term_progress2 = number_format((floor(((int)$shop_term_progress / (int)$past_shop_sum_uriage) * 100 * 10)) / 10,1) : $shop_term_progress2 = 0;
+                                                    ($web_term_progress <> 0 && $web_term_progress <> "" && $past_web_sum_uriage <> 0 && $past_web_sum_uriage <> "") ? $web_term_progress2 = number_format((floor(((int)$web_term_progress / (int)$past_web_sum_uriage) * 100 * 10)) / 10,1) : $web_term_progress2 = 0;
+                                                    ($shop_term_progress_n <> 0 && $shop_term_progress_n <> "" && $past_shop_sum_number <> 0 && $past_shop_sum_number <> "") ? $shop_term_progress2_n = number_format((floor(((int)$shop_term_progress_n / (int)$past_shop_sum_number) * 100 * 10)) / 10,1) : $shop_term_progress2_n = 0;
+                                                    ($web_term_progress_n <> 0 && $web_term_progress_n <> "" && $past_web_sum_number <> 0 && $past_web_sum_number <> "") ? $web_term_progress2_n = number_format((floor(((int)$web_term_progress_n / (int)$past_web_sum_number) * 100 * 10)) / 10,1) : $web_term_progress2_n = 0;
+                                                    ($shop_term_progress_a <> 0 && $shop_term_progress_a <> "" && $past_shop_sum_arari <> 0 && $past_shop_sum_arari <> "") ? $shop_term_progress2_a = number_format((floor(((int)$shop_term_progress_a / (int)$past_shop_sum_arari) * 100 * 10)) / 10,1) : $shop_term_progress2_a = 0;
+                                                    ($web_term_progress_a <> 0 && $web_term_progress_a <> "" && $past_web_sum_arari <> 0 && $past_web_sum_arari <> "") ? $web_term_progress2_a = number_format((floor(((int)$web_term_progress_a / (int)$past_web_sum_arari) * 100 * 10)) / 10,1) : $web_term_progress2_a = 0;
+                                                    
+                                                    if($out1_c == "ON"){
+                                                        if($oroshi_term_progress <> "" && $oroshi_term_progress <> 0 && $past_oroshi_sum_uriage <> "" && $past_oroshi_sum_uriage <> 0){
+                                                            $oroshi_term_progress2 = number_format((floor(((int)$oroshi_term_progress / (int)$past_oroshi_sum_uriage) * 100 * 10)) / 10,1);
+                                                        } else {
+                                                            $oroshi_term_progress2 = "---";
+                                                        }
+                                                        if($oroshi_term_progress_n <> "" && $oroshi_term_progress_n <> 0 && $past_oroshi_sum_number <> "" && $past_oroshi_sum_number <> 0){
+                                                            $oroshi_term_progress2_n = number_format((floor(((int)$oroshi_term_progress_n / (int)$past_oroshi_sum_number) * 100 * 10)) / 10,1);
+                                                        } else {
+                                                            $oroshi_term_progress2_n = "---"; 
+                                                        }
+                                                        if($oroshi_term_progress_a <> "" && $oroshi_term_progress_a <> 0 && $past_oroshi_sum_arari <> "" && $past_oroshi_sum_arari <> 0){
+                                                            $oroshi_term_progress2_a = number_format((floor(((int)$oroshi_term_progress_a / (int)$past_oroshi_sum_arari) * 100 * 10)) / 10,1);
+                                                        } else {
+                                                            $oroshi_term_progress2_a = "---"; 
+                                                        }
+                                                    }
+                                                    
+                                                    // 合計
+                                                    ($all_term_progress <> 0 && $all_term_progress <> "" && $past_all_sum_uriage_all <> 0 && $past_all_sum_uriage_all <> "") ? $all_term_progress2 = number_format((floor(((int)$all_term_progress / (int)$past_all_sum_uriage_all) * 100 * 10)) / 10,1) : $all_term_progress2 = "---";
+                                                    ($all_term_progress_n <> 0 && $all_term_progress_n <> "" && $past_all_sum_number_all <> 0 && $past_all_sum_number_all <> "") ? $all_term_progress2_n = number_format((floor(((int)$all_term_progress_n / (int)$past_all_sum_number_all) * 100 * 10)) / 10,1) : $all_term_progress2_n = "---";
+                                                    ($all_term_progress_a <> 0 && $all_term_progress_a <> "" && $past_all_sum_arari_all <> 0 && $past_all_sum_arari_all <> "") ? $all_term_progress2_a = number_format((floor(((int)$all_term_progress_a / (int)$past_all_sum_arari_all) * 100 * 10)) / 10,1) : $all_term_progress2_a = "---";
+                                                
+                                                // HTML追記
+                                                    ($shop_term_progress <> 0 && $shop_term_progress <> "") ? $shop_term_progress_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress) . "</div>" : $shop_term_progress_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_sum_uriage <> 0 && $shop_sum_uriage <> "") ? $shop_sum_uriage_view = "<div class='sinchoku'>" . number_format($shop_sum_uriage) . "</div>" : $shop_sum_uriage_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_term_progress2 < 100) ? $shop_term_progress2_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2 . "%</div>" : $shop_term_progress2_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2 . "%</div>";
+                                                    ($web_term_progress <> 0 && $web_term_progress <> "") ? $web_term_progress_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress) . "</div>" : $web_term_progress_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_sum_uriage <> 0 && $web_sum_uriage <> "") ? $web_sum_uriage_view = "<div class='sinchoku'>" . number_format((int)$web_sum_uriage) . "</div>" : $web_sum_uriage_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_term_progress2 < 100) ? $web_term_progress2_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2 . "%</div>" : $web_term_progress2_view = "<div class='sinchoku fc_red'>" . $web_term_progress2 . "%</div>";
+                                                    
+                                                    ($shop_term_progress_n <> 0 && $shop_term_progress_n <> "") ? $shop_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress_n) . "</div>" : $shop_term_progress_n_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_sum_number <> 0 && $shop_sum_number <> "") ? $shop_sum_number_view = "<div class='sinchoku'>" . number_format($shop_sum_number) . "</div>" : $shop_sum_number_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_term_progress2_n < 100) ? $shop_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2_n . "%</div>" : $shop_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2_n . "%</div>";
+                                                    ($web_term_progress_n <> 0 && $web_term_progress_n <> "") ? $web_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress_n) . "</div>" : $web_term_progress_n_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_sum_number <> 0 && $web_sum_number <> "") ? $web_sum_number_view = "<div class='sinchoku'>" . number_format((int)$web_sum_number) . "</div>" : $web_sum_number_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_term_progress2_n < 100) ? $web_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2_n . "%</div>" : $web_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $web_term_progress2_n . "%</div>";
+                                                  
+                                                    ($shop_term_progress_a <> 0 && $shop_term_progress_a <> "") ? $shop_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$shop_term_progress_a) . "</div>" : $shop_term_progress_a_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_sum_arari <> 0 && $shop_sum_arari <> "") ? $shop_sum_arari_view = "<div class='sinchoku'>" . number_format($shop_sum_arari) . "</div>" : $shop_sum_arari_view = "<div class='sinchoku'>---</div>";
+                                                    ($shop_term_progress2_a < 100) ? $shop_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $shop_term_progress2_a . "%</div>" : $shop_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $shop_term_progress2_a . "%</div>";
+                                                    ($web_term_progress_a <> 0 && $web_term_progress_a <> "") ? $web_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$web_term_progress_a) . "</div>" : $web_term_progress_a_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_sum_arari <> 0 && $web_sum_arari <> "") ? $web_sum_arari_view = "<div class='sinchoku'>" . number_format((int)$web_sum_arari) . "</div>" : $web_sum_arari_view = "<div class='sinchoku'>---</div>";
+                                                    ($web_term_progress2_a < 100) ? $web_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $web_term_progress2_a . "%</div>" : $web_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $web_term_progress2_a . "%</div>";
+                                                    
+                                                    if($out1_c == "ON"){ 
+                                                        ($oroshi_term_progress <> 0 && $oroshi_term_progress <> "") ? $oroshi_term_progress_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress) . "</div>" : $oroshi_term_progress_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_sum_uriage <> 0 && $oroshi_sum_uriage <> "") ? $oroshi_sum_uriage_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_uriage) . "</div>" : $oroshi_sum_uriage_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_term_progress2 < 100) ? $oroshi_term_progress2_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2 . "%</div>" : $oroshi_term_progress2_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2 . "%</div>";
+                                                        ($oroshi_term_progress_n <> 0 && $oroshi_term_progress_n <> "") ? $oroshi_term_progress_n_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress_n) . "</div>" : $oroshi_term_progress_n_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_sum_number <> 0 && $oroshi_sum_number <> "") ? $oroshi_sum_number_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_number) . "</div>" : $oroshi_sum_number_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_term_progress2_n < 100) ? $oroshi_term_progress2_n_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2_n . "%</div>" : $oroshi_term_progress2_n_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2_n . "%</div>";
+                                                            ($oroshi_term_progress_a <> 0 && $oroshi_term_progress_a <> "") ? $oroshi_term_progress_a_view = "<div class='sinchoku'>" . number_format((int)$oroshi_term_progress_a) . "</div>" : $oroshi_term_progress_a_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_sum_arari <> 0 && $oroshi_sum_arari <> "") ? $oroshi_sum_arari_view = "<div class='sinchoku'>" . number_format((int)$oroshi_sum_arari) . "</div>" : $oroshi_sum_arari_view = "<div class='sinchoku'>---</div>";
+                                                        ($oroshi_term_progress2_a < 100) ? $oroshi_term_progress2_a_view = "<div class='sinchoku fc_blue'>" . $oroshi_term_progress2_a . "%</div>" : $oroshi_term_progress2_a_view = "<div class='sinchoku fc_red'>" . $oroshi_term_progress2_a . "%</div>";
+                                                    }
+                                                    ($all_term_progress <> 0 && $all_term_progress <> "") ? $all_term_progress_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress) . "</div>" : $all_term_progress_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_sum_uriage_all <> 0 && $all_sum_uriage_all <> "") ? $all_sum_uriage_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_uriage_all) . "</div>" : $all_sum_uriage_all_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_term_progress2 < 100) ? $all_term_progress2_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2 . "%</div>" : $all_term_progress2_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2 . "%</div>";
+                                                    ($all_term_progress_n <> 0 && $all_term_progress_n <> "") ? $all_term_progress_n_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress_n) . "</div>" : $all_term_progress_n_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_sum_number_all <> 0 && $all_sum_number_all <> "") ? $all_sum_number_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_number_all) . "</div>" : $all_sum_number_all_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_term_progress2_n < 100) ? $all_term_progress2_n_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_n . "%</div>" : $all_term_progress2_n_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_n . "%</div>";
+                                                    ($all_term_progress_a <> 0 && $all_term_progress_a <> "") ? $all_term_progress_a_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_term_progress_a) . "</div>" : $all_term_progress_a_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_sum_arari_all <> 0 && $all_sum_arari_all <> "") ? $all_sum_arari_all_view = "<div class='sinchoku bg_grey'>" . number_format((int)$all_sum_arari_all) . "</div>" : $all_sum_arari_all_view = "<div class='sinchoku bg_grey'>---</div>";
+                                                    ($all_term_progress2_a < 100) ? $all_term_progress2_a_view = "<div class='sinchoku fc_blue bg_grey'>" . $all_term_progress2_a . "%</div>" : $all_term_progress2_a_view = "<div class='sinchoku fc_red bg_grey'>" . $all_term_progress2_a . "%</div>";
     
     
     // 売上額進捗
@@ -36811,7 +36796,7 @@ if($out1_c == "ON"){
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
                                                                     <div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>店(免税外)舗</div>
+                                                                        <div class='sinchoku ta_c'>店舗(免税外)</div>
                                                                         <div class='sinchoku'>" . $shop_uriage_view1. "</div>
                                                                         <div class='sinchoku'>" . $shop_uriage_view2. "</div>
                                                                         " . $shop_uriage_view3 . "
@@ -36833,7 +36818,7 @@ if($out1_c == "ON"){
                                                                     if($out1_c == "ON"){ 
                                                                     $uriage_progress_html .= 
                                                                     "<div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>卸(免税外)</div>
+                                                                        <div class='sinchoku ta_c'>店舗・通販(免税)</div>
                                                                         <div class='sinchoku'>" . $oroshi_uriage_view1 . "</div>
                                                                         <div class='sinchoku'>" . $oroshi_uriage_view2. "</div>
                                                                         " . $oroshi_uriage_view3 . "
@@ -36895,7 +36880,7 @@ if($out1_c == "ON"){
                                                                     if($out1_c == "ON"){ 
                                                                     $number_progress_html .= 
                                                                     "<div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>卸(免税外)</div>
+                                                                        <div class='sinchoku ta_c'>店舗・通販(免税)</div>
                                                                         <div class='sinchoku'>" . $oroshi_number_view1 . "</div>
                                                                         <div class='sinchoku'>" . $oroshi_number_view2. "</div>
                                                                         " . $oroshi_number_view3 . "
@@ -36935,7 +36920,7 @@ if($out1_c == "ON"){
                                                                         <div class='sinchoku_t'>全期間着地予測比（対過去・全期間）</div>
                                                                     </div>
                                                                     <div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>店舗</div>
+                                                                        <div class='sinchoku ta_c'>店舗(免税外)</div>
                                                                         <div class='sinchoku'>" . $shop_arari_view1. "</div>
                                                                         <div class='sinchoku'>" . $shop_arari_view2. "</div>
                                                                         " . $shop_arari_view3 . "
@@ -36945,7 +36930,7 @@ if($out1_c == "ON"){
                                                                         " . $shop_term_progress2_a_view. "
                                                                     </div>
                                                                     <div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>通販</div>
+                                                                        <div class='sinchoku ta_c'>通販(免税外)</div>
                                                                         <div class='sinchoku'>" . $web_arari_view1 . "</div>
                                                                         <div class='sinchoku'>" . $web_arari_view2. "</div>
                                                                         " . $web_arari_view3 . "
@@ -36957,7 +36942,7 @@ if($out1_c == "ON"){
                                                                     if($out1_c == "ON"){ 
                                                                     $arari_progress_html .= 
                                                                     "<div class='ul_p'>
-                                                                        <div class='sinchoku ta_c'>卸</div>
+                                                                        <div class='sinchoku ta_c'>店舗・通販(免税)</div>
                                                                         <div class='sinchoku'>" . $oroshi_arari_view1 . "</div>
                                                                         <div class='sinchoku'>" . $oroshi_arari_view2. "</div>
                                                                         " . $oroshi_arari_view3 . "
@@ -37197,7 +37182,7 @@ if($out1_c == "ON"){
 
 
 
-                                        // 卸用HTMLの作成
+                                        // 店舗・通販(免税)用HTMLの作成
                                                 $js_oroshi_uriage  = "";
                                                 $js_oroshi_number  = "";
                                                 $js_oroshi_arari  = "";
@@ -37226,7 +37211,7 @@ if($out1_c == "ON"){
                                                         //$oroshi_last_uriage = "";
                                                         $i = 0;
                                                         foreach($temp1_oroshi_manthly_array as $val){
-                                                            // 【進捗率の取得】最終月の「現在・卸・売上」を取得
+                                                            // 【進捗率の取得】最終月の「現在・店舗・通販(免税)・売上」を取得
                                                                 //$oroshi_last_uriage = $val;
 
                                                             if($val == ""){
@@ -37245,7 +37230,7 @@ if($out1_c == "ON"){
                                                         }
                                                         $i = 0;
                                                         foreach($temp1_oroshi_manthly_array2 as $val){
-                                                            // 【進捗率の取得】最終月の「現在・卸・点数」を取得
+                                                            // 【進捗率の取得】最終月の「現在・店舗・通販(免税)・点数」を取得
                                                                 //$oroshi_last_number = $val;
                                                             if($val == ""){
                                                                 // JSグラフ用
@@ -37263,7 +37248,7 @@ if($out1_c == "ON"){
                                                         }
                                                         $i = 0;
                                                         foreach($temp1_oroshi_manthly_array3 as $val){
-                                                            // 【進捗率の取得】最終月の「現在・卸・粗利」を取得
+                                                            // 【進捗率の取得】最終月の「現在・店舗・通販(免税)・粗利」を取得
                                                                 //$oroshi_last_arari = $val;
                                                             
                                                             if($val == ""){
@@ -37283,13 +37268,13 @@ if($out1_c == "ON"){
 
                                                     // 全体HTMLの作成
                                                         if(isset($temp1_oroshi_manthly_html) && isset($temp1_oroshi_sum)){
-                                                            $temp1_oroshi_manthly_html = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $temp1_oroshi_manthly_html . $temp1_oroshi_sum;
+                                                            $temp1_oroshi_manthly_html = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $temp1_oroshi_manthly_html . $temp1_oroshi_sum;
                                                         }
                                                         if(isset($temp1_oroshi_manthly_html2) && isset($temp1_oroshi_sum2)){
-                                                            $temp1_oroshi_manthly_html2 = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $temp1_oroshi_manthly_html2 . $temp1_oroshi_sum2;
+                                                            $temp1_oroshi_manthly_html2 = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $temp1_oroshi_manthly_html2 . $temp1_oroshi_sum2;
                                                         }
                                                         if(isset($temp1_oroshi_manthly_html3) && isset($temp1_oroshi_sum3)){
-                                                            $temp1_oroshi_manthly_html3 = "<div class='wid100 ul1'><div class='title1 ta_c'>卸(免税外)</div>" . $temp1_oroshi_manthly_html3 . $temp1_oroshi_sum3;
+                                                            $temp1_oroshi_manthly_html3 = "<div class='wid100 ul1'><div class='title1 ta_c'>店舗・通販(免税)</div>" . $temp1_oroshi_manthly_html3 . $temp1_oroshi_sum3;
                                                         }
                                                 }
 
@@ -37315,1678 +37300,1678 @@ if($out1_c == "ON"){
 
 
 
-// 現在・通販・粗利率
-
-    $i = 0;
-    $web_ratio = "";
-    $web_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(通販)</div>";
-    $web_total = "";
-    $web_total_js = "";
-    $all_total = "";
-    $web_total_ratio = "";
-    $web_ratio_cutting = "";
-    $web_ratio_cutting_ave = "";
-    $web_ratio_cutting_html = "";
-    foreach($temp1_web_manthly_array3 as $var){
-        if($var == 0){
-            $web_ratio = "---";
-            $web_total = $web_total;
-            if($temp1_web_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$temp1_web_manthly_array[$i];
-            }
-        } else {
-            $web_ratio = number_format((floor(($var / $temp1_web_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            $web_total = (int)$web_total + (int)$var;
-            if($temp1_web_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$temp1_web_manthly_array[$i];
-            }
-        }
-        $web_total_js  .= (float)$web_ratio . ", ";
-        $web_sum_arari_per .= "<div class='title6 ta_r'>" . $web_ratio . "%</div>";
-
-        // 粗利率の過去比
-            if($web_ratio <> "" && $web_ratio <> "---" && ${"past_web_ratio_" .$i} <> "" && ${"past_web_ratio_" .$i} <> "---"){
-                $web_ratio_cutting = (float)$web_ratio - (float)${"past_web_ratio_" .$i};
-                $web_ratio_cutting = number_format($web_ratio_cutting, 1);
-                // 通販・全期間合計
-                    $web_ratio_cutting_ave = (float)$web_ratio_cutting_ave + (float)$web_ratio_cutting;
-            }
-            //$web_ratio_cutting_html .= "<div class='title7 ta_r'>" . $web_ratio_cutting . "</div>";
-            if($web_ratio_cutting < 0){
-                $web_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio_cutting . "</div>";
-            } else {
-                $web_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio_cutting . "</div>";
-            }
-    
-        $i++;
-    }
-    // 通販・全期間合計の平均
-        $web_ratio_cutting_ave = number_format((float)$web_ratio_cutting_ave / $i, 2);
-    
-    // 粗利率の過去比(トータル値追加)
-        //$web_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$web_ratio_cutting_ave . "</div>";
-        if($web_ratio_cutting_ave < 0){
-            $web_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $web_ratio_cutting_ave . "</div>";
-        } else {
-            $web_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $web_ratio_cutting_ave . "</div>";
-        }
-    
-        $web_ratio_cutting_html = $web_ratio_cutting_html . $web_ratio_cutting_ave_html;
-
-
-    // 通販用粗利率を取得
-        if($web_total <> 0 && $all_total <> 0 && $web_total <> "" && $all_total <> ""){
-            $web_total_ratio = number_format((floor(((float)$web_total / (float)$all_total) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_ratio = "---";
-        }
-
-
-        
-
-        $web_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $web_total_ratio . "%</div></div>";
-
-// 現在・店舗・粗利率
-
-    $i = 0;
-    $shop_ratio = "";
-    $shop_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(免税外)(店舗)</div>";
-    $shop_total = "";
-    $shop_total_js = "";
-    $all_total = "";
-    $shop_total_ratio = "";
-    $shop_ratio_cutting = "";
-    $shop_ratio_cutting_ave = "";
-    $shop_ratio_cutting_html = "";
-    foreach($temp1_shop_manthly_array3 as $var){
-        if($var == 0){
-            $shop_ratio = "---";
-            $shop_total = $shop_total;
-            if($temp1_shop_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$temp1_shop_manthly_array[$i];
-            }
-        } else {
-            $shop_ratio = number_format((floor(($var / $temp1_shop_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            $shop_total = (int)$shop_total + (int)$var;
-            if($temp1_shop_manthly_array[$i] == 0){
-                $all_total = $all_total;
-            } else {
-                $all_total = (int)$all_total + (int)$temp1_shop_manthly_array[$i];
-            }
-        }
-        $shop_total_js  .= (float)$shop_ratio . ", ";
-        $shop_sum_arari_per .= "<div class='title6 ta_r'>" . $shop_ratio . "%</div>";
-
-        // 粗利率の過去比
-            if($shop_ratio <> "" && $shop_ratio <> "---" && ${"past_shop_ratio_" .$i} <> "" && ${"past_shop_ratio_" .$i} <> "---"){
-                $shop_ratio_cutting = (float)$shop_ratio - (float)${"past_shop_ratio_" .$i};
-                $shop_ratio_cutting = number_format($shop_ratio_cutting, 1);
-                // 店舗・全期間合計
-                    $shop_ratio_cutting_ave = (float)$shop_ratio_cutting_ave + (float)$shop_ratio_cutting;
-                
-            }
-            //$shop_ratio_cutting_html .= "<div class='title7 ta_r'>" . $shop_ratio_cutting . "</div>";
-            if($shop_ratio_cutting < 0){
-                $shop_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio_cutting . "</div>";
-            } else {
-                $shop_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio_cutting . "</div>";
-            }
-    
-        $i++;
-    }
-    // 店舗・全期間合計の平均
-        $shop_ratio_cutting_ave = number_format((float)$shop_ratio_cutting_ave / $i, 2);
-    // 粗利率の過去比(トータル値追加)
-        //$shop_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$shop_ratio_cutting_ave . "</div>";
-        if($shop_ratio_cutting_ave < 0){
-            $shop_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $shop_ratio_cutting_ave . "</div>";
-        } else {
-            $shop_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $shop_ratio_cutting_ave . "</div>";
-        }
-        $shop_ratio_cutting_html = $shop_ratio_cutting_html . $shop_ratio_cutting_ave_html;
-        
-    // 現在・店舗用粗利率を取得
-        if($shop_total <> 0 && $all_total <> 0 && $shop_total <> "" && $all_total <> ""){
-            $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$all_total) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_ratio = "---";
-        }
-
-        $shop_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $shop_total_ratio . "%</div></div>";
-
-
-// 現在・卸・粗利率
-    $oroshi_total_js = "";
-    $oroshi_ratio_cutting = "";
-    $oroshi_ratio_cutting_ave = "";
-    $oroshi_ratio_cutting_html = "";
-    if($out1_c == "ON"){
-
-		    $i = 0;
-		    $oroshi_ratio = "";
-		    $oroshi_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>粗利率(免税外)(卸)</div>";
-		    $oroshi_total = "";
-		    $all_total = "";
-		    $oroshi_total_ratio = "";
-		    foreach($temp1_oroshi_manthly_array3 as $var){
-		        if($var == 0){
-		            $oroshi_ratio = "---";
-		            $oroshi_total = $oroshi_total;
-		            if($temp1_oroshi_manthly_array[$i] == 0){
-		                $all_total = $all_total;
-		            } else {
-		                $all_total = (int)$all_total + (int)$temp1_oroshi_manthly_array[$i];
-		            }
-		        } else {
-		            $oroshi_ratio = number_format((floor(($var / $temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-		            $oroshi_total = (int)$oroshi_total + (int)$var;
-		            if($temp1_oroshi_manthly_array[$i] == 0){
-		                $all_total = $all_total;
-		            } else {
-		                $all_total = (int)$all_total + (int)$temp1_oroshi_manthly_array[$i];
-		            }
-		        }
-                $oroshi_total_js  .= (float)$oroshi_ratio . ", ";
-		        $oroshi_sum_arari_per .= "<div class='title6 ta_r'>" . $oroshi_ratio . "%</div>";
-
-                // 粗利率の過去比
-                    if($oroshi_ratio <> "" && $oroshi_ratio <> "---" && ${"past_oroshi_ratio_" .$i} <> "" && ${"past_oroshi_ratio_" .$i} <> "---"){
-                        $oroshi_ratio_cutting = (float)$oroshi_ratio - (float)${"past_oroshi_ratio_" .$i};
-                        $oroshi_ratio_cutting = number_format($oroshi_ratio_cutting, 1);
-                        // 卸・全期間合計
-                            $oroshi_ratio_cutting_ave = (float)$oroshi_ratio_cutting_ave + (float)$oroshi_ratio_cutting;
-                    }
-                    //$oroshi_ratio_cutting_html .= "<div class='title7 ta_r'>" . $oroshi_ratio_cutting . "</div>";
-                    if($oroshi_ratio_cutting < 0){
-                        $oroshi_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio_cutting . "</div>";
-                    } else {
-                        $oroshi_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio_cutting . "</div>";
-                    }
-            
-                $i++;
-            }
-            // 卸・全期間合計の平均
-                $oroshi_ratio_cutting_ave = number_format((float)$oroshi_ratio_cutting_ave / $i, 2);
-            // 粗利率の過去比(トータル値追加)
-                //$oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$oroshi_ratio_cutting_ave . "</div>";
-                if($oroshi_ratio_cutting_ave < 0){
-                    $oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio_cutting_ave . "</div>";
-                } else {
-                    $oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $oroshi_ratio_cutting_ave . "</div>";
-                }
-
-                $oroshi_ratio_cutting_html = $oroshi_ratio_cutting_html . $oroshi_ratio_cutting_ave_html;
-		    // 現在・卸用粗利率を取得
-                if($oroshi_total == 0 || $oroshi_total == "" || $all_total == 0 || $all_total == ""){
-                    $oroshi_total_ratio = "---";
-                } else {
-		            $oroshi_total_ratio = number_format((floor(((float)$oroshi_total / (float)$all_total) * 100 * 10)) / 10 ,1);
-                }
-
-		        $oroshi_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $oroshi_total_ratio . "%</div></div>";
-    }
-
-
-
-// 現在・金額構成比
-
-    $i = 0;
-    $total = "";
-    $total2 = 0;
-    $web_per = "";
-    $shop_per = "";
-    $oroshi_per = "";
-    $web_total = "";
-    $shop_total = "";
-    $oroshi_total = "";
-    $web_per_html = "";
-    $shop_per_html = "";
-    $oroshi_per_html = "";
-    $web_total_js2 = "";
-    $shop_total_js2 = "";
-    $oroshi_total_js2 = "";
-    foreach($temp1_web_manthly_array as $var){
-        //echo $temp1_shop_manthly_array[$i] . "<br>";
-        if($out1_c == "ON"){
-            $total = (int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i];
-        } else {
-            $total = (int)$var + (int)$temp1_shop_manthly_array[$i];
-        }
-        $total2 = (int)$total2 + (int)$total;
-        $web_total = (int)$web_total + (int)$var;
-        $shop_total = (int)$shop_total + (int)$temp1_shop_manthly_array[$i];
-        if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$temp1_oroshi_manthly_array[$i]; }
-        if($var == 0){
-            $web_per = "---";
-            if($temp1_shop_manthly_array[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $temp1_shop_manthly_array[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---"; 
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
-                }
-            }
-            if($out1_c == "ON"){
-                if($temp1_oroshi_manthly_array[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        } else {
-            $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
-            if($temp1_shop_manthly_array[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ $shop_per = number_format((floor(($temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); } else {$shop_per = 100 - $web_per;}
-            }
-            if($out1_c == "ON"){
-                if($temp1_oroshi_manthly_array[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        }
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
-        $web_total_js2  .= (float)$web_per . ", ";
-        $shop_total_js2  .= (float)$shop_per . ", ";
-        if($out1_c == "ON"){
-            $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
-            $oroshi_total_js2  .= (float)$oroshi_per . ", ";
-        }
-        //echo $web_per . "(" . $shop_per . ")<br>";
-
-        $i++;
-    }
-    // 期間中の売上合計に対するパーセンテージを取得
-       // $web_total_per = $web_total / $i;
-        if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
-            $web_total_per = number_format((floor(((float)$web_total / (float)$total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_per = "---";
-        }
-        if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
-            $shop_total_per = number_format((floor(((float)$shop_total / (float)$total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_per = "---";
-        }
-        //if($out1_c == "ON"){ $oroshi_total_per = 100 - ((float)$web_total_per + (float)$shop_total_per); }
-        if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1), 1);}
-
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
-        if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per. "%</div>";}
-
-
-    $temp1_all_sorce4 = "<p class='title_a'>金額・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)    </div>" . $shop_per_html . "</div>";
-    $temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸</div>" . $oroshi_per_html . "</div>";}
-    $temp1_all_sorce4 .= "</div>";
-
-
-
-
-    // 現在・点数構成比
-
-    $i = 0;
-    $total = "";
-    $total2 = 0;
-    $web_per = "";
-    $shop_per = "";
-    $oroshi_per = "";
-    $web_total = "";
-    $shop_total = "";
-    $oroshi_total = "";
-    $web_per_html = "";
-    $shop_per_html = "";
-    $oroshi_per_html = "";
-    $web_total_js3 = "";
-    $shop_total_js3 = "";
-    $oroshi_total_js3 = "";
-    foreach($temp1_web_manthly_array2 as $var){
-        //echo $temp1_shop_manthly_array2[$i] . "<br>";
-        if($out1_c == "ON"){
-            $total = (int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i];
-        } else {
-            $total = (int)$var + (int)$temp1_shop_manthly_array2[$i];
-        }
-        $total2 = (int)$total2 + (int)$total;
-        $web_total = (int)$web_total + (int)$var;
-        $shop_total = (int)$shop_total + (int)$temp1_shop_manthly_array2[$i];
-        if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$temp1_oroshi_manthly_array2[$i]; }
-        if($var == 0){
-            $web_per = "---";
-            if($temp1_shop_manthly_array2[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---"; 
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
-            }
-            }
-            if($out1_c == "ON"){
-                if($temp1_oroshi_manthly_array2[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        } else {
-            $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
-            if($temp1_shop_manthly_array2[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ $shop_per = number_format((floor(($temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); } else {$shop_per = number_format(100 - $web_per ,1);}
-            }
-            if($out1_c == "ON"){
-                if($temp1_oroshi_manthly_array2[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        }
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
-        $web_total_js3  .= (float)$web_per . ", ";
-        $shop_total_js3  .= (float)$shop_per . ", ";
-        if($out1_c == "ON"){
-            $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
-            $oroshi_total_js3  .= (float)$oroshi_per . ", ";
-        }
-        //echo $web_per . "(" . $shop_per . ")<br>";
-
-        $i++;
-    }
-    // 期間中の売上合計点数に対するパーセンテージを取得
-       // $web_total_per = $web_total / $i;
-        if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
-            $web_total_per = number_format((floor(((float)$web_total / (float)$total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_per = "---";
-        }
-        if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
-            $shop_total_per = number_format((floor(((float)$shop_total / (float)$total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_per = "---";
-        }
-        //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
-        if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
-
-
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
-        if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
-
-
-    $temp1_all_sorce5 = "<p class='title_a'>点数・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
-    $temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_per_html . "</div>";}
-    $temp1_all_sorce5 .= "</div>";
-
-
-
-// 現在・平均単価
-
-    $i = 0;
-    $web_average = "";
-    $web_ave_html = "";
-    $web_total = "";
-    $web_total2 = "";
-    $web_total_ave = "";
-    foreach($temp1_web_manthly_array as $var){
-
-        if($var == 0){
-            $web_average = 0;
-            $web_total = (int)$web_total + (int)$var;
-            if($temp1_web_manthly_array2[$i] == 0){
-                $web_total2 = $web_total2;
-            } else {
-                $web_total2 = (int)$web_total2 + (int)$temp1_web_manthly_array2[$i];
-            }
-        } else {
-            $web_average = (floor(((int)$var / (int)$temp1_web_manthly_array2[$i])) * 10) / 10;
-            $web_total = (int)$web_total + (int)$var;
-            if($temp1_web_manthly_array2[$i] == 0){
-                $web_total2 = $web_total2;
-            } else {
-                $web_total2 = (int)$web_total2 + (int)$temp1_web_manthly_array2[$i];
-            }
-        }
-        if($web_average <> 0 && $web_average <> ""){$web_average = number_format((int)$web_average);}
-        $web_ave_html .= "<div class='title7 ta_r'>" . $web_average . "</div>";
-
-        $i++;
-    }
-    // 期間中の売上合計に対する平均単価を取得
-        if($web_total <> 0 && $web_total2 <> 0 && $web_total <> "" && $web_total2 <> ""){
-            $web_total_ave = (floor(((int)$web_total / (int)$web_total2) * 10)) / 10;
-        } else {
-            $web_total_ave = "---";
-        }
-        if($web_total_ave <> 0 && $web_total_ave <> ""){$web_total_ave = number_format((int)$web_total_ave);}
-        $web_ave_html .= "<div class='title7 ta_r'>" . $web_total_ave . "</div>";
-
-    $i = 0;
-    $shop_average = "";
-    $shop_ave_html = "";
-    $shop_total = "";
-    $shop_total2 = "";
-    $shop_total_ave = "";
-    foreach($temp1_shop_manthly_array as $var){
-
-        if($var == 0){
-            $shop_average = 0;
-            $shop_total = (int)$shop_total + (int)$var;
-            if($temp1_shop_manthly_array2[$i] == 0){
-                $shop_total2 = $shop_total2;
-            } else {
-                $shop_total2 = (int)$shop_total2 + (int)$temp1_shop_manthly_array2[$i];
-            }
-        } else {
-            $shop_average = (floor(((int)$var / (int)$temp1_shop_manthly_array2[$i])) * 10) / 10;
-            $shop_total = (int)$shop_total + (int)$var;
-            if($temp1_shop_manthly_array2[$i] == 0){
-                $shop_total2 = $shop_total2;
-            } else {
-                $shop_total2 = (int)$shop_total2 + (int)$temp1_shop_manthly_array2[$i];
-            }
-        }
-        if($shop_average <> 0 && $shop_average <> ""){$shop_average = number_format((int)$shop_average);}
-        $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_average . "</div>";
-
-        $i++;
-    }
-    // 期間中の売上合計に対する平均単価を取得
-        if($shop_total <> 0 && $shop_total2 <> 0 && $shop_total <> "" && $shop_total2 <> ""){
-            $shop_total_ave = (floor(((int)$shop_total / (int)$shop_total2) * 10)) / 10;
-        } else {
-            "---";
-        }
-        if($shop_total_ave <> 0 && $shop_total_ave <> ""){$shop_total_ave = number_format((int)$shop_total_ave);}
-        $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_total_ave . "</div>";
-
-
-        if($out1_c == "ON"){    
-            $i = 0;
-            $oroshi_average = "";
-            $oroshi_ave_html = "";
-            $oroshi_total = "";
-            $oroshi_total2 = "";
-            $oroshi_total_ave = "";
-            foreach($temp1_oroshi_manthly_array as $var){
-
-                if($var == 0){
-                    $oroshi_average = 0;
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total2 = $oroshi_total2;
-                    } else {
-                        $oroshi_total2 = (int)$oroshi_total2 + (int)$temp1_oroshi_manthly_array2[$i];
-                    }
-                } else {
-                    $oroshi_average = (floor(((int)$var / (int)$temp1_oroshi_manthly_array2[$i])) * 10) / 10;
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total2 = $oroshi_total2;
-                    } else {
-                        $oroshi_total2 = (int)$oroshi_total2 + (int)$temp1_oroshi_manthly_array2[$i];
-                    }
-                }
-                if($oroshi_average <> 0 && $oroshi_average <> ""){$oroshi_average = number_format((int)$oroshi_average);}
-                $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_average . "</div>";
-
-                $i++;
-            }
-            // 期間中の売上合計に対する平均単価を取得
-                if($oroshi_total == 0 || $oroshi_total2 == 0 || $oroshi_total == "" || $oroshi_total2 == ""){
-                    $oroshi_total_ave = "---";
-                } else {
-                    $oroshi_total_ave = (floor(((int)$oroshi_total / (int)$oroshi_total2) * 10)) / 10;
-                }
-                if($oroshi_total_ave <> 0 && $oroshi_total_ave <> ""){$oroshi_total_ave = number_format((int)$oroshi_total_ave);}
-                $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_total_ave . "</div>";
-        }
-
-
-    $temp1_all_sorce6 = "<p class='title_a'>平均単価</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ave_html . "</div>";
-    $temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ave_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ave_html . "</div>";}
-    $temp1_all_sorce6 .= "</div>";
-
-
-// 通販・金額・過去比
-
-    $i = 0;
-    $web_ratio = "";
-    $web_ratio_html = "";
-    $web_total = "";
-    $web_total_past = "";
-    $web_total_ratio = "";
-    foreach($temp1_web_manthly_array as $var){
-        if($var == 0){
-            $web_ratio = "---";
-            $web_total = $web_total;
-            if($past_temp1_web_manthly_array[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_web_manthly_array[$i] == 0 || $var == "" || $past_temp1_web_manthly_array[$i] == ""){
-                $web_ratio = "---";
-            } else { 
-                $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $web_total = (int)$web_total + (int)$var;
-            if($past_temp1_web_manthly_array[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array[$i];
-            }
-        }
-        if($web_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上金額に対する比率を取得
-        if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
-            $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_ratio = "---";
-        }
-
-        if($web_total_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
-        }
-
-
-// 店舗・金額・過去比
-
-    $i = 0;
-    $shop_ratio = "";
-    $shop_ratio_html = "";
-    $shop_total = "";
-    $shop_total_past = "";
-    $shop_total_ratio = "";
-    foreach($temp1_shop_manthly_array as $var){
-        if($var == 0){
-            $shop_ratio = "---";
-            $shop_total = $shop_total;
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_shop_manthly_array[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array[$i] == ""){
-                $shop_ratio = "---";
-            } else {
-                $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $shop_total = (int)$shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array[$i];
-            }
-        }
-        if($shop_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
-        }
-        
-
-        $i++;
-    }
-    // 過去の同期間売上金額に対する比率を取得
-        if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
-            $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_ratio = "---";
-        }
-
-        if($shop_total_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
-        }
-        
-    if($out1_c == "ON"){
-        // 卸・金額・過去比
-            $i = 0;
-            $oroshi_ratio = "";
-            $oroshi_ratio_html = "";
-            $oroshi_total = "";
-            $oroshi_total_past = "";
-            $oroshi_total_ratio = "";
-            foreach($temp1_oroshi_manthly_array as $var){
-                if($var == 0){
-                    $oroshi_ratio = "---";
-                    $oroshi_total = $oroshi_total;
-                    if($past_temp1_oroshi_manthly_array[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array[$i];
-                    }
-                } else {
-                    if($var == 0 || $past_temp1_oroshi_manthly_array[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array[$i] == ""){
-                        $oroshi_ratio = "---";
-                    } else {
-                        $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
-                    }
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($past_temp1_oroshi_manthly_array[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array[$i];
-                    }
-                }
-
-                if($oroshi_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
-                }
-        
-                $i++;
-            }
-            // 過去の同期間売上金額に対する比率を取得
-                if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
-                    $oroshi_total_ratio = "---";
-                } else {
-                    $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
-                }
-
-                if($oroshi_total_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
-                }
-                
-    }
-
-
-// 通販・店舗・卸合計・金額・過去比
-
-    $i = 0;
-    $ratio = "";
-    $ratio_html = "";
-    $total = "";
-    $total_past = "";
-    $total_ratio = "";
-    foreach($temp1_web_manthly_array as $var){
-        if($var == 0 && $temp1_shop_manthly_array[$i] == 0/* && $temp1_oroshi_manthly_array[$i] == 0*/){
-            $ratio = 0;
-            $total = $total;
-            if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0/* && $past_temp1_oroshi_manthly_array[$i] == 0*/){
-                $total_past = $total_past;
-            } else {
-                if($out1_c == "ON"){
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i];
-                }
-            }
-        } else {
-            if($out1_c == "ON"){
-                if((int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i] == 0 || (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i]) / ((int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i];
-            } else {
-                if((int)$var + (int)$temp1_shop_manthly_array[$i] == 0 || (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array[$i]) / ((int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array[$i];
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0 && $past_temp1_oroshi_manthly_array[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
-                }
-            } else {
-                if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i];
-                }
-            }
-        }
-        //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
-
-        if($ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上金額に対する比率を取得
-        if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
-            $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $total_ratio = "---";
-        }
-
-        //$ratio_html .= "<div class='title7 ta_r bg_grey'>" . $total_ratio . "%</div>";
-
-        if($total_ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
-        }
-
-
-    $temp1_all_sorce7 = "<p class='title_a'>金額・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
-    $temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ratio_html . "</div>";}
-    $temp1_all_sorce7 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
-
-
-// 通販・点数・過去比
-
-    $i = 0;
-    $web_ratio = "";
-    $web_ratio_html = "";
-    $web_total = "";
-    $web_total_past = "";
-    $web_total_ratio = "";
-    foreach($temp1_web_manthly_array2 as $var){
-        if($var == 0){
-            $web_ratio = "---";
-            $web_total = $web_total;
-            if($past_temp1_web_manthly_array2[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array2[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_web_manthly_array2[$i] == 0 || $var == "" || $past_temp1_web_manthly_array2[$i] == ""){
-                $web_ratio = "---";
-            } else {
-                $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $web_total = (int)$web_total + (int)$var;
-            if($past_temp1_web_manthly_array2[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array2[$i];
-            }
-        }
-        //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_ratio . "%</div>";
-
-        if($web_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上点数に対する比率を取得
-        if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
-            $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_ratio = "---";
-        }
-
-        //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_total_ratio . "%</div>";
-
-        if($web_total_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
-        }
-
-
-// 店舗・点数・過去比
-
-    $i = 0;
-    $shop_ratio = "";
-    $shop_ratio_html = "";
-    $shop_total = "";
-    $shop_total_past = "";
-    $shop_total_ratio = "";
-    foreach($temp1_shop_manthly_array2 as $var){
-        if($var == 0){
-            $shop_ratio = "---";
-            $shop_total = $shop_total;
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array2[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_shop_manthly_array2[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array2[$i] == ""){
-                $shop_ratio = "---";
-            } else {
-                $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $shop_total = (int)$shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array2[$i];
-            }
-        }
-        //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_ratio . "%</div>";
-        if($shop_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上点数に対する比率を取得
-        if($shop_total <> 0 && $shop_total_past <> 0 && $shop_total <> "" && $shop_total_past <> ""){
-            $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_ratio = "---";
-        }
-
-        //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_total_ratio . "%</div>";
-        if($shop_total_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
-        }
-
-
-    if($out1_c == "ON"){
-        // 卸・金額・過去比
-            $i = 0;
-            $oroshi_ratio = "";
-            $oroshi_ratio_html = "";
-            $oroshi_total = "";
-            $oroshi_total_past = "";
-            $oroshi_total_ratio = "";
-            foreach($temp1_oroshi_manthly_array2 as $var){
-                if($var == 0){
-                    $oroshi_ratio = "---";
-                    $oroshi_total = $oroshi_total;
-                    if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array2[$i];
-                    }
-                } else {
-                    if($var == 0 || $past_temp1_oroshi_manthly_array2[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array2[$i] == ""){
-                        $oroshi_ratio = "---";
-                    } else {
-                        $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
-                    }
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array2[$i];
-                    }
-                }
-                //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_ratio . "%</div>";
-                if($oroshi_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
-                }
-        
-                $i++;
-            }
-            // 過去の同期間売上金額に対する比率を取得
-                if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
-                    $oroshi_total_ratio = "---";
-                } else {
-                    $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
-                }
-
-                //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_total_ratio . "%</div>";
-                if($oroshi_total_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
-                }
-    }
-
-
-// 通販・店舗・卸合計・点数・過去比
-
-    $i = 0;
-    $ratio = "";
-    $ratio_html = "";
-    $total = "";
-    $total_past = "";
-    $total_ratio = "";
-    foreach($temp1_web_manthly_array2 as $var){
-        if($var == 0 && $temp1_shop_manthly_array2[$i] == 0/* && $temp1_oroshi_manthly_array2[$i] == 0*/){
-            $ratio = 0;
-            $total = $total;
-            if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0/* && $past_temp1_oroshi_manthly_array2[$i] == 0*/){
-                $total_past = $total_past;
-            } else {
-                if($out1_c == "ON"){
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i];
-                }
-            }
-        } else {
-            if($out1_c == "ON"){
-                if((int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i] == 0 || (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i]) / ((int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i];
-            } else {
-                if((int)$var + (int)$temp1_shop_manthly_array2[$i] == 0 || (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array2[$i]) / ((int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array2[$i];
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0 && $past_temp1_oroshi_manthly_array2[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
-                }
-            } else {
-                if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i];
-                }
-            }
-        }
-        //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
-        if($ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上金額に対する比率を取得
-        if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
-            $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $total_ratio = "---";
-        }
-
-        //$ratio_html .= "<div class='title7 ta_r bg_grey'>" . $total_ratio . "%</div>";
-        if($total_ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
-        }
-
-    $temp1_all_sorce8 = "<p class='title_a'>点数・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
-    $temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ratio_html . "</div>";}
-    $temp1_all_sorce8 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
-    
-        
-// 通販・粗利・過去比
-
-    $i = 0;
-    $web_ratio = "";
-    $web_ratio_html = "";
-    $web_total = "";
-    $web_total_past = "";
-    $web_total_ratio = "";
-    foreach($temp1_web_manthly_array3 as $var){
-        if($var == 0){
-            $web_ratio = "---";
-            $web_total = $web_total;
-            if($past_temp1_web_manthly_array3[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array3[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_web_manthly_array3[$i] == 0 || $var == "" || $past_temp1_web_manthly_array3[$i] == ""){
-                $web_ratio = "---";
-            } else {
-                $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $web_total = (int)$web_total + (int)$var;
-            if($past_temp1_web_manthly_array3[$i] == 0){
-                $web_total_past = $web_total_past;
-            } else {
-                $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array3[$i];
-            }
-        }
-        //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_ratio . "%</div>";
-        if($web_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上粗利に対する比率を取得
-        if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
-            $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_ratio = "---";
-        }
-
-        //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_total_ratio . "%</div>";
-        if($web_total_ratio < 100){
-            $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
-        } else {
-            $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
-        }
-
-
-// 店舗・粗利・過去比
-
-    $i = 0;
-    $shop_ratio = "";
-    $shop_ratio_html = "";
-    $shop_total = "";
-    $shop_total_past = "";
-    $shop_total_ratio = "";
-    foreach($temp1_shop_manthly_array3 as $var){
-        if($var == 0){
-            $shop_ratio = "---";
-            $shop_total = $shop_total;
-            if($past_temp1_shop_manthly_array3[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array3[$i];
-            }
-        } else {
-            if($var == 0 || $past_temp1_shop_manthly_array3[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array3[$i] == ""){
-                $shop_ratio = "---";
-            } else {
-                $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
-            }
-            $shop_total = (int)$shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array3[$i] == 0){
-                $shop_total_past = $shop_total_past;
-            } else {
-                $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array3[$i];
-            }
-        }
-        //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_ratio . "%</div>";
-        if($shop_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上粗利に対する比率を取得
-        if($shop_total <> 0 && $shop_total_past <> 0 && $shop_total <> "" && $shop_total_past <> ""){
-            $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_ratio = "---";
-        }
-
-        //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_total_ratio . "%</div>";
-        if($shop_total_ratio < 100){
-            $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
-        } else {
-            $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
-        }
-
-    if($out1_c == "ON"){
-        // 卸・粗利・過去比
-            $i = 0;
-            $oroshi_ratio = "";
-            $oroshi_ratio_html = "";
-            $oroshi_total = "";
-            $oroshi_total_past = "";
-            $oroshi_total_ratio = "";
-            foreach($temp1_oroshi_manthly_array3 as $var){
-                if($var == 0){
-                    $oroshi_ratio = "---";
-                    $oroshi_total = $oroshi_total;
-                    if($past_temp1_oroshi_manthly_array3[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array3[$i];
-                    }
-                } else {
-                    if($var == 0 || $past_temp1_oroshi_manthly_array3[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array3[$i] == ""){
-                        $oroshi_ratio = "---";
-                    } else {
-                        $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
-                    }
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($past_temp1_oroshi_manthly_array3[$i] == 0){
-                        $oroshi_total_past = $oroshi_total_past;
-                    } else {
-                        $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array3[$i];
-                    }
-                }
-                //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_ratio . "%</div>";
-                if($oroshi_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
-                }
-        
-                $i++;
-            }
-            // 過去の同期間売上金額に対する比率を取得
-                if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
-                    $oroshi_total_ratio = "---";
-                } else {
-                    $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
-                }
-
-
-                //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_total_ratio . "%</div>";
-                if($oroshi_total_ratio < 100){
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
-                } else {
-                    $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
-                }
-    }
-
-
-// 通販・店舗・卸合計・粗利・過去比
-
-    $i = 0;
-    $ratio = "";
-    $ratio_html = "";
-    $total = "";
-    $total_past = "";
-    $total_ratio = "";
-    foreach($temp1_web_manthly_array3 as $var){
-        if($var == 0 && $temp1_shop_manthly_array3[$i] == 0/* && $temp1_oroshi_manthly_array3[$i] == 0*/){
-            $ratio = 0;
-            $total = $total;
-            if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0/* && $past_temp1_oroshi_manthly_array3[$i] == 0*/){
-                $total_past = $total_past;
-            } else {
-                if($out1_c == "ON"){
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i];
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i];
-                }
-            }
-        } else {
-            if($out1_c == "ON"){
-                if((int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i] == 0 || (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i]) / ((int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i];
-            } else {
-                if((int)$var + (int)$temp1_shop_manthly_array3[$i] == 0 || (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] == 0){
-                    $ratio = "---";
-                } else {
-                    $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array3[$i]) / ((int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i])) * 100 * 10)) / 10 ,1);
-                }
-                $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array3[$i];
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0 && $past_temp1_oroshi_manthly_array3[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i];
-                }
-            } else {
-                if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0){
-                    $total_past = $total_past;
-                } else {
-                    $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i];
-                }
-            }
-        }
-        //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
-        if($ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
-        }
-
-        $i++;
-    }
-    // 過去の同期間売上金額に対する比率を取得
-        if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
-            $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
-        } else {
-            $total_ratio = "---";
-        }
-
-        //$ratio_html .= "<div class='title7 ta_r  bg_grey'>" . $total_ratio . "%</div>";
-        if($total_ratio < 100){
-            $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
-        } else {
-            $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
-        }
-
-
-    $temp1_all_sorce9 = "<p class='title_a'>粗利・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
-    $temp1_all_sorce9 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
-    if($out1_c == "ON"){$temp1_all_sorce9 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ratio_html . "</div>";}
-    $temp1_all_sorce9 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
-
-
-// 過去・金額構成比
-
-    $i = 0;
-    $total = "";
-    $total2 = 0;
-    $web_per = "";
-    $shop_per = "";
-    $oroshi_per = "";
-    $web_total = "";
-    $shop_total = "";
-    $oroshi_total = "";
-    $web_per_html = "";
-    $shop_per_html = "";
-    $oroshi_per_html = "";
-    $past_web_total_js2 = "";
-    $past_shop_total_js2 = "";
-    $past_oroshi_total_js2 = "";
-    foreach($past_temp1_web_manthly_array as $var){
-        //echo $past_temp1_shop_manthly_array[$i] . "<br>";
-        if($out1_c == "ON"){
-            $total = (int)$var + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
-        } else {
-            $total = (int)$var + (int)$past_temp1_shop_manthly_array[$i];
-        }
-        $total2 = (int)$total2 + (int)$total;
-        $web_total = (int)$web_total + (int)$var;
-        $shop_total = (int)$shop_total + (int)$past_temp1_shop_manthly_array[$i];
-        if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$past_temp1_oroshi_manthly_array[$i]; }
-        if($var == 0){
-            $web_per = "---";
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($past_temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($past_temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---"; 
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
-
-                }
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_oroshi_manthly_array[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        } else {
-            if($var <> 0 && $total <> 0 && $var <> "" && $total <> ""){
-                $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
-            } else {
-                $web_per = "---";
-            }
-            if($past_temp1_shop_manthly_array[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($past_temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($past_temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---";
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
-
-                }
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_oroshi_manthly_array[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ((float)$web_per + (float)$shop_per), 1) ,1);
-                }
-            }
-        }
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
-        $past_web_total_js2  .= (float)$web_per . ", ";
-        $past_shop_total_js2  .= (float)$shop_per . ", ";
-
-        if($out1_c == "ON"){
-            $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
-            $past_oroshi_total_js2  .= (float)$oroshi_per . ", ";
-        }
-
-        $i++;
-    }
-    // 期間中の売上合計に対するパーセンテージを取得
-       // $web_total_per = $web_total / $i;
-        if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
-            $web_total_per = number_format((floor(($web_total / $total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_per = "---";
-        }
-        if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
-            $shop_total_per = number_format((floor(($shop_total / $total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_per = "---";
-        }
-        //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
-        if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
-        if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
-
-    $past_temp1_all_sorce4 = "<p class='title_a'>金額・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
-    $past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
-    if($out1_c == "ON"){$past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_per_html . "</div>";}
-    $past_temp1_all_sorce4 .= "</div>";
-
-// 過去・点数構成比
-
-    $i = 0;
-    $total = "";
-    $total2 = 0;
-    $web_per = "";
-    $shop_per = "";
-    $oroshi_per = "";
-    $web_total = "";
-    $shop_total = "";
-    $oroshi_total = "";
-    $web_per_html = "";
-    $shop_per_html = "";
-    $oroshi_per_html = "";
-    $past_web_total_js3 = "";
-    $past_shop_total_js3 = "";
-    $past_oroshi_total_js3 = "";
-    foreach($past_temp1_web_manthly_array2 as $var){
-        //echo $past_temp1_shop_manthly_array2[$i] . "<br>";
-        if($out1_c == "ON"){
-            $total = (int)$var + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
-        } else {
-            $total = (int)$var + (int)$past_temp1_shop_manthly_array2[$i];
-        }
-        $total2 = (int)$total2 + (int)$total;
-        $web_total = (int)$web_total + (int)$var;
-        $shop_total = (int)$shop_total + (int)$past_temp1_shop_manthly_array2[$i];
-        if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$past_temp1_oroshi_manthly_array2[$i]; }
-        if($var == 0){
-            $web_per = "---";
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($past_temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($past_temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---"; 
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$shop_per), 1) ,1);
-
-                }
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        } else {
-            if($var <> 0 && $total <> 0 && $var <> "" && $total <> ""){
-                $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
-            } else {
-                $web_per = "---";
-            }
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_per = "---";
-            } else {
-                if($out1_c == "ON"){ 
-                    if($past_temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
-                        $shop_per = number_format((floor(($past_temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
-                    } else {
-                        $shop_per = "---"; 
-                    }
-                } else {
-                    //$shop_per = 100 - $web_per;
-                    $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
-
-                }
-            }
-            if($out1_c == "ON"){
-                if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                    $oroshi_per = "---";
-                } else {
-                    //$oroshi_per = 100 - $web_per - $shop_per;
-                    $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
-                }
-            }
-        }
-        $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
-        $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
-        $past_web_total_js3  .= (float)$web_per . ", ";
-        $past_shop_total_js3  .= (float)$shop_per . ", ";
-        if($out1_c == "ON"){
-            $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
-            $past_oroshi_total_js3  .= (float)$oroshi_per . ", ";
-        }
-
-        $i++;
-    }
-    // 期間中の売上合計点数に対するパーセンテージを取得
-       // $web_total_per = $web_total / $i;
-        if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
-           $web_total_per = number_format((floor(($web_total / $total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $web_total_per = "---";
-        }
-        if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
-            $shop_total_per = number_format((floor(($shop_total / $total2) * 100 * 10)) / 10 ,1);
-        } else {
-            $shop_total_per = "---";
-        }
-       //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
-       if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
-       $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
-       $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
-       if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
-
-
-    $past_temp1_all_sorce5 = "<p class='title_a'>点数・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
-    $past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
-    if($out1_c == "ON"){$past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_per_html . "</div>";}
-    $past_temp1_all_sorce5 .= "</div>";
-
-// 過去・平均単価
-
-    $i = 0;
-    $web_average = "";
-    $web_ave_html = "";
-    $web_total = "";
-    $web_total2 = "";
-    $web_total_ave = "";
-    foreach($past_temp1_web_manthly_array as $var){
-
-        if($var == 0){
-            $web_average = 0;
-            $web_total = (int)$web_total + (int)$var;
-            if($past_temp1_web_manthly_array2[$i] == 0){
-                $web_total2 = $web_total2;
-            } else {
-                $web_total2 = (int)$web_total2 + (int)$past_temp1_web_manthly_array2[$i];
-            }
-        } else {
-            if($var <> 0 && $past_temp1_web_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_web_manthly_array2[$i] <> ""){
-                $web_average = (floor(((int)$var / (int)$past_temp1_web_manthly_array2[$i])) * 10) / 10;
-            } else {
-                $web_average = "---";
-            }
-            $web_total = (int)$web_total + (int)$var;
-            if($past_temp1_web_manthly_array2[$i] == 0){
-                $web_total2 = $web_total2;
-            } else {
-                $web_total2 = (int)$web_total2 + (int)$past_temp1_web_manthly_array2[$i];
-            }
-        }
-        if($web_average <> 0 && $web_average <> ""){$web_average = number_format((int)$web_average);}
-        $web_ave_html .= "<div class='title7 ta_r'>" . $web_average . "</div>";
-
-        $i++;
-    }
-    // 期間中の売上合計に対する平均単価を取得
-        if($web_total <> 0 && $web_total2 <> 0 && $web_total <> "" && $web_total2 <> ""){
-            $web_total_ave = (floor(($web_total / $web_total2) * 10)) / 10;
-        } else {
-            $web_total_ave = "---";
-        }
-        if($web_total_ave <> 0 && $web_total_ave <> ""){$web_total_ave = number_format((int)$web_total_ave);}
-        $web_ave_html .= "<div class='title7 ta_r'>" . $web_total_ave . "</div>";
-
-    $i = 0;
-    $shop_average = "";
-    $shop_ave_html = "";
-    $shop_total = "";
-    $shop_total2 = "";
-    $shop_total_ave = "";
-    foreach($past_temp1_shop_manthly_array as $var){
-
-        if($var == 0){
-            $shop_average = 0;
-            $shop_total = (int)$shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_total2 = $shop_total2;
-            } else {
-                $shop_total2 = (int)$shop_total2 + (int)$past_temp1_shop_manthly_array2[$i];
-            }
-        } else {
-            if($var <> 0 && $past_temp1_shop_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_shop_manthly_array2[$i] <> ""){
-                $shop_average = (floor(((int)$var / (int)$past_temp1_shop_manthly_array2[$i])));
-            } else {
-                $shop_average = "---";
-            }
-            $shop_total = (int)$shop_total + (int)$var;
-            if($past_temp1_shop_manthly_array2[$i] == 0){
-                $shop_total2 = $shop_total2;
-            } else {
-                $shop_total2 = (int)$shop_total2 + (int)$past_temp1_shop_manthly_array2[$i];
-            }
-        }
-        if($shop_average <> 0 && $shop_average <> ""){$shop_average = number_format((int)$shop_average);}
-        $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_average . "</div>";
-
-        $i++;
-    }
-    // 期間中の売上合計に対する平均単価を取得
-        if($shop_total <> 0 && $shop_total2 <> 0 && $shop_total <> "" && $shop_total2 <> ""){
-            $shop_total_ave = (floor(((float)$shop_total / (float)$shop_total2)));
-        } else {
-            $shop_total_ave = "---";
-        }
-        if($shop_total_ave <> 0 && $shop_total_ave <> ""){$shop_total_ave = number_format((int)$shop_total_ave);}
-        $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_total_ave . "</div>";
-
-        if($out1_c == "ON"){    
-            $i = 0;
-            $oroshi_average = "";
-            $oroshi_ave_html = "";
-            $oroshi_total = "";
-            $oroshi_total2 = "";
-            $oroshi_total_ave = "";
-            foreach($past_temp1_oroshi_manthly_array as $var){
-
-                if($var == 0){
-                    $oroshi_average = 0;
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total2 = $oroshi_total2;
-                    } else {
-                        $oroshi_total2 = (int)$oroshi_total2 + (int)$past_temp1_oroshi_manthly_array2[$i];
-                    }
-                } else {
-                    if($var <> 0 && $past_temp1_oroshi_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_oroshi_manthly_array2[$i] <> ""){
-                        $oroshi_average = (floor(((int)$var / (int)$past_temp1_oroshi_manthly_array2[$i])) * 10) / 10;
-                    } else {
-                        $oroshi_average = "---";
-                    }
-                    $oroshi_total = (int)$oroshi_total + (int)$var;
-                    if($past_temp1_oroshi_manthly_array2[$i] == 0){
-                        $oroshi_total2 = $oroshi_total2;
-                    } else {
-                        $oroshi_total2 = (int)$oroshi_total2 + (int)$past_temp1_oroshi_manthly_array2[$i];
-                    }
-                }
-                if($oroshi_average <> 0 && $oroshi_average <> ""){$oroshi_average = number_format((int)$oroshi_average);}
-                $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_average . "</div>";
-
-                $i++;
-            }
-            // 期間中の売上合計に対する平均単価を取得
-                if($oroshi_total == 0 || $oroshi_total2 == 0 || $oroshi_total == "" || $oroshi_total2 == ""){
-                    $oroshi_total_ave = "---";
-                } else {
-                    $oroshi_total_ave = (floor(((int)$oroshi_total / (int)$oroshi_total2) * 10)) / 10;
-                }
-
-                if($oroshi_total_ave <> 0 && $oroshi_total_ave <> ""){$oroshi_total_ave = number_format((int)$oroshi_total_ave);}
-                $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_total_ave . "</div>";
-        }
-
-
-
-
-        $past_temp1_all_sorce6 = "<p class='title_a'>平均単価（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ave_html . "</div>";
-        $past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ave_html . "</div>";
-        if($out1_c == "ON"){$past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ave_html . "</div>";}
-        $past_temp1_all_sorce6 .= "</div>";
+                                        // 現在・通販・粗利率
+                                        
+                                            $i = 0;
+                                            $web_ratio = "";
+                                            $web_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>通販粗利率(免税外)</div>";
+                                            $web_total = "";
+                                            $web_total_js = "";
+                                            $all_total = "";
+                                            $web_total_ratio = "";
+                                            $web_ratio_cutting = "";
+                                            $web_ratio_cutting_ave = "";
+                                            $web_ratio_cutting_html = "";
+                                            foreach($temp1_web_manthly_array3 as $var){
+                                                if($var == 0){
+                                                    $web_ratio = "---";
+                                                    $web_total = $web_total;
+                                                    if($temp1_web_manthly_array[$i] == 0){
+                                                        $all_total = $all_total;
+                                                    } else {
+                                                        $all_total = (int)$all_total + (int)$temp1_web_manthly_array[$i];
+                                                    }
+                                                } else {
+                                                    $web_ratio = number_format((floor(($var / $temp1_web_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($temp1_web_manthly_array[$i] == 0){
+                                                        $all_total = $all_total;
+                                                    } else {
+                                                        $all_total = (int)$all_total + (int)$temp1_web_manthly_array[$i];
+                                                    }
+                                                }
+                                                $web_total_js  .= (float)$web_ratio . ", ";
+                                                $web_sum_arari_per .= "<div class='title6 ta_r'>" . $web_ratio . "%</div>";
+                                        
+                                                // 粗利率の過去比
+                                                    if($web_ratio <> "" && $web_ratio <> "---" && ${"past_web_ratio_" .$i} <> "" && ${"past_web_ratio_" .$i} <> "---"){
+                                                        $web_ratio_cutting = (float)$web_ratio - (float)${"past_web_ratio_" .$i};
+                                                        $web_ratio_cutting = number_format($web_ratio_cutting, 1);
+                                                        // 通販・全期間合計
+                                                            $web_ratio_cutting_ave = (float)$web_ratio_cutting_ave + (float)$web_ratio_cutting;
+                                                    }
+                                                    //$web_ratio_cutting_html .= "<div class='title7 ta_r'>" . $web_ratio_cutting . "</div>";
+                                                    if($web_ratio_cutting < 0){
+                                                        $web_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio_cutting . "</div>";
+                                                    } else {
+                                                        $web_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio_cutting . "</div>";
+                                                    }
+                                            
+                                                $i++;
+                                            }
+                                            // 通販・全期間合計の平均
+                                                $web_ratio_cutting_ave = number_format((float)$web_ratio_cutting_ave / $i, 2);
+                                            
+                                            // 粗利率の過去比(トータル値追加)
+                                                //$web_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$web_ratio_cutting_ave . "</div>";
+                                                if($web_ratio_cutting_ave < 0){
+                                                    $web_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $web_ratio_cutting_ave . "</div>";
+                                                } else {
+                                                    $web_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $web_ratio_cutting_ave . "</div>";
+                                                }
+                                            
+                                                $web_ratio_cutting_html = $web_ratio_cutting_html . $web_ratio_cutting_ave_html;
+                                        
+                                        
+                                            // 通販用粗利率を取得
+                                                if($web_total <> 0 && $all_total <> 0 && $web_total <> "" && $all_total <> ""){
+                                                    $web_total_ratio = number_format((floor(((float)$web_total / (float)$all_total) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_ratio = "---";
+                                                }
+                                        
+                                        
+                                                
+                                        
+                                                $web_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $web_total_ratio . "%</div></div>";
+                                        
+                                        // 現在・店舗・粗利率
+                                        
+                                            $i = 0;
+                                            $shop_ratio = "";
+                                            $shop_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>店舗粗利率(免税外)</div>";
+                                            $shop_total = "";
+                                            $shop_total_js = "";
+                                            $all_total = "";
+                                            $shop_total_ratio = "";
+                                            $shop_ratio_cutting = "";
+                                            $shop_ratio_cutting_ave = "";
+                                            $shop_ratio_cutting_html = "";
+                                            foreach($temp1_shop_manthly_array3 as $var){
+                                                if($var == 0){
+                                                    $shop_ratio = "---";
+                                                    $shop_total = $shop_total;
+                                                    if($temp1_shop_manthly_array[$i] == 0){
+                                                        $all_total = $all_total;
+                                                    } else {
+                                                        $all_total = (int)$all_total + (int)$temp1_shop_manthly_array[$i];
+                                                    }
+                                                } else {
+                                                    $shop_ratio = number_format((floor(($var / $temp1_shop_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($temp1_shop_manthly_array[$i] == 0){
+                                                        $all_total = $all_total;
+                                                    } else {
+                                                        $all_total = (int)$all_total + (int)$temp1_shop_manthly_array[$i];
+                                                    }
+                                                }
+                                                $shop_total_js  .= (float)$shop_ratio . ", ";
+                                                $shop_sum_arari_per .= "<div class='title6 ta_r'>" . $shop_ratio . "%</div>";
+                                        
+                                                // 粗利率の過去比
+                                                    if($shop_ratio <> "" && $shop_ratio <> "---" && ${"past_shop_ratio_" .$i} <> "" && ${"past_shop_ratio_" .$i} <> "---"){
+                                                        $shop_ratio_cutting = (float)$shop_ratio - (float)${"past_shop_ratio_" .$i};
+                                                        $shop_ratio_cutting = number_format($shop_ratio_cutting, 1);
+                                                        // 店舗・全期間合計
+                                                            $shop_ratio_cutting_ave = (float)$shop_ratio_cutting_ave + (float)$shop_ratio_cutting;
+                                                        
+                                                    }
+                                                    //$shop_ratio_cutting_html .= "<div class='title7 ta_r'>" . $shop_ratio_cutting . "</div>";
+                                                    if($shop_ratio_cutting < 0){
+                                                        $shop_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio_cutting . "</div>";
+                                                    } else {
+                                                        $shop_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio_cutting . "</div>";
+                                                    }
+                                            
+                                                $i++;
+                                            }
+                                            // 店舗・全期間合計の平均
+                                                $shop_ratio_cutting_ave = number_format((float)$shop_ratio_cutting_ave / $i, 2);
+                                            // 粗利率の過去比(トータル値追加)
+                                                //$shop_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$shop_ratio_cutting_ave . "</div>";
+                                                if($shop_ratio_cutting_ave < 0){
+                                                    $shop_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $shop_ratio_cutting_ave . "</div>";
+                                                } else {
+                                                    $shop_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $shop_ratio_cutting_ave . "</div>";
+                                                }
+                                                $shop_ratio_cutting_html = $shop_ratio_cutting_html . $shop_ratio_cutting_ave_html;
+                                                
+                                            // 現在・店舗用粗利率を取得
+                                                if($shop_total <> 0 && $all_total <> 0 && $shop_total <> "" && $all_total <> ""){
+                                                    $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$all_total) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_ratio = "---";
+                                                }
+                                        
+                                                $shop_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $shop_total_ratio . "%</div></div>";
+                                        
+                                        
+                                        // 現在・店舗・通販(免税)・粗利率
+                                            $oroshi_total_js = "";
+                                            $oroshi_ratio_cutting = "";
+                                            $oroshi_ratio_cutting_ave = "";
+                                            $oroshi_ratio_cutting_html = "";
+                                            if($out1_c == "ON"){
+                                        
+                                        		    $i = 0;
+                                        		    $oroshi_ratio = "";
+                                        		    $oroshi_sum_arari_per = "<div class='wid100 ul1'><div class='title5 ta_c'>店舗・通販粗利率(免税)</div>";
+                                        		    $oroshi_total = "";
+                                        		    $all_total = "";
+                                        		    $oroshi_total_ratio = "";
+                                        		    foreach($temp1_oroshi_manthly_array3 as $var){
+                                        		        if($var == 0){
+                                        		            $oroshi_ratio = "---";
+                                        		            $oroshi_total = $oroshi_total;
+                                        		            if($temp1_oroshi_manthly_array[$i] == 0){
+                                        		                $all_total = $all_total;
+                                        		            } else {
+                                        		                $all_total = (int)$all_total + (int)$temp1_oroshi_manthly_array[$i];
+                                        		            }
+                                        		        } else {
+                                        		            $oroshi_ratio = number_format((floor(($var / $temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                        		            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                        		            if($temp1_oroshi_manthly_array[$i] == 0){
+                                        		                $all_total = $all_total;
+                                        		            } else {
+                                        		                $all_total = (int)$all_total + (int)$temp1_oroshi_manthly_array[$i];
+                                        		            }
+                                        		        }
+                                                        $oroshi_total_js  .= (float)$oroshi_ratio . ", ";
+                                        		        $oroshi_sum_arari_per .= "<div class='title6 ta_r'>" . $oroshi_ratio . "%</div>";
+                                        
+                                                        // 粗利率の過去比
+                                                            if($oroshi_ratio <> "" && $oroshi_ratio <> "---" && ${"past_oroshi_ratio_" .$i} <> "" && ${"past_oroshi_ratio_" .$i} <> "---"){
+                                                                $oroshi_ratio_cutting = (float)$oroshi_ratio - (float)${"past_oroshi_ratio_" .$i};
+                                                                $oroshi_ratio_cutting = number_format($oroshi_ratio_cutting, 1);
+                                                                // 店舗・通販(免税)・全期間合計
+                                                                    $oroshi_ratio_cutting_ave = (float)$oroshi_ratio_cutting_ave + (float)$oroshi_ratio_cutting;
+                                                            }
+                                                            //$oroshi_ratio_cutting_html .= "<div class='title7 ta_r'>" . $oroshi_ratio_cutting . "</div>";
+                                                            if($oroshi_ratio_cutting < 0){
+                                                                $oroshi_ratio_cutting_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio_cutting . "</div>";
+                                                            } else {
+                                                                $oroshi_ratio_cutting_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio_cutting . "</div>";
+                                                            }
+                                                    
+                                                        $i++;
+                                                    }
+                                                    // 店舗・通販(免税)・全期間合計の平均
+                                                        $oroshi_ratio_cutting_ave = number_format((float)$oroshi_ratio_cutting_ave / $i, 2);
+                                                    // 粗利率の過去比(トータル値追加)
+                                                        //$oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r'>" . (float)$oroshi_ratio_cutting_ave . "</div>";
+                                                        if($oroshi_ratio_cutting_ave < 0){
+                                                            $oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio_cutting_ave . "</div>";
+                                                        } else {
+                                                            $oroshi_ratio_cutting_ave_html = "<div class='title7 ta_r fc_red'>" . $oroshi_ratio_cutting_ave . "</div>";
+                                                        }
+                                        
+                                                        $oroshi_ratio_cutting_html = $oroshi_ratio_cutting_html . $oroshi_ratio_cutting_ave_html;
+                                        		    // 現在・店舗・通販(免税)用粗利率を取得
+                                                        if($oroshi_total == 0 || $oroshi_total == "" || $all_total == 0 || $all_total == ""){
+                                                            $oroshi_total_ratio = "---";
+                                                        } else {
+                                        		            $oroshi_total_ratio = number_format((floor(((float)$oroshi_total / (float)$all_total) * 100 * 10)) / 10 ,1);
+                                                        }
+                                        
+                                        		        $oroshi_sum_arari_per .= "<div class='title6 ta_c'>---</div><div class='title6 ta_r'>" . $oroshi_total_ratio . "%</div></div>";
+                                            }
+                                        
+                                        
+                                        
+                                        // 現在・金額構成比
+                                        
+                                            $i = 0;
+                                            $total = "";
+                                            $total2 = 0;
+                                            $web_per = "";
+                                            $shop_per = "";
+                                            $oroshi_per = "";
+                                            $web_total = "";
+                                            $shop_total = "";
+                                            $oroshi_total = "";
+                                            $web_per_html = "";
+                                            $shop_per_html = "";
+                                            $oroshi_per_html = "";
+                                            $web_total_js2 = "";
+                                            $shop_total_js2 = "";
+                                            $oroshi_total_js2 = "";
+                                            foreach($temp1_web_manthly_array as $var){
+                                                //echo $temp1_shop_manthly_array[$i] . "<br>";
+                                                if($out1_c == "ON"){
+                                                    $total = (int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i];
+                                                } else {
+                                                    $total = (int)$var + (int)$temp1_shop_manthly_array[$i];
+                                                }
+                                                $total2 = (int)$total2 + (int)$total;
+                                                $web_total = (int)$web_total + (int)$var;
+                                                $shop_total = (int)$shop_total + (int)$temp1_shop_manthly_array[$i];
+                                                if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$temp1_oroshi_manthly_array[$i]; }
+                                                if($var == 0){
+                                                    $web_per = "---";
+                                                    if($temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $temp1_shop_manthly_array[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---"; 
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
+                                                        }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($temp1_oroshi_manthly_array[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                } else {
+                                                    $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
+                                                    if($temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ $shop_per = number_format((floor(($temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); } else {$shop_per = 100 - $web_per;}
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($temp1_oroshi_manthly_array[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                }
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
+                                                $web_total_js2  .= (float)$web_per . ", ";
+                                                $shop_total_js2  .= (float)$shop_per . ", ";
+                                                if($out1_c == "ON"){
+                                                    $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
+                                                    $oroshi_total_js2  .= (float)$oroshi_per . ", ";
+                                                }
+                                                //echo $web_per . "(" . $shop_per . ")<br>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対するパーセンテージを取得
+                                               // $web_total_per = $web_total / $i;
+                                                if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
+                                                    $web_total_per = number_format((floor(((float)$web_total / (float)$total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_per = "---";
+                                                }
+                                                if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
+                                                    $shop_total_per = number_format((floor(((float)$shop_total / (float)$total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_per = "---";
+                                                }
+                                                //if($out1_c == "ON"){ $oroshi_total_per = 100 - ((float)$web_total_per + (float)$shop_total_per); }
+                                                if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1), 1);}
+                                        
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
+                                                if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per. "%</div>";}
+                                        
+                                        
+                                            $temp1_all_sorce4 = "<p class='title_a'>金額・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)    </div>" . $shop_per_html . "</div>";
+                                            $temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_per_html . "</div>";}
+                                            $temp1_all_sorce4 .= "</div>";
+                                        
+                                        
+                                        
+                                        
+                                            // 現在・点数構成比
+                                        
+                                            $i = 0;
+                                            $total = "";
+                                            $total2 = 0;
+                                            $web_per = "";
+                                            $shop_per = "";
+                                            $oroshi_per = "";
+                                            $web_total = "";
+                                            $shop_total = "";
+                                            $oroshi_total = "";
+                                            $web_per_html = "";
+                                            $shop_per_html = "";
+                                            $oroshi_per_html = "";
+                                            $web_total_js3 = "";
+                                            $shop_total_js3 = "";
+                                            $oroshi_total_js3 = "";
+                                            foreach($temp1_web_manthly_array2 as $var){
+                                                //echo $temp1_shop_manthly_array2[$i] . "<br>";
+                                                if($out1_c == "ON"){
+                                                    $total = (int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i];
+                                                } else {
+                                                    $total = (int)$var + (int)$temp1_shop_manthly_array2[$i];
+                                                }
+                                                $total2 = (int)$total2 + (int)$total;
+                                                $web_total = (int)$web_total + (int)$var;
+                                                $shop_total = (int)$shop_total + (int)$temp1_shop_manthly_array2[$i];
+                                                if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$temp1_oroshi_manthly_array2[$i]; }
+                                                if($var == 0){
+                                                    $web_per = "---";
+                                                    if($temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---"; 
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
+                                                    }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                } else {
+                                                    $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
+                                                    if($temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ $shop_per = number_format((floor(($temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); } else {$shop_per = number_format(100 - $web_per ,1);}
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                }
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
+                                                $web_total_js3  .= (float)$web_per . ", ";
+                                                $shop_total_js3  .= (float)$shop_per . ", ";
+                                                if($out1_c == "ON"){
+                                                    $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
+                                                    $oroshi_total_js3  .= (float)$oroshi_per . ", ";
+                                                }
+                                                //echo $web_per . "(" . $shop_per . ")<br>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計点数に対するパーセンテージを取得
+                                               // $web_total_per = $web_total / $i;
+                                                if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
+                                                    $web_total_per = number_format((floor(((float)$web_total / (float)$total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_per = "---";
+                                                }
+                                                if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
+                                                    $shop_total_per = number_format((floor(((float)$shop_total / (float)$total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_per = "---";
+                                                }
+                                                //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
+                                                if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
+                                        
+                                        
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
+                                                if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
+                                        
+                                        
+                                            $temp1_all_sorce5 = "<p class='title_a'>点数・構成比</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
+                                            $temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_per_html . "</div>";}
+                                            $temp1_all_sorce5 .= "</div>";
+                                        
+                                        
+                                        
+                                        // 現在・平均単価
+                                        
+                                            $i = 0;
+                                            $web_average = "";
+                                            $web_ave_html = "";
+                                            $web_total = "";
+                                            $web_total2 = "";
+                                            $web_total_ave = "";
+                                            foreach($temp1_web_manthly_array as $var){
+                                        
+                                                if($var == 0){
+                                                    $web_average = 0;
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total2 = $web_total2;
+                                                    } else {
+                                                        $web_total2 = (int)$web_total2 + (int)$temp1_web_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    $web_average = (floor(((int)$var / (int)$temp1_web_manthly_array2[$i])) * 10) / 10;
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total2 = $web_total2;
+                                                    } else {
+                                                        $web_total2 = (int)$web_total2 + (int)$temp1_web_manthly_array2[$i];
+                                                    }
+                                                }
+                                                if($web_average <> 0 && $web_average <> ""){$web_average = number_format((int)$web_average);}
+                                                $web_ave_html .= "<div class='title7 ta_r'>" . $web_average . "</div>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対する平均単価を取得
+                                                if($web_total <> 0 && $web_total2 <> 0 && $web_total <> "" && $web_total2 <> ""){
+                                                    $web_total_ave = (floor(((int)$web_total / (int)$web_total2) * 10)) / 10;
+                                                } else {
+                                                    $web_total_ave = "---";
+                                                }
+                                                if($web_total_ave <> 0 && $web_total_ave <> ""){$web_total_ave = number_format((int)$web_total_ave);}
+                                                $web_ave_html .= "<div class='title7 ta_r'>" . $web_total_ave . "</div>";
+                                        
+                                            $i = 0;
+                                            $shop_average = "";
+                                            $shop_ave_html = "";
+                                            $shop_total = "";
+                                            $shop_total2 = "";
+                                            $shop_total_ave = "";
+                                            foreach($temp1_shop_manthly_array as $var){
+                                        
+                                                if($var == 0){
+                                                    $shop_average = 0;
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total2 = $shop_total2;
+                                                    } else {
+                                                        $shop_total2 = (int)$shop_total2 + (int)$temp1_shop_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    $shop_average = (floor(((int)$var / (int)$temp1_shop_manthly_array2[$i])) * 10) / 10;
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total2 = $shop_total2;
+                                                    } else {
+                                                        $shop_total2 = (int)$shop_total2 + (int)$temp1_shop_manthly_array2[$i];
+                                                    }
+                                                }
+                                                if($shop_average <> 0 && $shop_average <> ""){$shop_average = number_format((int)$shop_average);}
+                                                $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_average . "</div>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対する平均単価を取得
+                                                if($shop_total <> 0 && $shop_total2 <> 0 && $shop_total <> "" && $shop_total2 <> ""){
+                                                    $shop_total_ave = (floor(((int)$shop_total / (int)$shop_total2) * 10)) / 10;
+                                                } else {
+                                                    "---";
+                                                }
+                                                if($shop_total_ave <> 0 && $shop_total_ave <> ""){$shop_total_ave = number_format((int)$shop_total_ave);}
+                                                $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_total_ave . "</div>";
+                                        
+                                        
+                                                if($out1_c == "ON"){    
+                                                    $i = 0;
+                                                    $oroshi_average = "";
+                                                    $oroshi_ave_html = "";
+                                                    $oroshi_total = "";
+                                                    $oroshi_total2 = "";
+                                                    $oroshi_total_ave = "";
+                                                    foreach($temp1_oroshi_manthly_array as $var){
+                                        
+                                                        if($var == 0){
+                                                            $oroshi_average = 0;
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total2 = $oroshi_total2;
+                                                            } else {
+                                                                $oroshi_total2 = (int)$oroshi_total2 + (int)$temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        } else {
+                                                            $oroshi_average = (floor(((int)$var / (int)$temp1_oroshi_manthly_array2[$i])) * 10) / 10;
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total2 = $oroshi_total2;
+                                                            } else {
+                                                                $oroshi_total2 = (int)$oroshi_total2 + (int)$temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        }
+                                                        if($oroshi_average <> 0 && $oroshi_average <> ""){$oroshi_average = number_format((int)$oroshi_average);}
+                                                        $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_average . "</div>";
+                                        
+                                                        $i++;
+                                                    }
+                                                    // 期間中の売上合計に対する平均単価を取得
+                                                        if($oroshi_total == 0 || $oroshi_total2 == 0 || $oroshi_total == "" || $oroshi_total2 == ""){
+                                                            $oroshi_total_ave = "---";
+                                                        } else {
+                                                            $oroshi_total_ave = (floor(((int)$oroshi_total / (int)$oroshi_total2) * 10)) / 10;
+                                                        }
+                                                        if($oroshi_total_ave <> 0 && $oroshi_total_ave <> ""){$oroshi_total_ave = number_format((int)$oroshi_total_ave);}
+                                                        $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_total_ave . "</div>";
+                                                }
+                                        
+                                        
+                                            $temp1_all_sorce6 = "<p class='title_a'>平均単価</p><div class='box1'>" . $temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ave_html . "</div>";
+                                            $temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ave_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ave_html . "</div>";}
+                                            $temp1_all_sorce6 .= "</div>";
+                                        
+                                        
+                                        // 通販・金額・過去比
+                                        
+                                            $i = 0;
+                                            $web_ratio = "";
+                                            $web_ratio_html = "";
+                                            $web_total = "";
+                                            $web_total_past = "";
+                                            $web_total_ratio = "";
+                                            foreach($temp1_web_manthly_array as $var){
+                                                if($var == 0){
+                                                    $web_ratio = "---";
+                                                    $web_total = $web_total;
+                                                    if($past_temp1_web_manthly_array[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_web_manthly_array[$i] == 0 || $var == "" || $past_temp1_web_manthly_array[$i] == ""){
+                                                        $web_ratio = "---";
+                                                    } else { 
+                                                        $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($past_temp1_web_manthly_array[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array[$i];
+                                                    }
+                                                }
+                                                if($web_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上金額に対する比率を取得
+                                                if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
+                                                    $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_ratio = "---";
+                                                }
+                                        
+                                                if($web_total_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                        // 店舗・金額・過去比
+                                        
+                                            $i = 0;
+                                            $shop_ratio = "";
+                                            $shop_ratio_html = "";
+                                            $shop_total = "";
+                                            $shop_total_past = "";
+                                            $shop_total_ratio = "";
+                                            foreach($temp1_shop_manthly_array as $var){
+                                                if($var == 0){
+                                                    $shop_ratio = "---";
+                                                    $shop_total = $shop_total;
+                                                    if($past_temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_shop_manthly_array[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array[$i] == ""){
+                                                        $shop_ratio = "---";
+                                                    } else {
+                                                        $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($past_temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array[$i];
+                                                    }
+                                                }
+                                                if($shop_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
+                                                }
+                                                
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上金額に対する比率を取得
+                                                if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
+                                                    $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_ratio = "---";
+                                                }
+                                        
+                                                if($shop_total_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
+                                                }
+                                                
+                                            if($out1_c == "ON"){
+                                                // 店舗・通販(免税)・金額・過去比
+                                                    $i = 0;
+                                                    $oroshi_ratio = "";
+                                                    $oroshi_ratio_html = "";
+                                                    $oroshi_total = "";
+                                                    $oroshi_total_past = "";
+                                                    $oroshi_total_ratio = "";
+                                                    foreach($temp1_oroshi_manthly_array as $var){
+                                                        if($var == 0){
+                                                            $oroshi_ratio = "---";
+                                                            $oroshi_total = $oroshi_total;
+                                                            if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                            }
+                                                        } else {
+                                                            if($var == 0 || $past_temp1_oroshi_manthly_array[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array[$i] == ""){
+                                                                $oroshi_ratio = "---";
+                                                            } else {
+                                                                $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array[$i]) * 100 * 10)) / 10 ,1);
+                                                            }
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                            }
+                                                        }
+                                        
+                                                        if($oroshi_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
+                                                        }
+                                                
+                                                        $i++;
+                                                    }
+                                                    // 過去の同期間売上金額に対する比率を取得
+                                                        if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
+                                                            $oroshi_total_ratio = "---";
+                                                        } else {
+                                                            $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
+                                                        }
+                                        
+                                                        if($oroshi_total_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
+                                                        }
+                                                        
+                                            }
+                                        
+                                        
+                                        // 通販・店舗・店舗・通販(免税)合計・金額・過去比
+                                        
+                                            $i = 0;
+                                            $ratio = "";
+                                            $ratio_html = "";
+                                            $total = "";
+                                            $total_past = "";
+                                            $total_ratio = "";
+                                            foreach($temp1_web_manthly_array as $var){
+                                                if($var == 0 && $temp1_shop_manthly_array[$i] == 0/* && $temp1_oroshi_manthly_array[$i] == 0*/){
+                                                    $ratio = 0;
+                                                    $total = $total;
+                                                    if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0/* && $past_temp1_oroshi_manthly_array[$i] == 0*/){
+                                                        $total_past = $total_past;
+                                                    } else {
+                                                        if($out1_c == "ON"){
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i];
+                                                        }
+                                                    }
+                                                } else {
+                                                    if($out1_c == "ON"){
+                                                        if((int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i] == 0 || (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i]) / ((int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array[$i] + (int)$temp1_oroshi_manthly_array[$i];
+                                                    } else {
+                                                        if((int)$var + (int)$temp1_shop_manthly_array[$i] == 0 || (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array[$i]) / ((int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array[$i];
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0 && $past_temp1_oroshi_manthly_array[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                        }
+                                                    } else {
+                                                        if($past_temp1_web_manthly_array[$i] == 0 && $past_temp1_shop_manthly_array[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array[$i] + (int)$past_temp1_shop_manthly_array[$i];
+                                                        }
+                                                    }
+                                                }
+                                                //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
+                                        
+                                                if($ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上金額に対する比率を取得
+                                                if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
+                                                    $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $total_ratio = "---";
+                                                }
+                                        
+                                                //$ratio_html .= "<div class='title7 ta_r bg_grey'>" . $total_ratio . "%</div>";
+                                        
+                                                if($total_ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                            $temp1_all_sorce7 = "<p class='title_a'>金額・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
+                                            $temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce7 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ratio_html . "</div>";}
+                                            $temp1_all_sorce7 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
+                                        
+                                        
+                                        // 通販・点数・過去比
+                                        
+                                            $i = 0;
+                                            $web_ratio = "";
+                                            $web_ratio_html = "";
+                                            $web_total = "";
+                                            $web_total_past = "";
+                                            $web_total_ratio = "";
+                                            foreach($temp1_web_manthly_array2 as $var){
+                                                if($var == 0){
+                                                    $web_ratio = "---";
+                                                    $web_total = $web_total;
+                                                    if($past_temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_web_manthly_array2[$i] == 0 || $var == "" || $past_temp1_web_manthly_array2[$i] == ""){
+                                                        $web_ratio = "---";
+                                                    } else {
+                                                        $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($past_temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array2[$i];
+                                                    }
+                                                }
+                                                //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_ratio . "%</div>";
+                                        
+                                                if($web_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上点数に対する比率を取得
+                                                if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
+                                                    $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_ratio = "---";
+                                                }
+                                        
+                                                //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_total_ratio . "%</div>";
+                                        
+                                                if($web_total_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                        // 店舗・点数・過去比
+                                        
+                                            $i = 0;
+                                            $shop_ratio = "";
+                                            $shop_ratio_html = "";
+                                            $shop_total = "";
+                                            $shop_total_past = "";
+                                            $shop_total_ratio = "";
+                                            foreach($temp1_shop_manthly_array2 as $var){
+                                                if($var == 0){
+                                                    $shop_ratio = "---";
+                                                    $shop_total = $shop_total;
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_shop_manthly_array2[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array2[$i] == ""){
+                                                        $shop_ratio = "---";
+                                                    } else {
+                                                        $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array2[$i];
+                                                    }
+                                                }
+                                                //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_ratio . "%</div>";
+                                                if($shop_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上点数に対する比率を取得
+                                                if($shop_total <> 0 && $shop_total_past <> 0 && $shop_total <> "" && $shop_total_past <> ""){
+                                                    $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_ratio = "---";
+                                                }
+                                        
+                                                //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_total_ratio . "%</div>";
+                                                if($shop_total_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                            if($out1_c == "ON"){
+                                                // 店舗・通販(免税)・金額・過去比
+                                                    $i = 0;
+                                                    $oroshi_ratio = "";
+                                                    $oroshi_ratio_html = "";
+                                                    $oroshi_total = "";
+                                                    $oroshi_total_past = "";
+                                                    $oroshi_total_ratio = "";
+                                                    foreach($temp1_oroshi_manthly_array2 as $var){
+                                                        if($var == 0){
+                                                            $oroshi_ratio = "---";
+                                                            $oroshi_total = $oroshi_total;
+                                                            if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        } else {
+                                                            if($var == 0 || $past_temp1_oroshi_manthly_array2[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array2[$i] == ""){
+                                                                $oroshi_ratio = "---";
+                                                            } else {
+                                                                $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array2[$i]) * 100 * 10)) / 10 ,1);
+                                                            }
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        }
+                                                        //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_ratio . "%</div>";
+                                                        if($oroshi_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
+                                                        }
+                                                
+                                                        $i++;
+                                                    }
+                                                    // 過去の同期間売上金額に対する比率を取得
+                                                        if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
+                                                            $oroshi_total_ratio = "---";
+                                                        } else {
+                                                            $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
+                                                        }
+                                        
+                                                        //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_total_ratio . "%</div>";
+                                                        if($oroshi_total_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
+                                                        }
+                                            }
+                                        
+                                        
+                                        // 通販・店舗・店舗・通販(免税)合計・点数・過去比
+                                        
+                                            $i = 0;
+                                            $ratio = "";
+                                            $ratio_html = "";
+                                            $total = "";
+                                            $total_past = "";
+                                            $total_ratio = "";
+                                            foreach($temp1_web_manthly_array2 as $var){
+                                                if($var == 0 && $temp1_shop_manthly_array2[$i] == 0/* && $temp1_oroshi_manthly_array2[$i] == 0*/){
+                                                    $ratio = 0;
+                                                    $total = $total;
+                                                    if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0/* && $past_temp1_oroshi_manthly_array2[$i] == 0*/){
+                                                        $total_past = $total_past;
+                                                    } else {
+                                                        if($out1_c == "ON"){
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i];
+                                                        }
+                                                    }
+                                                } else {
+                                                    if($out1_c == "ON"){
+                                                        if((int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i] == 0 || (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i]) / ((int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array2[$i] + (int)$temp1_oroshi_manthly_array2[$i];
+                                                    } else {
+                                                        if((int)$var + (int)$temp1_shop_manthly_array2[$i] == 0 || (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array2[$i]) / ((int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array2[$i];
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0 && $past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                        }
+                                                    } else {
+                                                        if($past_temp1_web_manthly_array2[$i] == 0 && $past_temp1_shop_manthly_array2[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array2[$i] + (int)$past_temp1_shop_manthly_array2[$i];
+                                                        }
+                                                    }
+                                                }
+                                                //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
+                                                if($ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上金額に対する比率を取得
+                                                if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
+                                                    $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $total_ratio = "---";
+                                                }
+                                        
+                                                //$ratio_html .= "<div class='title7 ta_r bg_grey'>" . $total_ratio . "%</div>";
+                                                if($total_ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
+                                                }
+                                        
+                                            $temp1_all_sorce8 = "<p class='title_a'>点数・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
+                                            $temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce8 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ratio_html . "</div>";}
+                                            $temp1_all_sorce8 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
+                                            
+                                                
+                                        // 通販・粗利・過去比
+                                        
+                                            $i = 0;
+                                            $web_ratio = "";
+                                            $web_ratio_html = "";
+                                            $web_total = "";
+                                            $web_total_past = "";
+                                            $web_total_ratio = "";
+                                            foreach($temp1_web_manthly_array3 as $var){
+                                                if($var == 0){
+                                                    $web_ratio = "---";
+                                                    $web_total = $web_total;
+                                                    if($past_temp1_web_manthly_array3[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array3[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_web_manthly_array3[$i] == 0 || $var == "" || $past_temp1_web_manthly_array3[$i] == ""){
+                                                        $web_ratio = "---";
+                                                    } else {
+                                                        $web_ratio = number_format((floor(($var / $past_temp1_web_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($past_temp1_web_manthly_array3[$i] == 0){
+                                                        $web_total_past = $web_total_past;
+                                                    } else {
+                                                        $web_total_past = (int)$web_total_past + (int)$past_temp1_web_manthly_array3[$i];
+                                                    }
+                                                }
+                                                //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_ratio . "%</div>";
+                                                if($web_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上粗利に対する比率を取得
+                                                if($web_total <> 0 && $web_total_past <> 0 && $web_total <> "" && $web_total_past <> ""){
+                                                    $web_total_ratio = number_format((floor(((float)$web_total / (float)$web_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_ratio = "---";
+                                                }
+                                        
+                                                //$web_ratio_html .= "<div class='title7 ta_r'>" . $web_total_ratio . "%</div>";
+                                                if($web_total_ratio < 100){
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $web_total_ratio . "%</div>";
+                                                } else {
+                                                    $web_ratio_html .= "<div class='title7 ta_r fc_red'>" . $web_total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                        // 店舗・粗利・過去比
+                                        
+                                            $i = 0;
+                                            $shop_ratio = "";
+                                            $shop_ratio_html = "";
+                                            $shop_total = "";
+                                            $shop_total_past = "";
+                                            $shop_total_ratio = "";
+                                            foreach($temp1_shop_manthly_array3 as $var){
+                                                if($var == 0){
+                                                    $shop_ratio = "---";
+                                                    $shop_total = $shop_total;
+                                                    if($past_temp1_shop_manthly_array3[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array3[$i];
+                                                    }
+                                                } else {
+                                                    if($var == 0 || $past_temp1_shop_manthly_array3[$i] == 0 || $var == "" || $past_temp1_shop_manthly_array3[$i] == ""){
+                                                        $shop_ratio = "---";
+                                                    } else {
+                                                        $shop_ratio = number_format((floor(($var / $past_temp1_shop_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
+                                                    }
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($past_temp1_shop_manthly_array3[$i] == 0){
+                                                        $shop_total_past = $shop_total_past;
+                                                    } else {
+                                                        $shop_total_past = (int)$shop_total_past + (int)$past_temp1_shop_manthly_array3[$i];
+                                                    }
+                                                }
+                                                //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_ratio . "%</div>";
+                                                if($shop_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上粗利に対する比率を取得
+                                                if($shop_total <> 0 && $shop_total_past <> 0 && $shop_total <> "" && $shop_total_past <> ""){
+                                                    $shop_total_ratio = number_format((floor(((float)$shop_total / (float)$shop_total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_ratio = "---";
+                                                }
+                                        
+                                                //$shop_ratio_html .= "<div class='title7 ta_r'>" . $shop_total_ratio . "%</div>";
+                                                if($shop_total_ratio < 100){
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $shop_total_ratio . "%</div>";
+                                                } else {
+                                                    $shop_ratio_html .= "<div class='title7 ta_r fc_red'>" . $shop_total_ratio . "%</div>";
+                                                }
+                                        
+                                            if($out1_c == "ON"){
+                                                // 店舗・通販(免税)・粗利・過去比
+                                                    $i = 0;
+                                                    $oroshi_ratio = "";
+                                                    $oroshi_ratio_html = "";
+                                                    $oroshi_total = "";
+                                                    $oroshi_total_past = "";
+                                                    $oroshi_total_ratio = "";
+                                                    foreach($temp1_oroshi_manthly_array3 as $var){
+                                                        if($var == 0){
+                                                            $oroshi_ratio = "---";
+                                                            $oroshi_total = $oroshi_total;
+                                                            if($past_temp1_oroshi_manthly_array3[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array3[$i];
+                                                            }
+                                                        } else {
+                                                            if($var == 0 || $past_temp1_oroshi_manthly_array3[$i] == 0 || $var == "" || $past_temp1_oroshi_manthly_array3[$i] == ""){
+                                                                $oroshi_ratio = "---";
+                                                            } else {
+                                                                $oroshi_ratio = number_format((floor(($var / $past_temp1_oroshi_manthly_array3[$i]) * 100 * 10)) / 10 ,1);
+                                                            }
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($past_temp1_oroshi_manthly_array3[$i] == 0){
+                                                                $oroshi_total_past = $oroshi_total_past;
+                                                            } else {
+                                                                $oroshi_total_past = (int)$oroshi_total_past + (int)$past_temp1_oroshi_manthly_array3[$i];
+                                                            }
+                                                        }
+                                                        //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_ratio . "%</div>";
+                                                        if($oroshi_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_ratio . "%</div>";
+                                                        }
+                                                
+                                                        $i++;
+                                                    }
+                                                    // 過去の同期間売上金額に対する比率を取得
+                                                        if($oroshi_total == 0 || $oroshi_total_past == 0 || $oroshi_total == "" || $oroshi_total_past == ""){
+                                                            $oroshi_total_ratio = "---";
+                                                        } else {
+                                                            $oroshi_total_ratio = number_format((floor(((int)$oroshi_total / (int)$oroshi_total_past) * 100 * 10)) / 10 ,1);
+                                                        }
+                                        
+                                        
+                                                        //$oroshi_ratio_html .= "<div class='title7 ta_r'>" . $oroshi_total_ratio . "%</div>";
+                                                        if($oroshi_total_ratio < 100){
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_blue'>" . $oroshi_total_ratio . "%</div>";
+                                                        } else {
+                                                            $oroshi_ratio_html .= "<div class='title7 ta_r fc_red'>" . $oroshi_total_ratio . "%</div>";
+                                                        }
+                                            }
+                                        
+                                        
+                                        // 通販・店舗・店舗・通販(免税)合計・粗利・過去比
+                                        
+                                            $i = 0;
+                                            $ratio = "";
+                                            $ratio_html = "";
+                                            $total = "";
+                                            $total_past = "";
+                                            $total_ratio = "";
+                                            foreach($temp1_web_manthly_array3 as $var){
+                                                if($var == 0 && $temp1_shop_manthly_array3[$i] == 0/* && $temp1_oroshi_manthly_array3[$i] == 0*/){
+                                                    $ratio = 0;
+                                                    $total = $total;
+                                                    if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0/* && $past_temp1_oroshi_manthly_array3[$i] == 0*/){
+                                                        $total_past = $total_past;
+                                                    } else {
+                                                        if($out1_c == "ON"){
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i];
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i];
+                                                        }
+                                                    }
+                                                } else {
+                                                    if($out1_c == "ON"){
+                                                        if((int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i] == 0 || (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i]) / ((int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array3[$i] + (int)$temp1_oroshi_manthly_array3[$i];
+                                                    } else {
+                                                        if((int)$var + (int)$temp1_shop_manthly_array3[$i] == 0 || (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] == 0){
+                                                            $ratio = "---";
+                                                        } else {
+                                                            $ratio = number_format((floor((((int)$var + (int)$temp1_shop_manthly_array3[$i]) / ((int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i])) * 100 * 10)) / 10 ,1);
+                                                        }
+                                                        $total = (int)$total + (int)$var + (int)$temp1_shop_manthly_array3[$i];
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0 && $past_temp1_oroshi_manthly_array3[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i] + (int)$past_temp1_oroshi_manthly_array3[$i];
+                                                        }
+                                                    } else {
+                                                        if($past_temp1_web_manthly_array3[$i] == 0 && $past_temp1_shop_manthly_array3[$i] == 0){
+                                                            $total_past = $total_past;
+                                                        } else {
+                                                            $total_past = (int)$total_past + (int)$past_temp1_web_manthly_array3[$i] + (int)$past_temp1_shop_manthly_array3[$i];
+                                                        }
+                                                    }
+                                                }
+                                                //$ratio_html .= "<div class='title7 ta_r'>" . $ratio . "%</div>";
+                                                if($ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $ratio . "%</div>";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 過去の同期間売上金額に対する比率を取得
+                                                if($total <> 0 && $total_past <> 0 && $total <> "" && $total_past <> ""){
+                                                    $total_ratio = number_format((floor(((float)$total / (float)$total_past) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $total_ratio = "---";
+                                                }
+                                        
+                                                //$ratio_html .= "<div class='title7 ta_r  bg_grey'>" . $total_ratio . "%</div>";
+                                                if($total_ratio < 100){
+                                                    $ratio_html .= "<div class='title7 ta_r fc_blue'>" . $total_ratio . "%</div>";
+                                                } else {
+                                                    $ratio_html .= "<div class='title7 ta_r fc_red'>" . $total_ratio . "%</div>";
+                                                }
+                                        
+                                        
+                                            $temp1_all_sorce9 = "<p class='title_a'>粗利・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_html . "</div>";
+                                            $temp1_all_sorce9 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_html . "</div>";
+                                            if($out1_c == "ON"){$temp1_all_sorce9 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ratio_html . "</div>";}
+                                            $temp1_all_sorce9 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $ratio_html . "</div></div>";
+                                        
+                                        
+                                        // 過去・金額構成比
+                                        
+                                            $i = 0;
+                                            $total = "";
+                                            $total2 = 0;
+                                            $web_per = "";
+                                            $shop_per = "";
+                                            $oroshi_per = "";
+                                            $web_total = "";
+                                            $shop_total = "";
+                                            $oroshi_total = "";
+                                            $web_per_html = "";
+                                            $shop_per_html = "";
+                                            $oroshi_per_html = "";
+                                            $past_web_total_js2 = "";
+                                            $past_shop_total_js2 = "";
+                                            $past_oroshi_total_js2 = "";
+                                            foreach($past_temp1_web_manthly_array as $var){
+                                                //echo $past_temp1_shop_manthly_array[$i] . "<br>";
+                                                if($out1_c == "ON"){
+                                                    $total = (int)$var + (int)$past_temp1_shop_manthly_array[$i] + (int)$past_temp1_oroshi_manthly_array[$i];
+                                                } else {
+                                                    $total = (int)$var + (int)$past_temp1_shop_manthly_array[$i];
+                                                }
+                                                $total2 = (int)$total2 + (int)$total;
+                                                $web_total = (int)$web_total + (int)$var;
+                                                $shop_total = (int)$shop_total + (int)$past_temp1_shop_manthly_array[$i];
+                                                if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$past_temp1_oroshi_manthly_array[$i]; }
+                                                if($var == 0){
+                                                    $web_per = "---";
+                                                    if($past_temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($past_temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($past_temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---"; 
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
+                                        
+                                                        }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                } else {
+                                                    if($var <> 0 && $total <> 0 && $var <> "" && $total <> ""){
+                                                        $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
+                                                    } else {
+                                                        $web_per = "---";
+                                                    }
+                                                    if($past_temp1_shop_manthly_array[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($past_temp1_shop_manthly_array[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($past_temp1_shop_manthly_array[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---";
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
+                                        
+                                                        }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_oroshi_manthly_array[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ((float)$web_per + (float)$shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                }
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
+                                                $past_web_total_js2  .= (float)$web_per . ", ";
+                                                $past_shop_total_js2  .= (float)$shop_per . ", ";
+                                        
+                                                if($out1_c == "ON"){
+                                                    $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
+                                                    $past_oroshi_total_js2  .= (float)$oroshi_per . ", ";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対するパーセンテージを取得
+                                               // $web_total_per = $web_total / $i;
+                                                if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
+                                                    $web_total_per = number_format((floor(($web_total / $total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_per = "---";
+                                                }
+                                                if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
+                                                    $shop_total_per = number_format((floor(($shop_total / $total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_per = "---";
+                                                }
+                                                //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
+                                                if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
+                                                if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
+                                        
+                                            $past_temp1_all_sorce4 = "<p class='title_a'>金額・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
+                                            $past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
+                                            if($out1_c == "ON"){$past_temp1_all_sorce4 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_per_html . "</div>";}
+                                            $past_temp1_all_sorce4 .= "</div>";
+                                        
+                                        // 過去・点数構成比
+                                        
+                                            $i = 0;
+                                            $total = "";
+                                            $total2 = 0;
+                                            $web_per = "";
+                                            $shop_per = "";
+                                            $oroshi_per = "";
+                                            $web_total = "";
+                                            $shop_total = "";
+                                            $oroshi_total = "";
+                                            $web_per_html = "";
+                                            $shop_per_html = "";
+                                            $oroshi_per_html = "";
+                                            $past_web_total_js3 = "";
+                                            $past_shop_total_js3 = "";
+                                            $past_oroshi_total_js3 = "";
+                                            foreach($past_temp1_web_manthly_array2 as $var){
+                                                //echo $past_temp1_shop_manthly_array2[$i] . "<br>";
+                                                if($out1_c == "ON"){
+                                                    $total = (int)$var + (int)$past_temp1_shop_manthly_array2[$i] + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                } else {
+                                                    $total = (int)$var + (int)$past_temp1_shop_manthly_array2[$i];
+                                                }
+                                                $total2 = (int)$total2 + (int)$total;
+                                                $web_total = (int)$web_total + (int)$var;
+                                                $shop_total = (int)$shop_total + (int)$past_temp1_shop_manthly_array2[$i];
+                                                if($out1_c == "ON"){ $oroshi_total = (int)$oroshi_total + (int)$past_temp1_oroshi_manthly_array2[$i]; }
+                                                if($var == 0){
+                                                    $web_per = "---";
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($past_temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($past_temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---"; 
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$shop_per), 1) ,1);
+                                        
+                                                        }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                } else {
+                                                    if($var <> 0 && $total <> 0 && $var <> "" && $total <> ""){
+                                                        $web_per = number_format((floor(($var / $total) * 100 * 10)) / 10 ,1);
+                                                    } else {
+                                                        $web_per = "---";
+                                                    }
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_per = "---";
+                                                    } else {
+                                                        if($out1_c == "ON"){ 
+                                                            if($past_temp1_shop_manthly_array2[$i] <> 0 && $total <> 0 && $past_temp1_shop_manthly_array2[$i] <> "" && $total <> ""){
+                                                                $shop_per = number_format((floor(($past_temp1_shop_manthly_array2[$i] / $total) * 100 * 10)) / 10 ,1); 
+                                                            } else {
+                                                                $shop_per = "---"; 
+                                                            }
+                                                        } else {
+                                                            //$shop_per = 100 - $web_per;
+                                                            $shop_per = number_format(bcsub('100', ((float)$web_per), 1) ,1);
+                                        
+                                                        }
+                                                    }
+                                                    if($out1_c == "ON"){
+                                                        if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                            $oroshi_per = "---";
+                                                        } else {
+                                                            //$oroshi_per = 100 - $web_per - $shop_per;
+                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                        }
+                                                    }
+                                                }
+                                                $web_per_html .= "<div class='title7 ta_r'>" . $web_per . "%</div>";
+                                                $shop_per_html .= "<div class='title7 ta_r'>" . $shop_per . "%</div>";
+                                                $past_web_total_js3  .= (float)$web_per . ", ";
+                                                $past_shop_total_js3  .= (float)$shop_per . ", ";
+                                                if($out1_c == "ON"){
+                                                    $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_per . "%</div>";
+                                                    $past_oroshi_total_js3  .= (float)$oroshi_per . ", ";
+                                                }
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計点数に対するパーセンテージを取得
+                                               // $web_total_per = $web_total / $i;
+                                                if($web_total <> 0 && $total2 <> 0 && $web_total <> "" && $total2 <> ""){
+                                                   $web_total_per = number_format((floor(($web_total / $total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $web_total_per = "---";
+                                                }
+                                                if($shop_total <> 0 && $total2 <> 0 && $shop_total <> "" && $total2 <> ""){
+                                                    $shop_total_per = number_format((floor(($shop_total / $total2) * 100 * 10)) / 10 ,1);
+                                                } else {
+                                                    $shop_total_per = "---";
+                                                }
+                                               //if($out1_c == "ON"){ $oroshi_total_per = 100 - $web_total_per - $shop_total_per; }
+                                               if($out1_c == "ON"){ $oroshi_total_per = number_format(bcsub('100', ((float)$web_total_per + (float)$shop_total_per), 1) ,1);}
+                                               $web_per_html .= "<div class='title7 ta_r'>" . $web_total_per . "%</div>";
+                                               $shop_per_html .= "<div class='title7 ta_r'>" . $shop_total_per . "%</div>";
+                                               if($out1_c == "ON"){ $oroshi_per_html .= "<div class='title7 ta_r'>" . $oroshi_total_per . "%</div>";}
+                                        
+                                        
+                                            $past_temp1_all_sorce5 = "<p class='title_a'>点数・構成比（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_per_html . "</div>";
+                                            $past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_per_html . "</div>";
+                                            if($out1_c == "ON"){$past_temp1_all_sorce5 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_per_html . "</div>";}
+                                            $past_temp1_all_sorce5 .= "</div>";
+                                        
+                                        // 過去・平均単価
+                                        
+                                            $i = 0;
+                                            $web_average = "";
+                                            $web_ave_html = "";
+                                            $web_total = "";
+                                            $web_total2 = "";
+                                            $web_total_ave = "";
+                                            foreach($past_temp1_web_manthly_array as $var){
+                                        
+                                                if($var == 0){
+                                                    $web_average = 0;
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($past_temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total2 = $web_total2;
+                                                    } else {
+                                                        $web_total2 = (int)$web_total2 + (int)$past_temp1_web_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    if($var <> 0 && $past_temp1_web_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_web_manthly_array2[$i] <> ""){
+                                                        $web_average = (floor(((int)$var / (int)$past_temp1_web_manthly_array2[$i])) * 10) / 10;
+                                                    } else {
+                                                        $web_average = "---";
+                                                    }
+                                                    $web_total = (int)$web_total + (int)$var;
+                                                    if($past_temp1_web_manthly_array2[$i] == 0){
+                                                        $web_total2 = $web_total2;
+                                                    } else {
+                                                        $web_total2 = (int)$web_total2 + (int)$past_temp1_web_manthly_array2[$i];
+                                                    }
+                                                }
+                                                if($web_average <> 0 && $web_average <> ""){$web_average = number_format((int)$web_average);}
+                                                $web_ave_html .= "<div class='title7 ta_r'>" . $web_average . "</div>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対する平均単価を取得
+                                                if($web_total <> 0 && $web_total2 <> 0 && $web_total <> "" && $web_total2 <> ""){
+                                                    $web_total_ave = (floor(($web_total / $web_total2) * 10)) / 10;
+                                                } else {
+                                                    $web_total_ave = "---";
+                                                }
+                                                if($web_total_ave <> 0 && $web_total_ave <> ""){$web_total_ave = number_format((int)$web_total_ave);}
+                                                $web_ave_html .= "<div class='title7 ta_r'>" . $web_total_ave . "</div>";
+                                        
+                                            $i = 0;
+                                            $shop_average = "";
+                                            $shop_ave_html = "";
+                                            $shop_total = "";
+                                            $shop_total2 = "";
+                                            $shop_total_ave = "";
+                                            foreach($past_temp1_shop_manthly_array as $var){
+                                        
+                                                if($var == 0){
+                                                    $shop_average = 0;
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total2 = $shop_total2;
+                                                    } else {
+                                                        $shop_total2 = (int)$shop_total2 + (int)$past_temp1_shop_manthly_array2[$i];
+                                                    }
+                                                } else {
+                                                    if($var <> 0 && $past_temp1_shop_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_shop_manthly_array2[$i] <> ""){
+                                                        $shop_average = (floor(((int)$var / (int)$past_temp1_shop_manthly_array2[$i])));
+                                                    } else {
+                                                        $shop_average = "---";
+                                                    }
+                                                    $shop_total = (int)$shop_total + (int)$var;
+                                                    if($past_temp1_shop_manthly_array2[$i] == 0){
+                                                        $shop_total2 = $shop_total2;
+                                                    } else {
+                                                        $shop_total2 = (int)$shop_total2 + (int)$past_temp1_shop_manthly_array2[$i];
+                                                    }
+                                                }
+                                                if($shop_average <> 0 && $shop_average <> ""){$shop_average = number_format((int)$shop_average);}
+                                                $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_average . "</div>";
+                                        
+                                                $i++;
+                                            }
+                                            // 期間中の売上合計に対する平均単価を取得
+                                                if($shop_total <> 0 && $shop_total2 <> 0 && $shop_total <> "" && $shop_total2 <> ""){
+                                                    $shop_total_ave = (floor(((float)$shop_total / (float)$shop_total2)));
+                                                } else {
+                                                    $shop_total_ave = "---";
+                                                }
+                                                if($shop_total_ave <> 0 && $shop_total_ave <> ""){$shop_total_ave = number_format((int)$shop_total_ave);}
+                                                $shop_ave_html .= "<div class='title7 ta_r'>" . $shop_total_ave . "</div>";
+                                        
+                                                if($out1_c == "ON"){    
+                                                    $i = 0;
+                                                    $oroshi_average = "";
+                                                    $oroshi_ave_html = "";
+                                                    $oroshi_total = "";
+                                                    $oroshi_total2 = "";
+                                                    $oroshi_total_ave = "";
+                                                    foreach($past_temp1_oroshi_manthly_array as $var){
+                                        
+                                                        if($var == 0){
+                                                            $oroshi_average = 0;
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total2 = $oroshi_total2;
+                                                            } else {
+                                                                $oroshi_total2 = (int)$oroshi_total2 + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        } else {
+                                                            if($var <> 0 && $past_temp1_oroshi_manthly_array2[$i] <> 0 && $var <> "" && $past_temp1_oroshi_manthly_array2[$i] <> ""){
+                                                                $oroshi_average = (floor(((int)$var / (int)$past_temp1_oroshi_manthly_array2[$i])) * 10) / 10;
+                                                            } else {
+                                                                $oroshi_average = "---";
+                                                            }
+                                                            $oroshi_total = (int)$oroshi_total + (int)$var;
+                                                            if($past_temp1_oroshi_manthly_array2[$i] == 0){
+                                                                $oroshi_total2 = $oroshi_total2;
+                                                            } else {
+                                                                $oroshi_total2 = (int)$oroshi_total2 + (int)$past_temp1_oroshi_manthly_array2[$i];
+                                                            }
+                                                        }
+                                                        if($oroshi_average <> 0 && $oroshi_average <> ""){$oroshi_average = number_format((int)$oroshi_average);}
+                                                        $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_average . "</div>";
+                                        
+                                                        $i++;
+                                                    }
+                                                    // 期間中の売上合計に対する平均単価を取得
+                                                        if($oroshi_total == 0 || $oroshi_total2 == 0 || $oroshi_total == "" || $oroshi_total2 == ""){
+                                                            $oroshi_total_ave = "---";
+                                                        } else {
+                                                            $oroshi_total_ave = (floor(((int)$oroshi_total / (int)$oroshi_total2) * 10)) / 10;
+                                                        }
+                                        
+                                                        if($oroshi_total_ave <> 0 && $oroshi_total_ave <> ""){$oroshi_total_ave = number_format((int)$oroshi_total_ave);}
+                                                        $oroshi_ave_html .= "<div class='title7 ta_r'>" . $oroshi_total_ave . "</div>";
+                                                }
+                                        
+                                        
+                                        
+                                        
+                                                $past_temp1_all_sorce6 = "<p class='title_a'>平均単価（過去）</p><div class='box1'>" . $past_temp1_title4 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ave_html . "</div>";
+                                                $past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ave_html . "</div>";
+                                                if($out1_c == "ON"){$past_temp1_all_sorce6 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ave_html . "</div>";}
+                                                $past_temp1_all_sorce6 .= "</div>";
     
 
 
@@ -38995,7 +38980,7 @@ if($out1_c == "ON"){
                                             $all_sum_uriage = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $all_sum_number = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
                                             $all_sum_arari = "<div class='wid100 ul3'><div class='title5 ta_c'>合計</div>";
-                                            $all_sum_arari_per = "<div class='wid100 ul3'><div class='title5 ta_c'>粗利率(合計)</div>";
+                                            $all_sum_arari_per = "<div class='wid100 ul3'><div class='title5 ta_c'>粗利率(平均)</div>";
 
                                         // 各月の全部門売上合計を配列に代入
                                             $temp1_all_m_sum_uriage_array = array();
@@ -39052,7 +39037,7 @@ if($out1_c == "ON"){
                                                     }
                                                     // 現在・粗利・縦軸合計
                                                         $all_sum_arari_per .= "<div class='title6 ta_r'>" . $arari_ratio . "%</div>";
-                                                    // 現在・通販・店舗・卸・合計粗利率（JSグラフ用） 
+                                                    // 現在・通販・店舗・店舗・通販(免税)・合計粗利率（JSグラフ用） 
                                                         $all_arari_total .= (float)$arari_ratio . ", ";
 
                                                     // 過去・現在の粗利率合計差の計算に使用
@@ -39063,7 +39048,7 @@ if($out1_c == "ON"){
                                             }
 
 
-                                        // 通販・店舗・卸の各月・粗利率合計を取得
+                                        // 通販・店舗・店舗・通販(免税)の各月・粗利率合計を取得
                                             $arati_cutting_total_html = "";
                                             $arari_ratio_cutting = "";
                                             for($a = 0; $a < $i; $a++){
@@ -39076,7 +39061,7 @@ if($out1_c == "ON"){
                                                     $arati_cutting_total_html .= "<div class='title7 ta_r fc_red'>" . $arari_ratio_cutting . "%</div>";
                                                 }
                                             }
-                                        // 通販・店舗・卸の各月合計・粗利率合計を取得
+                                        // 通販・店舗・店舗・通販(免税)の各月合計・粗利率合計を取得
 
                                             if($out1_c == "ON"){
                                                 $all_ratio_cutting_ave = (float)$web_ratio_cutting_ave + (float)$shop_ratio_cutting_ave + (float)$oroshi_ratio_cutting_ave;
@@ -39099,7 +39084,7 @@ if($out1_c == "ON"){
 
                                         $temp1_all_sorce10 = "<p class='title_a'>粗利率・過去比</p><div class='box1'>" . $temp1_title5 . "<div class='wid100 ul4'><div class='title7 ta_c'>店舗(免税外)</div>" . $shop_ratio_cutting_html . "</div>";
                                         $temp1_all_sorce10 .= "<div class='wid100 ul4'><div class='title7 ta_c'>通販(免税外)</div>" . $web_ratio_cutting_html . "</div>";
-                                        if($out1_c == "ON"){$temp1_all_sorce10 .= "<div class='wid100 ul4'><div class='title7 ta_c'>卸(免税外)</div>" . $oroshi_ratio_cutting_html . "</div>";}
+                                        if($out1_c == "ON"){$temp1_all_sorce10 .= "<div class='wid100 ul4'><div class='title7 ta_c'>店舗・通販(免税)</div>" . $oroshi_ratio_cutting_html . "</div>";}
                                         $temp1_all_sorce10 .= "<div class='wid100 ul4 bg_grey'><div class='title7 ta_c'>合計</div>" . $arati_cutting_total_html . "</div></div>";
 
                             
@@ -39129,8 +39114,9 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view .= $temp1_shop_manthly_html;}
                                             if($out1_b == "ON"){ $view .= $temp1_web_manthly_html;}
                                             if($out1_c == "ON"){ $view .= $temp1_oroshi_manthly_html;}
-                                            $view_title1 = "（免税以外）";
-                                            $temp1_all_sorce = "<p class='title_a'>金額(免税外)" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view . $all_sum_uriage . "</div>"/* . $uriage_progress*/;
+                                            //$view_title1 = "（免税以外）";
+                                            $view_title1 = "";
+                                            $temp1_all_sorce = "<p class='title_a'>金額" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view . $all_sum_uriage . "</div>"/* . $uriage_progress*/;
 
                                         // 全期間全部門売上点数合計とその平均値のHTML作成
                                             if($all_sum_number_all <> 0){ 
@@ -39152,7 +39138,7 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view2 .= $temp1_shop_manthly_html2;}
                                             if($out1_b == "ON"){ $view2 .= $temp1_web_manthly_html2;}
                                             if($out1_c == "ON"){ $view2 .= $temp1_oroshi_manthly_html2;}
-                                            $temp1_all_sorce2 = "<p class='title_a'>点数(免税外)" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view2 . $all_sum_number . "</div>"/* . $number_progress*/;
+                                            $temp1_all_sorce2 = "<p class='title_a'>点数" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view2 . $all_sum_number . "</div>"/* . $number_progress*/;
                                         // 全期間全部門粗利合計とその平均値のHTML作成
                                             if($all_sum_arari_all <> 0){ 
                                                 // 金額・全部門・全期間の平均を横軸合計から縦軸合計に変更
@@ -39176,7 +39162,7 @@ if($out1_c == "ON"){
                                             if($out1_a == "ON"){ $view3 .= $temp1_shop_manthly_html3;}
                                             if($out1_b == "ON"){ $view3 .= $temp1_web_manthly_html3;}
                                             if($out1_c == "ON"){ $view3 .= $temp1_oroshi_manthly_html3;}
-                                            $temp1_all_sorce3 = "<p class='title_a'>粗利(免税外)" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view3 . $all_sum_arari . $shop_sum_arari_per . $web_sum_arari_per;
+                                            $temp1_all_sorce3 = "<p class='title_a'>粗利" . $view_title1 . "</p><div class='box1'>" . $temp1_title . $view3 . $all_sum_arari . $shop_sum_arari_per . $web_sum_arari_per;
                                             if($out1_c == "ON"){$temp1_all_sorce3 .= $oroshi_sum_arari_per;}
                                             $temp1_all_sorce3 .= $all_sum_arari_per  . "</div>"/* . $arari_progress*/;
 
