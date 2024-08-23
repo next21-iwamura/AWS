@@ -632,10 +632,10 @@ box-sizing: border-box;
                                             <select name="output" class="output_select">
                                                 <option value="1">出力パターンを選択</option>
                                                 <option value="2" @if(isset($output) && $output == 2) selected @elseif (empty($output) && $output == 2) selected @endif>[売上]サマリ</option>
+                                                <option value="7" @if(isset($output) && $output == 7) selected @elseif (empty($output) && $output == 7) selected @endif>[売上]免税区分</option>
                                                 <option value="3" @if(isset($output) && $output == 3) selected @elseif (empty($output) && $output == 3) selected @endif>[売上]通販区分</option>
                                                 <option value="5" @if(isset($output) && $output == 5) selected @elseif (empty($output) && $output == 5) selected @endif>[売上]扱い部門</option>
                                                 <option value="6" @if(isset($output) && $output == 6) selected @elseif (empty($output) && $output == 6) selected @endif>[売上]ブランド</option>
-                                                <option value="7" @if(isset($output) && $output == 7) selected @elseif (empty($output) && $output == 7) selected @endif>[売上]免税区分</option>
                                             </select>
                                         </div>
                                         <p class="ta_c"><button type="submit" id="form_view" name="form_view" value="フォームの表示"><span>フォームの表示</span></button></p>
