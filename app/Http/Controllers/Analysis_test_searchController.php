@@ -38647,7 +38647,8 @@ class Analysis_test_searchController extends Controller
                                                             $oroshi_per = "---";
                                                         } else {
                                                             //$oroshi_per = 100 - $web_per - $shop_per;
-                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                            //20240823$oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                            $oroshi_per = number_format(bcsub('100', ((int)$web_per + (int)$shop_per), 1) ,1);
                                                         }
                                                     }
                                                 } else {
@@ -38765,7 +38766,8 @@ class Analysis_test_searchController extends Controller
                                                             $oroshi_per = "---";
                                                         } else {
                                                             //$oroshi_per = 100 - $web_per - $shop_per;
-                                                            $oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                            //20240823$oroshi_per = number_format(bcsub('100', ($web_per + $shop_per), 1) ,1);
+                                                            $oroshi_per = number_format(bcsub('100', ((int)$web_per + (int)$shop_per), 1) ,1);
                                                         }
                                                     }
                                                 } else {
