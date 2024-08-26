@@ -786,7 +786,7 @@ box-sizing: border-box;
                                                 <input type="checkbox" name="out3[]" value="3" @if(isset($out3_c) && $out3_c <> "OFF") checked @endif>商品ID無しを除く<br>
                                                 <p>
                                                 <input type="radio" name="out1_view" value="1" @if(isset($out1_view) && $out1_view == "1") checked @endif>在庫金額順
-                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2") checked @endif>在庫点数順  
+                                                <input type="radio" name="out1_view" value="2" @if(isset($out1_view) && $out1_view == "2" || empty($out1_view)) checked @endif>在庫点数順  
                                                 </p>
 
                                                 <p class="ta_c"><button type="submit" id="search2" name="search3" class="btn" value="検索"><span>指定した条件を表示</span></button></p>
@@ -2254,20 +2254,21 @@ box-sizing: border-box;
     @if(isset($output) && $output == 3 && isset($search) && $search == "ON")  
 <style type="text/css">
 	.id_container{width:100%; margin:0 auto;}
+	.id_container .fixed{width:85.3%; position:fixed;}
 	.id_container ul{display:flex;justify-content:space-between;width:100%;border:1px solid #ccc;margin:0 auto;padding:0 0;}
 	.id_container ul li{list-style:none; border-right:1px solid #ccc;box-sizing: border-box;font-size:12px;}
-	.id_container li:first-child{width:9%;}
-	.id_container li:nth-child(2){width:24%;}
-	.id_container li:nth-child(3){width:8%;}
-	.id_container li:nth-child(4){width:12%;}
-	.id_container li:nth-child(5){width:7%;}
-	.id_container li:nth-child(6),
-	.id_container li:nth-child(7),
-	.id_container li:nth-child(8),
-	.id_container li:nth-child(9),
-	.id_container li:nth-child(10){width:5%;}
-	.id_container li:nth-child(11){width:6%;}
-	.id_container li:nth-child(12){width:9%;}
+	.id_container ul li:first-child{width:9%;}
+	.id_container ul li:nth-child(2){width:24%;}
+	.id_container ul li:nth-child(3){width:8%;}
+	.id_container ul li:nth-child(4){width:12%;}
+	.id_container ul li:nth-child(5){width:7%;}
+	.id_container ul li:nth-child(6),
+	.id_container ul li:nth-child(7),
+	.id_container ul li:nth-child(8),
+	.id_container ul li:nth-child(9),
+	.id_container ul li:nth-child(10){width:5%;}
+	.id_container ul li:nth-child(11){width:6%;}
+	.id_container ul li:nth-child(12){width:9%;}
 	/* タイトルのみ */
 	.id_container ul:first-child li{text-align:center;padding:2px 0 2px /*1em*/0;}
 	.id_container ul:first-child li:nth-child(11),.id_container ul:first-child li:nth-child(12){background:#ffa500;}

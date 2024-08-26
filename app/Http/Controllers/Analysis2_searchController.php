@@ -5537,6 +5537,28 @@ class Analysis2_searchController extends Controller
                                                     
                                                     })
                                                     
+                                                    
+                                                 // 条件（扱い部門）
+                                                     ->where(function ($query) use ($out1_a,$out1_b,$out1_c) {
+
+                                                             $query->orWhere('bumon','');
+
+                                                             // 条件（扱い部門がジャック）
+                                                                 if($out1_b == "ON"){
+                                                                     $query->orWhere('bumon','Jackroad');
+                                                                 }
+                                                             // 条件（扱い部門がベティー）
+                                                                 if($out1_a == "ON"){
+                                                                     $query->orWhere('bumon','BettyRoad');
+                                                                 }
+                                                             // 条件（扱い部門がジュエリー）
+                                                                 if($out1_c == "ON"){
+                                                                     $query->orWhere('bumon','Jewelry');
+                                                                 }
+                                                 
+                                                     })
+                                                    
+                                                    
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
 	                                                        if($out3_a == "OFF" && $out3_b == "OFF" && $out3_c == "OFF"){
@@ -5657,6 +5679,28 @@ class Analysis2_searchController extends Controller
 																}
                                                     
                                                     })
+                                                    
+                                                    
+                                                 // 条件（扱い部門）
+                                                     ->where(function ($query) use ($out1_a,$out1_b,$out1_c) {
+
+                                                             $query->orWhere('bumon','');
+
+                                                             // 条件（扱い部門がジャック）
+                                                                 if($out1_b == "ON"){
+                                                                     $query->orWhere('bumon','Jackroad');
+                                                                 }
+                                                             // 条件（扱い部門がベティー）
+                                                                 if($out1_a == "ON"){
+                                                                     $query->orWhere('bumon','BettyRoad');
+                                                                 }
+                                                             // 条件（扱い部門がジュエリー）
+                                                                 if($out1_c == "ON"){
+                                                                     $query->orWhere('bumon','Jewelry');
+                                                                 }
+                                                 
+                                                     })
+                                                    
                                                     
                                                     // 条件
                                                         ->where(function ($query) use ($out3_a,$out3_b,$out3_c) {
@@ -5824,6 +5868,7 @@ class Analysis2_searchController extends Controller
 
                                                     $i++;
                                                 }
+                                                //echo $i;
 
 
                                                 // 上記ロジックで取得した各要素の合計数などを一つの変数に入れる
@@ -5846,6 +5891,14 @@ class Analysis2_searchController extends Controller
                                         // 月ごとにブランドや部門別のデータを作成
                                     /************************************************************************************************************************************************************************************************************* */
   //print_r($spec_array);
+  
+                                    if(empty($all_num_array)){
+                                        echo "<div style='text-align:center;margin:23% auto;'>検索結果：0件<!--<br><a href=''>戻る</a>--></div>";
+                                        exit;
+                                    }
+                                                        
+                                                        
+                                                        
                                                         
                                                        $ii = 0;
                                                         $all_id_num_array = array();
@@ -5871,7 +5924,7 @@ class Analysis2_searchController extends Controller
                                                            
                                                         // 並び替えた配列から表示用ソースを作成
                                                            $i = 0;
-                                                           $sorce = "<div class='id_container'><ul><li>ブランド名</li><li>商品名</li><li>商品区分分類</li><li>RefNo</li><li>商品ID</li><li>仕入数量</li><li>入庫数量</li><li>売上数量</li><li>出庫数量</li><li>調整数量</li><li>在庫数量</li><li>在庫金額(仕入金額)</li></ul>";
+                                                           $sorce = "<div class='id_container'><ul class='fixed'><li>ブランド名</li><li>商品名</li><li>商品区分分類</li><li>RefNo</li><li>商品ID</li><li>仕入数量</li><li>入庫数量</li><li>売上数量</li><li>出庫数量</li><li>調整数量</li><li>在庫数量</li><li>在庫金額(仕入金額)</li></ul>";
                                                            foreach($all_id_num_array as $key => $val){
                                                                $sorce .= "<ul>";
                                                                ${"info" .$i} = explode("%", $key);
