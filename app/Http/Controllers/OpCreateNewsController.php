@@ -6122,7 +6122,8 @@ class OpCreateNewsController extends Controller
                         //if($same_jack[$i] != "" && $same_betty[$i] == "" && $type[$i] == "時計" && strpos($status_flg[$i], '訳あり' ) === false){
                         if($type[$i] == "時計"){
                         
-							array_push($recomend_data,array($goods[$i],"box","cb006","99"));
+							// 20240829array_push($recomend_data,array($goods[$i],"box","cb006","99"));
+							array_push($recomend_data,array($goods[$i],"box","wd009","99"));
 							array_push($recomend_data,array($goods[$i],"box","cb011","99"));
 							array_push($recomend_data,array($goods[$i],"box","cb012","99"));
 
@@ -13420,7 +13421,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                                                             
                                                                                         } 
                                                                                         
-                                                                                    } else if($goods[$i] == "cb004" || $goods[$i] == "cb006" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
+                                                                                    //20240829 } else if($goods[$i] == "cb004" || $goods[$i] == "cb006" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
+                                                                                    } else if($goods[$i] == "cb004" || $goods[$i] == "wd009" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
 
                                                                                         if($var[${"preg_info_tagname_" . $goods[$i]}] == "2 ～ 5本"){
                                                                                         

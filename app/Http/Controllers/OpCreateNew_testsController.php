@@ -6122,7 +6122,7 @@ class OpCreateNew_testsController extends Controller
                         //if($same_jack[$i] != "" && $same_betty[$i] == "" && $type[$i] == "時計" && strpos($status_flg[$i], '訳あり' ) === false){
                         if($type[$i] == "時計"){
                         
-							// 20240629array_push($recomend_data,array($goods[$i],"box","cb006","99"));
+							// 20240829array_push($recomend_data,array($goods[$i],"box","cb006","99"));
 							array_push($recomend_data,array($goods[$i],"box","wd009","99"));
 							array_push($recomend_data,array($goods[$i],"box","cb011","99"));
 							array_push($recomend_data,array($goods[$i],"box","cb012","99"));
