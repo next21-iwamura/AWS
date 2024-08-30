@@ -7511,6 +7511,10 @@ class OpCreateNew_testsController extends Controller
                                                                         // 20211025 ブランド毎に作成
                                                                         if($genre_name_preg[$i] == "リング" && $csv_brand[$i] == $genre_brand[$i]){
                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            // 20240830 カテゴリが「シェーヌ・ダンクル」のリングの場合以外は、「bjkaja」「jjheja」に紐付けない
+                                                                                if($genre_brand[$i] == "エルメス" && $category[$i] <> "シェーヌ・ダンクル" && ($var[${"info0_" . $goods[$i]}] == "bjkaja" || $var[${"info0_" . $goods[$i]}] == "jjheja")){
+                                                                                    $brand_code[$i] = "";
+                                                                                }
                                                                         }
                                                                     } else if(strpos( $jewelry_type[$i], 'ピアス・イヤリング' ) !== false){
                                                                         // 20211025 ブランド毎に同名ジャンルが追加された事により、同名の共通ジャンルはピンポイントで取得するよう追記。if($genre_name_preg[$i] == "ピアス・イヤリング"){
