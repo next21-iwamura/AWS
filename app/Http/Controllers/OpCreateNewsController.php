@@ -5415,8 +5415,7 @@ class OpCreateNewsController extends Controller
                     /***************************************************************************************************************************************************************
                         // イベントバナーの内部リンクHTML用を追記 end
                     ****************************************************************************************************************************************************************/
-                    
-                    
+
                     /***************************************************************************************************************************************************************
                         // 商品コメント4への出力条件指定（all_img_comment.csv） start
                     ****************************************************************************************************************************************************************/
@@ -10853,7 +10852,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                                         $genre_c_name[$i] = "タンク";
                                                                     // 20230207 } else if(($category[$i] == 'カルティエ その他' || $category[$i] == 'トーチュ' || $category[$i] == 'コレクション プリヴェ' || $category[$i] == 'ロードスター' || $category[$i] == 'ドライブ ドゥ カルティエ' || $category[$i] == 'トノー' || $category[$i] == 'クレ ドゥ カルティエ' || $category[$i] == 'ロンド ソロ ドゥ カルティエ') && $genre_class[$i] == "新品"){
                                                                     // 20230716 } else if(($category[$i] == 'カルティエ その他' || $category[$i] == 'トーチュ' || $category[$i] == 'コレクション プリヴェ' || $category[$i] == 'ロードスター' || $category[$i] == 'ドライブ ドゥ カルティエ' || $category[$i] == 'トノー' || $category[$i] == 'クレ ドゥ カルティエ' || $category[$i] == 'ロンド ソロ ドゥ カルティエ' || $category[$i] == 'ロンド マスト ドゥ カルティエ') && $genre_class[$i] == "新品"){
-                                                                    } else if(($category[$i] == 'パンテール ドゥ カルティエ' || $category[$i] == 'カルティエ その他' || $category[$i] == 'トーチュ' || $category[$i] == 'コレクション プリヴェ' || $category[$i] == 'ロードスター' || $category[$i] == 'ドライブ ドゥ カルティエ' || $category[$i] == 'トノー' || $category[$i] == 'クレ ドゥ カルティエ' || $category[$i] == 'ロンド ソロ ドゥ カルティエ' || $category[$i] == 'ロンド マスト ドゥ カルティエ') && $genre_class[$i] == "新品"){
+                                                                    // 20240905 } else if(($category[$i] == 'パンテール ドゥ カルティエ' || $category[$i] == 'カルティエ その他' || $category[$i] == 'トーチュ' || $category[$i] == 'コレクション プリヴェ' || $category[$i] == 'ロードスター' || $category[$i] == 'ドライブ ドゥ カルティエ' || $category[$i] == 'トノー' || $category[$i] == 'クレ ドゥ カルティエ' || $category[$i] == 'ロンド ソロ ドゥ カルティエ' || $category[$i] == 'ロンド マスト ドゥ カルティエ') && $genre_class[$i] == "新品"){
+                                                                    } else if(($category[$i] == 'ロトンド ドゥ カルティエ' || $category[$i] == 'パンテール ドゥ カルティエ' || $category[$i] == 'カルティエ その他' || $category[$i] == 'トーチュ' || $category[$i] == 'コレクション プリヴェ' || $category[$i] == 'ロードスター' || $category[$i] == 'ドライブ ドゥ カルティエ' || $category[$i] == 'トノー' || $category[$i] == 'クレ ドゥ カルティエ' || $category[$i] == 'ロンド ソロ ドゥ カルティエ' || $category[$i] == 'ロンド マスト ドゥ カルティエ') && $genre_class[$i] == "新品"){
                                                                         $genre_c_name[$i] = "カルティエその他";
                                                                     }
 
@@ -13439,7 +13439,7 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                                                                         } 
                                                                                         
                                                                                     //20240829 } else if($goods[$i] == "cb004" || $goods[$i] == "cb006" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
-                                                                                    //20240905 } else if($goods[$i] == "cb004" || $goods[$i] == "wd009" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
+                                                                                    //20240905} else if($goods[$i] == "cb004" || $goods[$i] == "wd009" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
                                                                                     } else if($goods[$i] == "cb004" || $goods[$i] == "cb010" || $goods[$i] == "wd020" || $goods[$i] == "wd021" || $goods[$i] == "wd019" || $goods[$i] == "cb002" || $goods[$i] == "wd017" || $goods[$i] == "wd018" || strpos($model[$i],'PORTER') !== false){
 
                                                                                         if($var[${"preg_info_tagname_" . $goods[$i]}] == "2 ～ 5本"){
