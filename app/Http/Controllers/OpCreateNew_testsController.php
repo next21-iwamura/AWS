@@ -1386,7 +1386,7 @@ class OpCreateNew_testsController extends Controller
                                 $img_cartier_must = "";
                                 $cartier_must ="";
                                 if($type[$i] == "時計" && $class[$i] != "新品" && $brand[$i] == "カルティエ" && strpos($model[$i], 'マストタンク' ) !== false){
-
+                                    /* 20240908
                                     // 20220822 アンティークのSサイズは対象外
                                     //if(strpos($model[$i], 'S' ) !== false || strpos($model[$i], 's' ) !== false || strpos($model[$i], 'Ｓ' ) !== false){
                                     if((strpos($model[$i], 'S' ) !== false || strpos($model[$i], 's' ) !== false || strpos($model[$i], 'Ｓ' ) !== false) && $class[$i] <> "アンティーク"){
@@ -1411,6 +1411,22 @@ class OpCreateNew_testsController extends Controller
                                         $img_cartier_must = "";
                                         $cartier_must ="";
                                     }
+                                    */
+                                    
+                                    if($class[$i] == "中古"){
+                                        if(strpos($model[$i], 'SM' ) !== false || strpos($model[$i], 'sm' ) !== false || strpos($model[$i], 'ＳＭ' ) !== false){
+                                            $img_cartier_must = "ON";
+                                            $cartier_must ="<img src='/img/goods/9/img_musttank_beltcolor_S.jpg' width='544'>";
+                                        } else if(strpos($model[$i], 'MM' ) !== false || strpos($model[$i], 'mm' ) !== false || strpos($model[$i], 'ＭＭ' ) !== false){
+                                            $img_cartier_must = "ON";
+                                            $cartier_must ="<img src='/img/goods/9/img_musttank_beltcolor_M.jpg' width='544'>";
+                                        } else if(strpos($model[$i], 'LM' ) !== false || strpos($model[$i], 'lm' ) !== false || strpos($model[$i], 'ＬＭ' ) !== false){
+                                            $img_cartier_must = "ON";
+                                            $cartier_must ="<img src='/img/goods/9/img_musttank_beltcolor_L.jpg' width='544'>";
+                                        }
+                                    }
+                                    
+
                                     if($cartier_must !=""){      
                                         $cartier_must = str_replace(array("\r\n","\r","\n"), '', $cartier_must);
                                         $cartier_must = str_replace('"','""',$cartier_must);
@@ -5470,6 +5486,7 @@ class OpCreateNew_testsController extends Controller
                 // 20210718
                 // 「中古・アンティーク」「カルティエ」「マストタンク」のサイズ判別用
                 if($type[$i] == "時計" && $class[$i] != "新品" && $brand[$i] == "カルティエ" && strpos($model[$i], 'マストタンク' ) !== false){
+                    /* 20240908
                     // 20220822 アンティークのSサイズは対象外
                     //if(strpos($model[$i], 'S' ) !== false || strpos($model[$i], 's' ) !== false || strpos($model[$i], 'Ｓ' ) !== false || strpos($model[$i], 's' ) !== false){
                     if((strpos($model[$i], 'S' ) !== false || strpos($model[$i], 's' ) !== false || strpos($model[$i], 'Ｓ' ) !== false || strpos($model[$i], 's' ) !== false) && $class[$i] <> "アンティーク"){
@@ -5484,6 +5501,27 @@ class OpCreateNew_testsController extends Controller
                     } else if(strpos($model[$i], 'LL' ) !== false || strpos($model[$i], 'll' ) !== false || strpos($model[$i], 'ＬＬ' ) !== false && $class[$i] <> "アンティーク"){
                         $flag_insert = "";
                     }
+                    */
+                    
+                    if($class[$i] == "中古"){
+                        if(strpos($model[$i], 'SM' ) !== false || strpos($model[$i], 'sm' ) !== false || strpos($model[$i], 'ＳＭ' ) !== false){
+                            $flag_insert = "mtankbeS";
+                        } else if(strpos($model[$i], 'MM' ) !== false || strpos($model[$i], 'mm' ) !== false || strpos($model[$i], 'ＭＭ' ) !== false){
+                            $flag_insert = "mtankbeM";
+                        } else if(strpos($model[$i], 'LM' ) !== false || strpos($model[$i], 'lm' ) !== false || strpos($model[$i], 'ＬＭ' ) !== false){
+                            $flag_insert = "mtankbeL";
+                        }
+                    } else if($class[$i] == "アンティーク"){
+                        if(strpos($model[$i], 'SM' ) !== false || strpos($model[$i], 'sm' ) !== false || strpos($model[$i], 'ＳＭ' ) !== false){
+                            $flag_insert = "anshin";
+                        } else if(strpos($model[$i], 'LM' ) !== false || strpos($model[$i], 'lm' ) !== false || strpos($model[$i], 'ＬＭ' ) !== false){
+                            $flag_insert = "anshin";
+                        }
+                    }
+                    
+                    
+                    
+                    
                 // 「アンティーク」「ロレックス」「カメレオン」判別用
                 } else if($type[$i] == "時計" && $class[$i] == "アンティーク" && $brand[$i] == "ロレックス" && strpos($model[$i], 'カメレオン' ) !== false){
                     $flag_insert = "chambelt";
