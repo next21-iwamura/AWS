@@ -5439,8 +5439,12 @@ class OpCreateNew_testsController extends Controller
                         // 20240902
                         if($category[$i] == "マストタンクほか(レ マスト コレクション)" && strpos($model[$i], 'マストタンク' ) !== false){
                             $comment_insert4 = 'マストタンクの着用イメージは <a href="https://www.jackroad.co.jp/blog/post/cartierwatch_size#musttank">こちら</a>';
+                        // 20240912
+                        } else if($category[$i] == "タンク ルイ カルティエ"){
+                            $comment_insert4 = 'タンク ルイ カルティエの着用イメージは <a href="https://www.jackroad.co.jp/blog/post/cartierwatch_size#tanklouis">こちら</a>';
+                        } else if($category[$i] == "タンク マスト"){
+                            $comment_insert4 = 'タンク マストの着用イメージは <a href="https://www.jackroad.co.jp/blog/post/cartierwatch_size#tankmust">こちら</a>';
                         }
-                    
                     /***************************************************************************************************************************************************************
                         // 商品コメント4への出力条件指定（all_img_comment.csv） end
                     ****************************************************************************************************************************************************************/
