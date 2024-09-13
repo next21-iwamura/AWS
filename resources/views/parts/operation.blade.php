@@ -578,8 +578,9 @@ h3{background:#000000; color:#ffffff; width:5em;text-align:center;padding:.2em 0
             language: 'ja' // 日本語化
 
             @if (isset($stuff_name))
-            alert($stuff_name);
-                    $("#mySelect2").val("テストテスト").trigger("change");
+                    // 20240913 ↓これがあると「商品IDを送信する」ボタン押下後に選択した担当者が見えなくなる（情報としては存在するのでチェックボタン押下後に表示されるが）ので撤去
+                    //alert($stuff_name);
+                    //$("#mySelect2").val("テストテスト").trigger("change");
                     // 選択した項目を表示させるための記述（select2初期値設定記述が通用しない為、開発者ツールで表示部分のID名を拾って該当部分のテキストを動的に変更する事で対応）
                     $("#select2-mySelect2-container").text("{!!$stuff_name!!}");
             @endif
