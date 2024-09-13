@@ -562,7 +562,9 @@ h3{background:#000000; color:#ffffff; width:5em;text-align:center;padding:.2em 0
                             results.push({
                             //return {
                                 //20240906id: stuff_name.sid,
-                                id: stuff_name.id,
+                                //id: stuff_name.id,
+                                //20240913 DBのカラム名間違いが原因だったので元に戻すid: stuff_name.id,
+                                id: stuff_name.sid,
                                 text: stuff_name.full_name,
                             //};
                             });
