@@ -26,6 +26,8 @@ class OperationsController extends Controller
     // オペレーションページの表示
 /************************************************************************************************************************************************************************************************************* */
     public function operationview(Request $request){
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
 
         $bladename = $this->bladename();
         $bladename = 'parts.operation'.$bladename;
@@ -41,7 +43,9 @@ class OperationsController extends Controller
     // 押下されたボタン毎に処理（メソッド）を切り分け
 /************************************************************************************************************************************************************************************************************* */
     public function btn_select(Request $request){
-
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
+            
             $bladename = $this->bladename();
             $bladename = 'parts.operation'.$bladename;
 
@@ -66,6 +70,9 @@ class OperationsController extends Controller
     // ID送信ボタン(入力IDチェック)押下時の処理用
 /************************************************************************************************************************************************************************************************************* */
     public function id_check(Request $request){
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
+            
             $db_ok = "";
 
         // 使用するメソッドの切り分け

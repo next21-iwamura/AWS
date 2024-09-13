@@ -26,6 +26,8 @@ class Operation_testsController extends Controller
     // オペレーションページの表示
 /************************************************************************************************************************************************************************************************************* */
     public function operationview(Request $request){
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
 
         $bladename = $this->bladename();
         $bladename = 'parts.operation'.$bladename;
@@ -41,7 +43,9 @@ class Operation_testsController extends Controller
     // 押下されたボタン毎に処理（メソッド）を切り分け
 /************************************************************************************************************************************************************************************************************* */
     public function btn_select(Request $request){
-
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
+            
             $bladename = $this->bladename();
             $bladename = 'parts.operation'.$bladename;
 
@@ -66,6 +70,9 @@ class Operation_testsController extends Controller
     // ID送信ボタン(入力IDチェック)押下時の処理用
 /************************************************************************************************************************************************************************************************************* */
     public function id_check(Request $request){
+        // 20240913 二重送信を防ぐため token を再生成する
+            $request->session()->regenerateToken();
+            
             $db_ok = "";
 
         // 使用するメソッドの切り分け
@@ -103,8 +110,8 @@ class Operation_testsController extends Controller
                     $pid2_array = explode(",",$pid2);
 
                 // 各ID毎の情報をXMLから取得
-                    //$xml = "https://bo-wwwjackroadcojp.ecbeing.biz/services/api/goodslistapi.aspx?type=xml&charset=UTF-8&goods=" . $pid2;
-                    $xml = "http://stg.jackroad.co.jp/services/api/goodslistapi.aspx?goods=" . $pid2;
+                    $xml = "https://bo-wwwjackroadcojp.ecbeing.biz/services/api/goodslistapi.aspx?type=xml&charset=UTF-8&goods=" . $pid2;
+                    //$xml = "http://stg.jackroad.co.jp/services/api/goodslistapi.aspx?goods=" . $pid2;
 
 
                     $xmlData = simplexml_load_file($xml);
