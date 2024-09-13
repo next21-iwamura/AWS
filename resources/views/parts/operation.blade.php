@@ -711,7 +711,9 @@ h3{background:#000000; color:#ffffff; width:5em;text-align:center;padding:.2em 0
 
                                                             <!-- <p><input class="btn" type="submit" name="db_insert" value="依頼送信"></p> -->
                                                             <p style="padding:0 0; margin:0 0;";><button class="btn btn-flat btn_reset" type="submit" name="db_insert" value="依頼をNCへ送信する"><span>依頼をNCへ送信する</span></button></p>
-                                                            <p style="margin-top:1em;" onClick="delete_alert2(event);return false;"><a href="">依頼を止めて元のページへ戻る</a></p>
+                                                            <!-- 20240913 最終画面にて「編集画面へ戻る」ボタンを追加 -->
+                                                            <p><input class="btn" type="submit" name="return" id="return" value="編集画面へ戻る"></p>
+                                                            <p style="margin-top:10em;" onClick="delete_alert2(event);return false;"><a href="">依頼を止めて元のページへ戻る（最初からやり直し）</a></p>
                                                         </div>
                                                 @endif
                                         @endif
