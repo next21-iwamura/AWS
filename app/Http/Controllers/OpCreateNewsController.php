@@ -5592,6 +5592,7 @@ class OpCreateNewsController extends Controller
                 $flag_insert4 = "";
                 // 20221016 期間限定イベントなので、以下ロジックを追記
                 $selectdate = strtotime(date('Y-m-d H:i:s'));
+                //echo date('Y-m-d H:i:s');
                 //20230208 if ( $selectdate > strtotime('2022-10-16 09:00:00') and $selectdate < strtotime('2022-11-01 00:00:00')){
                 if ( $selectdate > strtotime('2023-02-09 12:00:00') and $selectdate < strtotime('2023-08-01 00:00:00')){
                     // 20230208 「バッグ/財布/小物」「ジュエリー」期間限定イベント用
@@ -5616,9 +5617,11 @@ class OpCreateNewsController extends Controller
 
                 // 20230907 アンティークイベント再開
                 //if ( $selectdate > strtotime('2023-03-26 09:00:00') and $selectdate < strtotime('2023-05-01 00:00:00')){
-                if ( $selectdate > strtotime('2023-09-12 09:00:00') and $selectdate < strtotime('2023-10-31 23:59:59')){
+                // 20240916if ( $selectdate > strtotime('2023-09-12 09:00:00') and $selectdate < strtotime('2023-10-31 23:59:59')){
+                if ( $selectdate > strtotime('2024-09-17 18:50:00') and $selectdate < strtotime('2024-10-31 23:59:59')){
                     // 20230907
-                        // 「jantc」全アンティークが対象、「bantc」は両方のアンティークが対象
+                    // 20240916
+                    // 「jantc」全アンティークが対象、「bantc」は両方のアンティークが対象
                         if($type[$i] == "時計" && $class[$i] == "アンティーク" && $site_id[$i] == "両方"){
                             $flag_insert = "jantc";
                             $flag_insert2 = "99";
