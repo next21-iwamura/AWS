@@ -5618,7 +5618,7 @@ class OpCreateNew_testsController extends Controller
                 // 20230907 アンティークイベント再開
                 //if ( $selectdate > strtotime('2023-03-26 09:00:00') and $selectdate < strtotime('2023-05-01 00:00:00')){
                 // 20240916if ( $selectdate > strtotime('2023-09-12 09:00:00') and $selectdate < strtotime('2023-10-31 23:59:59')){
-                if ( $selectdate > strtotime('2024-09-17 18:50:00') and $selectdate < strtotime('2024-10-31 23:59:59')){
+                if ( $selectdate > strtotime('2024-10-01 00:00:00') and $selectdate < strtotime('2024-10-31 23:59:59')){
                     // 20230907
                     // 20240916
                     // 「jantc」全アンティークが対象、「bantc」は両方のアンティークが対象
