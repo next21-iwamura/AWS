@@ -7624,9 +7624,19 @@ class OpCreateNew_testsController extends Controller
                                                                     }
 
                                                                 // 20220502 上記「ピアス・イヤリング」下の条件分岐だったが、「ID:4400088」のようなセット商品も出現したので独立させる} else if(strpos( $jewelry_type[$i], 'ネックレス・ペンダントトップ' ) !== false){
-                                                                if(strpos( $jewelry_type[$i], 'ネックレス・ペンダントトップ' ) !== false){
+                                                                /*if(strpos( $jewelry_type[$i], 'ネックレス・ペンダントトップ' ) !== false){
                                                                     // 20211025 ブランド毎に同名ジャンルが追加された事により、同名の共通ジャンルはピンポイントで取得するよう追記。if($genre_name_preg[$i] == "ネックレス・ペンダントトップ"){
                                                                     if($csv_brand[$i] == "ネックレス・ペンダントトップ" && $genre_name_preg[$i] == "ネックレス・ペンダントトップ"){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }*/
+                                                                // 20241007 全ブランド共通の名称変更「ネックレス・ペンダントトップ」→「ネックレス」（下記ブランド毎はそのまま）
+                                                                if(strpos( $jewelry_type[$i], 'ネックレス' ) !== false || strpos( $jewelry_type[$i], 'ペンダントトップ' ) !== false){
+                                                                    // 20211025 ブランド毎に同名ジャンルが追加された事により、同名の共通ジャンルはピンポイントで取得するよう追記。if($genre_name_preg[$i] == "ネックレス・ペンダントトップ"){
+                                                                    if($csv_brand[$i] == "ネックレス" && $genre_name_preg[$i] == "ネックレス" && strpos( $jewelry_type[$i], 'ペンダントトップ' ) === false){
+                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                    }
+                                                                    // 20241007 全ブランド共通追加
+                                                                    if($csv_brand[$i] == "ペンダントトップ" && $genre_name_preg[$i] == "ペンダントトップ"){
                                                                         $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                     }
                                                                     // 20211025 ブランド毎に作成
@@ -8284,6 +8294,12 @@ class OpCreateNew_testsController extends Controller
                                                                                             $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                         }
                                                                                     }
+                                                                                    // 20241008
+                                                                                    if(strpos( $genre_c_model[$i], 'スカーフリング' ) !== false && $jewelry_type[$i] == "その他"){
+                                                                                        if($var[${"info0_" . $goods[$i]}] == "bbhesr" || $var[${"info0_" . $goods[$i]}] == "jbhesr"){
+                                                                                            $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                        }
+                                                                                    }
                                                                                     
                                                                                 }
                                                                                 // 20240202
@@ -8333,7 +8349,22 @@ class OpCreateNew_testsController extends Controller
                                                                             if($genre_brand[$i] == "エルメス" && $category[$i] == "スティープル" && $genre_name_preg[$i] == "スティープル"){ 
                                                                                 $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                             }
+                                                                            // 20241008
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "エールバッグ" && $genre_name_preg[$i] == "エールバッグ"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "ブリッド ア ブラック" && $genre_name_preg[$i] == "ブリッド ア ブラック"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            if($genre_brand[$i] == "エルメス" && $category[$i] == "バスティア" && $genre_name_preg[$i] == "バスティア"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            
                                                                             if($genre_brand[$i] == "シャネル" && $category[$i] == "シャネル 22" && $genre_name_preg[$i] == "シャネル 22"){ 
+                                                                                $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                            }
+                                                                            // 20241008
+                                                                            if($genre_brand[$i] == "シャネル" && $category[$i] == "マトラッセ" && $genre_name_preg[$i] == "マトラッセ"){ 
                                                                                 $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                             }
 
@@ -8391,12 +8422,25 @@ class OpCreateNew_testsController extends Controller
                                                                                 if(strpos( $genre_c_model[$i], 'ボリード' ) !== false && $genre_name_preg[$i] == "ボリード" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
+                                                                                // 20241008「ガーデンパーティー PM」と「ガーデンパーティー TPM」の二種類になったので、ロジック追記
+                                                                                /*
                                                                                 if((strpos( $genre_c_model[$i], 'ガーデンパーティー' ) !== false || $category[$i] == "ガーデンパーティー") && $genre_name_preg[$i] == "ガーデンパーティー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                }*/
+                                                                                if(strpos( $genre_c_model[$i], 'TPM' ) !== false && $category[$i] == "ガーデンパーティー" && $genre_name_preg[$i] == "ガーデンパーティー TPM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                } else if(strpos( $genre_c_model[$i], 'PM' ) !== false && strpos( $genre_c_model[$i], 'TPM' ) === false && $category[$i] == "ガーデンパーティー" && $genre_name_preg[$i] == "ガーデンパーティー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
                                                                                 // 20210524 「エヴリン」が正解だが、商品名に間違って「エブリン」と入力しても拾えるよう追記
                                                                                 //if(strpos( $genre_c_model[$i], 'エヴリン' ) !== false && ($genre_name_preg[$i] == "エヴリン" || $genre_name_preg[$i] == "エブリン") && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
-                                                                                if((strpos( $genre_c_model[$i], 'エブリン' ) !== false || strpos( $genre_c_model[$i], 'エヴリン' ) !== false) && ($genre_name_preg[$i] == "エヴリン" || $genre_name_preg[$i] == "エブリン") && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                // 20241008「エヴリン PM」と「エヴリン TPM」の二種類になったので、ロジック追記
+                                                                                /*if((strpos( $genre_c_model[$i], 'エブリン' ) !== false || strpos( $genre_c_model[$i], 'エヴリン' ) !== false) && ($genre_name_preg[$i] == "エヴリン" || $genre_name_preg[$i] == "エブリン") && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                }*/
+                                                                                if($category[$i] == "エヴリン" && strpos($genre_c_model[$i], 'TPM' ) !== false && $genre_name_preg[$i] == "エヴリン TPM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                } else if($category[$i] == "エヴリン" && strpos($genre_c_model[$i], 'TPM' ) === false && strpos($genre_c_model[$i], 'PM' ) !== false && $genre_name_preg[$i] == "エヴリン PM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
                                                                                 //20211122　ジュエリー種類はスカーフを含むものへ if(strpos( $genre_c_model[$i], 'ツイリー' ) !== false && $genre_name_preg[$i] == "ツイリー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス" && strpos( $jewelry_type[$i], '財布' ) !== false){
