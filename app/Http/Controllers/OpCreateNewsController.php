@@ -8436,11 +8436,16 @@ class OpCreateNewsController extends Controller
                                                                                 if((strpos( $genre_c_model[$i], 'ガーデンパーティー' ) !== false || $category[$i] == "ガーデンパーティー") && $genre_name_preg[$i] == "ガーデンパーティー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }*/
+                                                                                // 「ガーデンパーティー」共通
+                                                                                if($category[$i] == "ガーデンパーティー" && strpos( $genre_name_preg[$i], 'ガーデンパーティー' ) !== false && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    if($var[${"info0_" . $goods[$i]}] == "bbhega" || $var[${"info0_" . $goods[$i]}] == "jbhega"){
+                                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                    }
+                                                                                }
+                                                                                // 「ガーデンパーティー」個別
                                                                                 if(strpos( $genre_c_model[$i], 'TPM' ) !== false && $category[$i] == "ガーデンパーティー" && $genre_name_preg[$i] == "ガーデンパーティー TPM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 } else if(strpos( $genre_c_model[$i], 'PM' ) !== false && strpos( $genre_c_model[$i], 'TPM' ) === false && $category[$i] == "ガーデンパーティー" && $genre_name_preg[$i] == "ガーデンパーティー PM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
-                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
-                                                                                } else if(strpos( $genre_c_model[$i], 'PM' ) === false && strpos( $genre_c_model[$i], 'TPM' ) === false && $category[$i] == "ガーデンパーティー" && $genre_name_preg[$i] == "ガーデンパーティー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
                                                                                 // 20210524 「エヴリン」が正解だが、商品名に間違って「エブリン」と入力しても拾えるよう追記
@@ -8449,11 +8454,16 @@ class OpCreateNewsController extends Controller
                                                                                 /*if((strpos( $genre_c_model[$i], 'エブリン' ) !== false || strpos( $genre_c_model[$i], 'エヴリン' ) !== false) && ($genre_name_preg[$i] == "エヴリン" || $genre_name_preg[$i] == "エブリン") && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }*/
+                                                                                // 「エヴリン」共通
+                                                                                if($category[$i] == "エヴリン" && strpos( $genre_name_preg[$i], 'エヴリン' ) !== false && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
+                                                                                    if($var[${"info0_" . $goods[$i]}] == "jbheev" || $var[${"info0_" . $goods[$i]}] == "bbheev"){
+                                                                                        $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
+                                                                                    }
+                                                                                }
+                                                                                // 「エヴリン」個別
                                                                                 if($category[$i] == "エヴリン" && strpos($genre_c_model[$i], 'TPM' ) !== false && $genre_name_preg[$i] == "エヴリン TPM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 } else if($category[$i] == "エヴリン" && strpos($genre_c_model[$i], 'TPM' ) === false && strpos($genre_c_model[$i], 'PM' ) !== false && $genre_name_preg[$i] == "エヴリン PM" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
-                                                                                    $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
-                                                                                } else if($category[$i] == "エヴリン" && strpos($genre_c_model[$i], 'TPM' ) === false && strpos($genre_c_model[$i], 'PM' ) === false && $genre_name_preg[$i] == "エヴリン" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス"){
                                                                                     $brand_code[$i] = $var[${"info0_" . $goods[$i]}];
                                                                                 }
                                                                                 //20211122　ジュエリー種類はスカーフを含むものへ if(strpos( $genre_c_model[$i], 'ツイリー' ) !== false && $genre_name_preg[$i] == "ツイリー" && $genre_brand[$i] == "エルメス" && $csv_brand[$i] == "エルメス" && strpos( $jewelry_type[$i], '財布' ) !== false){
