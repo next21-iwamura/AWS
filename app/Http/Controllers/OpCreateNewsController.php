@@ -12821,7 +12821,8 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
 
                         } else if($type[$i] == "ジュエリー"){
                             if($brand[$i] == "クロムハーツ"){
-                                if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                //20241015if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                if(strpos($jewelry_type[$i],"ネックレス") !== false){
                                     ${"raku_did_" . $i} = "407344";
                                 } else if(strpos($jewelry_type[$i],"リング") !== false && strpos($jewelry_type[$i],"ピアス・イヤリング") === false){
                                     ${"raku_did_" . $i} = "407327";
@@ -12831,11 +12832,15 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                     ${"raku_did_" . $i} = "407355";
                                 } else if(strpos($jewelry_type[$i],"ブローチ") !== false){
                                     ${"raku_did_" . $i} = "407392";
+                                // 20241015「ペンダントトップ」追加
+                                } else if(strpos($jewelry_type[$i],"ペンダントトップ") !== false){
+                                    ${"raku_did_" . $i} = "407351";
                                 } else if(strpos($jewelry_type[$i],"その他") !== false){
                                     ${"raku_did_" . $i} = "407392";
                                 }
                             } else if($brand[$i] == "喜平"){
-                                if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                //20241015if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                if(strpos($jewelry_type[$i],"ネックレス") !== false){
                                     ${"raku_did_" . $i} = "407344";
                                 } else if(strpos($jewelry_type[$i],"リング") !== false && strpos($jewelry_type[$i],"ピアス・イヤリング") === false){
                                     ${"raku_did_" . $i} = "407327";
@@ -12845,11 +12850,15 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                     ${"raku_did_" . $i} = "407355";
                                 } else if(strpos($jewelry_type[$i],"ブローチ") !== false){
                                     ${"raku_did_" . $i} = "407392";
+                                // 20241015「ペンダントトップ」追加
+                                } else if(strpos($jewelry_type[$i],"ペンダントトップ") !== false){
+                                    ${"raku_did_" . $i} = "407351";
                                 } else if(strpos($jewelry_type[$i],"その他") !== false){
                                     ${"raku_did_" . $i} = "407392";
                                 }
                             } else {
-                                if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                //20241015if(strpos($jewelry_type[$i],"ネックレス・ペンダントトップ") !== false){
+                                if(strpos($jewelry_type[$i],"ネックレス") !== false){
                                     ${"raku_did_" . $i} = "111029";
                                 } else if(strpos($jewelry_type[$i],"リング") !== false && strpos($jewelry_type[$i],"ピアス・イヤリング") === false){
                                     ${"raku_did_" . $i} = "100487";
@@ -12865,6 +12874,9 @@ public function exception_csv_data($a,$b,$c,$d,$e,$f,$g,$h,$j,$k,$l,$m,$n,$o,$p,
                                     ${"raku_did_" . $i} = "207030";
                                 } else if(strpos($jewelry_type[$i],"カフス") !== false){
                                     ${"raku_did_" . $i} = "508574";
+                                // 20241015「ペンダントトップ」追加
+                                } else if(strpos($jewelry_type[$i],"ペンダントトップ") !== false){
+                                    ${"raku_did_" . $i} = "407236";
                                 } else if(strpos($jewelry_type[$i],"その他") !== false){
                                     ${"raku_did_" . $i} = "101824";
                                 }
